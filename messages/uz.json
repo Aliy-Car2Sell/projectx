@@ -1,0 +1,237 @@
+{
+  "app": {
+    "name": "ProjectX",
+    "tagline": "Bemor va doktorlarni bog'lovchi platforma"
+  },
+  "common": {
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "search": "Qidirish",
+    "filter": "Filtr",
+    "loading": "Yuklanmoqda...",
+    "retry": "Qayta urinish",
+    "viewAll": "Barchasini ko'rish",
+    "close": "Yopish",
+    "confirm": "Tasdiqlash",
+    "delete": "O'chirish",
+    "edit": "Tahrirlash",
+    "yes": "Ha",
+    "no": "Yo'q",
+    "logout": "Chiqish",
+    "notifications": "Bildirishnomalar",
+    "messages": "Xabarlar",
+    "profile": "Profil",
+    "more": "Ko'proq",
+    "apply": "Qo'llash",
+    "reset": "Tozalash",
+    "all": "Barchasi",
+    "today": "Bugun",
+    "tomorrow": "Ertaga",
+    "upload": "Yuklash",
+    "download": "Yuklab olish",
+    "view": "Ko'rish",
+    "send": "Yuborish",
+    "submit": "Yuborish",
+    "call": "Qo'ng'iroq qilish",
+    "book": "Yozilish",
+    "details": "Batafsil",
+    "new": "YANGI",
+    "optional": "ixtiyoriy",
+    "years": "{count} yil",
+    "min": "{count} min",
+    "km": "{value} km",
+    "sum": "{value} so'm",
+    "free": "Bepul",
+    "reviews": "{count} sharh",
+    "phone": "Telefon",
+    "email": "Email",
+    "password": "Parol",
+    "name": "Ism",
+    "surname": "Familiya",
+    "city": "Shahar",
+    "address": "Manzil",
+    "date": "Sana",
+    "time": "Vaqt",
+    "status": "Holat",
+    "actions": "Amallar",
+    "list": "Ro'yxat",
+    "map": "Xarita",
+    "calendar": "Kalendar",
+    "menu": "Menyu",
+    "openMenu": "Menyuni ochish",
+    "language": "Til",
+    "selected": "Tanlangan",
+    "showMore": "Ko'proq ko'rsatish",
+    "noData": "Ma'lumot yo'q"
+  },
+  "lang": {
+    "label": "Til",
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "nav": {
+    "patient": {
+      "home": "Bosh sahifa",
+      "doctors": "Doktorlar",
+      "appointments": "Qabullar",
+      "records": "Kartochka",
+      "chat": "Chat",
+      "profile": "Profil"
+    },
+    "doctor": {
+      "home": "Bosh sahifa",
+      "appointments": "Qabullar",
+      "schedule": "Jadval",
+      "patients": "Bemorlar",
+      "chat": "Chat",
+      "reviews": "Sharhlar",
+      "profile": "Profil"
+    },
+    "admin": {
+      "dashboard": "Dashboard",
+      "applications": "Doktor arizalari",
+      "doctors": "Doktorlar",
+      "reviews": "Sharhlar / Shikoyatlar",
+      "users": "Foydalanuvchilar"
+    }
+  },
+  "shell": {
+    "greeting": "Salom, {name}!",
+    "role": {
+      "patient": "Bemor",
+      "doctor": "Doktor",
+      "admin": "Administrator"
+    },
+    "demoBadge": "Demo rejim"
+  },
+  "landing": {
+    "heroTitle": "O'zingizga mos doktorni toping va qabulga yoziling",
+    "heroSubtitle": "O'zbekiston bo'ylab doktorlar, klinikalar va tibbiy kartochkangiz — bitta joyda.",
+    "findDoctor": "Doktor topish",
+    "login": "Kirish",
+    "register": "Ro'yxatdan o'tish",
+    "features": {
+      "search": {
+        "title": "Yaqin doktorni toping",
+        "desc": "Mutaxassislik, reyting va masofa bo'yicha qidiring, xaritada ko'ring."
+      },
+      "booking": {
+        "title": "Onlayn qabulga yozilish",
+        "desc": "Bo'sh vaqtlarni ko'ring va bir necha bosishda qabulni tasdiqlang."
+      },
+      "records": {
+        "title": "Tibbiy kartochka",
+        "desc": "Tahlillar, rasmlar va doktor xulosalari doim qo'lingizda."
+      }
+    },
+    "forDoctors": "Doktormisiz?",
+    "forDoctorsDesc": "Profil yarating, jadval tuzing va yangi bemorlar bilan bog'laning.",
+    "joinAsDoctor": "Doktor sifatida qo'shilish",
+    "footer": "© {year} ProjectX. Barcha huquqlar himoyalangan."
+  },
+  "auth": {
+    "login": {
+      "title": "Kirish",
+      "subtitle": "Hisobingizga kiring",
+      "email": "Email",
+      "emailPlaceholder": "siz@example.com",
+      "password": "Parol",
+      "forgot": "Parolni unutdim",
+      "submit": "Kirish",
+      "noAccount": "Hisobingiz yo'qmi?",
+      "register": "Ro'yxatdan o'tish",
+      "demoTitle": "Demo: rolni tanlab kiring",
+      "demoPatient": "Bemor sifatida kirish",
+      "demoDoctor": "Doktor sifatida kirish",
+      "demoAdmin": "Admin sifatida kirish"
+    },
+    "register": {
+      "title": "Ro'yxatdan o'tish",
+      "chooseRole": "Kim sifatida ro'yxatdan o'tmoqchisiz?",
+      "patient": "Bemor",
+      "patientDesc": "Doktor topish, qabulga yozilish va kartochka yuritish",
+      "doctor": "Doktor",
+      "doctorDesc": "Profil yaratish, jadval tuzish va bemorlarni qabul qilish",
+      "firstName": "Ism",
+      "lastName": "Familiya",
+      "email": "Email",
+      "phone": "Telefon",
+      "password": "Parol",
+      "passwordHint": "Kamida 8 ta belgi",
+      "submit": "Ro'yxatdan o'tish",
+      "haveAccount": "Hisobingiz bormi?",
+      "login": "Kirish",
+      "changeRole": "Rolni o'zgartirish"
+    },
+    "forgot": {
+      "title": "Parolni tiklash",
+      "subtitle": "Emailingizni kiriting, tiklash havolasini yuboramiz",
+      "email": "Email",
+      "submit": "Havola yuborish",
+      "back": "Kirish sahifasiga qaytish",
+      "sentTitle": "Havola yuborildi",
+      "sentDesc": "{email} manziliga parolni tiklash havolasi yuborildi."
+    }
+  },
+  "states": {
+    "emptyTitle": "Hozircha hech narsa yo'q",
+    "emptyDesc": "Bu yerda ma'lumotlar paydo bo'lganda ko'rsatiladi.",
+    "errorTitle": "Xatolik yuz berdi",
+    "errorDesc": "Ma'lumotlarni yuklab bo'lmadi. Qayta urinib ko'ring.",
+    "notFoundTitle": "Sahifa topilmadi",
+    "notFoundDesc": "Siz qidirgan sahifa mavjud emas.",
+    "goHome": "Bosh sahifaga"
+  },
+  "specialties": {
+    "cardiologist": "Kardiolog",
+    "dentist": "Stomatolog",
+    "pediatrician": "Pediatr",
+    "neurologist": "Nevrolog",
+    "dermatologist": "Dermatolog",
+    "therapist": "Terapevt",
+    "ophthalmologist": "Oftalmolog",
+    "gynecologist": "Ginekolog",
+    "orthopedist": "Ortoped",
+    "ent": "LOR",
+    "endocrinologist": "Endokrinolog",
+    "urologist": "Urolog"
+  },
+  "categories": {
+    "highest": "Oliy toifa",
+    "first": "Birinchi toifa",
+    "second": "Ikkinchi toifa",
+    "none": "Toifasiz"
+  },
+  "cities": {
+    "tashkent": "Toshkent",
+    "samarkand": "Samarqand",
+    "bukhara": "Buxoro",
+    "andijan": "Andijon",
+    "fergana": "Farg'ona"
+  },
+  "status": {
+    "appointment": {
+      "scheduled": "Rejalashtirilgan",
+      "completed": "Yakunlangan",
+      "cancelled": "Bekor qilingan",
+      "no_show": "Kelmadi"
+    },
+    "doctor": {
+      "pending": "Tasdiqlanishi kutilmoqda",
+      "approved": "Tasdiqlangan",
+      "rejected": "Rad etilgan",
+      "blocked": "Bloklangan"
+    },
+    "user": {
+      "active": "Faol",
+      "blocked": "Bloklangan"
+    }
+  },
+  "placeholder": {
+    "title": "Sahifa tayyorlanmoqda",
+    "desc": "Bu ekran keyingi bosqichda mock ma'lumotlar bilan to'ldiriladi."
+  }
+}
