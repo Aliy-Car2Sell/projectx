@@ -20,7 +20,7 @@ export default async function LandingPage() {
           <Logo />
           <div className="flex items-center gap-1 md:gap-2">
             <LanguageSwitcher />
-            <Button href="/login" variant="ghost" size="sm" className="hidden sm:inline-flex">
+            <Button href="/login" variant="ghost" size="sm" className="max-sm:hidden">
               {t("login")}
             </Button>
             <Button href="/register" size="sm">
@@ -32,7 +32,7 @@ export default async function LandingPage() {
 
       <main className="flex-1">
         <section className="gradient-primary text-white">
-          <div className="mx-auto max-w-[1280px] px-4 md:px-8 py-12 md:py-20 grid md:grid-cols-2 gap-8 items-center">
+          <div className="mx-auto max-w-[1280px] px-4 md:px-8 py-12 md:py-20 grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
             <div>
               <h1 className="text-3xl md:text-5xl font-bold leading-tight text-white">{t("heroTitle")}</h1>
               <p className="mt-4 text-base md:text-lg text-white/90 max-w-xl">{t("heroSubtitle")}</p>
@@ -40,7 +40,7 @@ export default async function LandingPage() {
                 <Button
                   href="/patient/doctors"
                   size="lg"
-                  className="bg-white text-primary hover:bg-white/90"
+                  variant="inverse"
                   icon={<Stethoscope className="h-5 w-5" />}
                 >
                   {t("findDoctor")}
@@ -61,7 +61,7 @@ export default async function LandingPage() {
         </section>
 
         <section className="mx-auto max-w-[1280px] px-4 md:px-8 py-10 md:py-16">
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {features.map((f) => (
               <Card key={f.title}>
                 <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary">
@@ -80,7 +80,7 @@ export default async function LandingPage() {
               <h2 className="text-xl md:text-2xl font-bold text-white">{t("forDoctors")}</h2>
               <p className="mt-1 text-white/90">{t("forDoctorsDesc")}</p>
             </div>
-            <Button href="/register" className="bg-white text-accent hover:bg-white/90 shrink-0">
+            <Button href="/register" variant="inverseAccent" className="shrink-0">
               {t("joinAsDoctor")}
             </Button>
           </div>

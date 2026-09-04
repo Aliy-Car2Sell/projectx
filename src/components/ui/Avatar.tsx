@@ -26,6 +26,8 @@ export function Avatar({
 }) {
   return (
     <span
+      role="img"
+      aria-label={name}
       className={cn(
         "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-soft text-primary font-bold",
         sizes[size],
@@ -34,7 +36,7 @@ export function Avatar({
       )}
     >
       {src ? (
-        <img src={src} alt={name} className="h-full w-full object-cover" loading="lazy" />
+        <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
       ) : (
         initials(name)
       )}

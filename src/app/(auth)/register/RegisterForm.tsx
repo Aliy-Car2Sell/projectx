@@ -54,7 +54,7 @@ export function RegisterForm() {
               {t("changeRole")}
             </button>
           </div>
-          <div className={cn("grid gap-4", "grid-cols-1 sm:grid-cols-2")}>
+          <div className={cn("grid grid-cols-1 gap-4", "grid-cols-1 sm:grid-cols-2")}>
             <Input label={t("firstName")} autoComplete="given-name" />
             <Input label={t("lastName")} autoComplete="family-name" />
           </div>

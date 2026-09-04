@@ -1,7 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { PlaceholderPage } from "@/components/layout/Placeholder";
+import { currentPatient } from "@/lib/mock/users";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { ProfileForm } from "@/components/profile/ProfileForm";
 
-export default async function Page() {
-  const t = await getTranslations("nav.patient");
-  return <PlaceholderPage title={t("profile")} />;
+export default async function PatientProfilePage() {
+  const t = await getTranslations("patient.profile");
+  return (
+    <>
+      <PageHeader title={t("title")} />
+      <ProfileForm user={currentPatient} />
+    </>
+  );
 }

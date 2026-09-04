@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "danger" | "accent";
+type Variant = "primary" | "secondary" | "ghost" | "danger" | "accent" | "inverse" | "inverseAccent";
 type Size = "sm" | "md" | "lg";
 
 const base =
@@ -14,6 +14,8 @@ const variants: Record<Variant, string> = {
   ghost: "bg-transparent text-heading hover:bg-black/5",
   danger: "bg-danger text-white hover:bg-red-600",
   accent: "gradient-accent text-white hover:opacity-95 shadow-sm",
+  inverse: "bg-white text-primary hover:bg-white/90 shadow-sm",
+  inverseAccent: "bg-white text-accent hover:bg-white/90 shadow-sm",
 };
 
 const sizes: Record<Size, string> = {
@@ -30,6 +32,7 @@ type CommonProps = {
   className?: string;
   children?: React.ReactNode;
   icon?: React.ReactNode;
+  disabled?: boolean;
 };
 
 type ButtonAsButton = CommonProps &
@@ -63,15 +66,17 @@ export function Button(props: ButtonProps) {
     </>
   );
 
-  if ("href" in rest && rest.href !== undefined) {
-    const { href, ...anchor } = rest as ButtonAsLink;
+  if ("href" in rest && rest.href !== undefined && !rest.disabled) {
+    const { href, disabled: _d, ...anchor } = rest as ButtonAsLink;
+    void _d;
     return (
       <Link href={href} className={classes} {...anchor}>
         {content}
       </Link>
     );
   }
-  const button = rest as ButtonAsButton;
+  const { href: _h, ...button } = rest as ButtonAsButton & { href?: string };
+  void _h;
   return (
     <button type="button" className={classes} disabled={loading || button.disabled} {...button}>
       {content}

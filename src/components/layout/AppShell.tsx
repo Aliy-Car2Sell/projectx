@@ -44,7 +44,7 @@ export function AppShell({
       <aside className="hidden md:flex md:flex-col md:w-[72px] lg:w-64 shrink-0 bg-card border-r border-line sticky top-0 h-dvh">
         <div className="flex items-center justify-center lg:justify-start px-3 lg:px-5 h-16 border-b border-line">
           <Logo href={homeHref} compact className="lg:hidden" />
-          <Logo href={homeHref} className="hidden lg:inline-flex" />
+          <Logo href={homeHref} className="max-lg:hidden" />
         </div>
 
         <div className="hidden lg:block px-4 pt-4">
@@ -80,7 +80,7 @@ export function AppShell({
                 {item.key === "chat" && unreadMessages > 0 && (
                   <span
                     className={cn(
-                      "hidden lg:inline-flex ml-auto rounded-full px-1.5 min-w-[20px] h-5 items-center justify-center text-[11px] font-bold",
+                      "max-lg:hidden inline-flex ml-auto rounded-full px-1.5 min-w-[20px] h-5 items-center justify-center text-[11px] font-bold",
                       active ? "bg-white text-primary" : "bg-primary text-white",
                     )}
                   >
@@ -115,7 +115,7 @@ export function AppShell({
             <Link
               href={chatHrefByRole[role]}
               aria-label={t("common.messages")}
-              className="relative hidden sm:inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
+              className="relative max-sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
             >
               <MessageCircle className="h-5 w-5" />
               {unreadMessages > 0 && (
