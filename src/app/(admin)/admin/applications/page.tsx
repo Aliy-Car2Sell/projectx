@@ -1,7 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { PlaceholderPage } from "@/components/layout/Placeholder";
+import { doctors } from "@/lib/mock/doctors";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { ApplicationsList } from "@/components/admin/ApplicationsList";
 
-export default async function Page() {
-  const t = await getTranslations("nav.admin");
-  return <PlaceholderPage title={t("applications")} />;
+export default async function AdminApplicationsPage() {
+  const t = await getTranslations("admin.applications");
+  return (
+    <>
+      <PageHeader title={t("title")} subtitle={t("subtitle")} />
+      <ApplicationsList pending={doctors.filter((d) => d.status === "pending")} rejected={doctors.filter((d) => d.status === "rejected")} />
+    </>
+  );
 }

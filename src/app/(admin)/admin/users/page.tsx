@@ -1,7 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { PlaceholderPage } from "@/components/layout/Placeholder";
+import { users } from "@/lib/mock/users";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { AdminUsers } from "@/components/admin/AdminUsers";
 
-export default async function Page() {
-  const t = await getTranslations("nav.admin");
-  return <PlaceholderPage title={t("users")} />;
+export default async function AdminUsersPage() {
+  const t = await getTranslations("admin.users");
+  return (
+    <>
+      <PageHeader title={t("title")} subtitle={t("subtitle")} />
+      <AdminUsers users={users} />
+    </>
+  );
 }

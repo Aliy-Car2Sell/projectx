@@ -163,7 +163,7 @@ export function AppShell({
                   )}
                 >
                   <Icon className={cn("h-5 w-5", active && "stroke-[2.5]")} />
-                  <span className="truncate max-w-full px-1">{t(`nav.${role}.${item.key}`)}</span>
+                  <span className="truncate max-w-full px-1">{t.has(`navShort.${role}.${item.key}`) ? t(`navShort.${role}.${item.key}`) : t(`nav.${role}.${item.key}`)}</span>
                   {item.key === "chat" && unreadMessages > 0 && (
                     <span className="absolute top-1.5 right-[calc(50%-18px)] h-4 min-w-[16px] rounded-full bg-danger px-1 text-[10px] font-bold text-white flex items-center justify-center">
                       {unreadMessages}
