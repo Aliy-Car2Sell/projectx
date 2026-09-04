@@ -1,7 +1,14 @@
 import { getTranslations } from "next-intl/server";
-import { PlaceholderPage } from "@/components/layout/Placeholder";
+import { doctorSchedule } from "@/lib/mock/appointments";
+import { PageHeader } from "@/components/ui/PageHeader";
+import { ScheduleEditor } from "@/components/doctor/ScheduleEditor";
 
-export default async function Page() {
-  const t = await getTranslations("nav.doctor");
-  return <PlaceholderPage title={t("schedule")} />;
+export default async function SchedulePage() {
+  const t = await getTranslations("doctor.schedule");
+  return (
+    <>
+      <PageHeader title={t("title")} subtitle={t("desc")} />
+      <ScheduleEditor initial={doctorSchedule} />
+    </>
+  );
 }
