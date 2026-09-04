@@ -1,36 +1,42 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ProjectX — frontend mockup
 
-## Getting Started
+Patient–doctor platform for Uzbekistan (see `docs/ProjectX-spec-v0.3.md`).
+This stage is a **UI-only mockup**: every screen is a Next.js page filled with mock data.
+No backend, database or auth yet.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router, TypeScript), Tailwind CSS v4 (design tokens in `src/app/globals.css`)
+- next-intl — uz / ru / en, locale stored in the `NEXT_LOCALE` cookie, switcher in the header
+- lucide-react icons, Leaflet + react-leaflet (OpenStreetMap tiles, client-only)
+
+## Run
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build
+npm run lint
+node scripts/check-messages.mjs   # verify uz/ru/en translation keys are in sync
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Demo navigation
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- `/login` has three demo buttons: enter as patient, doctor or admin.
+- `/patient/...`, `/doctor/...`, `/admin/...` are separate route groups with their own shell
+  (bottom navigation on phones, icon sidebar on tablets, full sidebar on desktop).
+- List pages accept `?state=empty|loading|error` to preview empty, loading and error states.
+- `/doctor?state=pending` shows the "profile under review" banner.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Where things live
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| Path | Purpose |
+|---|---|
+| `messages/*.json` | All UI text (no hard-coded strings in components) |
+| `src/types/` | Domain types that will map to Prisma models |
+| `src/lib/mock/` | Mock data (doctors, appointments, records, chats, reviews, users) — replace with API calls later |
+| `src/lib/dates.ts` | Locale-safe date formatting based on translated month names |
+| `src/components/ui/` | Design system: Button, Card, Input, Select, Badge, Avatar, Modal (bottom sheet on mobile), Tabs, EmptyState, StarRating, StatusBadge, PageHeader, Skeleton, Chip/Switch |
+| `src/components/layout/` | AppShell (header, sidebar, bottom nav), language switcher, nav config |
+| `src/components/{doctors,booking,appointments,records,chat,reviews,doctor,admin}/` | Feature components |
+| `scripts/merge-messages.mjs` | Deep-merge a partial JSON into a locale file |
