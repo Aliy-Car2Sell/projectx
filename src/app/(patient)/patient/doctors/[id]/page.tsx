@@ -163,13 +163,13 @@ export default async function DoctorProfilePage({
 
       {/* Mobile sticky CTA */}
       <div className="md:hidden fixed inset-x-0 bottom-14 z-20 bg-card border-t border-line p-3 flex gap-2 safe-bottom">
-        <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0" aria-label={t("call")}>
+        <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0 w-11 px-0!" aria-label={t("call")}>
           <Phone className="h-5 w-5" />
         </Button>
-        <Button href={chatHref} variant="secondary" size="lg" className="shrink-0" aria-label={tc("messages")}>
+        <Button href={chatHref} variant="secondary" size="lg" className="shrink-0 w-11 px-0!" aria-label={tc("messages")}>
           <MessageCircle className="h-5 w-5" />
         </Button>
-        <Button href={`/patient/doctors/${doctor.id}/book`} size="lg" fullWidth icon={<CalendarCheck className="h-5 w-5" />}>
+        <Button href={`/patient/doctors/${doctor.id}/book`} size="lg" fullWidth className="min-w-0 px-3!" icon={<CalendarCheck className="h-5 w-5" />}>
           {t("book")}
         </Button>
       </div>

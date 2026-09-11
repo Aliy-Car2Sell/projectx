@@ -146,9 +146,11 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         title={td("noResults")}
         description={td("noResultsDesc")}
         action={
-          <Button variant="secondary" onClick={() => setFilters(initialFilters)}>
-            {td("resetFilters")}
-          </Button>
+          state === "empty" ? undefined : (
+            <Button variant="secondary" onClick={() => setFilters(initialFilters)}>
+              {td("resetFilters")}
+            </Button>
+          )
         }
       />
     );
