@@ -20,10 +20,13 @@ import {
 } from "lucide-react";
 import type { MedicalRecord, RecordType } from "@/types";
 import { cn } from "@/lib/utils";
+import { mockFileUrl } from "@/lib/mock/files";
 import { fmtDate } from "@/lib/dates";
 import { NewBadge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { FilePreviewModal, type PreviewFile } from "@/components/ui/FilePreviewModal";
+import { Toast } from "@/components/ui/Toast";
 import { Input, Textarea } from "@/components/ui/Input";
 import { Modal } from "@/components/ui/Modal";
 import { Select } from "@/components/ui/Select";
@@ -194,11 +197,7 @@ export function RecordsView({
         </div>
       </Modal>
 
-      {toast && (
-        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">
-          {toast}
-        </div>
-      )}
+      <Toast message={toast} />
     </div>
   );
 }
@@ -206,7 +205,9 @@ export function RecordsView({
 function RecordCard({ record, locale }: { record: MedicalRecord; locale: string }) {
   const t = useTranslations("patient.records");
   const tc = useTranslations("common");
+  const [preview, setPreview] = useState<PreviewFile | null>(null);
   const isFile = Boolean(record.fileName);
+  const fileUrl = mockFileUrl(record.fileType === "image" ? "image" : "pdf");
   const Icon = record.fileType === "image" ? ImageIcon : isFile ? FileText : tabIcon[record.type];
 
   return (
@@ -229,12 +230,24 @@ function RecordCard({ record, locale }: { record: MedicalRecord; locale: string 
           </div>
           {isFile && (
             <div className="flex shrink-0 -mr-1">
-              <button type="button" aria-label={tc("view")} title={tc("view")} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary">
+              <button
+                type="button"
+                aria-label={tc("view")}
+                title={tc("view")}
+                onClick={() => setPreview({ name: record.fileName ?? record.title, type: record.fileType === "image" ? "image" : "pdf", url: fileUrl })}
+                className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
+              >
                 <Eye className="h-4 w-4" />
               </button>
-              <button type="button" aria-label={tc("download")} title={tc("download")} className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary">
+              <a
+                href={fileUrl}
+                download={record.fileName}
+                aria-label={tc("download")}
+                title={tc("download")}
+                className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
+              >
                 <Download className="h-4 w-4" />
-              </button>
+              </a>
             </div>
           )}
         </div>
@@ -243,6 +256,7 @@ function RecordCard({ record, locale }: { record: MedicalRecord; locale: string 
           {record.authorRole === "doctor" ? t("byDoctor", { name: record.authorName ?? "" }) : t("byYou")}
         </div>
       </div>
+      <FilePreviewModal file={preview} onClose={() => setPreview(null)} />
     </div>
   );
 }

@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Chip, Switch } from "@/components/ui/Chip";
+import { Toast } from "@/components/ui/Toast";
 
 const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
 const toTime = (m: number) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;
@@ -146,7 +147,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
         </div>
       </aside>
 
-      {toast && <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">{toast}</div>}
+      <Toast message={toast} />
     </div>
   );
 }

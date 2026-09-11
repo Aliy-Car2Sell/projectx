@@ -6,7 +6,9 @@ import { CalendarDays, CheckCircle2 } from "lucide-react";
 import type { Appointment, DoctorProfile } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
+import { RetryButton } from "@/components/ui/RetryButton";
 import { ListSkeleton } from "@/components/ui/Skeleton";
+import { Toast } from "@/components/ui/Toast";
 import { Tabs } from "@/components/ui/Tabs";
 import type { DemoState } from "@/components/demo/state";
 import { AppointmentCard } from "./AppointmentCard";
@@ -51,7 +53,7 @@ export function AppointmentsList({
       {state === "loading" ? (
         <ListSkeleton rows={3} />
       ) : state === "error" ? (
-        <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<Button variant="secondary">{tc("retry")}</Button>} />
+        <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : list.length === 0 ? (
         tab === "upcoming" ? (
           <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noUpcoming")} description={t("noUpcomingDesc")} action={<Button href="/patient/doctors">{tc("search")}</Button>} />
@@ -67,9 +69,7 @@ export function AppointmentsList({
         </div>
       )}
 
-      {toast && (
-        <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">{toast}</div>
-      )}
+      <Toast message={toast} />
     </div>
   );
 }

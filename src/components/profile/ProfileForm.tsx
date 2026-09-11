@@ -3,18 +3,19 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { Camera, Globe, KeyRound, LogOut, Save, UserRound } from "lucide-react";
+import { Globe, KeyRound, LogOut, Save, UserRound } from "lucide-react";
 import type { User } from "@/types";
 import { locales, type Locale } from "@/i18n/config";
 import { setUserLocale } from "@/i18n/locale";
 import { cityKeys } from "@/lib/mock/doctors";
 import { cn } from "@/lib/utils";
 import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
+import { AvatarUpload } from "@/components/ui/AvatarUpload";
 import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Input";
 import { Select } from "@/components/ui/Select";
+import { Toast } from "@/components/ui/Toast";
 
 /** Shared profile editor for patient and doctor accounts. */
 export function ProfileForm({ user, extra }: { user: User; extra?: React.ReactNode }) {
@@ -44,14 +45,10 @@ export function ProfileForm({ user, extra }: { user: User; extra?: React.ReactNo
       <div className="flex flex-col gap-4">
         <Card>
           <CardHeader title={t("personal")} />
-          <div className="flex items-center gap-4 mb-4">
-            <Avatar src={user.avatarUrl} name={`${user.firstName} ${user.lastName}`} size="xl" ring />
-            <div>
-              <Button variant="secondary" size="sm" icon={<Camera className="h-4 w-4" />}>
-                {t("changePhoto")}
-              </Button>
+          <div className="mb-4">
+            <AvatarUpload src={user.avatarUrl} name={`${user.firstName} ${user.lastName}`} label={t("changePhoto")}>
               <div className="text-xs text-muted mt-2">{t("memberSince", { date: fmtDate(locale, tc, user.createdAt) })}</div>
-            </div>
+            </AvatarUpload>
           </div>
           <form
             className="grid grid-cols-1 gap-4 sm:grid-cols-2"
@@ -127,7 +124,7 @@ export function ProfileForm({ user, extra }: { user: User; extra?: React.ReactNo
         </Card>
       </div>
 
-      {toast && <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">{toast}</div>}
+      <Toast message={toast} />
     </div>
   );
 }

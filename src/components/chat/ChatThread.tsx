@@ -4,8 +4,8 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { ArrowLeft, FileText, Paperclip, Send } from "lucide-react";
-import type { Chat, ChatMessage } from "@/types";
+import { ArrowLeft, FileText, Image as ImageIcon, Paperclip, Send, X } from "lucide-react";
+import type { Chat, ChatAttachment, ChatMessage } from "@/types";
 import { cn, isSameDay } from "@/lib/utils";
 import { fmtDate, fmtTime } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
@@ -29,6 +29,8 @@ export function ChatThread({
   const tc = useTranslations("common");
   const [messages, setMessages] = useState(initial);
   const [draft, setDraft] = useState("");
+  const [pending, setPending] = useState<ChatAttachment | null>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -37,9 +39,19 @@ export function ChatThread({
 
   const send = () => {
     const text = draft.trim();
-    if (!text) return;
-    setMessages((m) => [...m, { id: `local-${Date.now()}`, chatId: chat.id, senderId: meId, text, sentAt: new Date().toISOString() }]);
+    if (!text && !pending) return;
+    setMessages((m) => [
+      ...m,
+      { id: `local-${Date.now()}`, chatId: chat.id, senderId: meId, text: text || undefined, attachment: pending ?? undefined, sentAt: new Date().toISOString() },
+    ]);
     setDraft("");
+    setPending(null);
+  };
+
+  const pickFile = (f: File | undefined) => {
+    if (!f) return;
+    const isImage = f.type.startsWith("image/");
+    setPending({ type: isImage ? "image" : "file", name: f.name, sizeKb: Math.max(1, Math.round(f.size / 1024)), url: isImage ? URL.createObjectURL(f) : undefined });
   };
 
   const dayLabel = (iso: string) => {
@@ -115,13 +127,35 @@ export function ChatThread({
 
       {/* Composer */}
       <form
-        className="shrink-0 flex items-end gap-2 border-t border-line bg-card px-2 md:px-3 py-2 safe-bottom"
+        className="shrink-0 flex flex-col border-t border-line bg-card px-2 md:px-3 py-2 safe-bottom"
         onSubmit={(e) => {
           e.preventDefault();
           send();
         }}
       >
-        <button type="button" aria-label={t("attach")} title={t("attach")} className="h-11 w-11 shrink-0 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary">
+        {pending && (
+          <div className="mb-2 inline-flex max-w-full items-center gap-2 self-start rounded-full border border-line bg-surface pl-2.5 pr-1 py-1 text-xs text-heading">
+            {pending.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-accent" /> : <FileText className="h-3.5 w-3.5 text-primary" />}
+            <span className="truncate max-w-[220px]">{pending.name}</span>
+            {pending.sizeKb && <span className="text-muted">· {pending.sizeKb >= 1024 ? t("mb", { value: (pending.sizeKb / 1024).toFixed(1) }) : t("kb", { value: pending.sizeKb })}</span>}
+            <button type="button" aria-label={t("removeAttachment")} title={t("removeAttachment")} onClick={() => setPending(null)} className="h-6 w-6 rounded-full flex items-center justify-center hover:bg-line">
+              <X className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
+        <div className="flex items-end gap-2">
+        <input
+          ref={fileRef}
+          type="file"
+          accept="image/*,.pdf,.doc,.docx"
+          className="sr-only"
+          aria-label={t("attach")}
+          onChange={(e) => {
+            pickFile(e.target.files?.[0]);
+            e.target.value = "";
+          }}
+        />
+        <button type="button" aria-label={t("attach")} title={t("attach")} onClick={() => fileRef.current?.click()} className="h-11 w-11 shrink-0 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary">
           <Paperclip className="h-5 w-5" />
         </button>
         <textarea
@@ -137,9 +171,10 @@ export function ChatThread({
           placeholder={t("typeMessage")}
           className="flex-1 resize-none rounded-lg border border-line bg-surface px-3 py-2.5 text-[15px] md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
-        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim()} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
+        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
           <Send className="h-5 w-5" />
         </button>
+        </div>
       </form>
     </div>
   );

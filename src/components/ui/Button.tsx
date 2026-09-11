@@ -47,6 +47,11 @@ type ButtonAsLink = CommonProps &
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
+/** Button styling for plain elements (e.g. `<a download>`), same look as <Button>. */
+export function buttonClass(variant: Variant = "primary", size: Size = "md", className?: string): string {
+  return cn(base, variants[variant], sizes[size], className);
+}
+
 export function Button(props: ButtonProps) {
   const {
     variant = "primary",

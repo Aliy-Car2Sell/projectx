@@ -3,13 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { Bell, LogOut, MessageCircle } from "lucide-react";
+import { LogOut, MessageCircle } from "lucide-react";
 import type { User, UserRole } from "@/types";
 import { cn } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { NotificationsMenu } from "./NotificationsMenu";
 import { chatHrefByRole, isActive, navByRole, profileHrefByRole } from "./nav";
 
 /**
@@ -22,13 +23,11 @@ export function AppShell({
   role,
   user,
   unreadMessages = 0,
-  notifications = 0,
   children,
 }: {
   role: UserRole;
   user: User;
   unreadMessages?: number;
-  notifications?: number;
   children: React.ReactNode;
 }) {
   const t = useTranslations();
@@ -127,14 +126,7 @@ export function AppShell({
                 )}
               </Link>
             )}
-            <button
-              type="button"
-              aria-label={t("common.notifications")}
-              className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
-            >
-              <Bell className="h-5 w-5" />
-              {notifications > 0 && <span className="absolute top-2.5 right-2.5 h-2 w-2 rounded-full bg-danger" />}
-            </button>
+            <NotificationsMenu role={role} />
             <Link href={profileHrefByRole[role]} className="ml-1 flex items-center gap-2 rounded-lg p-1 hover:bg-black/5">
               <Avatar src={user.avatarUrl} name={fullName} size="sm" />
               <span className="hidden lg:block text-sm font-semibold text-heading pr-1">{user.firstName}</span>

@@ -116,7 +116,12 @@
       "10": "noy",
       "11": "dek"
     },
-    "backToPanel": "Panelga qaytish"
+    "backToPanel": "Panelga qaytish",
+    "docType": {
+      "diploma": "Diplom",
+      "certificate": "Sertifikat",
+      "license": "Litsenziya"
+    }
   },
   "lang": {
     "label": "Til",
@@ -481,7 +486,8 @@
       "unread": "{count} ta o'qilmagan",
       "you": "Siz",
       "openProfile": "Profilni ochish",
-      "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing."
+      "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing.",
+      "removeAttachment": "Faylni olib tashlash"
     },
     "review": {
       "title": "Sharh qoldirish",
@@ -636,7 +642,9 @@
       "chatWithPatient": "Bemorga yozish",
       "callPatient": "Qo'ng'iroq",
       "age": "{count} yosh",
-      "duration": "Davomiyligi"
+      "duration": "Davomiyligi",
+      "markedCompleted": "Qabul yakunlangan deb belgilandi",
+      "markedNoShow": "Bemor kelmadi deb belgilandi"
     },
     "schedule": {
       "title": "Jadval sozlash",
@@ -707,7 +715,8 @@
       "status": "Profil holati",
       "documents": "Hujjatlar",
       "viewPublic": "Bemorlar ko'radigan profil",
-      "location": "Joylashuv"
+      "location": "Joylashuv",
+      "saved": "Professional ma'lumotlar saqlandi"
     }
   },
   "admin": {
@@ -842,6 +851,26 @@
       "reviews": "Sharhlar",
       "users": "Userlar",
       "dashboard": "Bosh sahifa"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF hujjat. Ko'rish uchun yuklab oling."
+  },
+  "notifications": {
+    "title": "Bildirishnomalar",
+    "markAllRead": "Barchasini o'qilgan deb belgilash",
+    "empty": "Yangi bildirishnomalar yo'q",
+    "unread": "{count} ta yangi",
+    "types": {
+      "appointmentReminder": "Ertaga {time} da {name} bilan qabul",
+      "newMessage": "{name}: yangi xabar",
+      "newRecord": "{name} kartochkangizga xulosa qo'shdi",
+      "reviewRequest": "{name} bilan qabul haqida sharh qoldiring",
+      "newBooking": "{name} {time} ga qabulga yozildi",
+      "recordUploaded": "{name} yangi tahlil yukladi",
+      "newApplication": "Yangi doktor arizasi: {name}",
+      "reviewReported": "Sharh haqida shikoyat: {name}",
+      "userRegistered": "Yangi foydalanuvchi: {name}"
     }
   }
 }

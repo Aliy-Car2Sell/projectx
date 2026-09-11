@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { Modal } from "@/components/ui/Modal";
 import { DoctorStatusBadge } from "@/components/ui/StatusBadge";
+import { Toast } from "@/components/ui/Toast";
 
 /** Block / unblock card on the admin doctor page (state lives in the session only). */
 export function AdminDoctorStatus({ doctor }: { doctor: { id: string; name: string; status: DoctorStatus } }) {
@@ -69,7 +70,7 @@ export function AdminDoctorStatus({ doctor }: { doctor: { id: string; name: stri
         <p className="text-[15px] text-heading">{t("blockDesc", { name: doctor.name })}</p>
       </Modal>
 
-      {toast && <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">{toast}</div>}
+      <Toast message={toast} />
     </Card>
   );
 }

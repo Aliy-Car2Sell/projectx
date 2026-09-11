@@ -116,7 +116,12 @@
       "10": "Nov",
       "11": "Dec"
     },
-    "backToPanel": "Back to panel"
+    "backToPanel": "Back to panel",
+    "docType": {
+      "diploma": "Diploma",
+      "certificate": "Certificate",
+      "license": "License"
+    }
   },
   "lang": {
     "label": "Language",
@@ -481,7 +486,8 @@
       "unread": "{count} unread",
       "you": "You",
       "openProfile": "Open profile",
-      "emptyThread": "No messages yet. Write the first one."
+      "emptyThread": "No messages yet. Write the first one.",
+      "removeAttachment": "Remove file"
     },
     "review": {
       "title": "Leave a review",
@@ -636,7 +642,9 @@
       "chatWithPatient": "Message patient",
       "callPatient": "Call",
       "age": "{count} y.o.",
-      "duration": "Duration"
+      "duration": "Duration",
+      "markedCompleted": "Appointment marked as completed",
+      "markedNoShow": "Marked as no-show"
     },
     "schedule": {
       "title": "Schedule settings",
@@ -707,7 +715,8 @@
       "status": "Profile status",
       "documents": "Documents",
       "viewPublic": "Profile as patients see it",
-      "location": "Location"
+      "location": "Location",
+      "saved": "Professional details saved"
     }
   },
   "admin": {
@@ -842,6 +851,26 @@
       "reviews": "Reviews",
       "users": "Users",
       "dashboard": "Home"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF document. Download it to open."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No new notifications",
+    "unread": "{count} new",
+    "types": {
+      "appointmentReminder": "Appointment with {name} tomorrow at {time}",
+      "newMessage": "{name}: new message",
+      "newRecord": "{name} added a note to your records",
+      "reviewRequest": "Leave a review for your visit with {name}",
+      "newBooking": "{name} booked an appointment at {time}",
+      "recordUploaded": "{name} uploaded a new result",
+      "newApplication": "New doctor application: {name}",
+      "reviewReported": "Review reported: {name}",
+      "userRegistered": "New user: {name}"
     }
   }
 }

@@ -1,17 +1,17 @@
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import { Eye, FileText, Image as ImageIcon, MapPin, Phone } from "lucide-react";
+import { FileText, MapPin, Phone } from "lucide-react";
 import { getDoctorById } from "@/lib/mock/doctors";
 import { fmtDate } from "@/lib/dates";
 import { formatMoney } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { Card, CardHeader } from "@/components/ui/Card";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { MapView } from "@/components/map/MapView";
 import { ApplicationDecision } from "@/components/admin/ApplicationDecision";
+import { DocumentList } from "@/components/doctor/DocumentList";
 
 export default async function ApplicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -76,24 +76,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
             {d.documents.length === 0 ? (
               <EmptyState compact icon={<FileText className="h-7 w-7" />} title={t("noDocs")} />
             ) : (
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {d.documents.map((doc) => (
-                  <li key={doc.id} className="flex items-center gap-3 rounded-xl border border-line p-3">
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary"}`}>
-                      {doc.fileType === "image" ? <ImageIcon className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-sm font-semibold text-heading">{t(`docType.${doc.type}`)}</div>
-                      <div className="text-xs text-muted truncate">
-                        {doc.fileName} · {fmtDate(locale, tc, doc.uploadedAt, "short")}
-                      </div>
-                    </div>
-                    <Button variant="ghost" size="sm" icon={<Eye className="h-4 w-4" />}>
-                      {t("viewDoc")}
-                    </Button>
-                  </li>
-                ))}
-              </ul>
+              <DocumentList documents={d.documents} columns={2} />
             )}
           </Card>
 

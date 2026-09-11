@@ -6,6 +6,7 @@ import { EyeOff, Flag, Star } from "lucide-react";
 import type { Review } from "@/types";
 import { Badge } from "@/components/ui/Badge";
 import { EmptyState } from "@/components/ui/EmptyState";
+import { Toast } from "@/components/ui/Toast";
 import { ReviewCard } from "@/components/reviews/ReviewCard";
 
 export function DoctorReviewsList({ reviews }: { reviews: Review[] }) {
@@ -50,7 +51,7 @@ export function DoctorReviewsList({ reviews }: { reviews: Review[] }) {
           </div>
         </ReviewCard>
       ))}
-      {toast && <div className="fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 rounded-lg bg-heading text-white px-4 py-2.5 text-sm shadow-lg">{toast}</div>}
+      <Toast message={toast} />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import { currentAdmin } from "@/lib/mock/users";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell role="admin" user={currentAdmin} notifications={5}>
+    <AppShell role="admin" user={currentAdmin}>
       {children}
     </AppShell>
   );

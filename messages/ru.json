@@ -116,7 +116,12 @@
       "10": "ноя",
       "11": "дек"
     },
-    "backToPanel": "Вернуться в панель"
+    "backToPanel": "Вернуться в панель",
+    "docType": {
+      "diploma": "Диплом",
+      "certificate": "Сертификат",
+      "license": "Лицензия"
+    }
   },
   "lang": {
     "label": "Язык",
@@ -481,7 +486,8 @@
       "unread": "Непрочитанных: {count}",
       "you": "Вы",
       "openProfile": "Открыть профиль",
-      "emptyThread": "Сообщений пока нет. Напишите первое сообщение."
+      "emptyThread": "Сообщений пока нет. Напишите первое сообщение.",
+      "removeAttachment": "Убрать файл"
     },
     "review": {
       "title": "Оставить отзыв",
@@ -636,7 +642,9 @@
       "chatWithPatient": "Написать пациенту",
       "callPatient": "Позвонить",
       "age": "{count} лет",
-      "duration": "Длительность"
+      "duration": "Длительность",
+      "markedCompleted": "Приём отмечен как завершённый",
+      "markedNoShow": "Отмечено: пациент не пришёл"
     },
     "schedule": {
       "title": "Настройка графика",
@@ -707,7 +715,8 @@
       "status": "Статус профиля",
       "documents": "Документы",
       "viewPublic": "Профиль глазами пациента",
-      "location": "Расположение"
+      "location": "Расположение",
+      "saved": "Профессиональные данные сохранены"
     }
   },
   "admin": {
@@ -842,6 +851,26 @@
       "reviews": "Отзывы",
       "users": "Юзеры",
       "dashboard": "Главная"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF-документ. Скачайте, чтобы открыть."
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "markAllRead": "Отметить все прочитанными",
+    "empty": "Новых уведомлений нет",
+    "unread": "{count} новых",
+    "types": {
+      "appointmentReminder": "Завтра в {time} приём у {name}",
+      "newMessage": "{name}: новое сообщение",
+      "newRecord": "{name} добавил(а) заключение в вашу карту",
+      "reviewRequest": "Оставьте отзыв о приёме у {name}",
+      "newBooking": "{name} записался(ась) на {time}",
+      "recordUploaded": "{name} загрузил(а) новый анализ",
+      "newApplication": "Новая заявка врача: {name}",
+      "reviewReported": "Жалоба на отзыв: {name}",
+      "userRegistered": "Новый пользователь: {name}"
     }
   }
 }

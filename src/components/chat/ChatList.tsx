@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { MessageCircle, Search } from "lucide-react";
@@ -27,7 +28,11 @@ export function ChatList({
   const ts = useTranslations("specialties");
   const locale = useLocale();
   const tc = useTranslations("common");
-  const list = state === "empty" ? [] : [...chats].sort((a, b) => b.lastMessageAt.localeCompare(a.lastMessageAt));
+  const [q, setQ] = useState("");
+  const needle = q.trim().toLowerCase();
+  const list = (state === "empty" ? [] : [...chats])
+    .filter((c) => !needle || `${c.participantName} ${c.lastMessage}`.toLowerCase().includes(needle))
+    .sort((a, b) => b.lastMessageAt.localeCompare(a.lastMessageAt));
 
   const when = (iso: string) => {
     if (isSameDay(iso, 0)) return fmtTime(iso);
@@ -37,7 +42,7 @@ export function ChatList({
 
   return (
     <div className="flex flex-col gap-3">
-      <Input placeholder={t("searchPlaceholder")} leftIcon={<Search className="h-4 w-4" />} type="search" />
+      <Input placeholder={t("searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} leftIcon={<Search className="h-4 w-4" />} type="search" />
       {state === "loading" ? (
         <ListSkeleton rows={4} />
       ) : list.length === 0 ? (

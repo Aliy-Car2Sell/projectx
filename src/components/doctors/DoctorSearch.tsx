@@ -17,6 +17,7 @@ import { MapView } from "@/components/map/MapView";
 import { DoctorCard } from "./DoctorCard";
 import type { DemoState } from "@/components/demo/state";
 import { ErrorState } from "@/components/ui/EmptyState";
+import { RetryButton } from "@/components/ui/RetryButton";
 
 type Filters = {
   q: string;
@@ -137,7 +138,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
   let body: React.ReactNode;
   if (state === "loading") body = <ListSkeleton rows={5} />;
   else if (state === "error")
-    body = <ErrorState title={t("states.errorTitle")} description={t("states.errorDesc")} action={<Button variant="secondary">{t("common.retry")}</Button>} />;
+    body = <ErrorState title={t("states.errorTitle")} description={t("states.errorDesc")} action={<RetryButton />} />;
   else if (results.length === 0)
     body = (
       <EmptyState

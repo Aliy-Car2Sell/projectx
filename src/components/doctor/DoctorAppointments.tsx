@@ -8,9 +8,9 @@ import type { Appointment, AppointmentStatus, User } from "@/types";
 import { cn, isoDateFromNow, isToday, toIsoDate, weekdayKey } from "@/lib/utils";
 import { fmtDate } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
 import { Chip } from "@/components/ui/Chip";
 import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
+import { RetryButton } from "@/components/ui/RetryButton";
 import { ListSkeleton } from "@/components/ui/Skeleton";
 import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
 import type { DemoState } from "@/components/demo/state";
@@ -134,7 +134,7 @@ export function DoctorAppointments({
       {state === "loading" ? (
         <ListSkeleton rows={4} />
       ) : state === "error" ? (
-        <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<Button variant="secondary">{tc("retry")}</Button>} />
+        <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : view === "list" ? (
         groups.length === 0 ? (
           <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noAppointments")} description={t("noAppointmentsDesc")} />

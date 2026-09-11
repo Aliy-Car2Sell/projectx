@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Camera, Check, CheckCircle2, ChevronLeft, ChevronRight, FileUp, MapPin, Send } from "lucide-react";
+import { Check, CheckCircle2, ChevronLeft, ChevronRight, FileUp, MapPin, Send } from "lucide-react";
 import type { CityKey } from "@/types";
 import { cityCenters, cityKeys, specialtyKeys } from "@/lib/mock/doctors";
 import { cn } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
+import { AvatarUpload } from "@/components/ui/AvatarUpload";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -92,12 +92,7 @@ export function OnboardingWizard() {
               <h2 className="text-lg font-bold text-heading">{t("personalTitle")}</h2>
               <p className="text-sm text-muted">{t("personalDesc")}</p>
             </div>
-            <div className="flex items-center gap-4">
-              <Avatar name="D" size="xl" />
-              <Button variant="secondary" size="sm" icon={<Camera className="h-4 w-4" />}>
-                {t("uploadPhoto")}
-              </Button>
-            </div>
+            <AvatarUpload name="D" label={t("uploadPhoto")} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Input label={t("firstName")} defaultValue="Bekzod" />
               <Input label={t("lastName")} defaultValue="Rahimov" />

@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation";
-import { getLocale, getTranslations } from "next-intl/server";
-import { CalendarDays, ExternalLink, FileText, Image as ImageIcon, MapPin, Phone, Star } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { CalendarDays, ExternalLink, FileText, MapPin, Phone, Star } from "lucide-react";
 import { getDoctorById } from "@/lib/mock/doctors";
 import { getDoctorAppointments } from "@/lib/mock/appointments";
-import { fmtDate } from "@/lib/dates";
 import { formatMoney } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -14,6 +13,7 @@ import { PageHeader } from "@/components/ui/PageHeader";
 import { StarRating } from "@/components/ui/StarRating";
 import { MapView } from "@/components/map/MapView";
 import { AdminDoctorStatus } from "@/components/admin/AdminDoctorStatus";
+import { DocumentList } from "@/components/doctor/DocumentList";
 
 /** Admin view of a doctor: read-only profile, documents and block/unblock actions. */
 export default async function AdminDoctorPage({ params }: { params: Promise<{ id: string }> }) {
@@ -27,7 +27,6 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
   const ts = await getTranslations("specialties");
   const tcat = await getTranslations("categories");
   const tcity = await getTranslations("cities");
-  const locale = await getLocale();
   const name = `${d.firstName} ${d.lastName}`;
   const appointmentsCount = getDoctorAppointments(d.id).length;
 
@@ -104,21 +103,7 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
             {d.documents.length === 0 ? (
               <EmptyState compact icon={<FileText className="h-7 w-7" />} title={ta("noDocs")} />
             ) : (
-              <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {d.documents.map((doc) => (
-                  <li key={doc.id} className="flex items-center gap-3 rounded-xl border border-line p-3">
-                    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-lg ${doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary"}`}>
-                      {doc.fileType === "image" ? <ImageIcon className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
-                    </span>
-                    <div className="min-w-0 flex-1">
-                      <div className="text-sm font-semibold text-heading">{ta(`docType.${doc.type}`)}</div>
-                      <div className="text-xs text-muted truncate">
-                        {doc.fileName} · {fmtDate(locale, tc, doc.uploadedAt, "short")}
-                      </div>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              <DocumentList documents={d.documents} columns={2} />
             )}
           </Card>
         </div>
