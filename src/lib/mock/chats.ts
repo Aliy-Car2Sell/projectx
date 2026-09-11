@@ -147,3 +147,18 @@ export function getChatMessages(chatId: string): ChatMessage[] {
 export function getChatById(id: string): Chat | undefined {
   return [...patientChats, ...doctorChats].find((c) => c.id === id);
 }
+
+/** Existing conversation between the current user (by role) and `participantId`, if any. */
+export function findChatWith(role: "patient" | "doctor", participantId: string): Chat | undefined {
+  return (role === "patient" ? patientChats : doctorChats).find((c) => c.participantId === participantId);
+}
+
+/**
+ * Link to the conversation with `participantId`: the existing thread when one exists,
+ * otherwise the "new conversation" screen for that person.
+ */
+export function chatHrefFor(role: "patient" | "doctor", participantId: string): string {
+  const base = role === "patient" ? "/patient/chat" : "/doctor/chat";
+  const chat = findChatWith(role, participantId);
+  return chat ? `${base}/${chat.id}` : `${base}/new?with=${participantId}`;
+}

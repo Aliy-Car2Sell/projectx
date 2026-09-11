@@ -68,6 +68,9 @@ export function ChatThread({
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto px-3 md:px-4 py-3 bg-surface flex flex-col gap-1.5">
+        {messages.length === 0 && (
+          <div className="m-auto max-w-xs text-center text-sm text-muted">{t("emptyThread")}</div>
+        )}
         {messages.map((m, i) => {
           const mine = m.senderId === meId;
           const day = m.sentAt.slice(0, 10);

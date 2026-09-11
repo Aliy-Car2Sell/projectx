@@ -36,6 +36,7 @@ export function AppShell({
   const items = navByRole[role];
   const bottomItems = items.filter((i) => i.bottom).slice(0, 5);
   const homeHref = items[0].href;
+  const chatHref = chatHrefByRole[role];
   const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
@@ -112,18 +113,20 @@ export function AppShell({
           </div>
           <div className="ml-auto flex items-center gap-0.5 md:gap-1">
             <LanguageSwitcher />
-            <Link
-              href={chatHrefByRole[role]}
-              aria-label={t("common.messages")}
-              className="relative max-sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
-            >
-              <MessageCircle className="h-5 w-5" />
-              {unreadMessages > 0 && (
-                <span className="absolute top-1.5 right-1.5 h-4 min-w-[16px] rounded-full bg-danger px-1 text-[10px] font-bold text-white flex items-center justify-center">
-                  {unreadMessages}
-                </span>
-              )}
-            </Link>
+            {chatHref && (
+              <Link
+                href={chatHref}
+                aria-label={t("common.messages")}
+                className="relative max-sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
+              >
+                <MessageCircle className="h-5 w-5" />
+                {unreadMessages > 0 && (
+                  <span className="absolute top-1.5 right-1.5 h-4 min-w-[16px] rounded-full bg-danger px-1 text-[10px] font-bold text-white flex items-center justify-center">
+                    {unreadMessages}
+                  </span>
+                )}
+              </Link>
+            )}
             <button
               type="button"
               aria-label={t("common.notifications")}

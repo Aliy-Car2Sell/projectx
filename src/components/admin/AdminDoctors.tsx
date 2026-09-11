@@ -74,7 +74,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
           ]}
           actions={(d) => (
             <div className="inline-flex gap-1">
-              <Button href={`/patient/doctors/${d.id}`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
+              <Button href={`/admin/doctors/${d.id}`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
                 {t("viewProfile")}
               </Button>
               {d.status === "blocked" ? (

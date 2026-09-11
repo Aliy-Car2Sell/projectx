@@ -38,7 +38,7 @@ export default async function LandingPage() {
               <p className="mt-4 text-base md:text-lg text-white/90 max-w-xl">{t("heroSubtitle")}</p>
               <div className="mt-6 flex flex-col sm:flex-row gap-3">
                 <Button
-                  href="/patient/doctors"
+                  href="/login"
                   size="lg"
                   variant="inverse"
                   icon={<Stethoscope className="h-5 w-5" />}

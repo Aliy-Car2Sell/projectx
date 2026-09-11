@@ -29,6 +29,7 @@ export function ForgotPasswordForm() {
       ) : (
         <form
           className="flex flex-col gap-4"
+          method="post"
           onSubmit={(e) => {
             e.preventDefault();
             setSent(true);

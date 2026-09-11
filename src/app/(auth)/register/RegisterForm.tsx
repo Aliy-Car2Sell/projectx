@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Check, Lock, Mail, Phone, Stethoscope, User } from "lucide-react";
 import type { UserRole } from "@/types";
@@ -12,6 +13,7 @@ import { Input } from "@/components/ui/Input";
 
 export function RegisterForm() {
   const t = useTranslations("auth.register");
+  const router = useRouter();
   const [role, setRole] = useState<Extract<UserRole, "patient" | "doctor"> | null>(null);
 
   const roles = [
@@ -44,7 +46,14 @@ export function RegisterForm() {
           </div>
         </>
       ) : (
-        <form className="mt-4 flex flex-col gap-4" action={role === "doctor" ? "/doctor/onboarding" : "/patient"}>
+        <form
+          className="mt-4 flex flex-col gap-4"
+          method="post"
+          onSubmit={(e) => {
+            e.preventDefault();
+            router.push(role === "doctor" ? "/doctor/onboarding" : "/patient");
+          }}
+        >
           <div className="flex items-center justify-between rounded-lg bg-primary-soft/60 px-3 py-2">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
               <Check className="h-4 w-4" />

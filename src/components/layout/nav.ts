@@ -48,19 +48,21 @@ export const navByRole: Record<UserRole, NavItem[]> = {
     { key: "doctors", href: "/admin/doctors", icon: Stethoscope, bottom: true },
     { key: "reviews", href: "/admin/reviews", icon: MessageSquareWarning, bottom: true },
     { key: "users", href: "/admin/users", icon: Users, bottom: true },
+    { key: "profile", href: "/admin/profile", icon: UserCircle },
   ],
 };
 
 export const profileHrefByRole: Record<UserRole, string> = {
   patient: "/patient/profile",
   doctor: "/doctor/profile",
-  admin: "/admin",
+  admin: "/admin/profile",
 };
 
-export const chatHrefByRole: Record<UserRole, string> = {
+/** Header chat shortcut; admins have no chat, so nothing is rendered for them. */
+export const chatHrefByRole: Record<UserRole, string | null> = {
   patient: "/patient/chat",
   doctor: "/doctor/chat",
-  admin: "/admin/reviews",
+  admin: null,
 };
 
 export function isActive(pathname: string, item: NavItem): boolean {

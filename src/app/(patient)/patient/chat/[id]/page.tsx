@@ -1,14 +1,40 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
+import type { Chat } from "@/types";
 import { currentPatient } from "@/lib/mock/users";
+import { getDoctorById } from "@/lib/mock/doctors";
 import { getChatById, getChatMessages, patientChats } from "@/lib/mock/chats";
 import { PageHeader } from "@/components/ui/PageHeader";
 import { ChatLayout } from "@/components/chat/ChatLayout";
 import { ChatThread } from "@/components/chat/ChatThread";
 
-export default async function ChatThreadPage({ params }: { params: Promise<{ id: string }> }) {
+/** `/patient/chat/new?with=<doctorId>` opens an empty conversation with that doctor. */
+function newChatWith(doctorId: string | undefined): Chat | undefined {
+  const d = doctorId ? getDoctorById(doctorId) : undefined;
+  if (!d) return undefined;
+  return {
+    id: "new",
+    participantId: d.id,
+    participantName: `${d.firstName} ${d.lastName}`,
+    participantAvatar: d.avatarUrl,
+    participantRole: "doctor",
+    participantSubtitle: d.specialty,
+    lastMessage: "",
+    lastMessageAt: new Date().toISOString(),
+    unreadCount: 0,
+  };
+}
+
+export default async function ChatThreadPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ with?: string }>;
+}) {
   const { id } = await params;
-  const chat = getChatById(id);
+  const { with: withId } = await searchParams;
+  const chat = id === "new" ? newChatWith(withId) : getChatById(id);
   if (!chat) notFound();
   const t = await getTranslations("patient.chat");
   return (

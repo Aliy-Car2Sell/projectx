@@ -46,7 +46,7 @@ export default async function DoctorProfilePage() {
           </div>
         </div>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
-          <Button href={`/patient/doctors/${d.id}`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
+          <Button href={`/patient/doctors/${d.id}?from=doctor`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
             {t("viewPublic")}
           </Button>
           <Button>{tc("save")}</Button>

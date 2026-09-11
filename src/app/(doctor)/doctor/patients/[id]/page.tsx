@@ -5,6 +5,7 @@ import { Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { currentDoctor } from "@/lib/mock/doctors";
 import { getDoctorPatients, ageFromBirthDate } from "@/lib/mock/patients";
 import { getPatientRecords } from "@/lib/mock/records";
+import { chatHrefFor } from "@/lib/mock/chats";
 import { fmtDate } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -60,7 +61,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
               )}
             </ul>
             <div className="mt-4 flex gap-2">
-              <Button href="/doctor/chat/dchat-1" variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
+              <Button href={chatHrefFor("doctor", user.id)} variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
                 {tc("messages")}
               </Button>
               <Button href={`tel:${user.phone.replace(/\s/g, "")}`} variant="ghost" size="sm" icon={<Phone className="h-4 w-4" />}>

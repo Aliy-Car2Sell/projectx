@@ -115,7 +115,8 @@
       "9": "Oct",
       "10": "Nov",
       "11": "Dec"
-    }
+    },
+    "backToPanel": "Back to panel"
   },
   "lang": {
     "label": "Language",
@@ -146,7 +147,8 @@
       "applications": "Doctor applications",
       "doctors": "Doctors",
       "reviews": "Reviews / Reports",
-      "users": "Users"
+      "users": "Users",
+      "profile": "Profile"
     }
   },
   "shell": {
@@ -380,7 +382,8 @@
       "selected": "Selected",
       "continue": "Continue",
       "step": "{current} / {total}",
-      "autoConfirm": "Bookings are confirmed automatically. Cancel or reschedule at least 2 hours before the visit."
+      "autoConfirm": "Bookings are confirmed automatically. Cancel or reschedule at least 2 hours before the visit.",
+      "rescheduling": "Rescheduling"
     },
     "appointments": {
       "title": "My visits",
@@ -477,7 +480,8 @@
       "notFound": "Chat not found",
       "unread": "{count} unread",
       "you": "You",
-      "openProfile": "Open profile"
+      "openProfile": "Open profile",
+      "emptyThread": "No messages yet. Write the first one."
     },
     "review": {
       "title": "Leave a review",
@@ -495,7 +499,9 @@
       "rating4": "Good",
       "rating5": "Excellent",
       "onlyVisited": "Only patients who attended the visit can leave a review.",
-      "appointmentNotFound": "Visit not found"
+      "appointmentNotFound": "Visit not found",
+      "alreadyTitle": "Review already submitted",
+      "alreadyDesc": "Your review for this visit is saved and visible on the doctor's profile."
     },
     "profile": {
       "title": "Profile",
@@ -783,7 +789,17 @@
       "noDoctors": "No doctors found",
       "noDoctorsDesc": "Change your search query.",
       "found": "{count} doctors",
-      "viewProfile": "Profile"
+      "viewProfile": "Profile",
+      "detailTitle": "Doctor profile",
+      "backToList": "Back to doctors",
+      "publicProfile": "Public profile",
+      "statusTitle": "Status and actions",
+      "statusHint": "A blocked doctor is hidden from search and cannot receive new bookings.",
+      "contact": "Contact and workplace",
+      "documents": "Documents",
+      "stats": "Statistics",
+      "appointmentsCount": "{count} appointments",
+      "reviewsCount": "{count} reviews"
     },
     "reviews": {
       "title": "Reviews and reports",
@@ -815,6 +831,9 @@
       "noUsersDesc": "Change your search query.",
       "found": "{count} users",
       "allRoles": "All roles"
+    },
+    "profile": {
+      "title": "Admin profile"
     }
   },
   "navShort": {

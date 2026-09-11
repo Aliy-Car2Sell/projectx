@@ -7,6 +7,7 @@ import type { DoctorProfile, Slot } from "@/types";
 import { cn, formatMoney, isoDateFromNow, weekdayKey } from "@/lib/utils";
 import { fmtDate } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
+import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
@@ -107,7 +108,11 @@ export function BookingFlow({
               <MapPin className="h-3 w-3" /> {doctor.clinicName}
             </div>
           </div>
-          {rescheduleId && <span className="ml-auto text-xs text-accent font-semibold">#{rescheduleId}</span>}
+          {rescheduleId && (
+            <Badge tone="accent" className="ml-auto">
+              {t("rescheduling")}
+            </Badge>
+          )}
         </Card>
 
         {step === "slot" ? (

@@ -115,7 +115,8 @@
       "9": "okt",
       "10": "noy",
       "11": "dek"
-    }
+    },
+    "backToPanel": "Panelga qaytish"
   },
   "lang": {
     "label": "Til",
@@ -146,7 +147,8 @@
       "applications": "Doktor arizalari",
       "doctors": "Doktorlar",
       "reviews": "Sharhlar / Shikoyatlar",
-      "users": "Foydalanuvchilar"
+      "users": "Foydalanuvchilar",
+      "profile": "Profil"
     }
   },
   "shell": {
@@ -380,7 +382,8 @@
       "selected": "Tanlangan",
       "continue": "Davom etish",
       "step": "{current} / {total}",
-      "autoConfirm": "Qabul avtomatik tasdiqlanadi. Bekor qilish yoki ko'chirish — qabulga kamida 2 soat qolganda."
+      "autoConfirm": "Qabul avtomatik tasdiqlanadi. Bekor qilish yoki ko'chirish — qabulga kamida 2 soat qolganda.",
+      "rescheduling": "Qabulni ko'chirish"
     },
     "appointments": {
       "title": "Qabullarim",
@@ -477,7 +480,8 @@
       "notFound": "Chat topilmadi",
       "unread": "{count} ta o'qilmagan",
       "you": "Siz",
-      "openProfile": "Profilni ochish"
+      "openProfile": "Profilni ochish",
+      "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing."
     },
     "review": {
       "title": "Sharh qoldirish",
@@ -495,7 +499,9 @@
       "rating4": "Yaxshi",
       "rating5": "A'lo",
       "onlyVisited": "Faqat qabulda bo'lgan bemorlar sharh qoldira oladi.",
-      "appointmentNotFound": "Qabul topilmadi"
+      "appointmentNotFound": "Qabul topilmadi",
+      "alreadyTitle": "Sharh allaqachon qoldirilgan",
+      "alreadyDesc": "Bu qabul uchun sharhingiz saqlangan va doktor profilida ko'rinadi."
     },
     "profile": {
       "title": "Profil",
@@ -783,7 +789,17 @@
       "noDoctors": "Doktorlar topilmadi",
       "noDoctorsDesc": "Qidiruv so'rovini o'zgartiring.",
       "found": "{count} ta doktor",
-      "viewProfile": "Profil"
+      "viewProfile": "Profil",
+      "detailTitle": "Doktor profili",
+      "backToList": "Doktorlar ro'yxatiga",
+      "publicProfile": "Ommaviy profil",
+      "statusTitle": "Holat va amallar",
+      "statusHint": "Bloklangan doktor qidiruvda ko'rinmaydi va yangi qabul qabul qilmaydi.",
+      "contact": "Aloqa va ish joyi",
+      "documents": "Hujjatlar",
+      "stats": "Statistika",
+      "appointmentsCount": "{count} ta qabul",
+      "reviewsCount": "{count} ta sharh"
     },
     "reviews": {
       "title": "Sharhlar va shikoyatlar",
@@ -815,6 +831,9 @@
       "noUsersDesc": "Qidiruv so'rovini o'zgartiring.",
       "found": "{count} ta foydalanuvchi",
       "allRoles": "Barcha rollar"
+    },
+    "profile": {
+      "title": "Admin profili"
     }
   },
   "navShort": {

@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { CalendarClock, ClipboardList, FolderHeart, MessageCircle, Phone } from "lucide-react";
 import { getAppointmentById } from "@/lib/mock/appointments";
 import { getUserById } from "@/lib/mock/users";
+import { chatHrefFor } from "@/lib/mock/chats";
 import { ageFromBirthDate } from "@/lib/mock/patients";
 import { fmtDate } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
@@ -69,7 +70,7 @@ export default async function DoctorAppointmentDetail({ params }: { params: Prom
               <Button href={`/doctor/patients/${patient.id}`} size="sm" icon={<FolderHeart className="h-4 w-4" />}>
                 {t("viewRecords")}
               </Button>
-              <Button href="/doctor/chat/dchat-1" variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
+              <Button href={chatHrefFor("doctor", patient.id)} variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
                 {t("chatWithPatient")}
               </Button>
               <Button href={`tel:${patient.phone.replace(/\s/g, "")}`} variant="ghost" size="sm" icon={<Phone className="h-4 w-4" />}>

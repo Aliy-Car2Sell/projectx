@@ -4,6 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { CalendarClock, ClipboardList, FolderHeart, MapPin, MessageCircle, Phone, Star, Stethoscope } from "lucide-react";
 import { getAppointmentById } from "@/lib/mock/appointments";
 import { getDoctorById } from "@/lib/mock/doctors";
+import { chatHrefFor } from "@/lib/mock/chats";
 import { fmtDate } from "@/lib/dates";
 import { Avatar } from "@/components/ui/Avatar";
 import { Button } from "@/components/ui/Button";
@@ -72,7 +73,7 @@ export default async function AppointmentDetailPage({ params }: { params: Promis
               <Button href={`tel:${doctor.phone.replace(/\s/g, "")}`} variant="secondary" size="sm" icon={<Phone className="h-4 w-4" />}>
                 {tc("call")}
               </Button>
-              <Button href="/patient/chat/chat-1" variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
+              <Button href={chatHrefFor("patient", doctor.id)} variant="secondary" size="sm" icon={<MessageCircle className="h-4 w-4" />}>
                 {t("chatWithDoctor")}
               </Button>
               {apt.status === "completed" && !apt.reviewId && (

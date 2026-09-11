@@ -3,6 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Award, Briefcase, CalendarCheck, Clock, MapPin, MessageCircle, Phone, Star, Users } from "lucide-react";
 import { getDoctorById } from "@/lib/mock/doctors";
 import { getDoctorReviews } from "@/lib/mock/reviews";
+import { chatHrefFor } from "@/lib/mock/chats";
 import { formatMoney } from "@/lib/utils";
 import { Avatar } from "@/components/ui/Avatar";
 import { Badge } from "@/components/ui/Badge";
@@ -14,8 +15,15 @@ import { StarRating } from "@/components/ui/StarRating";
 import { MapView } from "@/components/map/MapView";
 import { ReviewCard } from "@/components/reviews/ReviewCard";
 
-export default async function DoctorProfilePage({ params }: { params: Promise<{ id: string }> }) {
+export default async function DoctorProfilePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ from?: string }>;
+}) {
   const { id } = await params;
+  const { from } = await searchParams;
   const doctor = getDoctorById(id);
   if (!doctor || doctor.status !== "approved") notFound();
 
@@ -27,10 +35,18 @@ export default async function DoctorProfilePage({ params }: { params: Promise<{ 
   const reviews = getDoctorReviews(doctor.id);
   const name = `${doctor.firstName} ${doctor.lastName}`;
   const tel = doctor.phone.replace(/\s/g, "");
+  const chatHref = chatHrefFor("patient", doctor.id);
+  // Doctors and admins open this page as a preview; send them back to their own panel.
+  const back =
+    from === "doctor"
+      ? { href: "/doctor/profile", label: tc("backToPanel") }
+      : from === "admin"
+        ? { href: `/admin/doctors/${doctor.id}`, label: tc("backToPanel") }
+        : { href: "/patient/doctors", label: tc("back") };
 
   return (
     <>
-      <PageHeader title={name} subtitle={ts(doctor.specialty)} backHref="/patient/doctors" backLabel={tc("back")} className="mb-3" />
+      <PageHeader title={name} subtitle={ts(doctor.specialty)} backHref={back.href} backLabel={back.label} className="mb-3" />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex flex-col gap-4">
@@ -80,7 +96,7 @@ export default async function DoctorProfilePage({ params }: { params: Promise<{ 
               <Button href={`tel:${tel}`} variant="secondary" size="lg" icon={<Phone className="h-5 w-5" />}>
                 {t("call")}
               </Button>
-              <Button href="/patient/chat/chat-1" variant="ghost" size="lg" icon={<MessageCircle className="h-5 w-5" />}>
+              <Button href={chatHref} variant="ghost" size="lg" icon={<MessageCircle className="h-5 w-5" />}>
                 {tc("messages")}
               </Button>
             </div>
@@ -149,6 +165,9 @@ export default async function DoctorProfilePage({ params }: { params: Promise<{ 
       <div className="md:hidden fixed inset-x-0 bottom-14 z-20 bg-card border-t border-line p-3 flex gap-2 safe-bottom">
         <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0" aria-label={t("call")}>
           <Phone className="h-5 w-5" />
+        </Button>
+        <Button href={chatHref} variant="secondary" size="lg" className="shrink-0" aria-label={tc("messages")}>
+          <MessageCircle className="h-5 w-5" />
         </Button>
         <Button href={`/patient/doctors/${doctor.id}/book`} size="lg" fullWidth icon={<CalendarCheck className="h-5 w-5" />}>
           {t("book")}
