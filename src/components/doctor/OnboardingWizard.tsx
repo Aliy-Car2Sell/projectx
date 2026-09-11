@@ -61,12 +61,15 @@ export function OnboardingWizard() {
               <li key={s} className="shrink-0">
                 <button
                   type="button"
+                  disabled={i >= idx}
+                  aria-current={i === idx ? "step" : undefined}
                   onClick={() => i < idx && setIdx(i)}
                   className={cn(
                     "flex items-center gap-2 rounded-lg px-3 min-h-[40px] text-sm font-medium w-full text-left",
                     state === "active" && "bg-primary text-white",
                     state === "done" && "bg-success-soft text-green-700",
                     state === "todo" && "bg-card border border-line text-muted",
+                    "disabled:cursor-default",
                   )}
                 >
                   <span

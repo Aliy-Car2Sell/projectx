@@ -187,6 +187,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
           <button
             type="button"
             aria-label={t("common.list")}
+            aria-pressed={view === "list"}
             onClick={() => setView("list")}
             className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "list" ? "bg-primary text-white" : "text-muted")}
           >
@@ -195,6 +196,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
           <button
             type="button"
             aria-label={t("common.map")}
+            aria-pressed={view === "map"}
             onClick={() => setView("map")}
             className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "map" ? "bg-primary text-white" : "text-muted")}
           >

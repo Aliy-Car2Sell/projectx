@@ -64,7 +64,7 @@ export function ChatThread({
     <div className="flex flex-col max-md:fixed max-md:inset-x-0 max-md:top-14 max-md:bottom-14 max-md:z-10 md:h-[calc(100dvh-4rem-3rem)] lg:h-[calc(100vh-8rem)] md:rounded-xl md:border md:border-line/60 md:bg-card md:shadow-card overflow-hidden bg-surface">
       {/* Thread header */}
       <div className="flex items-center gap-2 px-2 md:px-4 h-14 border-b border-line bg-card shrink-0">
-        <Link href={backHref} className="md:hidden h-10 w-10 flex items-center justify-center rounded-lg hover:bg-surface" aria-label={t("title")}>
+        <Link href={backHref} className="md:hidden h-10 w-10 flex items-center justify-center rounded-lg hover:bg-surface" aria-label={tc("back")}>
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <Link href={profileHref ?? "#"} className="flex items-center gap-3 min-w-0">

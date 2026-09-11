@@ -53,6 +53,7 @@ export function BookingFlow({
         key={d}
         type="button"
         disabled={free === 0}
+        aria-pressed={active}
         onClick={() => {
           setDay(d);
           setTime(null);

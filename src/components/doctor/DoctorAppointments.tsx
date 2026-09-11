@@ -122,10 +122,10 @@ export function DoctorAppointments({
           ))}
         </div>
         <div className="sm:ml-auto inline-flex rounded-lg border border-line bg-card p-0.5 self-start">
-          <button type="button" onClick={() => setView("list")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "list" ? "bg-primary text-white" : "text-muted")}>
+          <button type="button" aria-pressed={view === "list"} onClick={() => setView("list")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "list" ? "bg-primary text-white" : "text-muted")}>
             <List className="h-4 w-4" /> {t("list")}
           </button>
-          <button type="button" onClick={() => setView("calendar")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "calendar" ? "bg-primary text-white" : "text-muted")}>
+          <button type="button" aria-pressed={view === "calendar"} onClick={() => setView("calendar")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "calendar" ? "bg-primary text-white" : "text-muted")}>
             <CalendarDays className="h-4 w-4" /> {t("calendar")}
           </button>
         </div>
