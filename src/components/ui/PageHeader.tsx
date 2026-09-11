@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -7,7 +8,7 @@ export function PageHeader({
   subtitle,
   actions,
   backHref,
-  backLabel = "Back",
+  backLabel,
   className,
 }: {
   title: React.ReactNode;
@@ -17,6 +18,7 @@ export function PageHeader({
   backLabel?: string;
   className?: string;
 }) {
+  const tc = useTranslations("common");
   return (
     <div className={cn("mb-4 md:mb-6", className)}>
       {backHref && (
@@ -24,7 +26,7 @@ export function PageHeader({
           href={backHref}
           className="inline-flex items-center gap-1 text-sm text-muted hover:text-primary mb-2 min-h-[32px]"
         >
-          <ArrowLeft className="h-4 w-4" /> {backLabel}
+          <ArrowLeft className="h-4 w-4" /> {backLabel ?? tc("back")}
         </Link>
       )}
       <div className="flex flex-wrap items-start justify-between gap-3">

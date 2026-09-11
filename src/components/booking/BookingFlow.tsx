@@ -193,7 +193,7 @@ export function BookingFlow({
                 {doctor.clinicName}
                 <div className="text-xs text-muted">{doctor.address}</div>
               </dd>
-              <dt className="text-muted">{tc("sum", { value: "" }).trim()}</dt>
+              <dt className="text-muted">{t("price")}</dt>
               <dd className="font-semibold text-heading">{doctor.price ? tc("sum", { value: formatMoney(doctor.price) }) : "—"}</dd>
             </dl>
             <div className="mt-4">

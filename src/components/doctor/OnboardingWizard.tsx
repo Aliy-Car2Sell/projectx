@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Check, CheckCircle2, ChevronLeft, ChevronRight, FileUp, MapPin, Send } from "lucide-react";
 import type { CityKey } from "@/types";
 import { cityCenters, cityKeys, specialtyKeys } from "@/lib/mock/doctors";
+import { onboardingDraft as draft } from "@/lib/mock/onboarding";
 import { cn } from "@/lib/utils";
 import { AvatarUpload } from "@/components/ui/AvatarUpload";
 import { Button } from "@/components/ui/Button";
@@ -25,9 +26,9 @@ export function OnboardingWizard() {
   const tcity = useTranslations("cities");
   const [idx, setIdx] = useState(0);
   const [done, setDone] = useState(false);
-  const [city, setCity] = useState<CityKey>("tashkent");
+  const [city, setCity] = useState<CityKey>(draft.city);
   const [pin, setPin] = useState<{ lat: number; lng: number } | null>(null);
-  const [duration, setDuration] = useState(30);
+  const [duration, setDuration] = useState(draft.slotDurationMin);
   const [files, setFiles] = useState<Record<string, string | null>>({ diploma: null, certificate: null, license: null });
 
   const step: Step = steps[idx];
@@ -94,9 +95,9 @@ export function OnboardingWizard() {
             </div>
             <AvatarUpload name="D" label={t("uploadPhoto")} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <Input label={t("firstName")} defaultValue="Bekzod" />
-              <Input label={t("lastName")} defaultValue="Rahimov" />
-              <Input label={t("birthDate")} type="date" defaultValue="1985-04-12" />
+              <Input label={t("firstName")} defaultValue={draft.firstName} />
+              <Input label={t("lastName")} defaultValue={draft.lastName} />
+              <Input label={t("birthDate")} type="date" defaultValue={draft.birthDate} />
             </div>
             <Textarea label={t("about")} placeholder={t("aboutPlaceholder")} rows={4} />
           </div>
@@ -105,9 +106,9 @@ export function OnboardingWizard() {
         {step === "specialty" && (
           <div className="flex flex-col gap-4">
             <h2 className="text-lg font-bold text-heading">{t("specialtyTitle")}</h2>
-            <Select label={t("specialty")} defaultValue="cardiologist" options={specialtyKeys.map((k) => ({ value: k, label: ts(k) }))} />
-            <Select label={t("category")} defaultValue="highest" options={(["highest", "first", "second", "none"] as const).map((k) => ({ value: k, label: tcat(k) }))} />
-            <Input label={t("experience")} type="number" min={0} max={60} defaultValue={14} hint={t("experienceHint")} />
+            <Select label={t("specialty")} defaultValue={draft.specialty} options={specialtyKeys.map((k) => ({ value: k, label: ts(k) }))} />
+            <Select label={t("category")} defaultValue={draft.category} options={(["highest", "first", "second", "none"] as const).map((k) => ({ value: k, label: tcat(k) }))} />
+            <Input label={t("experience")} type="number" min={0} max={60} defaultValue={draft.experienceYears} hint={t("experienceHint")} />
           </div>
         )}
 
@@ -117,10 +118,10 @@ export function OnboardingWizard() {
               <h2 className="text-lg font-bold text-heading">{t("workplaceTitle")}</h2>
               <p className="text-sm text-muted">{t("workplaceDesc")}</p>
             </div>
-            <Input label={t("clinicName")} defaultValue="Akfa Medline" />
+            <Input label={t("clinicName")} defaultValue={draft.clinicName} />
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Select label={t("city")} value={city} onChange={(e) => { setCity(e.target.value as CityKey); setPin(null); }} options={cityKeys.map((k) => ({ value: k, label: tcity(k) }))} />
-              <Input label={t("address")} defaultValue="Yunusobod tumani, Amir Temur ko'chasi 1" />
+              <Input label={t("address")} defaultValue={draft.address} />
             </div>
             <div>
               <div className="flex items-center justify-between mb-2">
@@ -131,7 +132,7 @@ export function OnboardingWizard() {
               </div>
               <MapView
                 key={city}
-                pins={pin ? [{ id: "pin", lat: pin.lat, lng: pin.lng, title: "Akfa Medline", active: true }] : []}
+                pins={pin ? [{ id: "pin", lat: pin.lat, lng: pin.lng, title: draft.clinicName, active: true }] : []}
                 center={cityCenters[city]}
                 zoom={12}
                 fit={false}
@@ -150,8 +151,8 @@ export function OnboardingWizard() {
         {step === "contact" && (
           <div className="flex flex-col gap-4">
             <h2 className="text-lg font-bold text-heading">{t("contactTitle")}</h2>
-            <Input label={t("phone")} type="tel" defaultValue="+998 93 555 12 34" hint={t("phoneHint")} />
-            <Input label={`${t("price")} (${tc("optional")})`} type="number" defaultValue={250000} hint={t("priceHint")} />
+            <Input label={t("phone")} type="tel" defaultValue={draft.phone} hint={t("phoneHint")} />
+            <Input label={`${t("price")} (${tc("optional")})`} type="number" defaultValue={draft.price} hint={t("priceHint")} />
             <div className="flex flex-col gap-1.5">
               <span className="text-sm font-medium text-heading">{t("slotDuration")}</span>
               <div className="flex flex-wrap gap-2">
@@ -179,7 +180,7 @@ export function OnboardingWizard() {
                 </div>
                 {files[k] ? (
                   <span className="inline-flex items-center gap-1 text-sm font-semibold text-success shrink-0">
-                    <Check className="h-4 w-4" /> OK
+                    <Check className="h-4 w-4" /> {t("fileAdded")}
                   </span>
                 ) : (
                   <Button variant="secondary" size="sm" icon={<FileUp className="h-4 w-4" />} onClick={() => setFiles((f) => ({ ...f, [k]: `${k}.pdf` }))} className="shrink-0">

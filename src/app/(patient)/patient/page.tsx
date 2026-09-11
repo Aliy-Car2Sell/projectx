@@ -32,6 +32,10 @@ export default async function PatientDashboard() {
   const newRecords = getPatientRecords(currentPatient.id).filter((r) => r.isNew);
   const unread = patientChats.reduce((s, c) => s + c.unreadCount, 0);
   const newSummaries = newRecords.filter((r) => r.type === "summary");
+  const lastCompleted = all
+    .filter((a) => a.status === "completed")
+    .sort((a, b) => `${b.date}${b.time}`.localeCompare(`${a.date}${a.time}`))[0];
+  const lastDoctor = lastCompleted ? getDoctorById(lastCompleted.doctorId) : undefined;
 
   return (
     <>
@@ -113,16 +117,18 @@ export default async function PatientDashboard() {
                     </Card>
                   );
                 })}
-                <Card href="/patient/records" padding="sm" className="flex items-center gap-3">
-                  <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
-                    <Upload className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-heading">{t("uploadResults")}</div>
-                    <div className="text-sm text-muted truncate">{t("uploadResultsDesc", { doctor: "Jamshid Abdullayev" })}</div>
-                  </div>
-                  <ChevronRight className="h-5 w-5 text-muted shrink-0" />
-                </Card>
+                {lastDoctor && (
+                  <Card href="/patient/records" padding="sm" className="flex items-center gap-3">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                      <Upload className="h-5 w-5" />
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <div className="font-semibold text-heading">{t("uploadResults")}</div>
+                      <div className="text-sm text-muted truncate">{t("uploadResultsDesc", { doctor: `${lastDoctor.firstName} ${lastDoctor.lastName}` })}</div>
+                    </div>
+                    <ChevronRight className="h-5 w-5 text-muted shrink-0" />
+                  </Card>
+                )}
               </div>
             </section>
           )}

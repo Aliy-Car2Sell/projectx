@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { IconButton } from "./Button";
@@ -14,7 +15,7 @@ export function Modal({
   title,
   children,
   footer,
-  closeLabel = "Close",
+  closeLabel,
   size = "md",
 }: {
   open: boolean;
@@ -25,6 +26,8 @@ export function Modal({
   closeLabel?: string;
   size?: "md" | "lg";
 }) {
+  const tc = useTranslations("common");
+  const label = closeLabel ?? tc("close");
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
@@ -43,7 +46,7 @@ export function Modal({
     <div className="fixed inset-0 z-50 flex items-end md:items-center md:justify-center" role="dialog" aria-modal="true">
       <button
         type="button"
-        aria-label={closeLabel}
+        aria-label={label}
         className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"
         onClick={onClose}
       />
@@ -57,7 +60,7 @@ export function Modal({
         <div className="md:hidden mx-auto mt-2 h-1 w-10 rounded-full bg-line" />
         <div className="flex items-center justify-between gap-3 px-4 pt-3 pb-2 md:px-6 md:pt-5">
           <h2 className="text-lg font-bold text-heading">{title}</h2>
-          <IconButton label={closeLabel} onClick={onClose} className="-mr-2">
+          <IconButton label={label} onClick={onClose} className="-mr-2">
             <X className="h-5 w-5" />
           </IconButton>
         </div>

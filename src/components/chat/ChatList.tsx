@@ -24,7 +24,7 @@ export function ChatList({
   activeId?: string;
   state?: DemoState;
 }) {
-  const t = useTranslations("patient.chat");
+  const t = useTranslations("chat");
   const ts = useTranslations("specialties");
   const locale = useLocale();
   const tc = useTranslations("common");

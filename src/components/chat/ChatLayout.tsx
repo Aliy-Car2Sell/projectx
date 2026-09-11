@@ -21,7 +21,7 @@ export function ChatLayout({
   state?: DemoState;
   children?: React.ReactNode;
 }) {
-  const t = useTranslations("patient.chat");
+  const t = useTranslations("chat");
   return (
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-[340px_minmax(0,1fr)] xl:grid-cols-[380px_minmax(0,1fr)]">
       <div className={cn(activeId && "hidden lg:block")}>

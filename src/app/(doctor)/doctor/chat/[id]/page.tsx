@@ -35,7 +35,7 @@ export default async function DoctorChatThreadPage({
   const { with: withId } = await searchParams;
   const chat = id === "new" ? newChatWith(withId) : getChatById(id);
   if (!chat) notFound();
-  const t = await getTranslations("patient.chat");
+  const t = await getTranslations("doctor.chat");
   return (
     <>
       <PageHeader title={t("title")} className="hidden lg:block" />

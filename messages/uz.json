@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "ProjectX",
-    "tagline": "Bemor va doktorlarni bog'lovchi platforma"
+    "tagline": "Bemor va doktorlarni bog'lovchi platforma",
+    "description": "Bemor va doktorlarni bog'lovchi platforma"
   },
   "common": {
     "save": "Saqlash",
@@ -288,6 +289,28 @@
       "blocked": "Bloklangan"
     }
   },
+  "chat": {
+    "searchPlaceholder": "Chat qidirish",
+    "noChats": "Chatlar yo'q",
+    "noChatsDesc": "Doktor profilidan yozishmani boshlang.",
+    "typeMessage": "Xabar yozing...",
+    "attach": "Fayl biriktirish",
+    "send": "Yuborish",
+    "today": "Bugun",
+    "yesterday": "Kecha",
+    "selectChat": "Suhbatni tanlang",
+    "selectChatDesc": "Chapdagi ro'yxatdan chatni tanlang.",
+    "photo": "Rasm",
+    "file": "Fayl",
+    "kb": "{value} KB",
+    "mb": "{value} MB",
+    "notFound": "Chat topilmadi",
+    "unread": "{count} ta o'qilmagan",
+    "you": "Siz",
+    "openProfile": "Profilni ochish",
+    "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing.",
+    "removeAttachment": "Faylni olib tashlash"
+  },
   "placeholder": {
     "title": "Sahifa tayyorlanmoqda",
     "desc": "Bu ekran keyingi bosqichda mock ma'lumotlar bilan to'ldiriladi."
@@ -388,7 +411,8 @@
       "continue": "Davom etish",
       "step": "{current} / {total}",
       "autoConfirm": "Qabul avtomatik tasdiqlanadi. Bekor qilish yoki ko'chirish — qabulga kamida 2 soat qolganda.",
-      "rescheduling": "Qabulni ko'chirish"
+      "rescheduling": "Qabulni ko'chirish",
+      "price": "Narx"
     },
     "appointments": {
       "title": "Qabullarim",
@@ -467,27 +491,7 @@
       "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi."
     },
     "chat": {
-      "title": "Chat",
-      "searchPlaceholder": "Chat qidirish",
-      "noChats": "Chatlar yo'q",
-      "noChatsDesc": "Doktor profilidan yozishmani boshlang.",
-      "typeMessage": "Xabar yozing...",
-      "attach": "Fayl biriktirish",
-      "send": "Yuborish",
-      "today": "Bugun",
-      "yesterday": "Kecha",
-      "selectChat": "Suhbatni tanlang",
-      "selectChatDesc": "Chapdagi ro'yxatdan chatni tanlang.",
-      "photo": "Rasm",
-      "file": "Fayl",
-      "kb": "{value} KB",
-      "mb": "{value} MB",
-      "notFound": "Chat topilmadi",
-      "unread": "{count} ta o'qilmagan",
-      "you": "Siz",
-      "openProfile": "Profilni ochish",
-      "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing.",
-      "removeAttachment": "Faylni olib tashlash"
+      "title": "Chat"
     },
     "review": {
       "title": "Sharh qoldirish",
@@ -606,7 +610,8 @@
       "submittedDesc": "Rahmat! Admin hujjatlaringizni 1–2 ish kuni ichida ko'rib chiqadi. Natija haqida xabar beramiz.",
       "goDashboard": "Bosh sahifaga",
       "next": "Davom etish",
-      "back": "Orqaga"
+      "back": "Orqaga",
+      "fileAdded": "Yuklandi"
     },
     "appointments": {
       "title": "Qabullar",
@@ -717,6 +722,9 @@
       "viewPublic": "Bemorlar ko'radigan profil",
       "location": "Joylashuv",
       "saved": "Professional ma'lumotlar saqlandi"
+    },
+    "chat": {
+      "title": "Bemorlar bilan chat"
     }
   },
   "admin": {
@@ -765,12 +773,6 @@
       "price": "Qabul narxi",
       "about": "Doktor haqida",
       "uploadedDocs": "Yuklangan hujjatlar",
-      "viewDoc": "Ko'rish",
-      "docType": {
-        "diploma": "Diplom",
-        "certificate": "Sertifikat",
-        "license": "Litsenziya"
-      },
       "approve": "Tasdiqlash",
       "reject": "Rad etish",
       "rejectTitle": "Arizani rad etish",

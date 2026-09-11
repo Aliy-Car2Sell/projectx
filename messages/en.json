@@ -1,7 +1,8 @@
 {
   "app": {
     "name": "ProjectX",
-    "tagline": "A platform connecting patients and doctors"
+    "tagline": "A platform connecting patients and doctors",
+    "description": "A platform connecting patients and doctors"
   },
   "common": {
     "save": "Save",
@@ -288,6 +289,28 @@
       "blocked": "Blocked"
     }
   },
+  "chat": {
+    "searchPlaceholder": "Search chats",
+    "noChats": "No chats",
+    "noChatsDesc": "Start a conversation from a doctor's profile.",
+    "typeMessage": "Type a message...",
+    "attach": "Attach file",
+    "send": "Send",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "selectChat": "Select a chat",
+    "selectChatDesc": "Pick a conversation from the list on the left.",
+    "photo": "Photo",
+    "file": "File",
+    "kb": "{value} KB",
+    "mb": "{value} MB",
+    "notFound": "Chat not found",
+    "unread": "{count} unread",
+    "you": "You",
+    "openProfile": "Open profile",
+    "emptyThread": "No messages yet. Write the first one.",
+    "removeAttachment": "Remove file"
+  },
   "placeholder": {
     "title": "Page in progress",
     "desc": "This screen will be filled with mock data in the next phase."
@@ -388,7 +411,8 @@
       "continue": "Continue",
       "step": "{current} / {total}",
       "autoConfirm": "Bookings are confirmed automatically. Cancel or reschedule at least 2 hours before the visit.",
-      "rescheduling": "Rescheduling"
+      "rescheduling": "Rescheduling",
+      "price": "Price"
     },
     "appointments": {
       "title": "My visits",
@@ -467,27 +491,7 @@
       "accessHint": "Doctors with an active visit can automatically see your records."
     },
     "chat": {
-      "title": "Chat",
-      "searchPlaceholder": "Search chats",
-      "noChats": "No chats",
-      "noChatsDesc": "Start a conversation from a doctor's profile.",
-      "typeMessage": "Type a message...",
-      "attach": "Attach file",
-      "send": "Send",
-      "today": "Today",
-      "yesterday": "Yesterday",
-      "selectChat": "Select a chat",
-      "selectChatDesc": "Pick a conversation from the list on the left.",
-      "photo": "Photo",
-      "file": "File",
-      "kb": "{value} KB",
-      "mb": "{value} MB",
-      "notFound": "Chat not found",
-      "unread": "{count} unread",
-      "you": "You",
-      "openProfile": "Open profile",
-      "emptyThread": "No messages yet. Write the first one.",
-      "removeAttachment": "Remove file"
+      "title": "Chat"
     },
     "review": {
       "title": "Leave a review",
@@ -606,7 +610,8 @@
       "submittedDesc": "Thank you! An admin will review your documents within 1–2 business days. We'll notify you of the result.",
       "goDashboard": "Go to home",
       "next": "Continue",
-      "back": "Back"
+      "back": "Back",
+      "fileAdded": "Uploaded"
     },
     "appointments": {
       "title": "Visits",
@@ -717,6 +722,9 @@
       "viewPublic": "Profile as patients see it",
       "location": "Location",
       "saved": "Professional details saved"
+    },
+    "chat": {
+      "title": "Patient chats"
     }
   },
   "admin": {
@@ -765,12 +773,6 @@
       "price": "Visit price",
       "about": "About the doctor",
       "uploadedDocs": "Uploaded documents",
-      "viewDoc": "View",
-      "docType": {
-        "diploma": "Diploma",
-        "certificate": "Certificate",
-        "license": "License"
-      },
       "approve": "Approve",
       "reject": "Reject",
       "rejectTitle": "Reject application",

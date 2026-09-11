@@ -6,7 +6,7 @@ import { readDemoState } from "@/components/demo/state";
 import { ChatLayout } from "@/components/chat/ChatLayout";
 
 export default async function DoctorChatPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {
-  const t = await getTranslations("patient.chat");
+  const t = await getTranslations("doctor.chat");
   const state = readDemoState(await searchParams);
   return (
     <>

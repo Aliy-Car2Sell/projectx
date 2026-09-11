@@ -23,7 +23,7 @@ export function ChatThread({
   backHref: string;
   profileHref?: string;
 }) {
-  const t = useTranslations("patient.chat");
+  const t = useTranslations("chat");
   const ts = useTranslations("specialties");
   const locale = useLocale();
   const tc = useTranslations("common");
