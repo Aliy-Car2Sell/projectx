@@ -735,6 +735,7 @@ function report(R) {
 
 // ---------- main ----------
 async function main() {
+  fs.rmSync(path.join(OUT, "screenshots"), { recursive: true, force: true }); // only this run's flagged pages
   fs.mkdirSync(path.join(OUT, "screenshots"), { recursive: true });
   const t0 = Date.now();
   const log = (...a) => console.log(`[${((Date.now() - t0) / 1000).toFixed(0)}s]`, ...a);
