@@ -2,14 +2,14 @@
 
 import { useTranslations } from "next-intl";
 import { ExternalLink, Save } from "lucide-react";
-import type { DoctorProfile } from "@/types";
-import { cityKeys, specialtyKeys } from "@/lib/mock/doctors";
-import { Button } from "@/components/ui/Button";
-import { Card, CardHeader } from "@/components/ui/Card";
-import { Input, Textarea } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
-import { DoctorStatusBadge } from "@/components/ui/StatusBadge";
-import { Toast, useToast } from "@/components/ui/Toast";
+import type { DoctorProfile } from "@projectx/types";
+import { cityKeys, specialtyKeys } from "@projectx/mock/doctors";
+import { Button } from "@projectx/ui/Button";
+import { Card, CardHeader } from "@projectx/ui/Card";
+import { Input, Textarea } from "@projectx/ui/Input";
+import { Select } from "@projectx/ui/Select";
+import { DoctorStatusBadge } from "@projectx/ui/StatusBadge";
+import { Toast, useToast } from "@projectx/ui/Toast";
 
 /** Professional details editor on the doctor profile page (UI only: validates and shows a toast). */
 export function ProfessionalForm({ doctor: d }: { doctor: DoctorProfile }) {

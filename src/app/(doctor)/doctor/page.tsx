@@ -1,19 +1,19 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CalendarDays, ChevronRight, Clock, ClipboardList, MessageCircle, ShieldAlert, Star, Users } from "lucide-react";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getDoctorAppointments } from "@/lib/mock/appointments";
-import { getDoctorPatients } from "@/lib/mock/patients";
-import { doctorChats } from "@/lib/mock/chats";
-import { users } from "@/lib/mock/users";
-import { hoursUntil, isToday, isoDateFromNow } from "@/lib/utils";
-import { fmtDate, today } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Card, StatCard } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getDoctorAppointments } from "@projectx/mock/appointments";
+import { getDoctorPatients } from "@projectx/mock/patients";
+import { doctorChats } from "@projectx/mock/chats";
+import { users } from "@projectx/mock/users";
+import { hoursUntil, isToday, isoDateFromNow } from "@projectx/utils";
+import { fmtDate, today } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { Card, StatCard } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 
 export default async function DoctorDashboard({ searchParams }: { searchParams: Promise<{ state?: string }> }) {
   const { state } = await searchParams;

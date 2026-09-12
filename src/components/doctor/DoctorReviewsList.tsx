@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { EyeOff, Flag, Star } from "lucide-react";
-import type { Review } from "@/types";
-import { Badge } from "@/components/ui/Badge";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Toast } from "@/components/ui/Toast";
-import { ReviewCard } from "@/components/reviews/ReviewCard";
+import type { Review } from "@projectx/types";
+import { Badge } from "@projectx/ui/Badge";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Toast } from "@projectx/ui/Toast";
+import { ReviewCard } from "@projectx/ui/reviews/ReviewCard";
 
 export function DoctorReviewsList({ reviews }: { reviews: Review[] }) {
   const t = useTranslations("doctor.reviews");

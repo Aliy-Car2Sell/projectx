@@ -20,7 +20,12 @@
     "next-intl": "^4.14.2",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "react-leaflet": "^5.0.0"
+    "react-leaflet": "^5.0.0",
+    "@projectx/ui": "workspace:*",
+    "@projectx/i18n": "workspace:*",
+    "@projectx/mock": "workspace:*",
+    "@projectx/types": "workspace:*",
+    "@projectx/utils": "workspace:*"
   },
   "devDependencies": {
     "@projectx/config": "workspace:*",

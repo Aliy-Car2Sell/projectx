@@ -3,13 +3,13 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Eye, EyeOff, Flag, MessageSquareWarning, ShieldOff } from "lucide-react";
-import type { Review } from "@/types";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Toast } from "@/components/ui/Toast";
-import { ReviewCard } from "@/components/reviews/ReviewCard";
+import type { Review } from "@projectx/types";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Chip } from "@projectx/ui/Chip";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Toast } from "@projectx/ui/Toast";
+import { ReviewCard } from "@projectx/ui/reviews/ReviewCard";
 
 type Filter = "all" | "reported" | "hidden";
 

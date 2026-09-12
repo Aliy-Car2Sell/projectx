@@ -1,16 +1,16 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CalendarDays, ChevronRight, FileCheck2, MessageSquareWarning, Stethoscope, UserPlus, Users, Star, type LucideIcon } from "lucide-react";
-import type { ActivityItem } from "@/types";
-import { users } from "@/lib/mock/users";
-import { approvedDoctors, pendingDoctors } from "@/lib/mock/doctors";
-import { appointments } from "@/lib/mock/appointments";
-import { recentActivity, reviews } from "@/lib/mock/reviews";
-import { fmtDate, fmtTime } from "@/lib/dates";
-import { isSameDay } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
-import { Card, StatCard } from "@/components/ui/Card";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
+import type { ActivityItem } from "@projectx/types";
+import { users } from "@projectx/mock/users";
+import { approvedDoctors, pendingDoctors } from "@projectx/mock/doctors";
+import { appointments } from "@projectx/mock/appointments";
+import { recentActivity, reviews } from "@projectx/mock/reviews";
+import { fmtDate, fmtTime } from "@projectx/utils/dates";
+import { isSameDay } from "@projectx/utils";
+import { Button } from "@projectx/ui/Button";
+import { Card, StatCard } from "@projectx/ui/Card";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 
 const activityIcon: Record<ActivityItem["type"], { icon: LucideIcon; cls: string }> = {
   user_registered: { icon: UserPlus, cls: "bg-primary-soft text-primary" },

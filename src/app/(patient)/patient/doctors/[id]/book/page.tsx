@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getDoctorById } from "@/lib/mock/doctors";
-import { generateSlots } from "@/lib/mock/appointments";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { getDoctorById } from "@projectx/mock/doctors";
+import { generateSlots } from "@projectx/mock/appointments";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { BookingFlow } from "@/components/booking/BookingFlow";
 
 export default async function BookPage({

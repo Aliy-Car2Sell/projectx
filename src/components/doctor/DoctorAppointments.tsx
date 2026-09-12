@@ -4,16 +4,16 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarDays, ChevronLeft, ChevronRight, ClipboardList, List } from "lucide-react";
-import type { Appointment, AppointmentStatus, User } from "@/types";
-import { cn, isoDateFromNow, isToday, toIsoDate, weekdayKey } from "@/lib/utils";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Chip } from "@/components/ui/Chip";
-import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
-import { RetryButton } from "@/components/ui/RetryButton";
-import { ListSkeleton } from "@/components/ui/Skeleton";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
-import type { DemoState } from "@/components/demo/state";
+import type { Appointment, AppointmentStatus, User } from "@projectx/types";
+import { cn, isoDateFromNow, isToday, toIsoDate, weekdayKey } from "@projectx/utils";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Chip } from "@projectx/ui/Chip";
+import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
+import { RetryButton } from "@projectx/ui/RetryButton";
+import { ListSkeleton } from "@projectx/ui/Skeleton";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import type { DemoState } from "@projectx/ui/demo/state";
 
 const statusTone: Record<AppointmentStatus, string> = {
   scheduled: "bg-primary-soft text-primary border-primary/30",

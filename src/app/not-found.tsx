@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { SearchX } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "@projectx/ui/Button";
 
 export default async function NotFound() {
   const t = await getTranslations("states");

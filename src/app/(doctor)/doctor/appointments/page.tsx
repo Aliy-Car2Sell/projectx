@@ -1,10 +1,10 @@
 import { getTranslations } from "next-intl/server";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getDoctorAppointments } from "@/lib/mock/appointments";
-import { users } from "@/lib/mock/users";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { DemoStates } from "@/components/demo/DemoStates";
-import { readDemoState } from "@/components/demo/state";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getDoctorAppointments } from "@projectx/mock/appointments";
+import { users } from "@projectx/mock/users";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { DemoStates } from "@projectx/ui/demo/DemoStates";
+import { readDemoState } from "@projectx/ui/demo/state";
 import { DoctorAppointments } from "@/components/doctor/DoctorAppointments";
 
 export default async function DoctorAppointmentsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {

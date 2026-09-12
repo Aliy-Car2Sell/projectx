@@ -1,13 +1,13 @@
 import { getTranslations } from "next-intl/server";
 import { MapPin } from "lucide-react";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { currentDoctorUser } from "@/lib/mock/users";
-import { Card, CardHeader } from "@/components/ui/Card";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { MapView } from "@/components/map/MapView";
-import { DocumentList } from "@/components/doctor/DocumentList";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { currentDoctorUser } from "@projectx/mock/users";
+import { Card, CardHeader } from "@projectx/ui/Card";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { MapView } from "@projectx/ui/map/MapView";
+import { DocumentList } from "@projectx/ui/documents/DocumentList";
 import { ProfessionalForm } from "@/components/doctor/ProfessionalForm";
-import { ProfileForm } from "@/components/profile/ProfileForm";
+import { ProfileForm } from "@projectx/ui/profile/ProfileForm";
 
 export default async function DoctorProfilePage() {
   const t = await getTranslations("doctor.profile");

@@ -1,0 +1,386 @@
+{
+  "app": {
+    "name": "ProjectX",
+    "tagline": "Bemor va doktorlarni bog'lovchi platforma",
+    "description": "Bemor va doktorlarni bog'lovchi platforma"
+  },
+  "common": {
+    "save": "Saqlash",
+    "cancel": "Bekor qilish",
+    "back": "Orqaga",
+    "next": "Keyingi",
+    "search": "Qidirish",
+    "filter": "Filtr",
+    "loading": "Yuklanmoqda...",
+    "retry": "Qayta urinish",
+    "viewAll": "Barchasini ko'rish",
+    "close": "Yopish",
+    "confirm": "Tasdiqlash",
+    "delete": "O'chirish",
+    "edit": "Tahrirlash",
+    "yes": "Ha",
+    "no": "Yo'q",
+    "logout": "Chiqish",
+    "notifications": "Bildirishnomalar",
+    "messages": "Xabarlar",
+    "profile": "Profil",
+    "more": "Ko'proq",
+    "apply": "Qo'llash",
+    "reset": "Tozalash",
+    "all": "Barchasi",
+    "today": "Bugun",
+    "tomorrow": "Ertaga",
+    "upload": "Yuklash",
+    "download": "Yuklab olish",
+    "view": "Ko'rish",
+    "send": "Yuborish",
+    "submit": "Yuborish",
+    "call": "Qo'ng'iroq qilish",
+    "book": "Yozilish",
+    "details": "Batafsil",
+    "new": "YANGI",
+    "optional": "ixtiyoriy",
+    "years": "{count} yil",
+    "min": "{count} min",
+    "km": "{value} km",
+    "sum": "{value} so'm",
+    "free": "Bepul",
+    "reviews": "{count} sharh",
+    "phone": "Telefon",
+    "email": "Email",
+    "password": "Parol",
+    "name": "Ism",
+    "surname": "Familiya",
+    "city": "Shahar",
+    "address": "Manzil",
+    "date": "Sana",
+    "time": "Vaqt",
+    "status": "Holat",
+    "actions": "Amallar",
+    "list": "Ro'yxat",
+    "map": "Xarita",
+    "calendar": "Kalendar",
+    "menu": "Menyu",
+    "openMenu": "Menyuni ochish",
+    "language": "Til",
+    "selected": "Tanlangan",
+    "showMore": "Ko'proq ko'rsatish",
+    "noData": "Ma'lumot yo'q",
+    "weekdays": {
+      "mon": "Dushanba",
+      "tue": "Seshanba",
+      "wed": "Chorshanba",
+      "thu": "Payshanba",
+      "fri": "Juma",
+      "sat": "Shanba",
+      "sun": "Yakshanba"
+    },
+    "weekdaysShort": {
+      "mon": "Du",
+      "tue": "Se",
+      "wed": "Cho",
+      "thu": "Pa",
+      "fri": "Ju",
+      "sat": "Sha",
+      "sun": "Ya"
+    },
+    "demoStates": "Holatlar",
+    "stateNormal": "Oddiy",
+    "stateEmpty": "Bo'sh",
+    "stateLoading": "Yuklanmoqda",
+    "stateError": "Xato",
+    "months": {
+      "0": "yanvar",
+      "1": "fevral",
+      "2": "mart",
+      "3": "aprel",
+      "4": "may",
+      "5": "iyun",
+      "6": "iyul",
+      "7": "avgust",
+      "8": "sentabr",
+      "9": "oktabr",
+      "10": "noyabr",
+      "11": "dekabr"
+    },
+    "monthsShort": {
+      "0": "yan",
+      "1": "fev",
+      "2": "mar",
+      "3": "apr",
+      "4": "may",
+      "5": "iyn",
+      "6": "iyl",
+      "7": "avg",
+      "8": "sen",
+      "9": "okt",
+      "10": "noy",
+      "11": "dek"
+    },
+    "backToPanel": "Panelga qaytish",
+    "docType": {
+      "diploma": "Diplom",
+      "certificate": "Sertifikat",
+      "license": "Litsenziya"
+    },
+    "mapLoading": "Xarita yuklanmoqda..."
+  },
+  "lang": {
+    "label": "Til",
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "nav": {
+    "patient": {
+      "home": "Bosh sahifa",
+      "doctors": "Doktorlar",
+      "appointments": "Qabullar",
+      "records": "Kartochka",
+      "chat": "Chat",
+      "profile": "Profil"
+    },
+    "doctor": {
+      "home": "Bosh sahifa",
+      "appointments": "Qabullar",
+      "schedule": "Jadval",
+      "patients": "Bemorlar",
+      "chat": "Chat",
+      "reviews": "Sharhlar",
+      "profile": "Profil"
+    },
+    "admin": {
+      "dashboard": "Dashboard",
+      "applications": "Doktor arizalari",
+      "doctors": "Doktorlar",
+      "reviews": "Sharhlar / Shikoyatlar",
+      "users": "Foydalanuvchilar",
+      "profile": "Profil"
+    }
+  },
+  "shell": {
+    "greeting": "Salom, {name}!",
+    "role": {
+      "patient": "Bemor",
+      "doctor": "Doktor",
+      "admin": "Administrator"
+    },
+    "demoBadge": "Demo rejim"
+  },
+  "auth": {
+    "login": {
+      "title": "Kirish",
+      "subtitle": "Hisobingizga kiring",
+      "email": "Email",
+      "emailPlaceholder": "siz@example.com",
+      "password": "Parol",
+      "forgot": "Parolni unutdim",
+      "submit": "Kirish",
+      "noAccount": "Hisobingiz yo'qmi?",
+      "register": "Ro'yxatdan o'tish",
+      "demoTitle": "Demo: rolni tanlab kiring",
+      "demoPatient": "Bemor sifatida kirish",
+      "demoDoctor": "Doktor sifatida kirish",
+      "demoAdmin": "Admin sifatida kirish"
+    },
+    "register": {
+      "title": "Ro'yxatdan o'tish",
+      "chooseRole": "Kim sifatida ro'yxatdan o'tmoqchisiz?",
+      "patient": "Bemor",
+      "patientDesc": "Doktor topish, qabulga yozilish va kartochka yuritish",
+      "doctor": "Doktor",
+      "doctorDesc": "Profil yaratish, jadval tuzish va bemorlarni qabul qilish",
+      "firstName": "Ism",
+      "lastName": "Familiya",
+      "email": "Email",
+      "phone": "Telefon",
+      "password": "Parol",
+      "passwordHint": "Kamida 8 ta belgi",
+      "submit": "Ro'yxatdan o'tish",
+      "haveAccount": "Hisobingiz bormi?",
+      "login": "Kirish",
+      "changeRole": "Rolni o'zgartirish"
+    },
+    "forgot": {
+      "title": "Parolni tiklash",
+      "subtitle": "Emailingizni kiriting, tiklash havolasini yuboramiz",
+      "email": "Email",
+      "submit": "Havola yuborish",
+      "back": "Kirish sahifasiga qaytish",
+      "sentTitle": "Havola yuborildi",
+      "sentDesc": "{email} manziliga parolni tiklash havolasi yuborildi."
+    }
+  },
+  "states": {
+    "emptyTitle": "Hozircha hech narsa yo'q",
+    "emptyDesc": "Bu yerda ma'lumotlar paydo bo'lganda ko'rsatiladi.",
+    "errorTitle": "Xatolik yuz berdi",
+    "errorDesc": "Ma'lumotlarni yuklab bo'lmadi. Qayta urinib ko'ring.",
+    "notFoundTitle": "Sahifa topilmadi",
+    "notFoundDesc": "Siz qidirgan sahifa mavjud emas.",
+    "goHome": "Bosh sahifaga"
+  },
+  "specialties": {
+    "cardiologist": "Kardiolog",
+    "dentist": "Stomatolog",
+    "pediatrician": "Pediatr",
+    "neurologist": "Nevrolog",
+    "dermatologist": "Dermatolog",
+    "therapist": "Terapevt",
+    "ophthalmologist": "Oftalmolog",
+    "gynecologist": "Ginekolog",
+    "orthopedist": "Ortoped",
+    "ent": "LOR",
+    "endocrinologist": "Endokrinolog",
+    "urologist": "Urolog"
+  },
+  "categories": {
+    "highest": "Oliy toifa",
+    "first": "Birinchi toifa",
+    "second": "Ikkinchi toifa",
+    "none": "Toifasiz"
+  },
+  "cities": {
+    "tashkent": "Toshkent",
+    "samarkand": "Samarqand",
+    "bukhara": "Buxoro",
+    "andijan": "Andijon",
+    "fergana": "Farg'ona"
+  },
+  "status": {
+    "appointment": {
+      "scheduled": "Rejalashtirilgan",
+      "completed": "Yakunlangan",
+      "cancelled": "Bekor qilingan",
+      "no_show": "Kelmadi"
+    },
+    "doctor": {
+      "pending": "Tasdiqlanishi kutilmoqda",
+      "approved": "Tasdiqlangan",
+      "rejected": "Rad etilgan",
+      "blocked": "Bloklangan"
+    },
+    "user": {
+      "active": "Faol",
+      "blocked": "Bloklangan"
+    }
+  },
+  "chat": {
+    "searchPlaceholder": "Chat qidirish",
+    "noChats": "Chatlar yo'q",
+    "noChatsDesc": "Doktor profilidan yozishmani boshlang.",
+    "typeMessage": "Xabar yozing...",
+    "attach": "Fayl biriktirish",
+    "send": "Yuborish",
+    "today": "Bugun",
+    "yesterday": "Kecha",
+    "selectChat": "Suhbatni tanlang",
+    "selectChatDesc": "Chapdagi ro'yxatdan chatni tanlang.",
+    "photo": "Rasm",
+    "file": "Fayl",
+    "kb": "{value} KB",
+    "mb": "{value} MB",
+    "notFound": "Chat topilmadi",
+    "unread": "{count} ta o'qilmagan",
+    "you": "Siz",
+    "openProfile": "Profilni ochish",
+    "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing.",
+    "removeAttachment": "Faylni olib tashlash"
+  },
+  "placeholder": {
+    "title": "Sahifa tayyorlanmoqda",
+    "desc": "Bu ekran keyingi bosqichda mock ma'lumotlar bilan to'ldiriladi."
+  },
+  "navShort": {
+    "admin": {
+      "applications": "Arizalar",
+      "reviews": "Sharhlar",
+      "users": "Userlar",
+      "dashboard": "Bosh sahifa"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF hujjat. Ko'rish uchun yuklab oling."
+  },
+  "notifications": {
+    "title": "Bildirishnomalar",
+    "markAllRead": "Barchasini o'qilgan deb belgilash",
+    "empty": "Yangi bildirishnomalar yo'q",
+    "unread": "{count} ta yangi",
+    "types": {
+      "appointmentReminder": "Ertaga {time} da {name} bilan qabul",
+      "newMessage": "{name}: yangi xabar",
+      "newRecord": "{name} kartochkangizga xulosa qo'shdi",
+      "reviewRequest": "{name} bilan qabul haqida sharh qoldiring",
+      "newBooking": "{name} {time} ga qabulga yozildi",
+      "recordUploaded": "{name} yangi tahlil yukladi",
+      "newApplication": "Yangi doktor arizasi: {name}",
+      "reviewReported": "Sharh haqida shikoyat: {name}",
+      "userRegistered": "Yangi foydalanuvchi: {name}"
+    }
+  },
+  "profile": {
+    "title": "Profil",
+    "personal": "Shaxsiy ma'lumotlar",
+    "firstName": "Ism",
+    "lastName": "Familiya",
+    "phone": "Telefon",
+    "email": "Email",
+    "birthDate": "Tug'ilgan sana",
+    "city": "Shahar",
+    "save": "Saqlash",
+    "saved": "Saqlandi",
+    "language": "Til",
+    "languageDesc": "Interfeys tili",
+    "security": "Xavfsizlik",
+    "changePassword": "Parolni o'zgartirish",
+    "currentPassword": "Joriy parol",
+    "newPassword": "Yangi parol",
+    "confirmPassword": "Parolni tasdiqlang",
+    "logout": "Chiqish",
+    "logoutDesc": "Hisobdan chiqish",
+    "memberSince": "Ro'yxatdan o'tgan: {date}",
+    "changePhoto": "Rasmni o'zgartirish"
+  },
+  "records": {
+    "title": "Tibbiy kartochka",
+    "tabs": {
+      "analysis": "Tahlillar",
+      "imaging": "Rasmlar",
+      "history": "Kasallik tarixi",
+      "allergy": "Allergiyalar",
+      "medication": "Doimiy dorilar",
+      "summary": "Doktor xulosalari"
+    },
+    "upload": "Fayl yuklash",
+    "add": "Qo'shish",
+    "uploadTitle": "Fayl yuklash",
+    "uploadDesc": "PDF yoki rasm (JPG, PNG). Maksimal hajm 10 MB.",
+    "dropHint": "Faylni shu yerga tashlang yoki tanlang",
+    "chooseFile": "Faylni tanlash",
+    "fileTitle": "Nomi",
+    "fileTitlePlaceholder": "Masalan: Umumiy qon tahlili",
+    "fileDate": "Sana",
+    "fileTypeLabel": "Bo'lim",
+    "addEntryTitle": "Yozuv qo'shish",
+    "entryTitle": "Nomi",
+    "entryDesc": "Izoh",
+    "empty": {
+      "analysis": "Tahlillar yo'q",
+      "imaging": "Rasmlar yo'q",
+      "history": "Kasallik tarixi bo'sh",
+      "allergy": "Allergiyalar qayd etilmagan",
+      "medication": "Doimiy dorilar yo'q",
+      "summary": "Doktor xulosalari yo'q"
+    },
+    "emptyDesc": "Bu bo'limga ma'lumot qo'shing — doktor qabulda ko'ra oladi.",
+    "byDoctor": "Doktor: {name}",
+    "byYou": "Siz qo'shgansiz",
+    "byPatient": "Bemor qo'shgan",
+    "pdf": "PDF",
+    "image": "Rasm",
+    "note": "Yozuv",
+    "uploaded": "Fayl yuklandi (demo)",
+    "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi."
+  }
+}

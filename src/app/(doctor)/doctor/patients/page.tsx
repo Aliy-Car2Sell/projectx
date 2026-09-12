@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getDoctorPatients } from "@/lib/mock/patients";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { DemoStates } from "@/components/demo/DemoStates";
-import { readDemoState } from "@/components/demo/state";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getDoctorPatients } from "@projectx/mock/patients";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { DemoStates } from "@projectx/ui/demo/DemoStates";
+import { readDemoState } from "@projectx/ui/demo/state";
 import { PatientsList } from "@/components/doctor/PatientsList";
 
 export default async function DoctorPatientsPage({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) {

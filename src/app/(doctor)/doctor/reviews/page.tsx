@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getDoctorReviews, ratingDistribution } from "@/lib/mock/reviews";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getDoctorReviews, ratingDistribution } from "@projectx/mock/reviews";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { RatingSummary } from "@/components/doctor/RatingSummary";
 import { DoctorReviewsList } from "@/components/doctor/DoctorReviewsList";
 

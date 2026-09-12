@@ -8,6 +8,21 @@ importers:
 
   .:
     dependencies:
+      '@projectx/i18n':
+        specifier: workspace:*
+        version: link:packages/i18n
+      '@projectx/mock':
+        specifier: workspace:*
+        version: link:packages/mock
+      '@projectx/types':
+        specifier: workspace:*
+        version: link:packages/types
+      '@projectx/ui':
+        specifier: workspace:*
+        version: link:packages/ui
+      '@projectx/utils':
+        specifier: workspace:*
+        version: link:packages/utils
       leaflet:
         specifier: ^1.9.4
         version: 1.9.4
@@ -72,6 +87,126 @@ importers:
       eslint-config-next:
         specifier: 16.3.4
         version: 16.3.4(@typescript-eslint/parser@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/i18n:
+    dependencies:
+      next:
+        specifier: 16.3.4
+        version: 16.3.4(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next-intl:
+        specifier: ^4.14.2
+        version: 4.14.4(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+    devDependencies:
+      '@projectx/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: ^9
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/mock:
+    dependencies:
+      '@projectx/types':
+        specifier: workspace:*
+        version: link:../types
+      '@projectx/utils':
+        specifier: workspace:*
+        version: link:../utils
+    devDependencies:
+      '@projectx/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: ^9
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/types:
+    devDependencies:
+      '@projectx/config':
+        specifier: workspace:*
+        version: link:../config
+      eslint:
+        specifier: ^9
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/ui:
+    dependencies:
+      '@projectx/i18n':
+        specifier: workspace:*
+        version: link:../i18n
+      '@projectx/mock':
+        specifier: workspace:*
+        version: link:../mock
+      '@projectx/types':
+        specifier: workspace:*
+        version: link:../types
+      '@projectx/utils':
+        specifier: workspace:*
+        version: link:../utils
+      leaflet:
+        specifier: ^1.9.4
+        version: 1.9.4
+      lucide-react:
+        specifier: ^1.41.0
+        version: 1.45.0(react@19.2.8)
+      next:
+        specifier: 16.3.4
+        version: 16.3.4(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      next-intl:
+        specifier: ^4.14.2
+        version: 4.14.4(@swc/helpers@0.5.23)(next@16.3.4(@babel/core@7.29.7)(@types/node@20.19.43)(react-dom@19.2.8(react@19.2.8))(react@19.2.8))(react@19.2.8)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: 19.2.8
+        version: 19.2.8(react@19.2.8)
+      react-leaflet:
+        specifier: ^5.0.0
+        version: 5.0.0(leaflet@1.9.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+    devDependencies:
+      '@projectx/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/leaflet':
+        specifier: ^1.9.22
+        version: 1.9.22
+      '@types/react':
+        specifier: ^19
+        version: 19.3.0
+      '@types/react-dom':
+        specifier: ^19
+        version: 19.3.0(@types/react@19.3.0)
+      eslint:
+        specifier: ^9
+        version: 9.39.5(jiti@2.7.0)
+      typescript:
+        specifier: ^5
+        version: 5.9.3
+
+  packages/utils:
+    devDependencies:
+      '@projectx/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/node':
+        specifier: ^20
+        version: 20.19.43
+      eslint:
+        specifier: ^9
+        version: 9.39.5(jiti@2.7.0)
       typescript:
         specifier: ^5
         version: 5.9.3
@@ -3535,7 +3670,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0)):
+  eslint-module-utils@2.14.0(@typescript-eslint/parser@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0)):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -3557,7 +3692,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.39.5(jiti@2.7.0)
       eslint-import-resolver-node: 0.3.10
-      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.39.5(jiti@2.7.0)))(eslint@9.39.5(jiti@2.7.0))
+      eslint-module-utils: 2.14.0(@typescript-eslint/parser@8.70.0(eslint@9.39.5(jiti@2.7.0))(typescript@5.9.3))(eslint-import-resolver-node@0.3.10)(eslint-import-resolver-typescript@3.10.1)(eslint@9.39.5(jiti@2.7.0))
       hasown: 2.0.4
       is-core-module: 2.16.2
       is-glob: 4.0.3

@@ -6,7 +6,8 @@
   "exports": {
     "./eslint": "./eslint.config.mjs",
     "./postcss": "./postcss.config.mjs",
-    "./tsconfig/*": "./tsconfig/*"
+    "./tsconfig/*": "./tsconfig/*",
+    "./eslint-package": "./eslint-package.config.mjs"
   },
   "dependencies": {
     "eslint": "^9",

@@ -1,0 +1,25 @@
+{
+  "name": "@projectx/i18n",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./config": "./src/config.ts",
+    "./locale": "./src/locale.ts",
+    "./request": "./src/request.ts",
+    "./messages/*": "./messages/*"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "check-messages": "node scripts/check-messages.mjs"
+  },
+  "peerDependencies": {
+    "next": "16.3.4",
+    "next-intl": "^4.14.2"
+  },
+  "devDependencies": {
+    "@projectx/config": "workspace:*",
+    "eslint": "^9",
+    "typescript": "^5"
+  }
+}

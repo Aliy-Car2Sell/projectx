@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { ClipboardList, Pencil, Stethoscope } from "lucide-react";
-import type { Appointment, DoctorSummary } from "@/types";
-import { fmtDate } from "@/lib/dates";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
+import type { Appointment, DoctorSummary } from "@projectx/types";
+import { fmtDate } from "@projectx/utils/dates";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
 import { SummaryForm } from "./SummaryForm";
 
 /** Shows the saved note or the note editor for a doctor's appointment. */

@@ -1,0 +1,47 @@
+{
+  "name": "@projectx/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./styles/*": "./styles/*",
+    "./layout/nav": "./src/layout/nav.ts",
+    "./demo/state": "./src/demo/state.ts",
+    "./layout/*": "./src/layout/*.tsx",
+    "./auth/*": "./src/auth/*.tsx",
+    "./chat/*": "./src/chat/*.tsx",
+    "./map/*": "./src/map/*.tsx",
+    "./demo/*": "./src/demo/*.tsx",
+    "./profile/*": "./src/profile/*.tsx",
+    "./records/*": "./src/records/*.tsx",
+    "./reviews/*": "./src/reviews/*.tsx",
+    "./documents/*": "./src/documents/*.tsx",
+    "./*": "./src/ui/*.tsx"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@projectx/i18n": "workspace:*",
+    "@projectx/mock": "workspace:*",
+    "@projectx/types": "workspace:*",
+    "@projectx/utils": "workspace:*",
+    "leaflet": "^1.9.4",
+    "lucide-react": "^1.41.0",
+    "react-leaflet": "^5.0.0"
+  },
+  "peerDependencies": {
+    "next": "16.3.4",
+    "next-intl": "^4.14.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@projectx/config": "workspace:*",
+    "@types/leaflet": "^1.9.22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "typescript": "^5"
+  }
+}

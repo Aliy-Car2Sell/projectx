@@ -3,14 +3,14 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { CalendarDays, CheckCircle2 } from "lucide-react";
-import type { Appointment, DoctorProfile } from "@/types";
-import { Button } from "@/components/ui/Button";
-import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
-import { RetryButton } from "@/components/ui/RetryButton";
-import { ListSkeleton } from "@/components/ui/Skeleton";
-import { Toast } from "@/components/ui/Toast";
-import { Tabs } from "@/components/ui/Tabs";
-import type { DemoState } from "@/components/demo/state";
+import type { Appointment, DoctorProfile } from "@projectx/types";
+import { Button } from "@projectx/ui/Button";
+import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
+import { RetryButton } from "@projectx/ui/RetryButton";
+import { ListSkeleton } from "@projectx/ui/Skeleton";
+import { Toast } from "@projectx/ui/Toast";
+import { Tabs } from "@projectx/ui/Tabs";
+import type { DemoState } from "@projectx/ui/demo/state";
 import { AppointmentCard } from "./AppointmentCard";
 
 export function AppointmentsList({

@@ -3,21 +3,21 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { List, Map as MapIcon, Search, SlidersHorizontal, X } from "lucide-react";
-import type { CategoryKey, CityKey, DoctorProfile, SpecialtyKey } from "@/types";
-import { cityKeys, specialtyKeys } from "@/lib/mock/doctors";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Input } from "@/components/ui/Input";
-import { Modal } from "@/components/ui/Modal";
-import { Select } from "@/components/ui/Select";
-import { ListSkeleton } from "@/components/ui/Skeleton";
-import { MapView } from "@/components/map/MapView";
+import type { CategoryKey, CityKey, DoctorProfile, SpecialtyKey } from "@projectx/types";
+import { cityKeys, specialtyKeys } from "@projectx/mock/doctors";
+import { cn } from "@projectx/utils";
+import { Button } from "@projectx/ui/Button";
+import { Chip } from "@projectx/ui/Chip";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Input } from "@projectx/ui/Input";
+import { Modal } from "@projectx/ui/Modal";
+import { Select } from "@projectx/ui/Select";
+import { ListSkeleton } from "@projectx/ui/Skeleton";
+import { MapView } from "@projectx/ui/map/MapView";
 import { DoctorCard } from "./DoctorCard";
-import type { DemoState } from "@/components/demo/state";
-import { ErrorState } from "@/components/ui/EmptyState";
-import { RetryButton } from "@/components/ui/RetryButton";
+import type { DemoState } from "@projectx/ui/demo/state";
+import { ErrorState } from "@projectx/ui/EmptyState";
+import { RetryButton } from "@projectx/ui/RetryButton";
 
 type Filters = {
   q: string;

@@ -4,13 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { FileCheck2, FileText } from "lucide-react";
-import type { DoctorProfile } from "@/types";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { DoctorStatusBadge } from "@/components/ui/StatusBadge";
-import { Tabs } from "@/components/ui/Tabs";
+import type { DoctorProfile } from "@projectx/types";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { DoctorStatusBadge } from "@projectx/ui/StatusBadge";
+import { Tabs } from "@projectx/ui/Tabs";
 import { DataList } from "./DataList";
 
 export function ApplicationsList({ pending, rejected }: { pending: DoctorProfile[]; rejected: DoctorProfile[] }) {

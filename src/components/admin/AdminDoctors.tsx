@@ -3,15 +3,15 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Ban, ExternalLink, Search, ShieldCheck, Stethoscope } from "lucide-react";
-import type { DoctorProfile } from "@/types";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Input } from "@/components/ui/Input";
-import { Modal } from "@/components/ui/Modal";
-import { StarRating } from "@/components/ui/StarRating";
-import { DoctorStatusBadge } from "@/components/ui/StatusBadge";
-import { Toast } from "@/components/ui/Toast";
+import type { DoctorProfile } from "@projectx/types";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Input } from "@projectx/ui/Input";
+import { Modal } from "@projectx/ui/Modal";
+import { StarRating } from "@projectx/ui/StarRating";
+import { DoctorStatusBadge } from "@projectx/ui/StatusBadge";
+import { Toast } from "@projectx/ui/Toast";
 import { DataList } from "./DataList";
 
 export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] }) {

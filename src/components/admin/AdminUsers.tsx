@@ -3,15 +3,15 @@
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { Ban, Search, ShieldCheck, Users } from "lucide-react";
-import type { User, UserRole } from "@/types";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Chip } from "@/components/ui/Chip";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Input } from "@/components/ui/Input";
-import { UserStatusBadge } from "@/components/ui/StatusBadge";
+import type { User, UserRole } from "@projectx/types";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Chip } from "@projectx/ui/Chip";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Input } from "@projectx/ui/Input";
+import { UserStatusBadge } from "@projectx/ui/StatusBadge";
 import { DataList } from "./DataList";
 
 export function AdminUsers({ users: initial }: { users: User[] }) {

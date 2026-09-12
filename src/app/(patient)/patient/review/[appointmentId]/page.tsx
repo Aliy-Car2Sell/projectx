@@ -1,11 +1,11 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import { getAppointmentById } from "@/lib/mock/appointments";
-import { getDoctorById } from "@/lib/mock/doctors";
+import { getAppointmentById } from "@projectx/mock/appointments";
+import { getDoctorById } from "@projectx/mock/doctors";
 import { CheckCircle2 } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { Button } from "@projectx/ui/Button";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { ReviewForm } from "@/components/reviews/ReviewForm";
 
 export default async function ReviewPage({ params }: { params: Promise<{ appointmentId: string }> }) {

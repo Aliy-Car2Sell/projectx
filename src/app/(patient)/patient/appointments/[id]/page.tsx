@@ -2,17 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { CalendarClock, ClipboardList, FolderHeart, MapPin, MessageCircle, Phone, Star, Stethoscope } from "lucide-react";
-import { getAppointmentById } from "@/lib/mock/appointments";
-import { getDoctorById } from "@/lib/mock/doctors";
-import { chatHrefFor } from "@/lib/mock/chats";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
-import { MapView } from "@/components/map/MapView";
+import { getAppointmentById } from "@projectx/mock/appointments";
+import { getDoctorById } from "@projectx/mock/doctors";
+import { chatHrefFor } from "@projectx/mock/chats";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { MapView } from "@projectx/ui/map/MapView";
 
 export default async function AppointmentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

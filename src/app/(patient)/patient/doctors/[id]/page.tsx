@@ -1,19 +1,19 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { Award, Briefcase, CalendarCheck, Clock, MapPin, MessageCircle, Phone, Star, Users } from "lucide-react";
-import { getDoctorById } from "@/lib/mock/doctors";
-import { getDoctorReviews } from "@/lib/mock/reviews";
-import { chatHrefFor } from "@/lib/mock/chats";
-import { formatMoney } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
-import { StarRating } from "@/components/ui/StarRating";
-import { MapView } from "@/components/map/MapView";
-import { ReviewCard } from "@/components/reviews/ReviewCard";
+import { getDoctorById } from "@projectx/mock/doctors";
+import { getDoctorReviews } from "@projectx/mock/reviews";
+import { chatHrefFor } from "@projectx/mock/chats";
+import { formatMoney } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { StarRating } from "@projectx/ui/StarRating";
+import { MapView } from "@projectx/ui/map/MapView";
+import { ReviewCard } from "@projectx/ui/reviews/ReviewCard";
 
 export default async function DoctorProfilePage({
   params,

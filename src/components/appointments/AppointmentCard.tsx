@@ -4,13 +4,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarClock, Clock, Info, MapPin, Star } from "lucide-react";
-import type { Appointment, DoctorProfile } from "@/types";
-import { cn, hoursUntil } from "@/lib/utils";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Modal } from "@/components/ui/Modal";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
+import type { Appointment, DoctorProfile } from "@projectx/types";
+import { cn, hoursUntil } from "@projectx/utils";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { Modal } from "@projectx/ui/Modal";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 
 const CANCEL_LIMIT_HOURS = 2;
 

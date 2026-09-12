@@ -1,9 +1,9 @@
 import { getTranslations } from "next-intl/server";
 import { CalendarCheck, FolderHeart, MapPinned, Stethoscope } from "lucide-react";
-import { Logo } from "@/components/layout/Logo";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Logo } from "@projectx/ui/layout/Logo";
+import { LanguageSwitcher } from "@projectx/ui/layout/LanguageSwitcher";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
 
 export default async function LandingPage() {
   const t = await getTranslations("landing");

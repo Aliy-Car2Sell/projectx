@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { getAppointmentById } from "@/lib/mock/appointments";
-import { getUserById } from "@/lib/mock/users";
-import { ageFromBirthDate } from "@/lib/mock/patients";
+import { getAppointmentById } from "@projectx/mock/appointments";
+import { getUserById } from "@projectx/mock/users";
+import { ageFromBirthDate } from "@projectx/mock/patients";
 import { AppointmentDetail } from "@/components/doctor/AppointmentDetail";
 
 export default async function DoctorAppointmentDetail({ params }: { params: Promise<{ id: string }> }) {

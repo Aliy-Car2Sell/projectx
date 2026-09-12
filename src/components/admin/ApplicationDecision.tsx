@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Check, CheckCircle2, X, XCircle } from "lucide-react";
-import type { DoctorStatus } from "@/types";
-import { Button } from "@/components/ui/Button";
-import { Card, CardHeader } from "@/components/ui/Card";
-import { Textarea } from "@/components/ui/Input";
-import { Modal } from "@/components/ui/Modal";
-import { DoctorStatusBadge } from "@/components/ui/StatusBadge";
-import { Toast } from "@/components/ui/Toast";
+import type { DoctorStatus } from "@projectx/types";
+import { Button } from "@projectx/ui/Button";
+import { Card, CardHeader } from "@projectx/ui/Card";
+import { Textarea } from "@projectx/ui/Input";
+import { Modal } from "@projectx/ui/Modal";
+import { DoctorStatusBadge } from "@projectx/ui/StatusBadge";
+import { Toast } from "@projectx/ui/Toast";
 
 export function ApplicationDecision({ initialStatus }: { initialStatus: DoctorStatus }) {
   const t = useTranslations("admin.applications");

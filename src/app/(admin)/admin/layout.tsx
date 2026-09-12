@@ -1,5 +1,5 @@
-import { AppShell } from "@/components/layout/AppShell";
-import { currentAdmin } from "@/lib/mock/users";
+import { AppShell } from "@projectx/ui/layout/AppShell";
+import { currentAdmin } from "@projectx/mock/users";
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (

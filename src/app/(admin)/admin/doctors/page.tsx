@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { doctors } from "@/lib/mock/doctors";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { doctors } from "@projectx/mock/doctors";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { AdminDoctors } from "@/components/admin/AdminDoctors";
 
 export default async function AdminDoctorsPage() {

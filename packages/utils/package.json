@@ -1,0 +1,20 @@
+{
+  "name": "@projectx/utils",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/utils.ts",
+    "./dates": "./src/dates.ts",
+    "./urls": "./src/urls.ts"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "devDependencies": {
+    "@projectx/config": "workspace:*",
+    "@types/node": "^20",
+    "eslint": "^9",
+    "typescript": "^5"
+  }
+}

@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Check, Save } from "lucide-react";
-import type { DoctorSummary } from "@/types";
-import { Button } from "@/components/ui/Button";
-import { Input, Textarea } from "@/components/ui/Input";
+import type { DoctorSummary } from "@projectx/types";
+import { Button } from "@projectx/ui/Button";
+import { Input, Textarea } from "@projectx/ui/Input";
 
 /** Doctor's post-visit note editor (diagnosis + recommendations). UI only. */
 export function SummaryForm({

@@ -4,17 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarClock, ClipboardList, FolderHeart, MessageCircle, Phone } from "lucide-react";
-import type { Appointment, AppointmentStatus, User } from "@/types";
-import { fmtDate } from "@/lib/dates";
-import { chatHrefFor } from "@/lib/mock/chats";
-import { isToday } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
-import { Toast, useToast } from "@/components/ui/Toast";
+import type { Appointment, AppointmentStatus, User } from "@projectx/types";
+import { fmtDate } from "@projectx/utils/dates";
+import { chatHrefFor } from "@projectx/mock/chats";
+import { isToday } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { Toast, useToast } from "@projectx/ui/Toast";
 import { AppointmentSummaryPanel } from "./AppointmentSummaryPanel";
 
 /** Doctor's appointment page body; the status can be changed in the session (mock). */

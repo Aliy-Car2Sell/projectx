@@ -1,0 +1,386 @@
+{
+  "app": {
+    "name": "ProjectX",
+    "tagline": "A platform connecting patients and doctors",
+    "description": "A platform connecting patients and doctors"
+  },
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "filter": "Filter",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "viewAll": "View all",
+    "close": "Close",
+    "confirm": "Confirm",
+    "delete": "Delete",
+    "edit": "Edit",
+    "yes": "Yes",
+    "no": "No",
+    "logout": "Log out",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "profile": "Profile",
+    "more": "More",
+    "apply": "Apply",
+    "reset": "Reset",
+    "all": "All",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "upload": "Upload",
+    "download": "Download",
+    "view": "View",
+    "send": "Send",
+    "submit": "Submit",
+    "call": "Call",
+    "book": "Book",
+    "details": "Details",
+    "new": "NEW",
+    "optional": "optional",
+    "years": "{count} yrs",
+    "min": "{count} min",
+    "km": "{value} km",
+    "sum": "{value} UZS",
+    "free": "Free",
+    "reviews": "{count} reviews",
+    "phone": "Phone",
+    "email": "Email",
+    "password": "Password",
+    "name": "First name",
+    "surname": "Last name",
+    "city": "City",
+    "address": "Address",
+    "date": "Date",
+    "time": "Time",
+    "status": "Status",
+    "actions": "Actions",
+    "list": "List",
+    "map": "Map",
+    "calendar": "Calendar",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "language": "Language",
+    "selected": "Selected",
+    "showMore": "Show more",
+    "noData": "No data",
+    "weekdays": {
+      "mon": "Monday",
+      "tue": "Tuesday",
+      "wed": "Wednesday",
+      "thu": "Thursday",
+      "fri": "Friday",
+      "sat": "Saturday",
+      "sun": "Sunday"
+    },
+    "weekdaysShort": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    },
+    "demoStates": "States",
+    "stateNormal": "Normal",
+    "stateEmpty": "Empty",
+    "stateLoading": "Loading",
+    "stateError": "Error",
+    "months": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    },
+    "monthsShort": {
+      "0": "Jan",
+      "1": "Feb",
+      "2": "Mar",
+      "3": "Apr",
+      "4": "May",
+      "5": "Jun",
+      "6": "Jul",
+      "7": "Aug",
+      "8": "Sep",
+      "9": "Oct",
+      "10": "Nov",
+      "11": "Dec"
+    },
+    "backToPanel": "Back to panel",
+    "docType": {
+      "diploma": "Diploma",
+      "certificate": "Certificate",
+      "license": "License"
+    },
+    "mapLoading": "Loading map..."
+  },
+  "lang": {
+    "label": "Language",
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "nav": {
+    "patient": {
+      "home": "Home",
+      "doctors": "Doctors",
+      "appointments": "Visits",
+      "records": "Records",
+      "chat": "Chat",
+      "profile": "Profile"
+    },
+    "doctor": {
+      "home": "Home",
+      "appointments": "Visits",
+      "schedule": "Schedule",
+      "patients": "Patients",
+      "chat": "Chat",
+      "reviews": "Reviews",
+      "profile": "Profile"
+    },
+    "admin": {
+      "dashboard": "Dashboard",
+      "applications": "Doctor applications",
+      "doctors": "Doctors",
+      "reviews": "Reviews / Reports",
+      "users": "Users",
+      "profile": "Profile"
+    }
+  },
+  "shell": {
+    "greeting": "Hello, {name}!",
+    "role": {
+      "patient": "Patient",
+      "doctor": "Doctor",
+      "admin": "Administrator"
+    },
+    "demoBadge": "Demo mode"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in",
+      "subtitle": "Sign in to your account",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "forgot": "Forgot password?",
+      "submit": "Log in",
+      "noAccount": "No account yet?",
+      "register": "Sign up",
+      "demoTitle": "Demo: pick a role to enter",
+      "demoPatient": "Enter as patient",
+      "demoDoctor": "Enter as doctor",
+      "demoAdmin": "Enter as admin"
+    },
+    "register": {
+      "title": "Sign up",
+      "chooseRole": "Who are you signing up as?",
+      "patient": "Patient",
+      "patientDesc": "Find doctors, book visits and keep your medical records",
+      "doctor": "Doctor",
+      "doctorDesc": "Create a profile, set a schedule and see patients",
+      "firstName": "First name",
+      "lastName": "Last name",
+      "email": "Email",
+      "phone": "Phone",
+      "password": "Password",
+      "passwordHint": "At least 8 characters",
+      "submit": "Sign up",
+      "haveAccount": "Already have an account?",
+      "login": "Log in",
+      "changeRole": "Change role"
+    },
+    "forgot": {
+      "title": "Reset password",
+      "subtitle": "Enter your email and we'll send a reset link",
+      "email": "Email",
+      "submit": "Send link",
+      "back": "Back to login",
+      "sentTitle": "Link sent",
+      "sentDesc": "A password reset link was sent to {email}."
+    }
+  },
+  "states": {
+    "emptyTitle": "Nothing here yet",
+    "emptyDesc": "Data will appear here once available.",
+    "errorTitle": "Something went wrong",
+    "errorDesc": "We couldn't load the data. Please try again.",
+    "notFoundTitle": "Page not found",
+    "notFoundDesc": "The page you're looking for doesn't exist.",
+    "goHome": "Go home"
+  },
+  "specialties": {
+    "cardiologist": "Cardiologist",
+    "dentist": "Dentist",
+    "pediatrician": "Pediatrician",
+    "neurologist": "Neurologist",
+    "dermatologist": "Dermatologist",
+    "therapist": "General practitioner",
+    "ophthalmologist": "Ophthalmologist",
+    "gynecologist": "Gynecologist",
+    "orthopedist": "Orthopedist",
+    "ent": "ENT",
+    "endocrinologist": "Endocrinologist",
+    "urologist": "Urologist"
+  },
+  "categories": {
+    "highest": "Highest category",
+    "first": "First category",
+    "second": "Second category",
+    "none": "No category"
+  },
+  "cities": {
+    "tashkent": "Tashkent",
+    "samarkand": "Samarkand",
+    "bukhara": "Bukhara",
+    "andijan": "Andijan",
+    "fergana": "Fergana"
+  },
+  "status": {
+    "appointment": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "cancelled": "Cancelled",
+      "no_show": "No-show"
+    },
+    "doctor": {
+      "pending": "Pending approval",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "blocked": "Blocked"
+    },
+    "user": {
+      "active": "Active",
+      "blocked": "Blocked"
+    }
+  },
+  "chat": {
+    "searchPlaceholder": "Search chats",
+    "noChats": "No chats",
+    "noChatsDesc": "Start a conversation from a doctor's profile.",
+    "typeMessage": "Type a message...",
+    "attach": "Attach file",
+    "send": "Send",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "selectChat": "Select a chat",
+    "selectChatDesc": "Pick a conversation from the list on the left.",
+    "photo": "Photo",
+    "file": "File",
+    "kb": "{value} KB",
+    "mb": "{value} MB",
+    "notFound": "Chat not found",
+    "unread": "{count} unread",
+    "you": "You",
+    "openProfile": "Open profile",
+    "emptyThread": "No messages yet. Write the first one.",
+    "removeAttachment": "Remove file"
+  },
+  "placeholder": {
+    "title": "Page in progress",
+    "desc": "This screen will be filled with mock data in the next phase."
+  },
+  "navShort": {
+    "admin": {
+      "applications": "Applications",
+      "reviews": "Reviews",
+      "users": "Users",
+      "dashboard": "Home"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF document. Download it to open."
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark all as read",
+    "empty": "No new notifications",
+    "unread": "{count} new",
+    "types": {
+      "appointmentReminder": "Appointment with {name} tomorrow at {time}",
+      "newMessage": "{name}: new message",
+      "newRecord": "{name} added a note to your records",
+      "reviewRequest": "Leave a review for your visit with {name}",
+      "newBooking": "{name} booked an appointment at {time}",
+      "recordUploaded": "{name} uploaded a new result",
+      "newApplication": "New doctor application: {name}",
+      "reviewReported": "Review reported: {name}",
+      "userRegistered": "New user: {name}"
+    }
+  },
+  "profile": {
+    "title": "Profile",
+    "personal": "Personal details",
+    "firstName": "First name",
+    "lastName": "Last name",
+    "phone": "Phone",
+    "email": "Email",
+    "birthDate": "Date of birth",
+    "city": "City",
+    "save": "Save",
+    "saved": "Saved",
+    "language": "Language",
+    "languageDesc": "Interface language",
+    "security": "Security",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "logout": "Log out",
+    "logoutDesc": "Sign out of your account",
+    "memberSince": "Member since {date}",
+    "changePhoto": "Change photo"
+  },
+  "records": {
+    "title": "Medical records",
+    "tabs": {
+      "analysis": "Lab tests",
+      "imaging": "Scans",
+      "history": "Medical history",
+      "allergy": "Allergies",
+      "medication": "Medications",
+      "summary": "Doctor's notes"
+    },
+    "upload": "Upload file",
+    "add": "Add",
+    "uploadTitle": "Upload a file",
+    "uploadDesc": "PDF or image (JPG, PNG). Max size 10 MB.",
+    "dropHint": "Drop a file here or choose one",
+    "chooseFile": "Choose file",
+    "fileTitle": "Title",
+    "fileTitlePlaceholder": "e.g. Complete blood count",
+    "fileDate": "Date",
+    "fileTypeLabel": "Section",
+    "addEntryTitle": "Add an entry",
+    "entryTitle": "Title",
+    "entryDesc": "Notes",
+    "empty": {
+      "analysis": "No lab tests",
+      "imaging": "No scans",
+      "history": "Medical history is empty",
+      "allergy": "No allergies recorded",
+      "medication": "No medications",
+      "summary": "No doctor's notes"
+    },
+    "emptyDesc": "Add information to this section — your doctor will see it during the visit.",
+    "byDoctor": "Doctor: {name}",
+    "byYou": "Added by you",
+    "byPatient": "Added by patient",
+    "pdf": "PDF",
+    "image": "Image",
+    "note": "Note",
+    "uploaded": "File uploaded (demo)",
+    "accessHint": "Doctors with an active visit can automatically see your records."
+  }
+}

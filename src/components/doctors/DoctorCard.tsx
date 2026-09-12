@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { Briefcase, MapPin } from "lucide-react";
-import type { DoctorProfile } from "@/types";
-import { cn, formatMoney } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { StarRating } from "@/components/ui/StarRating";
+import type { DoctorProfile } from "@projectx/types";
+import { cn, formatMoney } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { StarRating } from "@projectx/ui/StarRating";
 
 export function DoctorCard({
   doctor,

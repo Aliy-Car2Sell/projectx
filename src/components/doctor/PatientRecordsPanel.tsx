@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import type { MedicalRecord } from "@/types";
-import { Modal } from "@/components/ui/Modal";
-import { RecordsView } from "@/components/records/RecordsView";
+import type { MedicalRecord } from "@projectx/types";
+import { Modal } from "@projectx/ui/Modal";
+import { RecordsView } from "@projectx/ui/records/RecordsView";
 import { SummaryForm } from "./SummaryForm";
 
 /** Read-only patient records for doctors, with an "add note" modal. */

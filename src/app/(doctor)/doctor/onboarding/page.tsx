@@ -1,5 +1,5 @@
 import { getTranslations } from "next-intl/server";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { OnboardingWizard } from "@/components/doctor/OnboardingWizard";
 
 export default async function OnboardingPage() {

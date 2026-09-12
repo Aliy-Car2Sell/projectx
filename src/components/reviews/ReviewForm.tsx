@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { CheckCircle2, Send } from "lucide-react";
-import type { Appointment, DoctorProfile } from "@/types";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Textarea } from "@/components/ui/Input";
-import { StarRating } from "@/components/ui/StarRating";
+import type { Appointment, DoctorProfile } from "@projectx/types";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Textarea } from "@projectx/ui/Input";
+import { StarRating } from "@projectx/ui/StarRating";
 
 export function ReviewForm({ appointment, doctor }: { appointment: Appointment; doctor: DoctorProfile }) {
   const t = useTranslations("patient.review");

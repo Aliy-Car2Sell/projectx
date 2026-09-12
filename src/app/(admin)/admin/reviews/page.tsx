@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
-import { doctors } from "@/lib/mock/doctors";
-import { reviews } from "@/lib/mock/reviews";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { doctors } from "@projectx/mock/doctors";
+import { reviews } from "@projectx/mock/reviews";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { AdminReviews } from "@/components/admin/AdminReviews";
 
 export default async function AdminReviewsPage() {

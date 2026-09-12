@@ -4,9 +4,9 @@ import { useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { ArrowLeft, Mail, MailCheck } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Input } from "@projectx/ui/Input";
 
 export function ForgotPasswordForm() {
   const t = useTranslations("auth.forgot");

@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { users } from "@/lib/mock/users";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { users } from "@projectx/mock/users";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { AdminUsers } from "@/components/admin/AdminUsers";
 
 export default async function AdminUsersPage() {

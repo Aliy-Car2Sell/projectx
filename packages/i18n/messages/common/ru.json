@@ -1,0 +1,386 @@
+{
+  "app": {
+    "name": "ProjectX",
+    "tagline": "Платформа, соединяющая пациентов и врачей",
+    "description": "Платформа, которая связывает пациентов и врачей"
+  },
+  "common": {
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "back": "Назад",
+    "next": "Далее",
+    "search": "Поиск",
+    "filter": "Фильтр",
+    "loading": "Загрузка...",
+    "retry": "Повторить",
+    "viewAll": "Показать все",
+    "close": "Закрыть",
+    "confirm": "Подтвердить",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "yes": "Да",
+    "no": "Нет",
+    "logout": "Выйти",
+    "notifications": "Уведомления",
+    "messages": "Сообщения",
+    "profile": "Профиль",
+    "more": "Ещё",
+    "apply": "Применить",
+    "reset": "Сбросить",
+    "all": "Все",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "upload": "Загрузить",
+    "download": "Скачать",
+    "view": "Открыть",
+    "send": "Отправить",
+    "submit": "Отправить",
+    "call": "Позвонить",
+    "book": "Записаться",
+    "details": "Подробнее",
+    "new": "НОВОЕ",
+    "optional": "необязательно",
+    "years": "{count} лет",
+    "min": "{count} мин",
+    "km": "{value} км",
+    "sum": "{value} сум",
+    "free": "Бесплатно",
+    "reviews": "{count} отзывов",
+    "phone": "Телефон",
+    "email": "Email",
+    "password": "Пароль",
+    "name": "Имя",
+    "surname": "Фамилия",
+    "city": "Город",
+    "address": "Адрес",
+    "date": "Дата",
+    "time": "Время",
+    "status": "Статус",
+    "actions": "Действия",
+    "list": "Список",
+    "map": "Карта",
+    "calendar": "Календарь",
+    "menu": "Меню",
+    "openMenu": "Открыть меню",
+    "language": "Язык",
+    "selected": "Выбрано",
+    "showMore": "Показать ещё",
+    "noData": "Нет данных",
+    "weekdays": {
+      "mon": "Понедельник",
+      "tue": "Вторник",
+      "wed": "Среда",
+      "thu": "Четверг",
+      "fri": "Пятница",
+      "sat": "Суббота",
+      "sun": "Воскресенье"
+    },
+    "weekdaysShort": {
+      "mon": "Пн",
+      "tue": "Вт",
+      "wed": "Ср",
+      "thu": "Чт",
+      "fri": "Пт",
+      "sat": "Сб",
+      "sun": "Вс"
+    },
+    "demoStates": "Состояния",
+    "stateNormal": "Обычное",
+    "stateEmpty": "Пусто",
+    "stateLoading": "Загрузка",
+    "stateError": "Ошибка",
+    "months": {
+      "0": "января",
+      "1": "февраля",
+      "2": "марта",
+      "3": "апреля",
+      "4": "мая",
+      "5": "июня",
+      "6": "июля",
+      "7": "августа",
+      "8": "сентября",
+      "9": "октября",
+      "10": "ноября",
+      "11": "декабря"
+    },
+    "monthsShort": {
+      "0": "янв",
+      "1": "фев",
+      "2": "мар",
+      "3": "апр",
+      "4": "мая",
+      "5": "июн",
+      "6": "июл",
+      "7": "авг",
+      "8": "сен",
+      "9": "окт",
+      "10": "ноя",
+      "11": "дек"
+    },
+    "backToPanel": "Вернуться в панель",
+    "docType": {
+      "diploma": "Диплом",
+      "certificate": "Сертификат",
+      "license": "Лицензия"
+    },
+    "mapLoading": "Карта загружается..."
+  },
+  "lang": {
+    "label": "Язык",
+    "uz": "O'zbekcha",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "nav": {
+    "patient": {
+      "home": "Главная",
+      "doctors": "Врачи",
+      "appointments": "Приёмы",
+      "records": "Карта",
+      "chat": "Чат",
+      "profile": "Профиль"
+    },
+    "doctor": {
+      "home": "Главная",
+      "appointments": "Приёмы",
+      "schedule": "График",
+      "patients": "Пациенты",
+      "chat": "Чат",
+      "reviews": "Отзывы",
+      "profile": "Профиль"
+    },
+    "admin": {
+      "dashboard": "Дашборд",
+      "applications": "Заявки врачей",
+      "doctors": "Врачи",
+      "reviews": "Отзывы / Жалобы",
+      "users": "Пользователи",
+      "profile": "Профиль"
+    }
+  },
+  "shell": {
+    "greeting": "Здравствуйте, {name}!",
+    "role": {
+      "patient": "Пациент",
+      "doctor": "Врач",
+      "admin": "Администратор"
+    },
+    "demoBadge": "Демо-режим"
+  },
+  "auth": {
+    "login": {
+      "title": "Вход",
+      "subtitle": "Войдите в свой аккаунт",
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Пароль",
+      "forgot": "Забыли пароль?",
+      "submit": "Войти",
+      "noAccount": "Нет аккаунта?",
+      "register": "Зарегистрироваться",
+      "demoTitle": "Демо: выберите роль для входа",
+      "demoPatient": "Войти как пациент",
+      "demoDoctor": "Войти как врач",
+      "demoAdmin": "Войти как админ"
+    },
+    "register": {
+      "title": "Регистрация",
+      "chooseRole": "Кем вы хотите зарегистрироваться?",
+      "patient": "Пациент",
+      "patientDesc": "Поиск врача, запись на приём и ведение медкарты",
+      "doctor": "Врач",
+      "doctorDesc": "Профиль, график приёма и работа с пациентами",
+      "firstName": "Имя",
+      "lastName": "Фамилия",
+      "email": "Email",
+      "phone": "Телефон",
+      "password": "Пароль",
+      "passwordHint": "Минимум 8 символов",
+      "submit": "Зарегистрироваться",
+      "haveAccount": "Уже есть аккаунт?",
+      "login": "Войти",
+      "changeRole": "Изменить роль"
+    },
+    "forgot": {
+      "title": "Восстановление пароля",
+      "subtitle": "Введите email, и мы отправим ссылку для сброса",
+      "email": "Email",
+      "submit": "Отправить ссылку",
+      "back": "Вернуться ко входу",
+      "sentTitle": "Ссылка отправлена",
+      "sentDesc": "На адрес {email} отправлена ссылка для сброса пароля."
+    }
+  },
+  "states": {
+    "emptyTitle": "Пока ничего нет",
+    "emptyDesc": "Здесь появятся данные, когда они будут доступны.",
+    "errorTitle": "Произошла ошибка",
+    "errorDesc": "Не удалось загрузить данные. Попробуйте ещё раз.",
+    "notFoundTitle": "Страница не найдена",
+    "notFoundDesc": "Запрошенная страница не существует.",
+    "goHome": "На главную"
+  },
+  "specialties": {
+    "cardiologist": "Кардиолог",
+    "dentist": "Стоматолог",
+    "pediatrician": "Педиатр",
+    "neurologist": "Невролог",
+    "dermatologist": "Дерматолог",
+    "therapist": "Терапевт",
+    "ophthalmologist": "Офтальмолог",
+    "gynecologist": "Гинеколог",
+    "orthopedist": "Ортопед",
+    "ent": "ЛОР",
+    "endocrinologist": "Эндокринолог",
+    "urologist": "Уролог"
+  },
+  "categories": {
+    "highest": "Высшая категория",
+    "first": "Первая категория",
+    "second": "Вторая категория",
+    "none": "Без категории"
+  },
+  "cities": {
+    "tashkent": "Ташкент",
+    "samarkand": "Самарканд",
+    "bukhara": "Бухара",
+    "andijan": "Андижан",
+    "fergana": "Фергана"
+  },
+  "status": {
+    "appointment": {
+      "scheduled": "Запланирован",
+      "completed": "Завершён",
+      "cancelled": "Отменён",
+      "no_show": "Не пришёл"
+    },
+    "doctor": {
+      "pending": "Ожидает подтверждения",
+      "approved": "Подтверждён",
+      "rejected": "Отклонён",
+      "blocked": "Заблокирован"
+    },
+    "user": {
+      "active": "Активен",
+      "blocked": "Заблокирован"
+    }
+  },
+  "chat": {
+    "searchPlaceholder": "Поиск по чатам",
+    "noChats": "Чатов нет",
+    "noChatsDesc": "Начните переписку из профиля врача.",
+    "typeMessage": "Напишите сообщение...",
+    "attach": "Прикрепить файл",
+    "send": "Отправить",
+    "today": "Сегодня",
+    "yesterday": "Вчера",
+    "selectChat": "Выберите чат",
+    "selectChatDesc": "Выберите переписку в списке слева.",
+    "photo": "Фото",
+    "file": "Файл",
+    "kb": "{value} КБ",
+    "mb": "{value} МБ",
+    "notFound": "Чат не найден",
+    "unread": "Непрочитанных: {count}",
+    "you": "Вы",
+    "openProfile": "Открыть профиль",
+    "emptyThread": "Сообщений пока нет. Напишите первое сообщение.",
+    "removeAttachment": "Убрать файл"
+  },
+  "placeholder": {
+    "title": "Страница в разработке",
+    "desc": "Этот экран будет заполнен мок-данными на следующем этапе."
+  },
+  "navShort": {
+    "admin": {
+      "applications": "Заявки",
+      "reviews": "Отзывы",
+      "users": "Юзеры",
+      "dashboard": "Главная"
+    }
+  },
+  "files": {
+    "pdfHint": "PDF-документ. Скачайте, чтобы открыть."
+  },
+  "notifications": {
+    "title": "Уведомления",
+    "markAllRead": "Отметить все прочитанными",
+    "empty": "Новых уведомлений нет",
+    "unread": "{count} новых",
+    "types": {
+      "appointmentReminder": "Завтра в {time} приём у {name}",
+      "newMessage": "{name}: новое сообщение",
+      "newRecord": "{name} добавил(а) заключение в вашу карту",
+      "reviewRequest": "Оставьте отзыв о приёме у {name}",
+      "newBooking": "{name} записался(ась) на {time}",
+      "recordUploaded": "{name} загрузил(а) новый анализ",
+      "newApplication": "Новая заявка врача: {name}",
+      "reviewReported": "Жалоба на отзыв: {name}",
+      "userRegistered": "Новый пользователь: {name}"
+    }
+  },
+  "profile": {
+    "title": "Профиль",
+    "personal": "Личные данные",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "phone": "Телефон",
+    "email": "Email",
+    "birthDate": "Дата рождения",
+    "city": "Город",
+    "save": "Сохранить",
+    "saved": "Сохранено",
+    "language": "Язык",
+    "languageDesc": "Язык интерфейса",
+    "security": "Безопасность",
+    "changePassword": "Изменить пароль",
+    "currentPassword": "Текущий пароль",
+    "newPassword": "Новый пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "logout": "Выйти",
+    "logoutDesc": "Выйти из аккаунта",
+    "memberSince": "Зарегистрирован: {date}",
+    "changePhoto": "Изменить фото"
+  },
+  "records": {
+    "title": "Медицинская карта",
+    "tabs": {
+      "analysis": "Анализы",
+      "imaging": "Снимки",
+      "history": "История болезни",
+      "allergy": "Аллергии",
+      "medication": "Постоянные лекарства",
+      "summary": "Заключения врачей"
+    },
+    "upload": "Загрузить файл",
+    "add": "Добавить",
+    "uploadTitle": "Загрузка файла",
+    "uploadDesc": "PDF или изображение (JPG, PNG). Максимум 10 МБ.",
+    "dropHint": "Перетащите файл сюда или выберите",
+    "chooseFile": "Выбрать файл",
+    "fileTitle": "Название",
+    "fileTitlePlaceholder": "Например: Общий анализ крови",
+    "fileDate": "Дата",
+    "fileTypeLabel": "Раздел",
+    "addEntryTitle": "Добавить запись",
+    "entryTitle": "Название",
+    "entryDesc": "Комментарий",
+    "empty": {
+      "analysis": "Анализов нет",
+      "imaging": "Снимков нет",
+      "history": "История болезни пуста",
+      "allergy": "Аллергии не указаны",
+      "medication": "Постоянных лекарств нет",
+      "summary": "Заключений врачей нет"
+    },
+    "emptyDesc": "Добавьте данные в этот раздел — врач увидит их на приёме.",
+    "byDoctor": "Врач: {name}",
+    "byYou": "Добавлено вами",
+    "byPatient": "Добавлено пациентом",
+    "pdf": "PDF",
+    "image": "Изображение",
+    "note": "Запись",
+    "uploaded": "Файл загружен (демо)",
+    "accessHint": "Врачи с активным приёмом автоматически видят вашу карту."
+  }
+}

@@ -1,5 +1,5 @@
-import { Logo } from "@/components/layout/Logo";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { Logo } from "@projectx/ui/layout/Logo";
+import { LanguageSwitcher } from "@projectx/ui/layout/LanguageSwitcher";
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {
   return (

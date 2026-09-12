@@ -5,11 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Check, Lock, Mail, Phone, Stethoscope, User } from "lucide-react";
-import type { UserRole } from "@/types";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import type { UserRole } from "@projectx/types";
+import { cn } from "@projectx/utils";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Input } from "@projectx/ui/Input";
 
 export function RegisterForm() {
   const t = useTranslations("auth.register");

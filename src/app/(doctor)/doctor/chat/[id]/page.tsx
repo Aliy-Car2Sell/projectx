@@ -1,12 +1,12 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import type { Chat } from "@/types";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getUserById } from "@/lib/mock/users";
-import { doctorChats, getChatById, getChatMessages } from "@/lib/mock/chats";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { ChatLayout } from "@/components/chat/ChatLayout";
-import { ChatThread } from "@/components/chat/ChatThread";
+import type { Chat } from "@projectx/types";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getUserById } from "@projectx/mock/users";
+import { doctorChats, getChatById, getChatMessages } from "@projectx/mock/chats";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { ChatLayout } from "@projectx/ui/chat/ChatLayout";
+import { ChatThread } from "@projectx/ui/chat/ChatThread";
 
 /** `/doctor/chat/new?with=<patientUserId>` opens an empty conversation with that patient. */
 function newChatWith(userId: string | undefined): Chat | undefined {

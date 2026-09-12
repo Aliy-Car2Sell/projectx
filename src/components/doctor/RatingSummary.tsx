@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 import { Star } from "lucide-react";
-import { StarRating } from "@/components/ui/StarRating";
+import { StarRating } from "@projectx/ui/StarRating";
 
 export function RatingSummary({
   average,

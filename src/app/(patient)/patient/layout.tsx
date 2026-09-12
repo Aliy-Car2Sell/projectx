@@ -1,5 +1,5 @@
-import { AppShell } from "@/components/layout/AppShell";
-import { currentPatient } from "@/lib/mock/users";
+import { AppShell } from "@projectx/ui/layout/AppShell";
+import { currentPatient } from "@projectx/mock/users";
 
 export default function PatientLayout({ children }: { children: React.ReactNode }) {
   return (

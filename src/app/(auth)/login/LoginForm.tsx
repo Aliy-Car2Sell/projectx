@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Lock, Mail } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Input } from "@/components/ui/Input";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Input } from "@projectx/ui/Input";
 
 /** Mock login: no backend yet, so a valid form simply enters the patient demo. */
 export function LoginForm() {

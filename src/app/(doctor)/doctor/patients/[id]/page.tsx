@@ -2,17 +2,17 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
-import { currentDoctor } from "@/lib/mock/doctors";
-import { getDoctorPatients, ageFromBirthDate } from "@/lib/mock/patients";
-import { getPatientRecords } from "@/lib/mock/records";
-import { chatHrefFor } from "@/lib/mock/chats";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { PageHeader, SectionTitle } from "@/components/ui/PageHeader";
-import { AppointmentStatusBadge } from "@/components/ui/StatusBadge";
+import { currentDoctor } from "@projectx/mock/doctors";
+import { getDoctorPatients, ageFromBirthDate } from "@projectx/mock/patients";
+import { getPatientRecords } from "@projectx/mock/records";
+import { chatHrefFor } from "@projectx/mock/chats";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 import { PatientRecordsPanel } from "@/components/doctor/PatientRecordsPanel";
 
 export default async function DoctorPatientPage({ params }: { params: Promise<{ id: string }> }) {

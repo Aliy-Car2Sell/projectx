@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { ShieldCheck, Stethoscope, User } from "lucide-react";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
 import { LoginForm } from "./LoginForm";
 
 export default async function LoginPage() {

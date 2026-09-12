@@ -1,19 +1,19 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { CalendarDays, ExternalLink, FileText, MapPin, Phone, Star } from "lucide-react";
-import { getDoctorById } from "@/lib/mock/doctors";
-import { getDoctorAppointments } from "@/lib/mock/appointments";
-import { formatMoney } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card, CardHeader, StatCard } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { StarRating } from "@/components/ui/StarRating";
-import { MapView } from "@/components/map/MapView";
+import { getDoctorById } from "@projectx/mock/doctors";
+import { getDoctorAppointments } from "@projectx/mock/appointments";
+import { formatMoney } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Card, CardHeader, StatCard } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { StarRating } from "@projectx/ui/StarRating";
+import { MapView } from "@projectx/ui/map/MapView";
 import { AdminDoctorStatus } from "@/components/admin/AdminDoctorStatus";
-import { DocumentList } from "@/components/doctor/DocumentList";
+import { DocumentList } from "@projectx/ui/documents/DocumentList";
 
 /** Admin view of a doctor: read-only profile, documents and block/unblock actions. */
 export default async function AdminDoctorPage({ params }: { params: Promise<{ id: string }> }) {

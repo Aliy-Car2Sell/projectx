@@ -1,0 +1,23 @@
+{
+  "name": "@projectx/mock",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Temporary mock data used until the API exists. Delete once apps talk to apps/api.",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@projectx/types": "workspace:*",
+    "@projectx/utils": "workspace:*"
+  },
+  "devDependencies": {
+    "@projectx/config": "workspace:*",
+    "eslint": "^9",
+    "typescript": "^5"
+  }
+}

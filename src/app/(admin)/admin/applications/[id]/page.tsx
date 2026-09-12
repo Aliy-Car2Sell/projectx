@@ -1,17 +1,17 @@
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { FileText, MapPin, Phone } from "lucide-react";
-import { getDoctorById } from "@/lib/mock/doctors";
-import { fmtDate } from "@/lib/dates";
-import { formatMoney } from "@/lib/utils";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Card, CardHeader } from "@/components/ui/Card";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { PageHeader } from "@/components/ui/PageHeader";
-import { MapView } from "@/components/map/MapView";
+import { getDoctorById } from "@projectx/mock/doctors";
+import { fmtDate } from "@projectx/utils/dates";
+import { formatMoney } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Card, CardHeader } from "@projectx/ui/Card";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { PageHeader } from "@projectx/ui/PageHeader";
+import { MapView } from "@projectx/ui/map/MapView";
 import { ApplicationDecision } from "@/components/admin/ApplicationDecision";
-import { DocumentList } from "@/components/doctor/DocumentList";
+import { DocumentList } from "@projectx/ui/documents/DocumentList";
 
 export default async function ApplicationDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

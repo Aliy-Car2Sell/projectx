@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Check, CheckCircle2, ChevronLeft, ChevronRight, FileUp, MapPin, Send } from "lucide-react";
-import type { CityKey } from "@/types";
-import { cityCenters, cityKeys, specialtyKeys } from "@/lib/mock/doctors";
-import { onboardingDraft as draft } from "@/lib/mock/onboarding";
-import { cn } from "@/lib/utils";
-import { AvatarUpload } from "@/components/ui/AvatarUpload";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Chip } from "@/components/ui/Chip";
-import { Input, Textarea } from "@/components/ui/Input";
-import { Select } from "@/components/ui/Select";
-import { MapView } from "@/components/map/MapView";
+import type { CityKey } from "@projectx/types";
+import { cityCenters, cityKeys, specialtyKeys } from "@projectx/mock/doctors";
+import { onboardingDraft as draft } from "@projectx/mock/onboarding";
+import { cn } from "@projectx/utils";
+import { AvatarUpload } from "@projectx/ui/AvatarUpload";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Chip } from "@projectx/ui/Chip";
+import { Input, Textarea } from "@projectx/ui/Input";
+import { Select } from "@projectx/ui/Select";
+import { MapView } from "@projectx/ui/map/MapView";
 
 const steps = ["personal", "specialty", "workplace", "contact", "documents"] as const;
 type Step = (typeof steps)[number];

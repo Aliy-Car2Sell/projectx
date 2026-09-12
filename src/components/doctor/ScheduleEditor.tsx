@@ -3,12 +3,12 @@
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Coffee, Plus, Save, Sparkles, X } from "lucide-react";
-import type { DoctorSchedule, ScheduleDay } from "@/types";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/Button";
-import { Card, CardHeader } from "@/components/ui/Card";
-import { Chip, Switch } from "@/components/ui/Chip";
-import { Toast } from "@/components/ui/Toast";
+import type { DoctorSchedule, ScheduleDay } from "@projectx/types";
+import { cn } from "@projectx/utils";
+import { Button } from "@projectx/ui/Button";
+import { Card, CardHeader } from "@projectx/ui/Card";
+import { Chip, Switch } from "@projectx/ui/Chip";
+import { Toast } from "@projectx/ui/Toast";
 
 const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
 const toTime = (m: number) => `${String(Math.floor(m / 60)).padStart(2, "0")}:${String(m % 60).padStart(2, "0")}`;

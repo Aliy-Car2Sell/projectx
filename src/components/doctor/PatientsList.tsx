@@ -4,16 +4,16 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarClock, ChevronRight, Search, Users } from "lucide-react";
-import type { DoctorPatient } from "@/lib/mock/patients";
-import { ageFromBirthDate } from "@/lib/mock/patients";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { EmptyState, ErrorState } from "@/components/ui/EmptyState";
-import { Input } from "@/components/ui/Input";
-import { RetryButton } from "@/components/ui/RetryButton";
-import { ListSkeleton } from "@/components/ui/Skeleton";
-import type { DemoState } from "@/components/demo/state";
+import type { DoctorPatient } from "@projectx/mock/patients";
+import { ageFromBirthDate } from "@projectx/mock/patients";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
+import { Input } from "@projectx/ui/Input";
+import { RetryButton } from "@projectx/ui/RetryButton";
+import { ListSkeleton } from "@projectx/ui/Skeleton";
+import type { DemoState } from "@projectx/ui/demo/state";
 
 /** Doctor's patient list with client-side name/phone search. */
 export function PatientsList({ patients, state = "normal" }: { patients: DoctorPatient[]; state?: DemoState }) {

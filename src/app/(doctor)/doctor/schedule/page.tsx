@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
-import { doctorSchedule } from "@/lib/mock/appointments";
-import { PageHeader } from "@/components/ui/PageHeader";
+import { doctorSchedule } from "@projectx/mock/appointments";
+import { PageHeader } from "@projectx/ui/PageHeader";
 import { ScheduleEditor } from "@/components/doctor/ScheduleEditor";
 
 export default async function SchedulePage() {

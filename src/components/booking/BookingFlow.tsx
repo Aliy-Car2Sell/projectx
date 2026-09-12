@@ -3,16 +3,16 @@
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarCheck, CheckCircle2, ChevronLeft, ChevronRight, Info, MapPin } from "lucide-react";
-import type { DoctorProfile, Slot } from "@/types";
-import { cn, formatMoney, isoDateFromNow, weekdayKey } from "@/lib/utils";
-import { fmtDate } from "@/lib/dates";
-import { Avatar } from "@/components/ui/Avatar";
-import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Chip } from "@/components/ui/Chip";
-import { EmptyState } from "@/components/ui/EmptyState";
-import { Textarea } from "@/components/ui/Input";
+import type { DoctorProfile, Slot } from "@projectx/types";
+import { cn, formatMoney, isoDateFromNow, weekdayKey } from "@projectx/utils";
+import { fmtDate } from "@projectx/utils/dates";
+import { Avatar } from "@projectx/ui/Avatar";
+import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
+import { Card } from "@projectx/ui/Card";
+import { Chip } from "@projectx/ui/Chip";
+import { EmptyState } from "@projectx/ui/EmptyState";
+import { Textarea } from "@projectx/ui/Input";
 
 type Step = "slot" | "confirm" | "done";
 
