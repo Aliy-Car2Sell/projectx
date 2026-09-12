@@ -1,0 +1,33 @@
+{
+  "name": "admin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -p 3002",
+    "build": "next build",
+    "start": "next start -p 3002",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@projectx/i18n": "workspace:*",
+    "@projectx/mock": "workspace:*",
+    "@projectx/types": "workspace:*",
+    "@projectx/ui": "workspace:*",
+    "@projectx/utils": "workspace:*",
+    "lucide-react": "^1.41.0",
+    "next": "16.3.4",
+    "next-intl": "^4.14.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@projectx/config": "workspace:*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}

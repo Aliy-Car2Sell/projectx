@@ -8,36 +8,9 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "check-messages": "turbo run check-messages",
-    "audit:ui": "node scripts/audit.mjs",
-    "next:dev": "next dev",
-    "next:build": "next build",
-    "next:lint": "eslint"
-  },
-  "dependencies": {
-    "leaflet": "^1.9.4",
-    "lucide-react": "^1.41.0",
-    "next": "16.3.4",
-    "next-intl": "^4.14.2",
-    "react": "19.2.8",
-    "react-dom": "19.2.8",
-    "react-leaflet": "^5.0.0",
-    "@projectx/ui": "workspace:*",
-    "@projectx/i18n": "workspace:*",
-    "@projectx/mock": "workspace:*",
-    "@projectx/types": "workspace:*",
-    "@projectx/utils": "workspace:*"
+    "audit:ui": "node scripts/audit.mjs"
   },
   "devDependencies": {
-    "@projectx/config": "workspace:*",
-    "@tailwindcss/postcss": "^4",
-    "@types/leaflet": "^1.9.22",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.3.4",
-    "tailwindcss": "^4",
-    "turbo": "^2.10.12",
-    "typescript": "^5"
+    "turbo": "^2.10.12"
   }
 }
