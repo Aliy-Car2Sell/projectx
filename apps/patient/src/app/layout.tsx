@@ -1,11 +1,18 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { ServiceWorker } from "./ServiceWorker";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("app");
-  return { title: t("name"), description: t("description") };
+  return {
+    title: t("name"),
+    description: t("description"),
+    // PWA: manifest comes from app/manifest.ts; iOS reads these instead.
+    appleWebApp: { capable: true, statusBarStyle: "default", title: t("name") },
+    icons: { apple: "/icons/apple-touch-icon.png" },
+  };
 }
 
 export const viewport: Viewport = {
@@ -24,6 +31,7 @@ export default async function RootLayout({
     <html lang={locale} className="h-full antialiased">
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <ServiceWorker />
       </body>
     </html>
   );

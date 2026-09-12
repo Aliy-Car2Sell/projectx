@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1a9be6" />
+    <title>Internet yo'q — ProjectX</title>
+    <!--
+      Served by the service worker when a navigation fails offline.
+      Self-contained on purpose (no Next.js chunks, no next-intl): it must render with nothing else cached.
+      Colors mirror packages/ui/styles/theme.css.
+    -->
+    <style>
+      * { box-sizing: border-box; }
+      html, body { height: 100%; margin: 0; }
+      body {
+        display: flex; align-items: center; justify-content: center; padding: 24px;
+        background: #f4f6f8; color: #1f2937;
+        font: 15px/1.5 "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        text-align: center;
+      }
+      main { max-width: 360px; }
+      .icon {
+        width: 64px; height: 64px; margin: 0 auto 16px; border-radius: 9999px;
+        background: #e8f4fd; color: #1a9be6; display: flex; align-items: center; justify-content: center;
+      }
+      h1 { margin: 0; font-size: 24px; font-weight: 700; color: #1a9be6; }
+      p { margin: 4px 0 0; color: #6b7280; }
+      .alt { font-size: 13px; margin-top: 12px; }
+      button {
+        margin-top: 24px; min-height: 44px; padding: 0 20px; border: 0; border-radius: 8px;
+        background: #1a9be6; color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+      }
+      button:hover { background: #1584c7; }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div class="icon" aria-hidden="true">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h.01" /><path d="M8.5 16.4a5 5 0 0 1 7 0" /><path d="M5 12.9a10 10 0 0 1 5.2-2.7" /><path d="M2 8.8a15 15 0 0 1 4.2-2.6" />
+          <path d="M22 8.8a15 15 0 0 0-11.3-3.6" /><path d="M19 12.9a10 10 0 0 0-4.6-2.5" /><line x1="2" y1="2" x2="22" y2="22" />
+        </svg>
+      </div>
+      <h1>Internet yo'q</h1>
+      <p>Ulanish tiklangach, sahifa qayta ochiladi.</p>
+      <p class="alt" lang="ru">Нет подключения к интернету.</p>
+      <p class="alt" lang="en">You are offline.</p>
+      <button type="button" onclick="location.reload()">Qayta urinish</button>
+    </main>
+    <script>
+      addEventListener("online", function () { location.reload(); });
+    </script>
+  </body>
+</html>
