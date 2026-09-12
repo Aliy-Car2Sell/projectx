@@ -1,0 +1,16 @@
+{
+  "name": "@projectx/config",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./eslint": "./eslint.config.mjs",
+    "./postcss": "./postcss.config.mjs",
+    "./tsconfig/*": "./tsconfig/*"
+  },
+  "dependencies": {
+    "eslint": "^9",
+    "eslint-config-next": "16.3.4",
+    "typescript": "^5"
+  }
+}
