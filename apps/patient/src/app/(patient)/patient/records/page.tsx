@@ -13,7 +13,7 @@ export default async function RecordsPage({ searchParams }: { searchParams: Prom
     <>
       <PageHeader title={t("title")} />
       <DemoStates />
-      <RecordsView records={getPatientRecords(currentPatient.id)} mode="patient" state={state} />
+      <RecordsView patient={currentPatient} records={getPatientRecords(currentPatient.id)} role="patient" state={state} />
     </>
   );
 }

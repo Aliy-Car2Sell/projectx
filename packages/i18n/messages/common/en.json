@@ -343,44 +343,74 @@
     "changePhoto": "Change photo"
   },
   "records": {
-    "title": "Medical records",
-    "tabs": {
-      "analysis": "Lab tests",
-      "imaging": "Scans",
-      "history": "Medical history",
+    "title": "Medical record",
+    "filterLabel": "Filter entries",
+    "filters": {
+      "all": "All",
+      "analysis": "Lab results",
+      "imaging": "Imaging",
+      "history": "Conditions",
+      "summary": "Summaries"
+    },
+    "types": {
+      "analysis": "Lab result",
+      "imaging": "Imaging",
+      "history": "Condition",
+      "summary": "Doctor's summary",
+      "other": "Other",
+      "allergy": "Allergy",
+      "medication": "Regular medication"
+    },
+    "cover": {
+      "heading": "Outpatient record",
+      "born": "Date of birth",
+      "age": "Age",
+      "years": "{count} y.o.",
+      "bloodType": "Blood type",
+      "phone": "Phone",
       "allergy": "Allergies",
-      "medication": "Medications",
-      "summary": "Doctor's notes"
+      "medication": "Regular medication",
+      "none": "none",
+      "add": "add"
     },
-    "upload": "Upload file",
-    "add": "Add",
-    "uploadTitle": "Upload a file",
-    "uploadDesc": "PDF or image (JPG, PNG). Max size 10 MB.",
-    "dropHint": "Drop a file here or choose one",
-    "chooseFile": "Choose file",
-    "fileTitle": "Title",
-    "fileTitlePlaceholder": "e.g. Complete blood count",
-    "fileDate": "Date",
-    "fileTypeLabel": "Section",
-    "addEntryTitle": "Add an entry",
-    "entryTitle": "Title",
-    "entryDesc": "Notes",
-    "empty": {
-      "analysis": "No lab tests",
-      "imaging": "No scans",
-      "history": "Medical history is empty",
-      "allergy": "No allergies recorded",
-      "medication": "No medications",
-      "summary": "No doctor's notes"
-    },
-    "emptyDesc": "Add information to this section — your doctor will see it during the visit.",
-    "byDoctor": "Doctor: {name}",
+    "norm": "normal {range}",
+    "byDoctor": "Written by Dr. {name}",
     "byYou": "Added by you",
-    "byPatient": "Added by patient",
-    "pdf": "PDF",
-    "image": "Image",
-    "note": "Note",
-    "uploaded": "File uploaded (demo)",
-    "accessHint": "Doctors with an active visit can automatically see your records."
+    "byPatient": "Added by the patient",
+    "privateBadge": "Only me",
+    "writeSummary": "Write a summary",
+    "empty": {
+      "title": "No entries yet",
+      "patient": "Add your first lab result — your doctor will see it at the visit.",
+      "doctor": "The patient has not added anything to the record yet.",
+      "filtered": "Nothing in this section yet."
+    },
+    "add": {
+      "button": "Add",
+      "title": "Add to the record",
+      "allergyTitle": "Add an allergy",
+      "medicationTitle": "Add a regular medication",
+      "type": "Type",
+      "types": {
+        "analysis": "Lab result",
+        "imaging": "Image (X-ray, MRI)",
+        "history": "Condition",
+        "other": "Other"
+      },
+      "name": "Title",
+      "namePlaceholder": {
+        "entry": "E.g. Complete blood count",
+        "allergy": "E.g. Penicillin",
+        "medication": "E.g. Amlodipine 5 mg"
+      },
+      "text": "Text",
+      "date": "Date",
+      "file": "Attach a file",
+      "fileHint": "PDF or image",
+      "private": "Only I can see this",
+      "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
+      "saved": "Entry added to your record"
+    },
+    "accessHint": "Doctors you have an active appointment with can see your record automatically."
   }
 }

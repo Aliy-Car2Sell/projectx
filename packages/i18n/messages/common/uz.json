@@ -344,43 +344,73 @@
   },
   "records": {
     "title": "Tibbiy kartochka",
-    "tabs": {
+    "filterLabel": "Yozuvlarni saralash",
+    "filters": {
+      "all": "Hammasi",
       "analysis": "Tahlillar",
       "imaging": "Rasmlar",
-      "history": "Kasallik tarixi",
+      "history": "Kasalliklar",
+      "summary": "Xulosalar"
+    },
+    "types": {
+      "analysis": "Tahlil",
+      "imaging": "Rasm",
+      "history": "Kasallik",
+      "summary": "Doktor xulosasi",
+      "other": "Boshqa",
+      "allergy": "Allergiya",
+      "medication": "Doimiy dori"
+    },
+    "cover": {
+      "heading": "Ambulator karta",
+      "born": "Tug'ilgan sana",
+      "age": "Yosh",
+      "years": "{count} yosh",
+      "bloodType": "Qon guruhi",
+      "phone": "Telefon",
       "allergy": "Allergiyalar",
       "medication": "Doimiy dorilar",
-      "summary": "Doktor xulosalari"
+      "none": "yo'q",
+      "add": "qo'shish"
     },
-    "upload": "Fayl yuklash",
-    "add": "Qo'shish",
-    "uploadTitle": "Fayl yuklash",
-    "uploadDesc": "PDF yoki rasm (JPG, PNG). Maksimal hajm 10 MB.",
-    "dropHint": "Faylni shu yerga tashlang yoki tanlang",
-    "chooseFile": "Faylni tanlash",
-    "fileTitle": "Nomi",
-    "fileTitlePlaceholder": "Masalan: Umumiy qon tahlili",
-    "fileDate": "Sana",
-    "fileTypeLabel": "Bo'lim",
-    "addEntryTitle": "Yozuv qo'shish",
-    "entryTitle": "Nomi",
-    "entryDesc": "Izoh",
-    "empty": {
-      "analysis": "Tahlillar yo'q",
-      "imaging": "Rasmlar yo'q",
-      "history": "Kasallik tarixi bo'sh",
-      "allergy": "Allergiyalar qayd etilmagan",
-      "medication": "Doimiy dorilar yo'q",
-      "summary": "Doktor xulosalari yo'q"
-    },
-    "emptyDesc": "Bu bo'limga ma'lumot qo'shing — doktor qabulda ko'ra oladi.",
-    "byDoctor": "Doktor: {name}",
-    "byYou": "Siz qo'shgansiz",
+    "norm": "norma {range}",
+    "byDoctor": "Dr. {name} yozdi",
+    "byYou": "Siz qo'shdingiz",
     "byPatient": "Bemor qo'shgan",
-    "pdf": "PDF",
-    "image": "Rasm",
-    "note": "Yozuv",
-    "uploaded": "Fayl yuklandi (demo)",
+    "privateBadge": "Faqat men ko'raman",
+    "writeSummary": "Xulosa yozish",
+    "empty": {
+      "title": "Hali yozuv yo'q",
+      "patient": "Birinchi tahlilingizni qo'shing — doktor qabulda ko'ra oladi.",
+      "doctor": "Bemor hali kartochkasiga hech narsa qo'shmagan.",
+      "filtered": "Bu bo'limda hali yozuv yo'q."
+    },
+    "add": {
+      "button": "Qo'shish",
+      "title": "Kartochkaga qo'shish",
+      "allergyTitle": "Allergiya qo'shish",
+      "medicationTitle": "Doimiy dori qo'shish",
+      "type": "Turi",
+      "types": {
+        "analysis": "Tahlil natijasi",
+        "imaging": "Rasm (rentgen, MRT)",
+        "history": "Kasallik",
+        "other": "Boshqa"
+      },
+      "name": "Sarlavha",
+      "namePlaceholder": {
+        "entry": "Masalan: Umumiy qon tahlili",
+        "allergy": "Masalan: Penitsillin",
+        "medication": "Masalan: Amlodipin 5 mg"
+      },
+      "text": "Matn",
+      "date": "Sana",
+      "file": "Fayl biriktirish",
+      "fileHint": "PDF yoki rasm",
+      "private": "Faqat men ko'raman",
+      "privateHint": "Doktorlar bu yozuvni ko'rmaydi va u \"Doktor uchun\" chop etilmaydi.",
+      "saved": "Yozuv kartochkaga qo'shildi"
+    },
     "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi."
   }
 }

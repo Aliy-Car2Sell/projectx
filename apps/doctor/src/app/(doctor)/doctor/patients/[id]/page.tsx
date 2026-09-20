@@ -4,7 +4,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { currentDoctor } from "@projectx/mock/doctors";
 import { getDoctorPatients, ageFromBirthDate } from "@projectx/mock/patients";
-import { getPatientRecords } from "@projectx/mock/records";
+import { getSharedPatientRecords } from "@projectx/mock/records";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -93,7 +93,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
         </aside>
 
         <div>
-          <PatientRecordsPanel records={getPatientRecords(user.id)} />
+          <PatientRecordsPanel patient={user} records={getSharedPatientRecords(user.id)} doctorName={`${currentDoctor.firstName} ${currentDoctor.lastName}`} />
         </div>
       </div>
     </>

@@ -8,6 +8,11 @@ export const records: MedicalRecord[] = [
     type: "analysis",
     title: "Umumiy qon tahlili",
     description: "Gemoglobin 128 g/l, leykotsitlar 6.2, ECHT 12",
+    values: [
+      { name: "Gemoglobin", value: "128", unit: "g/L", norm: "120–160" },
+      { name: "Leykotsitlar", value: "6.2", unit: "×10⁹/L", norm: "4.0–9.0" },
+      { name: "ECHT", value: "12", unit: "mm/soat", norm: "2–15" },
+    ],
     fileName: "qon-tahlili.pdf",
     fileType: "pdf",
     date: isoDateFromNow(-2),
@@ -20,6 +25,11 @@ export const records: MedicalRecord[] = [
     type: "analysis",
     title: "Biokimyoviy qon tahlili",
     description: "Glyukoza 5.4, xolesterin 5.9 (yuqori chegara)",
+    values: [
+      { name: "Glyukoza", value: "5.4", unit: "mmol/L", norm: "3.9–6.1" },
+      { name: "Umumiy xolesterin", value: "5.9", unit: "mmol/L", norm: "< 5.2" },
+      { name: "ALT", value: "24", unit: "U/L", norm: "< 41" },
+    ],
     fileName: "bioximiya.pdf",
     fileType: "pdf",
     date: isoDateFromNow(-14),
@@ -30,6 +40,10 @@ export const records: MedicalRecord[] = [
     patientId: "u-patient-1",
     type: "analysis",
     title: "Qalqonsimon bez gormonlari (TSH, T4)",
+    values: [
+      { name: "TSH", value: "2.1", unit: "mIU/L", norm: "0.4–4.0" },
+      { name: "Erkin T4", value: "14.8", unit: "pmol/L", norm: "10–22" },
+    ],
     fileName: "ttg-t4.pdf",
     fileType: "pdf",
     date: isoDateFromNow(-60),
@@ -220,8 +234,23 @@ export const records: MedicalRecord[] = [
     isNew: true,
     authorRole: "patient",
   },
+  {
+    id: "rec-private-1",
+    patientId: "u-patient-1",
+    type: "other",
+    title: "Qon bosimi kundaligi",
+    description: "Ertalab 135/85, kechqurun 128/80. Bosh og'rig'i kuzatilmadi. O'zim uchun yozib boryapman.",
+    private: true,
+    date: isoDateFromNow(-5),
+    authorRole: "patient",
+  },
 ];
 
 export function getPatientRecords(patientId: string): MedicalRecord[] {
   return records.filter((r) => r.patientId === patientId);
+}
+
+/** What a doctor may see of a patient's record: everything the patient did not mark "only me". */
+export function getSharedPatientRecords(patientId: string): MedicalRecord[] {
+  return getPatientRecords(patientId).filter((r) => !r.private);
 }
