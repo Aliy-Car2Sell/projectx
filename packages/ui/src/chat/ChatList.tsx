@@ -8,6 +8,7 @@ import type { Chat } from "@projectx/types";
 import { cn, isSameDay } from "@projectx/utils";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
 import { Avatar } from "../ui/Avatar";
+import { Button } from "../ui/Button";
 import { EmptyState } from "../ui/EmptyState";
 import { Input } from "../ui/Input";
 import { ListSkeleton } from "../ui/Skeleton";
@@ -25,6 +26,7 @@ export function ChatList({
   state?: DemoState;
 }) {
   const t = useTranslations("chat");
+  const forPatient = basePath.startsWith("/patient");
   const ts = useTranslations("specialties");
   const locale = useLocale();
   const tc = useTranslations("common");
@@ -46,7 +48,16 @@ export function ChatList({
       {state === "loading" ? (
         <ListSkeleton rows={4} />
       ) : list.length === 0 ? (
-        <EmptyState icon={<MessageCircle className="h-7 w-7" />} title={t("noChats")} description={t("noChatsDesc")} />
+        <EmptyState
+          icon={<MessageCircle className="h-7 w-7" />}
+          title={t("noChats")}
+          description={t(forPatient ? "noChatsDesc" : "noChatsDoctorDesc")}
+          action={
+            <Button href={forPatient ? "/patient/doctors" : "/doctor/patients"} size="sm">
+              {t(forPatient ? "findDoctor" : "toPatients")}
+            </Button>
+          }
+        />
       ) : (
         <ul className="bg-card rounded-xl shadow-card border border-line/60 divide-y divide-line overflow-hidden">
           {list.map((c) => {

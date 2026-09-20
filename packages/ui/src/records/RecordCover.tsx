@@ -4,6 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { MedicalRecord, User } from "@projectx/types";
 import { ageFromBirthDate } from "@projectx/mock/patients";
 import { fmtDate } from "@projectx/utils/dates";
+import { Tooltip } from "../ui/Tooltip";
 import { coverItems } from "./groupRecords";
 
 /**
@@ -21,6 +22,7 @@ export function RecordCover({
 }) {
   const t = useTranslations("records.cover");
   const tc = useTranslations("common");
+  const th = useTranslations("hints");
   const locale = useLocale();
   const age = ageFromBirthDate(patient.birthDate);
 
@@ -32,7 +34,14 @@ export function RecordCover({
 
   return (
     <header className="record-cover border-b-2 border-heading/80 pb-4">
-      <div className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{t("heading")}</div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{t("heading")}</div>
+        {onAdd && (
+          <span className="record-noprint inline-flex items-center gap-0.5 text-sm text-muted">
+            {th("whoSeesLabel")} <Tooltip label={th("whoSeesLabel")} text={th("whoSees")} />
+          </span>
+        )}
+      </div>
       <h2 className="mt-1 text-2xl md:text-[28px] font-bold leading-tight text-heading">
         {patient.lastName} {patient.firstName}
       </h2>

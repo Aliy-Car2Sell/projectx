@@ -9,7 +9,7 @@ export default async function PatientProfilePage() {
   return (
     <>
       <PageHeader title={t("title")} />
-      <ProfileForm user={currentPatient} logoutAction={signOut} />
+      <ProfileForm user={currentPatient} logoutAction={signOut} guideHref="/patient" />
     </>
   );
 }

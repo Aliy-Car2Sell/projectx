@@ -9,6 +9,7 @@ import { ageFromBirthDate } from "@projectx/mock/patients";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
+import { Button } from "@projectx/ui/Button";
 import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
 import { Input } from "@projectx/ui/Input";
 import { RetryButton } from "@projectx/ui/RetryButton";
@@ -39,7 +40,7 @@ export function PatientsList({ patients, state = "normal" }: { patients: DoctorP
       ) : state === "error" ? (
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : rows.length === 0 ? (
-        <EmptyState icon={<Users className="h-7 w-7" />} title={t("noPatients")} description={q ? undefined : t("noPatientsDesc")} />
+        <EmptyState icon={<Users className="h-7 w-7" />} title={t("noPatients")} description={q ? undefined : t("noPatientsDesc")} action={q ? undefined : <Button href="/doctor/schedule" size="sm">{t("toSchedule")}</Button>} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {rows.map(({ user, nextVisit, lastVisit, hasActive }) => {

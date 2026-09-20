@@ -13,6 +13,8 @@
     "./chat/*": "./src/chat/*.tsx",
     "./map/*": "./src/map/*.tsx",
     "./demo/*": "./src/demo/*.tsx",
+    "./help/helpSource": "./src/help/helpSource.ts",
+    "./help/*": "./src/help/*.tsx",
     "./profile/*": "./src/profile/*.tsx",
     "./records/*": "./src/records/*.tsx",
     "./reviews/*": "./src/reviews/*.tsx",

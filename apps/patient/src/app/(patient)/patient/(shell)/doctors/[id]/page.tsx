@@ -14,6 +14,7 @@ import { Card } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { StarRating } from "@projectx/ui/StarRating";
+import { Tooltip } from "@projectx/ui/Tooltip";
 import { MapView } from "@projectx/ui/map/MapView";
 import { ReviewCard } from "@projectx/ui/reviews/ReviewCard";
 import { SESSION_COOKIE } from "@/lib/session";
@@ -35,6 +36,7 @@ export default async function DoctorProfilePage({
   const ts = await getTranslations("specialties");
   const tcat = await getTranslations("categories");
   const tcity = await getTranslations("cities");
+  const th = await getTranslations("hints");
   const reviews = getDoctorReviews(doctor.id);
   const name = `${doctor.firstName} ${doctor.lastName}`;
   const tel = doctor.phone.replace(/\s/g, "");
@@ -62,9 +64,12 @@ export default async function DoctorProfilePage({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   {doctor.category !== "none" && (
-                    <Badge tone="accent">
-                      <Award className="h-3 w-3" /> {tcat(doctor.category)}
-                    </Badge>
+                    <span className="inline-flex items-center gap-0.5">
+                      <Badge tone="accent">
+                        <Award className="h-3 w-3" /> {tcat(doctor.category)}
+                      </Badge>
+                      <Tooltip label={th("label")} text={th("category")} />
+                    </span>
                   )}
                   <Badge tone="primary">{tcity(doctor.city)}</Badge>
                 </div>

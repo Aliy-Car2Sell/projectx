@@ -23,7 +23,6 @@ export function AppointmentsList({
   state?: DemoState;
 }) {
   const t = useTranslations("patient.appointments");
-  const tc = useTranslations("common");
   const tst = useTranslations("states");
   const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
   const [items, setItems] = useState(appointments);
@@ -56,7 +55,7 @@ export function AppointmentsList({
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : list.length === 0 ? (
         tab === "upcoming" ? (
-          <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noUpcoming")} description={t("noUpcomingDesc")} action={<Button href="/patient/doctors">{tc("search")}</Button>} />
+          <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noUpcoming")} description={t("noUpcomingDesc")} action={<Button href="/patient/doctors">{t("findDoctor")}</Button>} />
         ) : (
           <EmptyState icon={<CheckCircle2 className="h-7 w-7" />} title={t("noPast")} description={t("noPastDesc")} />
         )

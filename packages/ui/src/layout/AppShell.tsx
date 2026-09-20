@@ -11,6 +11,7 @@ import { Badge } from "../ui/Badge";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { HelpChat } from "../help/HelpChat";
 import { chatHrefByRole, isActive, navByRole, profileHrefByRole } from "./nav";
 
 /**
@@ -149,6 +150,8 @@ export function AppShell({
           {children}
         </main>
       </div>
+
+      <HelpChat role={role} />
 
       {/* Bottom navigation (mobile) */}
       <nav

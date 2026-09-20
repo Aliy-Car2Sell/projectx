@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Info, NotebookPen, Plus, Printer, Stethoscope } from "lucide-react";
+import { NotebookPen, Plus, Printer, Stethoscope } from "lucide-react";
 import type { MedicalRecord, User } from "@projectx/types";
 import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
@@ -157,13 +157,6 @@ export function RecordsView({
           </>
         )}
       </RecordSheet>
-
-      {role === "patient" && state !== "loading" && (
-        <div className="mx-auto mt-3 flex w-full max-w-[800px] items-start gap-2 text-sm text-muted">
-          <Info className="mt-0.5 h-4 w-4 shrink-0" />
-          <span>{t("accessHint")}</span>
-        </div>
-      )}
 
       <AddRecordSheet
         preset={preset}

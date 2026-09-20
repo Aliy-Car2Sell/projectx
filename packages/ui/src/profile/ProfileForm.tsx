@@ -16,21 +16,26 @@ import { Card, CardHeader } from "../ui/Card";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { Toast } from "../ui/Toast";
+import { ReplayGuideLink } from "../help/FirstRunGuide";
 
 /** Shared profile editor for patient and doctor accounts. */
 export function ProfileForm({
   user,
   extra,
   logoutAction,
+  guideHref,
 }: {
   user: User;
   extra?: React.ReactNode;
   /** Server action ending the session; without it "log out" just links to /login. */
   logoutAction?: () => Promise<void>;
+  /** Page that shows the first-run guide; adds a "show it again" link. */
+  guideHref?: string;
 }) {
   const t = useTranslations("profile");
   const tc = useTranslations("common");
   const tl = useTranslations("lang");
+  const th = useTranslations("help.guide");
   const tcity = useTranslations("cities");
   const locale = useLocale();
   const router = useRouter();
@@ -124,6 +129,13 @@ export function ProfileForm({
             ))}
           </div>
         </Card>
+
+        {guideHref && (
+          <Card>
+            <ReplayGuideLink href={guideHref} className="min-h-[44px]" />
+            <p className="text-sm text-muted">{th("replayDesc")}</p>
+          </Card>
+        )}
 
         <Card>
           <CardHeader title={t("logout")} subtitle={t("logoutDesc")} action={<UserRound className="h-5 w-5 text-muted" />} />

@@ -14,6 +14,7 @@ import { Button } from "@projectx/ui/Button";
 import { Card } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { FirstRunGuide } from "@projectx/ui/help/FirstRunGuide";
 
 export default async function PatientDashboard() {
   const t = await getTranslations("patient.dashboard");
@@ -39,6 +40,7 @@ export default async function PatientDashboard() {
 
   return (
     <>
+      <FirstRunGuide />
       <PageHeader
         title={tsh("greeting", { name: currentPatient.firstName })}
         subtitle={fmtDate(locale, tc, today(), "weekday")}

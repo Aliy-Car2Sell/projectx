@@ -267,8 +267,8 @@
   },
   "chat": {
     "searchPlaceholder": "Search chats",
-    "noChats": "No chats",
-    "noChatsDesc": "Start a conversation from a doctor's profile.",
+    "noChats": "No conversations yet",
+    "noChatsDesc": "Open a doctor's profile and press \"Messages\" — the conversation will appear here.",
     "typeMessage": "Type a message...",
     "attach": "Attach file",
     "send": "Send",
@@ -285,7 +285,10 @@
     "you": "You",
     "openProfile": "Open profile",
     "emptyThread": "No messages yet. Write the first one.",
-    "removeAttachment": "Remove file"
+    "removeAttachment": "Remove file",
+    "noChatsDoctorDesc": "Conversations appear here once a patient writes to you, or you write from a patient's card.",
+    "findDoctor": "Find a doctor",
+    "toPatients": "Go to patients"
   },
   "placeholder": {
     "title": "Page in progress",
@@ -411,7 +414,6 @@
       "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
       "saved": "Entry added to your record"
     },
-    "accessHint": "Doctors you have an active appointment with can see your record automatically.",
     "print": {
       "button": "Print / PDF",
       "title": "Print or save as PDF",
@@ -440,5 +442,164 @@
       "singleEntry": "Single entry",
       "nothing": "No entries in the selected period and sections."
     }
+  },
+  "help": {
+    "open": "Help",
+    "close": "Close",
+    "title": "Help",
+    "subtitle": "Pick a question or type your own",
+    "greeting": "Hi! How can we help? Pick one of the questions below or type your own.",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "handoff": "Thank you, we have received your question. An operator will reply shortly.",
+    "error": "Could not get an answer. Please try again in a moment.",
+    "patient": {
+      "topics": {
+        "book": {
+          "q": "How do I book?",
+          "a": "Booking a visit takes three steps:",
+          "steps": [
+            "On the Doctors page, find a doctor by specialty or city.",
+            "On the doctor's profile, press \"Book a visit\".",
+            "Pick a day and a free time, then confirm. The booking is confirmed automatically."
+          ],
+          "link": "Go to Doctors"
+        },
+        "upload": {
+          "q": "How do I upload a lab result?",
+          "a": "A lab result is added to your medical record:",
+          "steps": [
+            "Open the Record page.",
+            "Press \"Add\" and choose \"Lab result\".",
+            "Enter the date and a title, attach a PDF or an image, and save."
+          ],
+          "link": "Go to my record"
+        },
+        "cancel": {
+          "q": "Cancel a visit",
+          "a": "You can cancel or reschedule a visit up to 2 hours before it starts:",
+          "steps": [
+            "On the Appointments page, open the visit.",
+            "Press \"Cancel\" or \"Reschedule\".",
+            "Choose a reason and confirm."
+          ],
+          "link": "Go to Appointments"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top of any page, or the Language section on your Profile page. Uzbek, Russian and English are available.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Contact an operator",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "doctor": {
+      "topics": {
+        "schedule": {
+          "q": "How do I set up my schedule?",
+          "a": "Your working hours are set on the Schedule page:",
+          "steps": [
+            "Turn on your working days and enter start and end times for each.",
+            "Choose the length of one visit (slot) — free times are split accordingly.",
+            "Save. Patients can only book those times."
+          ],
+          "link": "Go to Schedule"
+        },
+        "summary": {
+          "q": "Where do I write a summary?",
+          "a": "A summary is written from the appointment page or from the patient's record:",
+          "steps": [
+            "On the Appointments page, open a completed visit.",
+            "Enter the diagnosis and recommendations, then save.",
+            "The summary appears in the patient's record."
+          ],
+          "link": "Go to Appointments"
+        },
+        "record": {
+          "q": "How do I see a patient's record?",
+          "a": "You can open the record of any patient who has an active or past visit with you. Entries the patient marked \"Only me\" are not shown.",
+          "steps": [
+            "Pick the patient on the Patients page.",
+            "Filter the entries, or print them with \"Print / PDF\"."
+          ],
+          "link": "Go to Patients"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top, or the Language section on your Profile page.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Contact an operator",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "admin": {
+      "topics": {
+        "applications": {
+          "q": "How do I review an application?",
+          "a": "New doctor applications are on the Applications page:",
+          "steps": [
+            "Open the application and check the documents.",
+            "Approve it if everything is in order; otherwise reject it with a reason."
+          ],
+          "link": "Go to Applications"
+        },
+        "block": {
+          "q": "How do I block a doctor?",
+          "a": "On the Doctors page, open the doctor and press \"Block\". A blocked doctor is hidden from search and gets no new bookings.",
+          "link": "Go to Doctors"
+        },
+        "reviews": {
+          "q": "Moderating reviews",
+          "a": "On the Reviews page you can look through new and reported reviews, and hide or keep them.",
+          "link": "Go to Reviews"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top, or the Language section on your Profile page.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Technical support",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "guide": {
+      "title": "Getting started",
+      "progress": "{step} / {total}",
+      "skip": "Skip",
+      "next": "Next",
+      "start": "Get started",
+      "replay": "Show the guide again",
+      "replayDesc": "Shows the 3 getting-started steps once more.",
+      "steps": [
+        {
+          "title": "Find a doctor",
+          "text": "Choose the right doctor by specialty, city or on the map."
+        },
+        {
+          "title": "Book a visit",
+          "text": "Pick a convenient day and time — the booking is confirmed right away."
+        },
+        {
+          "title": "Keep your lab results in your record",
+          "text": "Upload lab results and images: your doctor sees everything in one place at the visit."
+        }
+      ]
+    }
+  },
+  "hints": {
+    "label": "Hint",
+    "category": "Qualification category — the doctor's level under state certification: second, first and, the highest, top category.",
+    "twoHours": "You can cancel or reschedule a visit up to 2 hours before it starts. After that, please call the doctor.",
+    "whoSeesLabel": "Who can see this?",
+    "whoSees": "Only you and doctors you have an active appointment with can see your record. Entries marked \"Only me\" are not shown to any doctor.",
+    "slotDuration": "The time set aside for one visit. Your working hours are split into free times of this length, and patients pick one of them."
   }
 }

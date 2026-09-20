@@ -7,6 +7,7 @@ import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
 import { StarRating } from "@projectx/ui/StarRating";
+import { Tooltip } from "@projectx/ui/Tooltip";
 
 export function DoctorCard({
   doctor,
@@ -44,9 +45,10 @@ export function DoctorCard({
             <div className="text-sm text-primary font-medium">{t(`specialties.${doctor.specialty}`)}</div>
           </div>
           {doctor.category !== "none" && (
-            <Badge tone="accent" className="max-sm:hidden">
-              {t(`categories.${doctor.category}`)}
-            </Badge>
+            <span className="max-sm:hidden inline-flex shrink-0 items-center gap-0.5">
+              <Badge tone="accent">{t(`categories.${doctor.category}`)}</Badge>
+              <Tooltip label={t("hints.label")} text={t("hints.category")} />
+            </span>
           )}
         </div>
 

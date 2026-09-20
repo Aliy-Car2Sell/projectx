@@ -267,8 +267,8 @@
   },
   "chat": {
     "searchPlaceholder": "Chat qidirish",
-    "noChats": "Chatlar yo'q",
-    "noChatsDesc": "Doktor profilidan yozishmani boshlang.",
+    "noChats": "Hali yozishma yo'q",
+    "noChatsDesc": "Doktor profilini ochib, \"Xabarlar\" tugmasini bosing — yozishma shu yerda paydo bo'ladi.",
     "typeMessage": "Xabar yozing...",
     "attach": "Fayl biriktirish",
     "send": "Yuborish",
@@ -285,7 +285,10 @@
     "you": "Siz",
     "openProfile": "Profilni ochish",
     "emptyThread": "Hali xabarlar yo'q. Birinchi xabarni yozing.",
-    "removeAttachment": "Faylni olib tashlash"
+    "removeAttachment": "Faylni olib tashlash",
+    "noChatsDoctorDesc": "Bemor sizga yozganda yoki siz bemor kartochkasidan yozganingizda shu yerda ko'rinadi.",
+    "findDoctor": "Doktor topish",
+    "toPatients": "Bemorlarga o'tish"
   },
   "placeholder": {
     "title": "Sahifa tayyorlanmoqda",
@@ -411,7 +414,6 @@
       "privateHint": "Doktorlar bu yozuvni ko'rmaydi va u \"Doktor uchun\" chop etilmaydi.",
       "saved": "Yozuv kartochkaga qo'shildi"
     },
-    "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi.",
     "print": {
       "button": "Chop etish / PDF",
       "title": "Chop etish yoki PDF saqlash",
@@ -440,5 +442,164 @@
       "singleEntry": "Bitta yozuv",
       "nothing": "Tanlangan davr va bo'limlarda yozuv yo'q."
     }
+  },
+  "help": {
+    "open": "Yordam",
+    "close": "Yopish",
+    "title": "Yordam",
+    "subtitle": "Savolingizni tanlang yoki yozing",
+    "greeting": "Salom! Nimada yordam kerak? Quyidagi savollardan birini tanlang yoki o'zingiz yozing.",
+    "placeholder": "Savolingizni yozing...",
+    "send": "Yuborish",
+    "handoff": "Rahmat, savolingiz qabul qilindi. Operator tez orada javob beradi.",
+    "error": "Javob olib bo'lmadi. Birozdan so'ng qayta urinib ko'ring.",
+    "patient": {
+      "topics": {
+        "book": {
+          "q": "Qanday yozilaman?",
+          "a": "Qabulga yozilish uch qadam:",
+          "steps": [
+            "Doktorlar sahifasida mutaxassislik yoki shahar bo'yicha doktor toping.",
+            "Doktor profilida \"Qabulga yozilish\" ni bosing.",
+            "Kun va bo'sh vaqtni tanlang, so'ng tasdiqlang. Qabul avtomatik tasdiqlanadi."
+          ],
+          "link": "Doktorlar sahifasiga o'tish"
+        },
+        "upload": {
+          "q": "Tahlilni qanday yuklayman?",
+          "a": "Tahlil natijasi tibbiy kartochkangizga qo'shiladi:",
+          "steps": [
+            "Kartochka sahifasini oching.",
+            "\"Qo'shish\" ni bosing va \"Tahlil natijasi\" ni tanlang.",
+            "Sana va sarlavhani yozing, PDF yoki rasmni biriktiring va saqlang."
+          ],
+          "link": "Kartochkaga o'tish"
+        },
+        "cancel": {
+          "q": "Qabulni bekor qilish",
+          "a": "Qabulni boshlanishiga kamida 2 soat qolganda bekor qilish yoki ko'chirish mumkin:",
+          "steps": [
+            "Qabullar sahifasida kerakli qabulni oching.",
+            "\"Bekor qilish\" yoki \"Ko'chirish\" ni bosing.",
+            "Sababni tanlang va tasdiqlang."
+          ],
+          "link": "Qabullarga o'tish"
+        },
+        "language": {
+          "q": "Tilni o'zgartirish",
+          "a": "Tilni istalgan sahifaning yuqorisidagi globus belgisi orqali yoki Profil sahifasidagi \"Til\" bo'limidan o'zgartirasiz. O'zbek, rus va ingliz tillari bor.",
+          "link": "Profilga o'tish"
+        },
+        "operator": {
+          "q": "Operator bilan bog'lanish",
+          "a": "Operatorlar har kuni 9:00–18:00 ishlaydi. Savolingizni shu yerga yozing — operator javob beradi. Shoshilinch bo'lsa: +998 71 200 00 00."
+        }
+      }
+    },
+    "doctor": {
+      "topics": {
+        "schedule": {
+          "q": "Jadvalni qanday sozlayman?",
+          "a": "Ish jadvali Jadval sahifasida sozlanadi:",
+          "steps": [
+            "Ish kunlarini yoqing va har kun uchun boshlanish hamda tugash vaqtini kiriting.",
+            "Bitta qabul davomiyligini (slot) tanlang — bo'sh vaqtlar shunga qarab bo'linadi.",
+            "Saqlang. Bemorlar faqat shu vaqtlarga yozila oladi."
+          ],
+          "link": "Jadvalga o'tish"
+        },
+        "summary": {
+          "q": "Xulosa qayerdan yoziladi?",
+          "a": "Xulosa qabul sahifasidan yoki bemor kartochkasidan yoziladi:",
+          "steps": [
+            "Qabullar sahifasida yakunlangan qabulni oching.",
+            "Tashxis va tavsiyalarni yozib, saqlang.",
+            "Xulosa bemorning kartochkasida ko'rinadi."
+          ],
+          "link": "Qabullarga o'tish"
+        },
+        "record": {
+          "q": "Bemor kartochkasini qanday ko'raman?",
+          "a": "Sizda aktiv yoki o'tgan qabuli bor bemorlarning kartochkasi ochiq. Bemor \"Faqat men ko'raman\" deb belgilagan yozuvlar ko'rinmaydi.",
+          "steps": [
+            "Bemorlar sahifasidan bemorni tanlang.",
+            "Yozuvlarni filtrlang yoki \"Chop etish / PDF\" orqali chop eting."
+          ],
+          "link": "Bemorlarga o'tish"
+        },
+        "language": {
+          "q": "Tilni o'zgartirish",
+          "a": "Tilni yuqoridagi globus belgisi yoki Profil sahifasidagi \"Til\" bo'limi orqali o'zgartirasiz.",
+          "link": "Profilga o'tish"
+        },
+        "operator": {
+          "q": "Operator bilan bog'lanish",
+          "a": "Operatorlar har kuni 9:00–18:00 ishlaydi. Savolingizni shu yerga yozing — operator javob beradi. Shoshilinch bo'lsa: +998 71 200 00 00."
+        }
+      }
+    },
+    "admin": {
+      "topics": {
+        "applications": {
+          "q": "Arizani qanday ko'rib chiqaman?",
+          "a": "Yangi doktor arizalari Arizalar sahifasida:",
+          "steps": [
+            "Arizani oching va hujjatlarni ko'rib chiqing.",
+            "Hammasi joyida bo'lsa tasdiqlang, aks holda sababini yozib rad eting."
+          ],
+          "link": "Arizalarga o'tish"
+        },
+        "block": {
+          "q": "Doktorni qanday bloklayman?",
+          "a": "Doktorlar sahifasida doktorni oching va \"Bloklash\" ni bosing. Bloklangan doktor qidiruvda ko'rinmaydi va yangi qabul ololmaydi.",
+          "link": "Doktorlarga o'tish"
+        },
+        "reviews": {
+          "q": "Sharhlarni moderatsiya qilish",
+          "a": "Sharhlar sahifasida shikoyat tushgan yoki yangi sharhlarni ko'rib, yashirishingiz yoki qoldirishingiz mumkin.",
+          "link": "Sharhlarga o'tish"
+        },
+        "language": {
+          "q": "Tilni o'zgartirish",
+          "a": "Tilni yuqoridagi globus belgisi yoki Profil sahifasidagi \"Til\" bo'limi orqali o'zgartirasiz.",
+          "link": "Profilga o'tish"
+        },
+        "operator": {
+          "q": "Texnik yordam",
+          "a": "Operatorlar har kuni 9:00–18:00 ishlaydi. Savolingizni shu yerga yozing — operator javob beradi. Shoshilinch bo'lsa: +998 71 200 00 00."
+        }
+      }
+    },
+    "guide": {
+      "title": "Tanishuv",
+      "progress": "{step} / {total}",
+      "skip": "O'tkazib yuborish",
+      "next": "Keyingisi",
+      "start": "Boshlash",
+      "replay": "Yo'l-yo'riqni qayta ko'rish",
+      "replayDesc": "Ilova bilan tanishtiruvchi 3 qadamni yana bir bor ko'rsatadi.",
+      "steps": [
+        {
+          "title": "Doktor toping",
+          "text": "Mutaxassislik, shahar yoki xaritadan o'zingizga mos doktorni tanlang."
+        },
+        {
+          "title": "Qabulga yoziling",
+          "text": "Qulay kun va vaqtni tanlang — qabul darhol tasdiqlanadi."
+        },
+        {
+          "title": "Tahlillaringizni kartochkada saqlang",
+          "text": "Tahlil va rasmlarni yuklang: doktor qabulda hammasini bir joyda ko'radi."
+        }
+      ]
+    }
+  },
+  "hints": {
+    "label": "Izoh",
+    "category": "Malaka toifasi — doktorning davlat attestatsiyasidan o'tgan darajasi: ikkinchi, birinchi va eng yuqorisi — oliy toifa.",
+    "twoHours": "Qabulni boshlanishiga kamida 2 soat qolganda bekor qilish yoki ko'chirish mumkin. Undan keyin doktorga qo'ng'iroq qiling.",
+    "whoSeesLabel": "Kim ko'radi?",
+    "whoSees": "Kartochkangizni faqat siz va sizda aktiv qabuli bor doktorlar ko'radi. \"Faqat men ko'raman\" deb belgilangan yozuvlarni hech bir doktor ko'rmaydi.",
+    "slotDuration": "Bitta qabulga ajratiladigan vaqt. Ish vaqtingiz shu uzunlikdagi bo'sh vaqtlarga bo'linadi va bemorlar shulardan birini tanlaydi."
   }
 }
