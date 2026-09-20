@@ -135,7 +135,7 @@ export function ChatThread({
       >
         {pending && (
           <div className="mb-2 inline-flex max-w-full items-center gap-2 self-start rounded-full border border-line bg-surface pl-2.5 pr-1 py-1 text-xs text-heading">
-            {pending.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-accent" /> : <FileText className="h-3.5 w-3.5 text-primary" />}
+            {pending.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-accent" /> : <FileText className="h-3.5 w-3.5 text-primary-text" />}
             <span className="truncate max-w-[220px]">{pending.name}</span>
             {pending.sizeKb && <span className="text-muted">· {pending.sizeKb >= 1024 ? t("mb", { value: (pending.sizeKb / 1024).toFixed(1) }) : t("kb", { value: pending.sizeKb })}</span>}
             <button type="button" aria-label={t("removeAttachment")} title={t("removeAttachment")} onClick={() => setPending(null)} className="h-6 w-6 rounded-full flex items-center justify-center hover:bg-line">
@@ -155,7 +155,7 @@ export function ChatThread({
             e.target.value = "";
           }}
         />
-        <button type="button" aria-label={t("attach")} title={t("attach")} onClick={() => fileRef.current?.click()} className="h-11 w-11 shrink-0 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary">
+        <button type="button" aria-label={t("attach")} title={t("attach")} onClick={() => fileRef.current?.click()} className="h-11 w-11 shrink-0 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary-text">
           <Paperclip className="h-5 w-5" />
         </button>
         <textarea

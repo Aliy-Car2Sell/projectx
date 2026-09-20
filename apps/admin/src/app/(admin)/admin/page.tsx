@@ -13,7 +13,7 @@ import { Card, StatCard } from "@projectx/ui/Card";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 
 const activityIcon: Record<ActivityItem["type"], { icon: LucideIcon; cls: string }> = {
-  user_registered: { icon: UserPlus, cls: "bg-primary-soft text-primary" },
+  user_registered: { icon: UserPlus, cls: "bg-primary-soft text-primary-text" },
   doctor_applied: { icon: FileCheck2, cls: "bg-warning-soft text-warning" },
   appointment_created: { icon: CalendarDays, cls: "bg-success-soft text-success" },
   review_posted: { icon: Star, cls: "bg-accent-soft text-accent" },

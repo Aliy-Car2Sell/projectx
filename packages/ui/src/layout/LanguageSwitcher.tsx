@@ -64,7 +64,7 @@ export function LanguageSwitcher({ className, light }: { className?: string; lig
                 onClick={() => change(l)}
                 className={cn(
                   "flex w-full items-center justify-between px-3 py-2.5 text-sm hover:bg-surface",
-                  l === locale ? "text-primary font-semibold" : "text-heading",
+                  l === locale ? "text-primary-text font-semibold" : "text-heading",
                 )}
               >
                 {t(l)}

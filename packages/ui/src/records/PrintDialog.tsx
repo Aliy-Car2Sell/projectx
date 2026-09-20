@@ -28,7 +28,7 @@ export function PrintDialog({ open, onClose, printHref, chooseMode = true }: { o
     onClose();
   };
   const option = (active: boolean) =>
-    cn("min-h-[44px] rounded-lg border px-3 text-sm font-medium transition-colors", active ? "border-primary bg-primary-soft text-primary" : "border-line text-heading hover:border-primary");
+    cn("min-h-[44px] rounded-lg border px-3 text-sm font-medium transition-colors", active ? "border-primary bg-primary-soft text-primary-text" : "border-line text-heading hover:border-primary");
 
   return (
     <Modal open={open} onClose={onClose} title={t("print.title")} closeLabel={tc("close")}>

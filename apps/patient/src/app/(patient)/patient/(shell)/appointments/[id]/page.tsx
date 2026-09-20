@@ -38,10 +38,10 @@ export default async function AppointmentDetailPage({ params }: { params: Promis
                 <Avatar src={doctor.avatarUrl} name={name} size="lg" />
               </Link>
               <div className="min-w-0 flex-1">
-                <Link href={`/patient/doctors/${doctor.id}`} className="font-bold text-heading text-lg hover:text-primary block truncate">
+                <Link href={`/patient/doctors/${doctor.id}`} className="font-bold text-heading text-lg hover:text-primary-text block truncate">
                   {name}
                 </Link>
-                <div className="text-sm text-primary">{ts(doctor.specialty)}</div>
+                <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
               </div>
             </div>
             <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
@@ -98,7 +98,7 @@ export default async function AppointmentDetailPage({ params }: { params: Promis
                 <p className="font-semibold text-heading mt-0.5">{apt.summary.diagnosis}</p>
                 <div className="text-xs font-semibold uppercase tracking-wide text-muted mt-3">{t("recommendations")}</div>
                 <p className="text-heading mt-0.5 leading-relaxed">{apt.summary.recommendations}</p>
-                <Link href="/patient/records" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+                <Link href="/patient/records" className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary-text hover:underline">
                   <FolderHeart className="h-4 w-4" /> {t("addedToRecords")}
                 </Link>
               </Card>
@@ -111,14 +111,14 @@ export default async function AppointmentDetailPage({ params }: { params: Promis
         <aside className="lg:sticky lg:top-20 self-start">
           <Card>
             <h3 className="font-bold text-heading mb-2 inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" /> {doctor.clinicName}
+              <MapPin className="h-4 w-4 text-primary-text" /> {doctor.clinicName}
             </h3>
             <MapView pins={[{ id: doctor.id, lat: doctor.lat, lng: doctor.lng, title: doctor.clinicName, subtitle: doctor.address }]} zoom={14} className="h-48" />
             <a
               href={`https://www.openstreetmap.org/directions?to=${doctor.lat}%2C${doctor.lng}`}
               target="_blank"
               rel="noreferrer"
-              className="mt-2 inline-block text-sm text-primary font-medium hover:underline"
+              className="mt-2 inline-block text-sm text-primary-text font-medium hover:underline"
             >
               {t("showRoute")} →
             </a>

@@ -11,6 +11,12 @@
   --color-primary: #1a9be6;
   --color-primary-hover: #1584c7;
   --color-primary-soft: #e8f4fd;
+  /*
+   * Brand blue as TEXT. #1a9be6 is only 3.05:1 on white, so links, page titles and active nav labels use this
+   * darker shade instead: 5.15:1 on card, 4.76:1 on surface, 4.61:1 on primary-soft (WCAG AA needs 4.5:1).
+   * Fills, borders, buttons, badges and the logo keep --color-primary.
+   */
+  --color-primary-text: #0d72b3;
   --color-surface: #f4f6f8;
   --color-card: #ffffff;
   --color-heading: #1f2937;

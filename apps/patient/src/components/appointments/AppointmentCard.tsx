@@ -44,10 +44,10 @@ export function AppointmentCard({
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <Link href={detailHref} className="font-bold text-heading hover:text-primary block truncate">
+              <Link href={detailHref} className="font-bold text-heading hover:text-primary-text block truncate">
                 {name}
               </Link>
-              <div className="text-sm text-primary">{useTranslationsSpecialty(doctor.specialty)}</div>
+              <div className="text-sm text-primary-text">{useTranslationsSpecialty(doctor.specialty)}</div>
             </div>
             <AppointmentStatusBadge status={appointment.status} />
           </div>

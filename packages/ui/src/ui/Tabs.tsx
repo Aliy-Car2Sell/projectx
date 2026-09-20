@@ -37,10 +37,10 @@ export function Tabs({
           "shrink-0 inline-flex items-center gap-1.5 min-h-[44px] px-3 text-sm font-semibold transition-colors whitespace-nowrap",
           variant === "underline" &&
             (active
-              ? "text-primary border-b-2 border-primary -mb-px"
+              ? "text-primary-text border-b-2 border-primary -mb-px"
               : "text-muted hover:text-heading border-b-2 border-transparent -mb-px"),
           variant === "pill" &&
-            (active ? "bg-card text-primary rounded-md shadow-sm min-h-[36px]" : "text-muted hover:text-heading min-h-[36px]"),
+            (active ? "bg-card text-primary-text rounded-md shadow-sm min-h-[36px]" : "text-muted hover:text-heading min-h-[36px]"),
         );
         const content = (
           <>

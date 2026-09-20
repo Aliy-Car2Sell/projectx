@@ -83,7 +83,7 @@ export function ApplicationsList({ pending, rejected }: { pending: DoctorProfile
                   </Link>
                   <DoctorStatusBadge status={d.status} />
                 </div>
-                <div className="text-sm text-primary">{ts(d.specialty)}</div>
+                <div className="text-sm text-primary-text">{ts(d.specialty)}</div>
                 <div className="text-xs text-muted">
                   {d.clinicName} · {tcity(d.city)}
                 </div>

@@ -18,7 +18,7 @@ export default async function DoctorProfilePage() {
       <ProfessionalForm doctor={d} />
 
       <Card>
-        <CardHeader title={t("location")} action={<MapPin className="h-5 w-5 text-primary" />} />
+        <CardHeader title={t("location")} action={<MapPin className="h-5 w-5 text-primary-text" />} />
         <MapView pins={[{ id: d.id, lat: d.lat, lng: d.lng, title: d.clinicName }]} zoom={14} className="h-48" />
       </Card>
 

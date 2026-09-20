@@ -64,7 +64,7 @@ export default async function LandingPage() {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
             {features.map((f) => (
               <Card key={f.title}>
-                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                <span className="mb-3 flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
                   <f.icon className="h-6 w-6" />
                 </span>
                 <h3 className="text-base font-bold text-heading">{f.title}</h3>

@@ -37,7 +37,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
               <Avatar src={d.avatarUrl} name={name} size="xl" />
               <div className="min-w-0 flex-1">
                 <h2 className="text-xl font-bold text-heading">{name}</h2>
-                <div className="text-primary font-medium">{ts(d.specialty)}</div>
+                <div className="text-primary-text font-medium">{ts(d.specialty)}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Badge tone="accent">{tcat(d.category)}</Badge>
                   <Badge tone="primary">{tcity(d.city)}</Badge>
@@ -81,7 +81,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
           </Card>
 
           <Card>
-            <CardHeader title={t("address")} action={<MapPin className="h-5 w-5 text-primary" />} />
+            <CardHeader title={t("address")} action={<MapPin className="h-5 w-5 text-primary-text" />} />
             <MapView pins={[{ id: d.id, lat: d.lat, lng: d.lng, title: d.clinicName, subtitle: d.address }]} zoom={13} className="h-48" />
           </Card>
         </div>

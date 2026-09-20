@@ -44,7 +44,7 @@ export function AppointmentDetail({ appointment, patient, age }: { appointment: 
               <Avatar src={patient.avatarUrl} name={name} size="lg" />
               <div className="min-w-0 flex-1">
                 <div className="text-xs text-muted">{t("patient")}</div>
-                <Link href={`/doctor/patients/${patient.id}`} className="font-bold text-heading text-lg hover:text-primary block truncate">
+                <Link href={`/doctor/patients/${patient.id}`} className="font-bold text-heading text-lg hover:text-primary-text block truncate">
                   {name}
                 </Link>
                 <div className="text-sm text-muted">

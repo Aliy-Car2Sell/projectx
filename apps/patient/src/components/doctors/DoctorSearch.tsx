@@ -214,7 +214,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         <aside className="hidden lg:block">
           <div className="bg-card rounded-xl shadow-card border border-line/60 p-4 sticky top-20">
             <h2 className="font-bold text-heading mb-3 flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4 text-primary" /> {td("filters")}
+              <SlidersHorizontal className="h-4 w-4 text-primary-text" /> {td("filters")}
             </h2>
             {filterPanel}
           </div>

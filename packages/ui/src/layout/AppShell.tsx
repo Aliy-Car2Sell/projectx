@@ -77,18 +77,13 @@ export function AppShell({
                 title={label}
                 className={cn(
                   "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium transition-colors justify-center lg:justify-start",
-                  active ? "bg-primary text-white shadow-sm" : "text-heading hover:bg-surface",
+                  active ? "bg-primary-soft text-primary-text font-semibold" : "text-heading hover:bg-surface",
                 )}
               >
                 <Icon className="h-5 w-5 shrink-0" />
                 <span className="hidden lg:inline truncate">{label}</span>
                 {item.key === "chat" && unreadMessages > 0 && (
-                  <span
-                    className={cn(
-                      "max-lg:hidden inline-flex ml-auto rounded-full px-1.5 min-w-[20px] h-5 items-center justify-center text-[11px] font-bold",
-                      active ? "bg-white text-primary" : "bg-primary text-white",
-                    )}
-                  >
+                  <span className="max-lg:hidden inline-flex ml-auto rounded-full px-1.5 min-w-[20px] h-5 items-center justify-center text-[11px] font-bold bg-primary text-white">
                     {unreadMessages}
                   </span>
                 )}
@@ -164,7 +159,7 @@ export function AppShell({
                   href={item.href}
                   className={cn(
                     "relative flex flex-col items-center justify-center gap-0.5 h-14 text-[11px] font-medium",
-                    active ? "text-primary" : "text-muted",
+                    active ? "text-primary-text" : "text-muted",
                   )}
                 >
                   <Icon className={cn("h-5 w-5", active && "stroke-[2.5]")} />

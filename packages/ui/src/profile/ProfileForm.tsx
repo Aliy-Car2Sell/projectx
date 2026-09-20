@@ -110,7 +110,7 @@ export function ProfileForm({
 
       <div className="flex flex-col gap-4">
         <Card>
-          <CardHeader title={t("language")} subtitle={t("languageDesc")} action={<Globe className="h-5 w-5 text-primary" />} />
+          <CardHeader title={t("language")} subtitle={t("languageDesc")} action={<Globe className="h-5 w-5 text-primary-text" />} />
           <div className="flex flex-col gap-2">
             {locales.map((l) => (
               <button
@@ -120,7 +120,7 @@ export function ProfileForm({
                 onClick={() => changeLocale(l)}
                 className={cn(
                   "flex items-center justify-between rounded-lg border px-3 min-h-[44px] text-base md:text-[15px] transition-colors",
-                  l === locale ? "border-primary bg-primary-soft text-primary font-semibold" : "border-line hover:border-primary",
+                  l === locale ? "border-primary bg-primary-soft text-primary-text font-semibold" : "border-line hover:border-primary",
                 )}
               >
                 {tl(l)}

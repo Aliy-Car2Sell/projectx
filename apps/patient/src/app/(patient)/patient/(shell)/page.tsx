@@ -57,7 +57,7 @@ export default async function PatientDashboard() {
           <section>
             <SectionTitle
               action={
-                <Link href="/patient/appointments" className="text-sm text-primary font-medium inline-flex items-center">
+                <Link href="/patient/appointments" className="text-sm text-primary-text font-medium inline-flex items-center">
                   {tc("viewAll")} <ChevronRight className="h-4 w-4" />
                 </Link>
               }
@@ -121,7 +121,7 @@ export default async function PatientDashboard() {
                 })}
                 {lastDoctor && (
                   <Card href="/patient/records" padding="sm" className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
                       <Upload className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 flex-1">
@@ -155,7 +155,7 @@ export default async function PatientDashboard() {
               ))}
               {unread > 0 && (
                 <Link href="/patient/chat" className="flex items-center gap-3 p-4 hover:bg-surface">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
                     <MessageCircle className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -186,19 +186,19 @@ export default async function PatientDashboard() {
             <SectionTitle>{t("quickActions")}</SectionTitle>
             <div className="grid grid-cols-2 gap-3">
               <Card href="/patient/doctors" padding="sm" className="flex flex-col items-center text-center gap-2 py-5 md:hidden">
-                <Search className="h-6 w-6 text-primary" />
+                <Search className="h-6 w-6 text-primary-text" />
                 <span className="text-sm font-semibold">{t("findDoctor")}</span>
               </Card>
               <Card href="/patient/appointments" padding="sm" className="flex flex-col items-center text-center gap-2 py-5">
-                <CalendarDays className="h-6 w-6 text-primary" />
+                <CalendarDays className="h-6 w-6 text-primary-text" />
                 <span className="text-sm font-semibold">{t("myAppointments")}</span>
               </Card>
               <Card href="/patient/records" padding="sm" className="flex flex-col items-center text-center gap-2 py-5">
-                <FolderHeart className="h-6 w-6 text-primary" />
+                <FolderHeart className="h-6 w-6 text-primary-text" />
                 <span className="text-sm font-semibold">{t("myRecords")}</span>
               </Card>
               <Card href="/patient/chat" padding="sm" className="flex flex-col items-center text-center gap-2 py-5 hidden md:flex">
-                <MessageCircle className="h-6 w-6 text-primary" />
+                <MessageCircle className="h-6 w-6 text-primary-text" />
                 <span className="text-sm font-semibold">{t("myChats")}</span>
               </Card>
             </div>

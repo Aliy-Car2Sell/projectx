@@ -42,7 +42,7 @@ export function ReviewForm({ appointment, doctor }: { appointment: Appointment; 
         <Avatar src={doctor.avatarUrl} name={name} size="md" />
         <div className="min-w-0">
           <div className="font-bold text-heading truncate">{name}</div>
-          <div className="text-sm text-primary">{ts(doctor.specialty)}</div>
+          <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
           <div className="text-xs text-muted">
             {fmtDate(locale, tc, appointment.date)} · {appointment.time}
           </div>

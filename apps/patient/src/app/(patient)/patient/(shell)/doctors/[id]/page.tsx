@@ -149,7 +149,7 @@ export default async function DoctorProfilePage({
         <aside className="flex flex-col gap-4 lg:sticky lg:top-20 self-start">
           <Card>
             <h3 className="font-bold text-heading mb-2 inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary" /> {t("workplace")}
+              <MapPin className="h-4 w-4 text-primary-text" /> {t("workplace")}
             </h3>
             <div className="font-semibold text-heading">{doctor.clinicName}</div>
             <div className="text-sm text-muted">{doctor.address}</div>
@@ -163,7 +163,7 @@ export default async function DoctorProfilePage({
               href={`https://www.openstreetmap.org/?mlat=${doctor.lat}&mlon=${doctor.lng}#map=16/${doctor.lat}/${doctor.lng}`}
               target="_blank"
               rel="noreferrer"
-              className="mt-2 inline-block text-sm text-primary font-medium hover:underline"
+              className="mt-2 inline-block text-sm text-primary-text font-medium hover:underline"
             >
               {t("openMap")} →
             </a>
