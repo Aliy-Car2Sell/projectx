@@ -1,9 +1,12 @@
 /**
  * ProjectX UI audit: navigation, buttons, i18n and 375px layout across the three apps.
  *
+ * Pages are crawled signed in; the patient app's public pages also get a guest pass (guestFlow).
+ *
  * Usage:  pnpm audit:ui [-- --apps patient,doctor --quick --keep]
  *   --apps   comma list of apps to audit (default: patient,doctor,admin)
  *   --quick  skip the button-probing pass
+ *   --guest  only run the guest (not signed in) pass and print its checks
  *   --keep   leave auto-started servers running
  *
  * Each app is audited on its own origin (NEXT_PUBLIC_*_URL from apps/patient/.env).
@@ -22,6 +25,9 @@ import puppeteer from "puppeteer-core";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OUT = path.join(ROOT, "scripts", "audit-output");
 const LOCALES = ["uz", "ru", "en"];
+// The patient app's mock session cookie (apps/patient/src/lib/session.ts). Pages are audited signed in;
+// the guest pass (guestFlow) runs in its own browser context without it.
+const SESSION_COOKIE = { name: "px_session", value: "patient" };
 const VIEWPORTS = { desktop: { width: 1280, height: 900 }, mobile: { width: 375, height: 740 } };
 
 const argv = process.argv.slice(2);
@@ -32,6 +38,7 @@ const opt = (name, def) => {
 };
 const APP_FILTER = opt("apps", "patient,doctor,admin").split(",");
 const QUICK = flag("quick");
+const GUEST_ONLY = flag("guest"); // only the guest pass (no crawl), for debugging the login / returnTo flow
 
 // ---------- origins (no localhost hard-coded here: read the apps' own .env) ----------
 function readEnv(file) {
@@ -70,6 +77,8 @@ const msgs = Object.fromEntries(
 );
 const notFoundTitles = LOCALES.map((l) => msgs[l].states.notFoundTitle);
 const langNames = new Set(LOCALES.flatMap((l) => Object.values(msgs[l].lang)));
+// Logging out ends the session the crawl depends on; it is exercised on its own in guestFlow.
+const logoutLabels = new Set(LOCALES.map((l) => msgs[l].common.logout));
 const TOP_KEYS = Object.keys(msgs.uz);
 const KEY_RE = new RegExp(`(?:^|[^A-Za-z0-9@./_-])(?:${TOP_KEYS.join("|")})\\.[a-zA-Z0-9_]+(?:\\.[a-zA-Z0-9_]+)*(?![A-Za-z0-9@./_-])`, "g");
 
@@ -106,6 +115,10 @@ const APPS = {
     ],
     langPages: ["/login", "/patient/appointments/apt-1", "/patient/doctors?state=empty"],
     profileLang: "/patient/profile",
+    // Browsable without a session; everything else under /patient must redirect to /login?returnTo=…
+    guestPages: ["/", "/patient/doctors", "/patient/doctors/doc-1"],
+    guestProtected: ["/patient", "/patient/appointments", "/patient/chat/chat-1", "/patient/doctors/doc-1/book"],
+    guestDoctor: "/patient/doctors/doc-1",
   },
   doctor: {
     home: "/doctor",
@@ -171,8 +184,9 @@ async function ensureServers(apps) {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 /** Wait until streamed content replaced loading.tsx skeletons (networkidle2 fires while the RSC stream is still open). */
 async function settle(page) {
-  await page
-    .waitForFunction(
+  // waitForFunction throws synchronously on a frame detached by a redirect, so .catch() alone is not enough.
+  try {
+    await page.waitForFunction(
       () => {
         const m = document.querySelector("main") || document.body;
         const t = (m.innerText || "").trim();
@@ -181,8 +195,8 @@ async function settle(page) {
         return t.length > 0 && (!pulse || demoLoading);
       },
       { timeout: 15000 },
-    )
-    .catch(() => {});
+    );
+  } catch {}
   await sleep(150);
 }
 async function go(page, origin, url) {
@@ -196,12 +210,17 @@ const STATIC_RE = /\.(pdf|png|jpe?g|webp|svg|gif|ico|json|xml|txt|webmanifest|js
 const results = []; // per page-load records
 const linkChecks = new Map(); // absolute url -> {status, from:Set, crossApp}
 const clicks = [];
+const DEAD_TAB_RE = /detached Frame|Target closed|Session closed|Protocol error/i;
+const tabReplacements = []; // tabs that died mid-probe and were reopened (see auditApp.probe)
 const screenshots = [];
 
-async function newPage(browser, locale, vp, origin) {
+/** `browser` may also be a BrowserContext; `guest` leaves the session cookie out. */
+async function newPage(browser, locale, vp, origin, { guest = false } = {}) {
   const page = await browser.newPage();
   await page.setViewport(vp);
-  await page.setCookie({ name: "NEXT_LOCALE", value: locale, domain: new URL(origin).hostname, path: "/" });
+  const domain = new URL(origin).hostname;
+  await page.setCookie({ name: "NEXT_LOCALE", value: locale, domain, path: "/" });
+  if (!guest) await page.setCookie({ ...SESSION_COOKIE, domain, path: "/" });
   await page.evaluateOnNewDocument(() => {
     const orig = HTMLInputElement.prototype.click;
     HTMLInputElement.prototype.click = function () {
@@ -307,7 +326,26 @@ async function analyze(page, vpName) {
   );
 }
 
-async function visit(page, app, url, locale, vpName) {
+/**
+ * visit() on a long-lived tab; if the tab itself died (puppeteer "detached Frame"), reopen it and visit again.
+ * `tab` is { page, locale, vp } and is updated in place. Replacements are counted in the report.
+ */
+async function safeVisit(browser, tab, app, url) {
+  for (let attempt = 0; ; attempt++) {
+    try {
+      return await visit(tab.page, app, url, tab.locale, tab.vp);
+    } catch (e) {
+      if (attempt >= 2) throw e;
+      console.log(`tab replaced ${app} ${url} ${tab.locale}/${tab.vp}: ${String(e).slice(0, 100)}`);
+      tabReplacements.push({ app, url, vp: tab.vp, locale: tab.locale, error: String(e).slice(0, 160) });
+      await tab.page.close().catch(() => {});
+      tab.page = await newPage(browser, tab.locale, VIEWPORTS[tab.vp], ORIGINS[app]);
+    }
+  }
+}
+
+/** `label` keeps guest loads of a URL apart from the signed-in ones in the report. */
+async function visit(page, app, url, locale, vpName, label = url) {
   page.__console = [];
   let status = 0;
   let finalUrl = url;
@@ -319,23 +357,35 @@ async function visit(page, app, url, locale, vpName) {
     finalUrl = await page.evaluate(() => location.pathname + location.search);
     await settle(page);
   } catch (e) {
-    results.push({ app, url, locale, vp: vpName, status: 0, error: String(e).slice(0, 200) });
+    if (DEAD_TAB_RE.test(String(e))) throw e; // the tab, not the page: safeVisit reopens it
+    results.push({ app, url: label, locale, vp: vpName, status: 0, error: String(e).slice(0, 200) });
     return null;
   }
   await sleep(250);
   const a = await analyze(page, vpName);
-  const rec = { app, url, finalUrl, locale, vp: vpName, status, ...a, console: page.__console.slice() };
+  const rec = { app, url: label, finalUrl, locale, vp: vpName, status, ...a, console: page.__console.slice() };
   delete rec.links;
   results.push(rec);
   const flagged = rec.docOver > 1 || rec.beyond.length || rec.clipped.length || rec.spill.length || rec.keys.length || (rec.isNotFound && url !== "/no-such-page") || (status >= 400 && url !== "/no-such-page") || rec.console.length;
   if (flagged && vpName === "mobile") {
-    const file = `screenshots/${app}_${url.replace(/[^a-z0-9]+/gi, "_")}_${locale}.png`;
+    const file = `screenshots/${app}_${label.replace(/[^a-z0-9]+/gi, "_")}_${locale}.png`;
     try {
       await page.screenshot({ path: path.join(OUT, file), fullPage: false });
       screenshots.push({ app, url, locale, file });
     } catch {}
   }
   return a;
+}
+
+/** Run `fn`; if a late navigation detached the frame, reopen `url` and run it once more. */
+async function retryNav(page, origin, url, fn) {
+  try {
+    return await fn();
+  } catch {
+    await sleep(500);
+    await go(page, origin, url);
+    return fn();
+  }
 }
 
 async function probeButtons(page, app, url, vpName) {
@@ -361,22 +411,17 @@ async function probeButtons(page, app, url, vpName) {
         };
       }),
     );
-  const initial = await list();
+  const initial = await retryNav(page, origin, url, list);
   const seen = new Set();
-  for (const b of initial) {
-    if (!b.visible || b.disabled || b.inDialog) continue;
-    if (b.haspopup === "listbox" || [...langNames].some((n) => b.text.startsWith(n))) continue; // language switcher tested separately
-    if (b.active) continue;
-    const sig = `${b.text}|${b.section}|${b.i}`;
-    if (seen.has(sig)) continue;
-    seen.add(sig);
+  /** One button: click it, classify what changed, restore the page. */
+  const probeOne = async (b) => {
     const cur = await page.evaluate(() => location.pathname + location.search);
     if (cur !== url) await go(page, origin, url);
     const now = await list();
     const target = now[b.i] && now[b.i].text === b.text && now[b.i].visible ? now[b.i] : now.find((x) => x.text === b.text && x.section === b.section && x.visible && !x.disabled);
     if (!target) {
       clicks.push({ app, url, vp: vpName, button: b.text, section: b.section, result: "gone (state changed by earlier click)" });
-      continue;
+      return;
     }
     await page.evaluate(() => {
       window.__fileChooser = false;
@@ -384,12 +429,12 @@ async function probeButtons(page, app, url, vpName) {
     const before = await pageState(page);
     const handles = await page.$$("button");
     const h = handles[target.i];
-    if (!h) continue;
+    if (!h) return;
     try {
       await h.evaluate((el) => el.click());
     } catch (e) {
       clicks.push({ app, url, vp: vpName, button: b.text, section: b.section, result: "click error " + String(e).slice(0, 80) });
-      continue;
+      return;
     }
     await sleep(450);
     let after;
@@ -419,6 +464,29 @@ async function probeButtons(page, app, url, vpName) {
       await sleep(250);
       if (await page.evaluate(() => Boolean(document.querySelector('[role="dialog"]')))) await go(page, origin, url);
     } else if (textChanged) await go(page, origin, url);
+  };
+  for (const b of initial) {
+    if (!b.visible || b.disabled || b.inDialog) continue;
+    if (b.haspopup === "listbox" || [...langNames].some((n) => b.text.startsWith(n))) continue; // language switcher tested separately
+    if (b.active) continue;
+    if (logoutLabels.has(b.text)) continue;
+    const sig = `${b.text}|${b.section}|${b.i}`;
+    if (seen.has(sig)) continue;
+    seen.add(sig);
+    // A late navigation from the previous click can detach the frame mid-probe: reopen the page and retry once.
+    try {
+      await probeOne(b);
+    } catch (e1) {
+      console.log(`probe retry ${app} ${url} [${b.text}]: ${String(e1).slice(0, 120)}`);
+      try {
+        await sleep(500);
+        await go(page, origin, url);
+        await probeOne(b);
+      } catch (e2) {
+        clicks.push({ app, url, vp: vpName, button: b.text, section: b.section, result: "PROBE-ERROR " + String(e2).slice(0, 120) });
+        await go(page, origin, url).catch(() => {});
+      }
+    }
   }
 }
 
@@ -426,7 +494,7 @@ async function checkLink(absUrl) {
   if (linkChecks.has(absUrl)) return linkChecks.get(absUrl);
   const rec = { status: 0, from: new Set() };
   try {
-    const res = await fetch(absUrl, { headers: { cookie: "NEXT_LOCALE=uz" }, redirect: "manual" });
+    const res = await fetch(absUrl, { headers: { cookie: `NEXT_LOCALE=uz; ${SESSION_COOKIE.name}=${SESSION_COOKIE.value}` }, redirect: "manual" });
     rec.status = res.status; // notFound() responds with a real 404 in Next
     if (res.status >= 300 && res.status < 400) rec.location = res.headers.get("location");
     await res.text().catch(() => null);
@@ -438,7 +506,8 @@ async function checkLink(absUrl) {
 }
 
 async function demoLogin(browser, app) {
-  const page = await newPage(browser, "uz", VIEWPORTS.desktop, ORIGINS[app]);
+  const ctx = await browser.createBrowserContext();
+  const page = await newPage(ctx, "uz", VIEWPORTS.desktop, ORIGINS[app], { guest: true });
   const rec = { app, expect: APPS[app].home };
   try {
     await page.goto(ORIGINS[app] + "/login", { waitUntil: "networkidle2" });
@@ -457,8 +526,138 @@ async function demoLogin(browser, app) {
     rec.ok = false;
     rec.error = String(e).slice(0, 200);
   }
-  await page.close();
+  await ctx.close();
   return rec;
+}
+
+/**
+ * Guest (not signed in) pass for apps with public pages:
+ * - public pages render in all locales / viewports with the plain header (no sidebar / bottom nav outside <main>, a login button);
+ * - protected pages redirect to /login?returnTo=<page>;
+ * - "book" and "chat" on a doctor profile ask for login / registration and land on the intended page afterwards.
+ */
+async function guestFlow(browser, app) {
+  const cfg = APPS[app];
+  const origin = ORIGINS[app];
+  const checks = [];
+  const check = (name, ok, detail = "") => checks.push({ app, name, ok: Boolean(ok), detail: ok ? "" : String(detail).slice(0, 200) });
+  const here = (page) => page.evaluate(() => location.pathname + location.search);
+  const loginUrl = (returnTo) => `/login?returnTo=${encodeURIComponent(returnTo)}`;
+  /** Click the first visible link to `href` (desktop and mobile CTAs are separate elements). */
+  const clickLink = async (page, href) => {
+    const h = await page.evaluateHandle(
+      (href) => [...document.querySelectorAll("main a[href]")].find((a) => a.getAttribute("href") === href && a.getClientRects().length > 0),
+      href,
+    );
+    const el = h.asElement();
+    if (!el) throw new Error(`visible link ${href} not found`);
+    await Promise.all([page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 }).catch(() => null), el.evaluate((a) => a.click())]);
+    await settle(page);
+  };
+  const submit = async (page, fill) => {
+    await fill();
+    await Promise.all([page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 }).catch(() => null), page.evaluate(() => document.querySelector("main form button[type=submit]").click())]);
+    await settle(page);
+  };
+
+  // 1. public pages, every locale and viewport
+  for (const locale of LOCALES) {
+    for (const vpName of ["desktop", "mobile"]) {
+      const ctx = await browser.createBrowserContext();
+      const page = await newPage(ctx, locale, VIEWPORTS[vpName], origin, { guest: true });
+      for (const url of cfg.guestPages) {
+        const a = await visit(page, app, url, locale, vpName, `${url} (mehmon)`);
+        const landed = await here(page);
+        check(`${url} ochiq [${locale}/${vpName}]`, a && landed === url && !a.isNotFound, `→ ${landed}`);
+        if (url === "/") {
+          const find = msgs[locale].landing.findDoctor;
+          const l = a?.links.find((x) => x.text === find);
+          check(`landing "${find}" → /patient/doctors [${locale}/${vpName}]`, l?.href === "/patient/doctors", l?.href ?? "havola topilmadi");
+        } else {
+          const shell = await page.evaluate(() => ({ nav: [...document.querySelectorAll("aside, nav")].filter((e) => !e.closest("main")).length, login: [...document.querySelectorAll("header a[href]")].map((x) => x.getAttribute("href")).find((h) => h.startsWith("/login")) }));
+          check(`${url} oddiy header [${locale}/${vpName}]`, shell.nav === 0 && shell.login === loginUrl(url), JSON.stringify(shell));
+        }
+      }
+      await ctx.close();
+    }
+  }
+
+  // 2. protected pages bounce to login
+  {
+    const ctx = await browser.createBrowserContext();
+    const page = await newPage(ctx, "uz", VIEWPORTS.desktop, origin, { guest: true });
+    for (const url of cfg.guestProtected) {
+      await go(page, origin, url);
+      const landed = await here(page);
+      check(`${url} → login`, landed === loginUrl(url), `→ ${landed}`);
+    }
+    await ctx.close();
+  }
+
+  // 3. book / chat from a doctor profile: login, register and demo login all return to the intended page
+  const doctorUrl = cfg.guestDoctor;
+  const flows = [
+    { name: "Qabulga yozilish → login", vp: "desktop", pick: (links) => links.find((h) => h.endsWith("/book")), via: "login" },
+    { name: "Yozish (chat) → demo kirish", vp: "mobile", pick: (links) => links.find((h) => h.startsWith("/patient/chat")), via: "demo" },
+    { name: "Qabulga yozilish → ro'yxatdan o'tish", vp: "mobile", pick: (links) => links.find((h) => h.endsWith("/book")), via: "register" },
+  ];
+  for (const f of flows) {
+    const ctx = await browser.createBrowserContext();
+    const page = await newPage(ctx, "uz", VIEWPORTS[f.vp], origin, { guest: true });
+    try {
+      await go(page, origin, doctorUrl);
+      const target = f.pick(await page.$$eval("main a[href]", (els) => els.map((a) => a.getAttribute("href"))));
+      if (!target) throw new Error("target link not found");
+      await clickLink(page, target);
+      const asked = await here(page);
+      check(`${f.name}: login so'raladi [${f.vp}]`, asked === loginUrl(target), `→ ${asked}`);
+      if (f.via === "login") {
+        await submit(page, async () => {
+          await page.type('input[name="email"]', "bemor@example.com");
+          await page.type('input[name="password"]', "parol1234");
+        });
+      } else if (f.via === "demo") {
+        await submit(page, async () => {
+          // the demo card is the second form on the page; drop the first so `submit` hits it
+          await page.evaluate(() => document.querySelector("main form").remove());
+        });
+      } else {
+        await clickLink(page, `/register?returnTo=${encodeURIComponent(target)}`);
+        const h = await page.evaluateHandle((label) => [...document.querySelectorAll("main button")].find((b) => b.innerText.includes(label)), msgs.uz.auth.register.patient);
+        await h.asElement().click();
+        await sleep(200);
+        await submit(page, async () => {});
+      }
+      const landed = await here(page);
+      const shell = await page.evaluate(() => [...document.querySelectorAll("aside, nav")].filter((e) => !e.closest("main")).length);
+      check(`${f.name}: ${target} ga qaytadi [${f.vp}]`, landed === target && shell > 0, `→ ${landed}, nav=${shell}`);
+    } catch (e) {
+      check(`${f.name} [${f.vp}]`, false, e);
+    }
+    await ctx.close();
+  }
+
+  // 4. logout ends the session: back on the landing page, protected pages ask for login again
+  {
+    const ctx = await browser.createBrowserContext();
+    const page = await newPage(ctx, "uz", VIEWPORTS.desktop, origin);
+    try {
+      await go(page, origin, cfg.home);
+      const h = await page.evaluateHandle((labels) => [...document.querySelectorAll("aside button")].find((b) => labels.includes((b.innerText || b.title || "").trim())), [...logoutLabels]);
+      const el = h.asElement();
+      if (!el) throw new Error("logout button not found");
+      await Promise.all([page.waitForNavigation({ waitUntil: "networkidle2", timeout: 60000 }).catch(() => null), el.evaluate((b) => b.click())]);
+      await settle(page);
+      const landed = await here(page);
+      await go(page, origin, cfg.home);
+      const again = await here(page);
+      check("Chiqish → landing, sessiya tugaydi", landed === "/" && again === loginUrl(cfg.home), `→ ${landed}, keyin ${again}`);
+    } catch (e) {
+      check("Chiqish", false, e);
+    }
+    await ctx.close();
+  }
+  return checks;
 }
 
 async function languageSwitch(browser, app) {
@@ -538,8 +737,32 @@ async function auditApp(browser, app, log) {
     return true;
   };
   const pages = [];
-  const pageD = await newPage(browser, "uz", VIEWPORTS.desktop, origin);
-  const pageM = await newPage(browser, "uz", VIEWPORTS.mobile, origin);
+  let pageD = await newPage(browser, "uz", VIEWPORTS.desktop, origin);
+  let pageM = await newPage(browser, "uz", VIEWPORTS.mobile, origin);
+  /**
+   * Probe one page; if the tab died mid-probe (puppeteer "detached Frame" that survives a reload),
+   * open a fresh tab and probe that URL again from scratch. Every replacement is counted in the report.
+   */
+  const probe = async (page, url, vpName) => {
+    for (let attempt = 0; ; attempt++) {
+      const mark = clicks.length;
+      try {
+        await go(page, origin, url);
+        await probeButtons(page, app, url, vpName);
+        return page;
+      } catch (e) {
+        clicks.length = mark; // drop the partial pass, it is redone
+        log(app, "tab replaced", url, vpName, String(e).slice(0, 100));
+        tabReplacements.push({ app, url: url, vp: vpName, error: String(e).slice(0, 160), gaveUp: attempt >= 2 });
+        await page.close().catch(() => {});
+        page = await newPage(browser, "uz", VIEWPORTS[vpName], origin);
+        if (attempt >= 2) {
+          clicks.push({ app, url: url, vp: vpName, button: "(sahifa)", section: "", result: "PROBE-ERROR " + String(e).slice(0, 120) });
+          return page;
+        }
+      }
+    }
+  };
   while (queue.length) {
     const url = queue.shift();
     if (done.has(url)) continue;
@@ -547,8 +770,12 @@ async function auditApp(browser, app, log) {
     if (!allowCrawl(url)) continue;
     if (done.size > 80) break;
     log(app, "visit", url);
-    const a = await visit(pageD, app, url, "uz", "desktop");
-    const am = await visit(pageM, app, url, "uz", "mobile");
+    const tD = { page: pageD, locale: "uz", vp: "desktop" };
+    const tM = { page: pageM, locale: "uz", vp: "mobile" };
+    const a = await safeVisit(browser, tD, app, url);
+    const am = await safeVisit(browser, tM, app, url);
+    pageD = tD.page;
+    pageM = tM.page;
     pages.push(url);
     for (const src of [a, am]) {
       if (!src) continue;
@@ -581,24 +808,22 @@ async function auditApp(browser, app, log) {
       }
     }
     if (!QUICK) {
-      await go(pageD, origin, url);
-      await probeButtons(pageD, app, url, "desktop");
-      await go(pageM, origin, url);
-      await probeButtons(pageM, app, url, "mobile");
+      pageD = await probe(pageD, url, "desktop");
+      pageM = await probe(pageM, url, "mobile");
     }
   }
   await pageD.close();
   await pageM.close();
   for (const locale of ["ru", "en"]) {
-    const pD = await newPage(browser, locale, VIEWPORTS.desktop, origin);
-    const pM = await newPage(browser, locale, VIEWPORTS.mobile, origin);
+    const tD = { page: await newPage(browser, locale, VIEWPORTS.desktop, origin), locale, vp: "desktop" };
+    const tM = { page: await newPage(browser, locale, VIEWPORTS.mobile, origin), locale, vp: "mobile" };
     for (const url of pages) {
       log(app, locale, url);
-      await visit(pD, app, url, locale, "desktop");
-      await visit(pM, app, url, locale, "mobile");
+      await safeVisit(browser, tD, app, url);
+      await safeVisit(browser, tM, app, url);
     }
-    await pD.close();
-    await pM.close();
+    await tD.page.close();
+    await tM.page.close();
   }
   return { pages, crossApp };
 }
@@ -694,6 +919,8 @@ function report(R) {
   let lang = "| Ilova | Sahifa | Viewport | Natija |\n|---|---|---|---|\n";
   const langOk = (l) => !l.error && l.steps.every((s) => s.stayed !== false && s.persisted !== false && (s.lang === "ru" || s.lang === "en"));
   for (const l of R.langResult) lang += `| ${appName[l.app]} | \`${l.url}\` | ${l.vp} | ${langOk(l) ? "OK" : "**Muammo**: " + esc(l.error || JSON.stringify(l.steps))} |\n`;
+  let guest = "| Ilova | Tekshiruv | Natija |\n|---|---|---|\n";
+  for (const g of R.guestResult) guest += `| ${appName[g.app]} | ${esc(g.name)} | ${g.ok ? "OK" : "**Muammo**: " + esc(g.detail)} |\n`;
   let login = "| Ilova | Demo tugmalar | Bosilgach | Natija |\n|---|---|---|---|\n";
   for (const l of R.loginResult) login += `| ${appName[l.app]} | ${esc((l.demoButtons || []).join(", ") || "-")} | \`${l.landed || "-"}\` | ${l.ok ? "OK" : "**Muammo**: " + esc(l.error || `kutilgan ${l.expect}`)} |\n`;
 
@@ -704,6 +931,8 @@ function report(R) {
     loads: R.results.length,
     clicks: R.clicks.length,
     noops: seenNoop.size,
+    tabReplacements: R.tabReplacements.length,
+    probeErrors: R.clicks.filter((c) => String(c.result).startsWith("PROBE-ERROR")).length,
     filePickers: filePickers.length,
     tabs: seenTab.size,
     tabsBroken: tabs.filter((c) => c.result === "NO-OP").length,
@@ -715,6 +944,8 @@ function report(R) {
     consoleErrs: dyn.filter((d) => d.element === "console").length,
     mobile: dyn.filter((d) => d.element === "375px layout").length,
     loginOk: R.loginResult.every((l) => l.ok),
+    guestChecks: R.guestResult.length,
+    guestOk: R.guestResult.every((g) => g.ok),
     langOk: R.langResult.every(langOk),
   };
   const reportMd = [
@@ -724,6 +955,7 @@ function report(R) {
     "\n## Ishlamaydigan (NO-OP) tugmalar\n", seenNoop.size ? btn : "Yo'q.\n",
     "\n## Tablar\n", tabMd,
     "\n## Demo kirish\n", login,
+    "\n## Mehmon (loginsiz) oqimi\n", R.guestResult.length ? guest : "Yo'q.\n",
     "\n## Til almashtirgich\n", lang,
     "\n## Xulosa\n```json\n" + JSON.stringify(summary, null, 2) + "\n```\n",
   ].join("");
@@ -744,11 +976,18 @@ async function main() {
   const browser = await puppeteer.launch({ executablePath: CHROME, headless: true, args: ["--no-sandbox", "--disable-gpu", "--disable-background-timer-throttling", "--disable-renderer-backgrounding", "--disable-backgrounding-occluded-windows"] });
   const loginResult = [];
   const langResult = [];
+  const guestResult = [];
   const crawled = {};
   try {
     for (const app of APP_FILTER) {
       loginResult.push(await demoLogin(browser, app));
       log(app, "demo login", JSON.stringify(loginResult.at(-1)));
+      if (APPS[app].guestPages) {
+        guestResult.push(...(await guestFlow(browser, app)));
+        log(app, "guest flow", `${guestResult.filter((g) => g.ok).length}/${guestResult.length} ok`);
+        for (const g of guestResult.filter((g) => !g.ok)) log(app, "guest FAIL", g.name, "—", g.detail);
+      }
+      if (GUEST_ONLY) continue;
       crawled[app] = await auditApp(browser, app, log);
       langResult.push(...(await languageSwitch(browser, app)));
       log(app, "language switch done");
@@ -758,12 +997,12 @@ async function main() {
     if (!flag("keep")) for (const p of servers) p.kill();
   }
   const links = [...linkChecks.entries()].map(([href, r]) => ({ href, ...r, from: [...r.from] }));
-  const R = { loginResult, langResult, crawled, results, links, clicks, screenshots };
+  const R = { loginResult, langResult, guestResult, tabReplacements, crawled, results, links, clicks, screenshots };
   fs.writeFileSync(path.join(OUT, "results.json"), JSON.stringify(R, null, 2));
   const summary = report(R);
   log("done:", results.length, "page loads,", clicks.length, "clicks,", links.length, "links");
   console.log(JSON.stringify(summary, null, 2));
-  const clean = summary.badLinks === 0 && summary.noops === 0 && summary.keys === 0 && summary.mobile === 0 && summary.consoleErrs === 0 && summary.crossAppBroken === 0 && summary.loginOk && summary.langOk && summary.pagesWithIssues === 0;
+  const clean = summary.badLinks === 0 && summary.noops === 0 && summary.probeErrors === 0 && summary.keys === 0 && summary.mobile === 0 && summary.consoleErrs === 0 && summary.crossAppBroken === 0 && summary.loginOk && summary.guestOk && summary.langOk && summary.pagesWithIssues === 0;
   console.log(clean ? "AUDIT CLEAN" : "AUDIT FOUND ISSUES — see scripts/audit-output/report.md");
   process.exit(clean ? 0 : 2);
 }

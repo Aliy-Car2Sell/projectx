@@ -47,6 +47,10 @@ pnpm check-messages
 pnpm audit:ui            # needs `pnpm build` first; writes scripts/audit-output/report.md
 ```
 
+Without a system Chrome, install Chrome for Testing and point `CHROME_PATH` at it:
+`npx -p @puppeteer/browsers browsers install chrome@<version>` (the version `puppeteer-core` pins is in
+`node_modules/puppeteer-core/lib/puppeteer/revisions.js`).
+
 ## PWA (patient app)
 
 Install prompts require the manifest, icons and a service worker — all present — plus HTTPS
