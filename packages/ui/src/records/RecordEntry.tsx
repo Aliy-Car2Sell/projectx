@@ -67,7 +67,7 @@ export function RecordEntry({
     <article
       className={cn(
         "record-entry grid grid-cols-[62px_minmax(0,1fr)] md:grid-cols-[92px_minmax(0,1fr)] gap-x-3 md:gap-x-5 py-4",
-        isSummary && "record-summary -mx-2 px-2 md:-mx-4 md:px-4 border-l-[3px] border-primary bg-primary-soft/60",
+        isSummary && "record-summary -mx-2 px-2 md:-mx-4 md:px-4 border-l-[3px] border-l-primary bg-primary-soft/60",
       )}
     >
       <div className="text-sm leading-tight text-muted">

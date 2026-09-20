@@ -411,6 +411,34 @@
       "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
       "saved": "Entry added to your record"
     },
-    "accessHint": "Doctors you have an active appointment with can see your record automatically."
+    "accessHint": "Doctors you have an active appointment with can see your record automatically.",
+    "print": {
+      "button": "Print / PDF",
+      "title": "Print or save as PDF",
+      "period": "Period",
+      "periods": {
+        "3m": "Last 3 months",
+        "1y": "Last year",
+        "all": "Everything"
+      },
+      "sections": "Sections",
+      "mode": "Mode",
+      "modes": {
+        "full": "Full",
+        "doctor": "For the doctor"
+      },
+      "modeHint": {
+        "full": "Everything in your record, including \"Only me\" entries.",
+        "doctor": "Cover and entries. \"Only me\" entries, chat and reviews are left out."
+      },
+      "print": "Print",
+      "savePdf": "Save PDF",
+      "hint": "In the window that opens, choose \"Save as PDF\"",
+      "entry": "Print",
+      "back": "Back to the record",
+      "printedOn": "Printed: {date}",
+      "singleEntry": "Single entry",
+      "nothing": "No entries in the selected period and sections."
+    }
   }
 }

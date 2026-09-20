@@ -56,3 +56,59 @@ export function groupByMonth(records: MedicalRecord[]): MonthGroup[] {
   }
   return out;
 }
+
+// ---------- printing ----------
+export type PrintMode = "full" | "doctor";
+export interface PrintOptions {
+  period: PrintPeriod;
+  sections: RecordSection[];
+  mode: PrintMode;
+  /** Print just this entry (period and sections are ignored). */
+  recordId?: string;
+  /** Open the browser's print dialog as soon as the page has loaded. */
+  auto: boolean;
+}
+
+type Query = { [key: string]: string | string[] | undefined };
+const one = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
+
+/** Read `?period=&sections=&mode=&record=&auto=`; anything missing or unknown falls back to "everything". */
+export function parsePrintOptions(sp: Query): PrintOptions {
+  const period = one(sp.period);
+  const wanted = (one(sp.sections) ?? "").split(",").filter((s): s is RecordSection => (recordSections as readonly string[]).includes(s));
+  return {
+    period: (printPeriods as readonly string[]).includes(period ?? "") ? (period as PrintPeriod) : "all",
+    sections: wanted.length ? wanted : [...recordSections],
+    mode: one(sp.mode) === "doctor" ? "doctor" : "full",
+    recordId: one(sp.record) || undefined,
+    auto: one(sp.auto) === "1",
+  };
+}
+
+export function printQuery(o: Partial<Omit<PrintOptions, "auto">> & { auto?: boolean }): string {
+  const q = new URLSearchParams();
+  if (o.recordId) q.set("record", o.recordId);
+  else {
+    if (o.period && o.period !== "all") q.set("period", o.period);
+    if (o.sections && o.sections.length < recordSections.length) q.set("sections", o.sections.join(","));
+  }
+  if (o.mode === "doctor") q.set("mode", "doctor");
+  if (o.auto) q.set("auto", "1");
+  const s = q.toString();
+  return s ? `?${s}` : "";
+}
+
+/** What ends up on paper. "doctor" mode = cover + everything not marked private. */
+export function selectForPrint(records: MedicalRecord[], o: PrintOptions, today: string): { cover: MedicalRecord[]; entries: MedicalRecord[] } {
+  const visible = records.filter((r) => o.mode === "full" || !r.private);
+  const all = timeline(visible);
+  if (o.recordId) return { cover: visible, entries: all.filter((r) => r.id === o.recordId) };
+  const from = periodStart(o.period, today);
+  return {
+    cover: visible,
+    entries: all.filter((r) => {
+      const s = sectionOf(r.type);
+      return s !== null && o.sections.includes(s) && (!from || r.date >= from);
+    }),
+  };
+}

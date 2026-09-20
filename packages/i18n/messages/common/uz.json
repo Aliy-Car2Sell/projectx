@@ -411,6 +411,34 @@
       "privateHint": "Doktorlar bu yozuvni ko'rmaydi va u \"Doktor uchun\" chop etilmaydi.",
       "saved": "Yozuv kartochkaga qo'shildi"
     },
-    "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi."
+    "accessHint": "Aktiv qabuli bor doktorlar kartochkangizni avtomatik ko'radi.",
+    "print": {
+      "button": "Chop etish / PDF",
+      "title": "Chop etish yoki PDF saqlash",
+      "period": "Davr",
+      "periods": {
+        "3m": "Oxirgi 3 oy",
+        "1y": "Oxirgi 1 yil",
+        "all": "Hammasi"
+      },
+      "sections": "Bo'limlar",
+      "mode": "Rejim",
+      "modes": {
+        "full": "To'liq",
+        "doctor": "Doktor uchun"
+      },
+      "modeHint": {
+        "full": "Kartochkadagi hamma narsa, \"Faqat men ko'raman\" yozuvlari ham.",
+        "doctor": "Muqova va yozuvlar. \"Faqat men ko'raman\" deb belgilangan yozuvlar, chat va sharhlar chiqmaydi."
+      },
+      "print": "Chop etish",
+      "savePdf": "PDF saqlash",
+      "hint": "Ochilgan oynada \"PDF sifatida saqlash\" ni tanlang",
+      "entry": "Chop etish",
+      "back": "Kartochkaga qaytish",
+      "printedOn": "Chop etilgan: {date}",
+      "singleEntry": "Bitta yozuv",
+      "nothing": "Tanlangan davr va bo'limlarda yozuv yo'q."
+    }
   }
 }

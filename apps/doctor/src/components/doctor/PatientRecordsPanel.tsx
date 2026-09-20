@@ -16,7 +16,7 @@ export function PatientRecordsPanel({ patient, records, doctorName }: { patient:
   const [written, setWritten] = useState<MedicalRecord[]>([]);
   return (
     <>
-      <RecordsView patient={patient} records={[...written, ...records]} role="doctor" onAddSummary={() => setOpen(true)} />
+      <RecordsView patient={patient} records={[...written, ...records]} role="doctor" onAddSummary={() => setOpen(true)} printHref={`/doctor/patients/${patient.id}/print`} />
       <Modal open={open} onClose={() => setOpen(false)} title={t("summaryTitle")} closeLabel={tc("close")} size="lg">
         <SummaryForm
           onSaved={(s) => {

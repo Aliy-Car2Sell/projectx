@@ -7,6 +7,7 @@
     "./styles/*": "./styles/*",
     "./layout/nav": "./src/layout/nav.ts",
     "./demo/state": "./src/demo/state.ts",
+    "./records/groupRecords": "./src/records/groupRecords.ts",
     "./layout/*": "./src/layout/*.tsx",
     "./auth/*": "./src/auth/*.tsx",
     "./chat/*": "./src/chat/*.tsx",

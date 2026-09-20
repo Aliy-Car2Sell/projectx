@@ -104,6 +104,9 @@ const APPS = {
       "/patient/appointments/apt-4",
       "/patient/appointments/apt-6",
       "/patient/records",
+      "/patient/records/print",
+      "/patient/records/print?mode=doctor&period=1y&sections=analysis,summary",
+      "/patient/records/print?record=rec-1",
       "/patient/chat",
       "/patient/chat/chat-1",
       "/patient/profile",
@@ -137,6 +140,7 @@ const APPS = {
       "/doctor/schedule",
       "/doctor/patients",
       "/doctor/patients/u-patient-1",
+      "/doctor/patients/u-patient-1/print",
       "/doctor/chat",
       "/doctor/chat/dchat-1",
       "/doctor/reviews",
@@ -222,6 +226,7 @@ async function newPage(browser, locale, vp, origin, { guest = false } = {}) {
   await page.setCookie({ name: "NEXT_LOCALE", value: locale, domain, path: "/" });
   if (!guest) await page.setCookie({ ...SESSION_COOKIE, domain, path: "/" });
   await page.evaluateOnNewDocument(() => {
+    window.print = () => {}; // print routes opened with &auto=1 call it on load
     const orig = HTMLInputElement.prototype.click;
     HTMLInputElement.prototype.click = function () {
       if (this.type === "file") {

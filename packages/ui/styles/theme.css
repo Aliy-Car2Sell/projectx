@@ -4,6 +4,7 @@
  * Tailwind v4 has no JS preset: this file is the preset. Change a color here, it changes everywhere.
  */
 @source "../src";
+@import "./print.css";
 
 /* Design tokens (Tailwind v4 uses CSS-based config instead of tailwind.config.js) */
 @theme {
