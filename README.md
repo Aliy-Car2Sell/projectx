@@ -63,6 +63,10 @@ Each app has a committed `.env` with the local ports; override with `.env.local`
 - Each app's `/login` has a single demo button for its own role ("enter as patient / doctor / admin").
 - Doctor login links to the patient app's `/register?role=doctor` (role pre-selected) and `/forgot-password`;
   admin login has no register link.
+- Patient app: doctor search (`/patient/doctors`) and doctor profiles (`/patient/doctors/[id]`) are open to guests,
+  with a plain header (logo, language, login) instead of the app shell. Everything else under `/patient` needs the
+  mock session cookie: `src/proxy.ts` sends guests to `/login?returnTo=<page>` (so "book" and "chat" ask for login),
+  and login, register and the demo button all land back on `returnTo`. Logging out clears the cookie.
 - List pages accept `?state=empty|loading|error` to preview empty, loading and error states.
 - `/doctor?state=pending` shows the "profile under review" banner.
 

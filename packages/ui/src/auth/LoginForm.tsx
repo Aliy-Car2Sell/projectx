@@ -13,15 +13,18 @@ import { Input } from "../ui/Input";
  * so a valid form simply enters the app's demo at `homeHref`.
  * `registerHref` / `forgotHref` may point at another app (absolute URL); omit
  * `registerHref` to hide the "no account?" line (admin).
+ * `onLogin` (a server action) replaces the plain navigation when the app keeps a session.
  */
 export function LoginForm({
   homeHref,
   registerHref,
   forgotHref,
+  onLogin,
 }: {
   homeHref: string;
   registerHref?: string;
   forgotHref: string;
+  onLogin?: () => Promise<void>;
 }) {
   const t = useTranslations("auth.login");
   const router = useRouter();
@@ -35,7 +38,8 @@ export function LoginForm({
         method="post"
         onSubmit={(e) => {
           e.preventDefault();
-          router.push(homeHref);
+          if (onLogin) void onLogin();
+          else router.push(homeHref);
         }}
       >
         <Input

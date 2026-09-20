@@ -18,7 +18,16 @@ import { Select } from "../ui/Select";
 import { Toast } from "../ui/Toast";
 
 /** Shared profile editor for patient and doctor accounts. */
-export function ProfileForm({ user, extra }: { user: User; extra?: React.ReactNode }) {
+export function ProfileForm({
+  user,
+  extra,
+  logoutAction,
+}: {
+  user: User;
+  extra?: React.ReactNode;
+  /** Server action ending the session; without it "log out" just links to /login. */
+  logoutAction?: () => Promise<void>;
+}) {
   const t = useTranslations("profile");
   const tc = useTranslations("common");
   const tl = useTranslations("lang");
@@ -118,9 +127,17 @@ export function ProfileForm({ user, extra }: { user: User; extra?: React.ReactNo
 
         <Card>
           <CardHeader title={t("logout")} subtitle={t("logoutDesc")} action={<UserRound className="h-5 w-5 text-muted" />} />
-          <Button href="/login" variant="danger" fullWidth icon={<LogOut className="h-4 w-4" />}>
-            {tc("logout")}
-          </Button>
+          {logoutAction ? (
+            <form action={logoutAction}>
+              <Button type="submit" variant="danger" fullWidth icon={<LogOut className="h-4 w-4" />}>
+                {tc("logout")}
+              </Button>
+            </form>
+          ) : (
+            <Button href="/login" variant="danger" fullWidth icon={<LogOut className="h-4 w-4" />}>
+              {tc("logout")}
+            </Button>
+          )}
         </Card>
       </div>
 

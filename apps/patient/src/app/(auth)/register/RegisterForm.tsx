@@ -3,7 +3,6 @@
 import { appUrl } from "@projectx/utils/urls";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { Check, Lock, Mail, Phone, Stethoscope, User } from "lucide-react";
 import type { UserRole } from "@projectx/types";
@@ -11,11 +10,12 @@ import { cn } from "@projectx/utils";
 import { Button } from "@projectx/ui/Button";
 import { Card } from "@projectx/ui/Card";
 import { Input } from "@projectx/ui/Input";
+import { PATIENT_HOME, authHref } from "@/lib/session";
+import { signIn } from "@/lib/session-actions";
 
-/** initialRole (from ?role=doctor) pre-selects the role and hides the chooser. */
-export function RegisterForm({ initialRole = null }: { initialRole?: "doctor" | null }) {
+/** initialRole (from ?role=doctor) pre-selects the role and hides the chooser; returnTo is where a new patient lands. */
+export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { initialRole?: "doctor" | null; returnTo?: string }) {
   const t = useTranslations("auth.register");
-  const router = useRouter();
   const [role, setRole] = useState<Extract<UserRole, "patient" | "doctor"> | null>(initialRole);
   const locked = initialRole !== null;
 
@@ -55,7 +55,7 @@ export function RegisterForm({ initialRole = null }: { initialRole?: "doctor" | 
           onSubmit={(e) => {
             e.preventDefault();
             if (role === "doctor") window.location.assign(appUrl("doctor", "/doctor/onboarding"));
-            else router.push("/patient");
+            else void signIn(returnTo);
           }}
         >
           <div className="flex items-center justify-between rounded-lg bg-primary-soft/60 px-3 py-2">
@@ -96,7 +96,7 @@ export function RegisterForm({ initialRole = null }: { initialRole?: "doctor" | 
 
       <p className="mt-5 text-center text-sm text-muted">
         {t("haveAccount")}{" "}
-        <Link href="/login" className="text-primary font-semibold hover:underline">
+        <Link href={authHref("/login", returnTo)} className="text-primary font-semibold hover:underline">
           {t("login")}
         </Link>
       </p>

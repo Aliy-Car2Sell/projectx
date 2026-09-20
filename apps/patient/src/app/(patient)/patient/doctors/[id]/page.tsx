@@ -1,3 +1,4 @@
+import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { appUrl } from "@projectx/utils/urls";
 import { getTranslations } from "next-intl/server";
@@ -5,7 +6,7 @@ import { Award, Briefcase, CalendarCheck, Clock, MapPin, MessageCircle, Phone, S
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getDoctorReviews } from "@projectx/mock/reviews";
 import { chatHrefFor } from "@projectx/mock/chats";
-import { formatMoney } from "@projectx/utils";
+import { cn, formatMoney } from "@projectx/utils";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
@@ -15,6 +16,7 @@ import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { StarRating } from "@projectx/ui/StarRating";
 import { MapView } from "@projectx/ui/map/MapView";
 import { ReviewCard } from "@projectx/ui/reviews/ReviewCard";
+import { SESSION_COOKIE } from "@/lib/session";
 
 export default async function DoctorProfilePage({
   params,
@@ -36,7 +38,9 @@ export default async function DoctorProfilePage({
   const reviews = getDoctorReviews(doctor.id);
   const name = `${doctor.firstName} ${doctor.lastName}`;
   const tel = doctor.phone.replace(/\s/g, "");
+  // Guests can read the profile; booking and chat go through login (proxy.ts) and come back.
   const chatHref = chatHrefFor("patient", doctor.id);
+  const signedIn = (await cookies()).has(SESSION_COOKIE);
   // Doctors and admins open this page as a preview; send them back to their own panel.
   const back =
     from === "doctor"
@@ -162,8 +166,8 @@ export default async function DoctorProfilePage({
         </aside>
       </div>
 
-      {/* Mobile sticky CTA */}
-      <div className="md:hidden fixed inset-x-0 bottom-14 z-20 bg-card border-t border-line p-3 flex gap-2 safe-bottom">
+      {/* Mobile sticky CTA (sits above the bottom nav, which guests don't have) */}
+      <div className={cn("md:hidden fixed inset-x-0 z-20 bg-card border-t border-line p-3 flex gap-2 safe-bottom", signedIn ? "bottom-14" : "bottom-0")}>
         <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0 w-11 px-0!" aria-label={t("call")}>
           <Phone className="h-5 w-5" />
         </Button>

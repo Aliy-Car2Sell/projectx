@@ -23,11 +23,14 @@ export function AppShell({
   role,
   user,
   unreadMessages = 0,
+  logoutAction,
   children,
 }: {
   role: UserRole;
   user: User;
   unreadMessages?: number;
+  /** Server action ending the session; without it "log out" just links to /login. */
+  logoutAction?: () => Promise<void>;
   children: React.ReactNode;
 }) {
   const t = useTranslations();
@@ -37,6 +40,8 @@ export function AppShell({
   const homeHref = items[0].href;
   const chatHref = chatHrefByRole[role];
   const fullName = `${user.firstName} ${user.lastName}`;
+  const logoutClass =
+    "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
 
   return (
     <div className="min-h-dvh flex bg-surface">
@@ -93,13 +98,19 @@ export function AppShell({
         </nav>
 
         <div className="px-2 lg:px-3 pb-4">
-          <Link
-            href="/login"
-            className="flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start"
-          >
-            <LogOut className="h-5 w-5 shrink-0" />
-            <span className="hidden lg:inline">{t("common.logout")}</span>
-          </Link>
+          {logoutAction ? (
+            <form action={logoutAction}>
+              <button type="submit" title={t("common.logout")} className={cn(logoutClass, "w-full")}>
+                <LogOut className="h-5 w-5 shrink-0" />
+                <span className="hidden lg:inline">{t("common.logout")}</span>
+              </button>
+            </form>
+          ) : (
+            <Link href="/login" className={logoutClass}>
+              <LogOut className="h-5 w-5 shrink-0" />
+              <span className="hidden lg:inline">{t("common.logout")}</span>
+            </Link>
+          )}
         </div>
       </aside>
 
