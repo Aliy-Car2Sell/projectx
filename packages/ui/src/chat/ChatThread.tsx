@@ -95,7 +95,7 @@ export function ChatThread({
               <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
                 <div
                   className={cn(
-                    "max-w-[82%] md:max-w-[70%] rounded-2xl px-3.5 py-2 text-[15px] md:text-sm shadow-sm",
+                    "max-w-[82%] md:max-w-[70%] rounded-2xl px-3.5 py-2 text-base md:text-sm shadow-sm",
                     mine ? "bg-primary text-white rounded-br-md" : "bg-card text-heading rounded-bl-md",
                   )}
                 >
@@ -169,7 +169,7 @@ export function ChatThread({
           }}
           rows={1}
           placeholder={t("typeMessage")}
-          className="flex-1 resize-none rounded-lg border border-line bg-surface px-3 py-2.5 text-[15px] md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className="flex-1 resize-none rounded-lg border border-line bg-surface px-3 py-2.5 text-base md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
         <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
           <Send className="h-5 w-5" />

@@ -84,11 +84,6 @@
       "sat": "Sat",
       "sun": "Sun"
     },
-    "demoStates": "States",
-    "stateNormal": "Normal",
-    "stateEmpty": "Empty",
-    "stateLoading": "Loading",
-    "stateError": "Error",
     "months": {
       "0": "January",
       "1": "February",
@@ -123,7 +118,8 @@
       "certificate": "Certificate",
       "license": "License"
     },
-    "mapLoading": "Loading map..."
+    "mapLoading": "Loading map...",
+    "experienceFull": "Experience: {count, plural, one {# year} other {# years}}"
   },
   "lang": {
     "label": "Language",
@@ -601,5 +597,11 @@
     "whoSeesLabel": "Who can see this?",
     "whoSees": "Only you and doctors you have an active appointment with can see your record. Entries marked \"Only me\" are not shown to any doctor.",
     "slotDuration": "The time set aside for one visit. Your working hours are split into free times of this length, and patients pick one of them."
+  },
+  "qualification": {
+    "highest": "Qualification: highest category",
+    "first": "Qualification: first category",
+    "second": "Qualification: second category",
+    "none": "Qualification: no category"
   }
 }

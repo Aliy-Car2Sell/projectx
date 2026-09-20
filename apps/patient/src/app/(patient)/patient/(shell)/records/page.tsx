@@ -2,7 +2,6 @@ import { getTranslations } from "next-intl/server";
 import { currentPatient } from "@projectx/mock/users";
 import { getPatientRecords } from "@projectx/mock/records";
 import { PageHeader } from "@projectx/ui/PageHeader";
-import { DemoStates } from "@projectx/ui/demo/DemoStates";
 import { readDemoState } from "@projectx/ui/demo/state";
 import { RecordsView } from "@projectx/ui/records/RecordsView";
 
@@ -12,7 +11,6 @@ export default async function RecordsPage({ searchParams }: { searchParams: Prom
   return (
     <>
       <PageHeader title={t("title")} />
-      <DemoStates />
       <RecordsView patient={currentPatient} records={getPatientRecords(currentPatient.id)} role="patient" state={state} printHref="/patient/records/print" />
     </>
   );

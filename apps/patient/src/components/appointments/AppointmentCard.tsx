@@ -130,7 +130,7 @@ export function AppointmentCard({
           </>
         }
       >
-        <p className="text-[15px] text-heading">
+        <p className="text-base md:text-[15px] text-heading">
           {t("cancelDesc", { doctor: name, date: fmtDate(locale, tc, appointment.date, "weekday"), time: appointment.time })}
         </p>
       </Modal>

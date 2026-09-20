@@ -67,7 +67,8 @@ Each app has a committed `.env` with the local ports; override with `.env.local`
   with a plain header (logo, language, login) instead of the app shell. Everything else under `/patient` needs the
   mock session cookie: `src/proxy.ts` sends guests to `/login?returnTo=<page>` (so "book" and "chat" ask for login),
   and login, register and the demo button all land back on `returnTo`. Logging out clears the cookie.
-- List pages accept `?state=empty|loading|error` to preview empty, loading and error states.
+- List pages accept `?state=empty|loading|error` to preview empty, loading and error states (no UI for it; the audit seeds these URLs).
+- `NEXT_PUBLIC_DEMO=true` shows a "demo mode" badge on the login pages; nothing else in the UI mentions demo mode.
 - `/doctor?state=pending` shows the "profile under review" banner.
 
 ## Where things live

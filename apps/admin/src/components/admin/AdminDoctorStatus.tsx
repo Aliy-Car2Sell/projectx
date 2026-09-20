@@ -67,7 +67,7 @@ export function AdminDoctorStatus({ doctor }: { doctor: { id: string; name: stri
           </>
         }
       >
-        <p className="text-[15px] text-heading">{t("blockDesc", { name: doctor.name })}</p>
+        <p className="text-base md:text-[15px] text-heading">{t("blockDesc", { name: doctor.name })}</p>
       </Modal>
 
       <Toast message={toast} />

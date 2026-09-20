@@ -119,7 +119,7 @@ export function ProfileForm({
                 disabled={pending}
                 onClick={() => changeLocale(l)}
                 className={cn(
-                  "flex items-center justify-between rounded-lg border px-3 min-h-[44px] text-[15px] transition-colors",
+                  "flex items-center justify-between rounded-lg border px-3 min-h-[44px] text-base md:text-[15px] transition-colors",
                   l === locale ? "border-primary bg-primary-soft text-primary font-semibold" : "border-line hover:border-primary",
                 )}
               >

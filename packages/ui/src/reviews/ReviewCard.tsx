@@ -18,7 +18,7 @@ export function ReviewCard({ review, className, children }: { review: Review; cl
         </div>
         <StarRating value={review.rating} size="xs" />
       </div>
-      <p className="mt-3 text-[15px] md:text-sm text-heading leading-relaxed">{review.text}</p>
+      <p className="mt-3 text-base md:text-sm text-heading leading-relaxed">{review.text}</p>
       {children}
     </div>
   );

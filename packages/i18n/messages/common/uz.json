@@ -84,11 +84,6 @@
       "sat": "Sha",
       "sun": "Ya"
     },
-    "demoStates": "Holatlar",
-    "stateNormal": "Oddiy",
-    "stateEmpty": "Bo'sh",
-    "stateLoading": "Yuklanmoqda",
-    "stateError": "Xato",
     "months": {
       "0": "yanvar",
       "1": "fevral",
@@ -123,7 +118,8 @@
       "certificate": "Sertifikat",
       "license": "Litsenziya"
     },
-    "mapLoading": "Xarita yuklanmoqda..."
+    "mapLoading": "Xarita yuklanmoqda...",
+    "experienceFull": "Tajriba: {count} yil"
   },
   "lang": {
     "label": "Til",
@@ -601,5 +597,11 @@
     "whoSeesLabel": "Kim ko'radi?",
     "whoSees": "Kartochkangizni faqat siz va sizda aktiv qabuli bor doktorlar ko'radi. \"Faqat men ko'raman\" deb belgilangan yozuvlarni hech bir doktor ko'rmaydi.",
     "slotDuration": "Bitta qabulga ajratiladigan vaqt. Ish vaqtingiz shu uzunlikdagi bo'sh vaqtlarga bo'linadi va bemorlar shulardan birini tanlaydi."
+  },
+  "qualification": {
+    "highest": "Malaka: oliy toifa",
+    "first": "Malaka: birinchi toifa",
+    "second": "Malaka: ikkinchi toifa",
+    "none": "Malaka: toifasiz"
   }
 }

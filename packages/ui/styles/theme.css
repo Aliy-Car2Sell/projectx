@@ -14,7 +14,8 @@
   --color-surface: #f4f6f8;
   --color-card: #ffffff;
   --color-heading: #1f2937;
-  --color-muted: #6b7280;
+  /* Secondary text: 5.98:1 on card, 5.52:1 on surface, 5.35:1 on primary-soft (WCAG AA needs 4.5:1). */
+  --color-muted: #5b6472;
   --color-line: #e5e7eb;
   --color-success: #22c55e;
   --color-success-soft: #dcfce7;
@@ -40,7 +41,7 @@
     background: var(--color-surface);
     color: var(--color-heading);
     font-family: var(--font-sans);
-    font-size: 15px;
+    font-size: 16px; /* body text is never below 16px on phones */
     line-height: 1.5;
     overflow-x: hidden;
   }

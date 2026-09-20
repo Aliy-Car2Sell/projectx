@@ -34,7 +34,7 @@ export default async function DoctorProfilePage({
   const t = await getTranslations("patient.doctorProfile");
   const tc = await getTranslations("common");
   const ts = await getTranslations("specialties");
-  const tcat = await getTranslations("categories");
+  const tq = await getTranslations("qualification");
   const tcity = await getTranslations("cities");
   const th = await getTranslations("hints");
   const reviews = getDoctorReviews(doctor.id);
@@ -64,11 +64,11 @@ export default async function DoctorProfilePage({
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   {doctor.category !== "none" && (
-                    <span className="inline-flex items-center gap-0.5">
-                      <Badge tone="accent">
-                        <Award className="h-3 w-3" /> {tcat(doctor.category)}
+                    <span className="flex min-w-0 max-w-full items-center gap-0.5">
+                      <Badge tone="accent" className="whitespace-normal! text-left rounded-xl!">
+                        <Award className="h-3 w-3" /> {tq(doctor.category)}
                       </Badge>
-                      <Tooltip label={th("label")} text={th("category")} />
+                      <Tooltip label={th("label")} text={th("category")} className="shrink-0" />
                     </span>
                   )}
                   <Badge tone="primary">{tcity(doctor.city)}</Badge>
@@ -124,7 +124,7 @@ export default async function DoctorProfilePage({
           <section>
             <SectionTitle>{t("about")}</SectionTitle>
             <Card>
-              <p className="text-[15px] md:text-sm leading-relaxed text-heading">{doctor.about}</p>
+              <p className="text-base md:text-sm leading-relaxed text-heading">{doctor.about}</p>
             </Card>
           </section>
 
