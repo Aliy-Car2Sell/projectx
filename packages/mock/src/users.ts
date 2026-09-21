@@ -13,6 +13,7 @@ export const currentPatient: User = {
   createdAt: "2026-03-12",
   city: "tashkent",
   birthDate: "1992-06-18",
+  bloodType: "A(II) Rh+",
 };
 
 export const currentDoctorUser: User = {

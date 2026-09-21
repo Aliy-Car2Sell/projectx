@@ -18,6 +18,7 @@ export interface User {
   createdAt: string; // ISO date
   city?: CityKey;
   birthDate?: string; // YYYY-MM-DD
+  bloodType?: string; // e.g. "A(II) Rh+"
 }
 
 export type SpecialtyKey =
@@ -107,7 +108,16 @@ export type RecordType =
   | "history"
   | "allergy"
   | "medication"
-  | "summary";
+  | "summary"
+  | "other";
+
+/** One measured value of a lab result, shown as a row: "Gemoglobin 135 g/L · norma 120–160". */
+export interface RecordValue {
+  name: string;
+  value: string;
+  unit?: string;
+  norm?: string;
+}
 
 export interface MedicalRecord {
   id: string;
@@ -117,6 +127,10 @@ export interface MedicalRecord {
   description?: string;
   fileName?: string;
   fileType?: "pdf" | "image";
+  /** Structured lab values (analysis records). */
+  values?: RecordValue[];
+  /** "Only I can see this": hidden from doctors and from the "for the doctor" printout. */
+  private?: boolean;
   date: string; // YYYY-MM-DD
   isNew?: boolean;
   authorRole: UserRole;

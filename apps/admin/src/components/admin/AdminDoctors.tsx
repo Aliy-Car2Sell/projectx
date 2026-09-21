@@ -132,7 +132,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
           </>
         }
       >
-        <p className="text-[15px] text-heading">{target && t("blockDesc", { name: name(target) })}</p>
+        <p className="text-base md:text-[15px] text-heading">{target && t("blockDesc", { name: name(target) })}</p>
       </Modal>
 
       <Toast message={toast} />

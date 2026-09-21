@@ -9,6 +9,7 @@ import { cn, hoursUntil } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Button } from "@projectx/ui/Button";
+import { Tooltip } from "@projectx/ui/Tooltip";
 import { Modal } from "@projectx/ui/Modal";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 
@@ -25,6 +26,7 @@ export function AppointmentCard({
 }) {
   const t = useTranslations("patient.appointments");
   const tc = useTranslations("common");
+  const th = useTranslations("hints");
   const locale = useLocale();
   const [cancelOpen, setCancelOpen] = useState(false);
   const name = `${doctor.firstName} ${doctor.lastName}`;
@@ -54,6 +56,7 @@ export function AppointmentCard({
               <CalendarClock className="h-4 w-4 text-muted" />
               <span className="capitalize">{fmtDate(locale, tc, appointment.date, "weekday")}</span>
               <span className="font-semibold">· {appointment.time}</span>
+              {upcoming && <Tooltip label={th("label")} text={th("twoHours")} />}
             </span>
             <span className="inline-flex items-center gap-1.5 text-muted min-w-0">
               <MapPin className="h-4 w-4 shrink-0" />
@@ -127,7 +130,7 @@ export function AppointmentCard({
           </>
         }
       >
-        <p className="text-[15px] text-heading">
+        <p className="text-base md:text-[15px] text-heading">
           {t("cancelDesc", { doctor: name, date: fmtDate(locale, tc, appointment.date, "weekday"), time: appointment.time })}
         </p>
       </Modal>

@@ -104,6 +104,22 @@ const APPS = {
       "/patient/appointments/apt-4",
       "/patient/appointments/apt-6",
       "/patient/records",
+      "/patient/records/print",
+      // ?state= previews are no longer linked from the UI (the toggle row is gone), so they are seeded here
+      "/patient/doctors?state=empty",
+      "/patient/doctors?state=loading",
+      "/patient/doctors?state=error",
+      "/patient/appointments?state=empty",
+      "/patient/appointments?state=loading",
+      "/patient/appointments?state=error",
+      "/patient/records?state=empty",
+      "/patient/records?state=loading",
+      "/patient/records?state=error",
+      "/patient/chat?state=empty",
+      "/patient/chat?state=loading",
+      "/patient/chat?state=error",
+      "/patient/records/print?mode=doctor&period=1y&sections=analysis,summary",
+      "/patient/records/print?record=rec-1",
       "/patient/chat",
       "/patient/chat/chat-1",
       "/patient/profile",
@@ -137,6 +153,16 @@ const APPS = {
       "/doctor/schedule",
       "/doctor/patients",
       "/doctor/patients/u-patient-1",
+      "/doctor/patients/u-patient-1/print",
+      "/doctor/appointments?state=empty",
+      "/doctor/appointments?state=loading",
+      "/doctor/appointments?state=error",
+      "/doctor/patients?state=empty",
+      "/doctor/patients?state=loading",
+      "/doctor/patients?state=error",
+      "/doctor/chat?state=empty",
+      "/doctor/chat?state=loading",
+      "/doctor/chat?state=error",
       "/doctor/chat",
       "/doctor/chat/dchat-1",
       "/doctor/reviews",
@@ -222,6 +248,10 @@ async function newPage(browser, locale, vp, origin, { guest = false } = {}) {
   await page.setCookie({ name: "NEXT_LOCALE", value: locale, domain, path: "/" });
   if (!guest) await page.setCookie({ ...SESSION_COOKIE, domain, path: "/" });
   await page.evaluateOnNewDocument(() => {
+    // Print routes call window.print() (on load with &auto=1, and from their "print" button): record it instead of blocking.
+    window.print = () => {
+      window.__printed = true;
+    };
     const orig = HTMLInputElement.prototype.click;
     HTMLInputElement.prototype.click = function () {
       if (this.type === "file") {
@@ -257,6 +287,7 @@ async function pageState(page) {
     text: document.body.innerText,
     dialog: Boolean(document.querySelector('[role="dialog"]')),
     fileChooser: window.__fileChooser === true,
+    printed: window.__printed === true,
     flags: [...document.querySelectorAll("[aria-selected],[aria-pressed],[aria-checked],[aria-expanded]")]
       .map((e) => (e.getAttribute("aria-selected") ?? "") + (e.getAttribute("aria-pressed") ?? "") + (e.getAttribute("aria-checked") ?? "") + (e.getAttribute("aria-expanded") ?? ""))
       .join(""),
@@ -425,6 +456,7 @@ async function probeButtons(page, app, url, vpName) {
     }
     await page.evaluate(() => {
       window.__fileChooser = false;
+      window.__printed = false;
     });
     const before = await pageState(page);
     const handles = await page.$$("button");
@@ -452,6 +484,7 @@ async function probeButtons(page, app, url, vpName) {
     let result;
     if (urlChanged) result = `navigates → ${after.url}`;
     else if (after.fileChooser) result = "opens file chooser";
+    else if (after.printed) result = "opens print dialog";
     else if (dialogOpened) result = "opens dialog";
     else if (dialogClosed) result = "closes dialog";
     else if (textChanged || flagsChanged) result = "changes content";
@@ -849,7 +882,8 @@ function report(R) {
       const ls = loads.filter((l) => l.locale === loc);
       const keys = [...new Set(ls.flatMap((l) => l.keys || []))];
       const cons = [...new Set(ls.flatMap((l) => (l.console || []).map((c) => c.text)))];
-      const empty = ls.some((l) => l.hasMain && l.mainLen < 20 && !l.isNotFound);
+      // A loading skeleton has no text by design, so ?state=loading is not an "empty page".
+      const empty = !/[?&]state=loading/.test(url) && ls.some((l) => l.hasMain && l.mainLen < 20 && !l.isNotFound);
       const errs = [];
       if (keys.length) errs.push(`kalit: ${keys.join(", ")}`);
       if (cons.length) errs.push(`console: ${cons.map((c) => c.slice(0, 80)).join(" | ")}`);

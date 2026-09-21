@@ -6,7 +6,7 @@
 import { toDate, toIsoDate, weekdayKey } from "./utils";
 
 type T = (key: string) => string;
-export type DateStyle = "long" | "weekday" | "short" | "numeric" | "dayMonth";
+export type DateStyle = "long" | "weekday" | "short" | "medium" | "numeric" | "dayMonth";
 
 function parts(date: string) {
   const d = toDate(date.slice(0, 10));
@@ -30,6 +30,8 @@ export function fmtDate(locale: string, tc: T, date: string, style: DateStyle = 
       return `${two}.${mm}.${year}`;
     case "short":
       return locale === "uz" ? `${day}-${ms}` : `${day} ${ms}`;
+    case "medium":
+      return `${day} ${ms} ${year}`;
     case "dayMonth":
       return locale === "uz" ? `${day}-${m}` : `${day} ${m}`;
     case "weekday":
@@ -40,6 +42,13 @@ export function fmtDate(locale: string, tc: T, date: string, style: DateStyle = 
       if (locale === "ru") return `${day} ${m} ${year}`;
       return `${day} ${m} ${year}`;
   }
+}
+
+/** "Sentyabr 2026" heading for a `YYYY-MM` key (or any date in that month). */
+export function fmtMonthYear(tc: T, date: string): string {
+  const { month, year } = parts(`${date.slice(0, 7)}-01`);
+  const m = tc(`months.${month}`);
+  return `${m.charAt(0).toUpperCase()}${m.slice(1)} ${year}`;
 }
 
 /** "16:30" from an ISO datetime string (local time). */

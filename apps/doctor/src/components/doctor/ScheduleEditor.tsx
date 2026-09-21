@@ -8,6 +8,7 @@ import { cn } from "@projectx/utils";
 import { Button } from "@projectx/ui/Button";
 import { Card, CardHeader } from "@projectx/ui/Card";
 import { Chip, Switch } from "@projectx/ui/Chip";
+import { Tooltip } from "@projectx/ui/Tooltip";
 import { Toast } from "@projectx/ui/Toast";
 
 const toMin = (t: string) => Number(t.slice(0, 2)) * 60 + Number(t.slice(3, 5));
@@ -27,6 +28,7 @@ function slotsFor(day: ScheduleDay, duration: number): string[] {
 
 export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
   const t = useTranslations("doctor.schedule");
+  const th = useTranslations("hints");
   const tc = useTranslations("common");
   const [days, setDays] = useState<ScheduleDay[]>(initial.days);
   const [duration, setDuration] = useState(initial.slotDurationMin);
@@ -56,7 +58,13 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
     <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
       <div className="flex flex-col gap-4">
         <Card>
-          <CardHeader title={t("slotDuration")} />
+          <CardHeader
+            title={
+              <span className="inline-flex items-center gap-1">
+                {t("slotDuration")} <Tooltip label={th("label")} text={th("slotDuration")} />
+              </span>
+            }
+          />
           <div className="flex flex-wrap gap-2">
             {[15, 20, 30, 45, 60].map((m) => (
               <Chip key={m} active={duration === m} onClick={() => setDuration(m)}>

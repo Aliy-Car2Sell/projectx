@@ -45,7 +45,7 @@ export function Input({
           id={inputId}
           className={cn(
             fieldBase,
-            "min-h-[44px] px-3 text-[15px]",
+            "min-h-[44px] px-3 text-base md:text-[15px]",
             leftIcon && "pl-10",
             rightSlot && "pr-11",
             error && "border-danger focus:border-danger focus:ring-danger/20",
@@ -82,7 +82,7 @@ export function Textarea({ label, hint, error, className, id, ...rest }: Textare
       )}
       <textarea
         id={inputId}
-        className={cn(fieldBase, "min-h-[100px] p-3 text-[15px] resize-y", error && "border-danger", className)}
+        className={cn(fieldBase, "min-h-[100px] p-3 text-base md:text-[15px] resize-y", error && "border-danger", className)}
         {...rest}
       />
       {error ? (

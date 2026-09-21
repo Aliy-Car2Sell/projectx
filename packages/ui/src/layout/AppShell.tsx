@@ -7,10 +7,10 @@ import { LogOut, MessageCircle } from "lucide-react";
 import type { User, UserRole } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { Avatar } from "../ui/Avatar";
-import { Badge } from "../ui/Badge";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { NotificationsMenu } from "./NotificationsMenu";
+import { HelpChat } from "../help/HelpChat";
 import { chatHrefByRole, isActive, navByRole, profileHrefByRole } from "./nav";
 
 /**
@@ -41,7 +41,7 @@ export function AppShell({
   const chatHref = chatHrefByRole[role];
   const fullName = `${user.firstName} ${user.lastName}`;
   const logoutClass =
-    "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
+    "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
 
   return (
     <div className="min-h-dvh flex bg-surface">
@@ -76,7 +76,7 @@ export function AppShell({
                 href={item.href}
                 title={label}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-[15px] font-medium transition-colors justify-center lg:justify-start",
+                  "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium transition-colors justify-center lg:justify-start",
                   active ? "bg-primary text-white shadow-sm" : "text-heading hover:bg-surface",
                 )}
               >
@@ -118,9 +118,6 @@ export function AppShell({
       <div className="flex-1 min-w-0 flex flex-col">
         <header className="sticky top-0 z-30 bg-card/95 backdrop-blur border-b border-line h-14 md:h-16 flex items-center px-3 md:px-6 gap-2">
           <Logo href={homeHref} className="md:hidden" />
-          <div className="hidden md:block">
-            <Badge tone="accent">{t("shell.demoBadge")}</Badge>
-          </div>
           <div className="ml-auto flex items-center gap-0.5 md:gap-1">
             <LanguageSwitcher />
             {chatHref && (
@@ -149,6 +146,8 @@ export function AppShell({
           {children}
         </main>
       </div>
+
+      <HelpChat role={role} />
 
       {/* Bottom navigation (mobile) */}
       <nav

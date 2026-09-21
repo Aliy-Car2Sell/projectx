@@ -1,262 +1,175 @@
 "use client";
 
-import { useState } from "react";
-import { useLocale, useTranslations } from "next-intl";
-import {
-  Download,
-  Eye,
-  FileText,
-  FlaskConical,
-  Image as ImageIcon,
-  Info,
-  Pill,
-  Plus,
-  ScanLine,
-  ShieldAlert,
-  Stethoscope,
-  Upload,
-  History,
-  type LucideIcon,
-} from "lucide-react";
-import type { MedicalRecord, RecordType } from "@projectx/types";
-import { cn } from "@projectx/utils";
-import { mockFileUrl } from "@projectx/mock/files";
-import { fmtDate } from "@projectx/utils/dates";
-import { NewBadge } from "../ui/Badge";
+import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
+import { NotebookPen, Plus, Printer, Stethoscope } from "lucide-react";
+import type { MedicalRecord, User } from "@projectx/types";
+import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
-import { EmptyState } from "../ui/EmptyState";
-import { FilePreviewModal, type PreviewFile } from "../ui/FilePreviewModal";
-import { Toast } from "../ui/Toast";
-import { Input, Textarea } from "../ui/Input";
-import { Modal } from "../ui/Modal";
-import { Select } from "../ui/Select";
-import { Tabs } from "../ui/Tabs";
-import { ListSkeleton } from "../ui/Skeleton";
+import { Chip } from "../ui/Chip";
+import { ErrorState } from "../ui/EmptyState";
+import { RetryButton } from "../ui/RetryButton";
+import { Skeleton } from "../ui/Skeleton";
+import { Toast, useToast } from "../ui/Toast";
 import type { DemoState } from "../demo/state";
+import { AddRecordSheet, type AddPreset } from "./AddRecordSheet";
+import { PrintDialog } from "./PrintDialog";
+import { RecordCover } from "./RecordCover";
+import { RecordEntry } from "./RecordEntry";
+import { RecordSheet } from "./RecordSheet";
+import { byFilter, groupByMonth, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
 
-const tabOrder: RecordType[] = ["analysis", "imaging", "history", "allergy", "medication", "summary"];
-const tabIcon: Record<RecordType, LucideIcon> = {
-  analysis: FlaskConical,
-  imaging: ScanLine,
-  history: History,
-  allergy: ShieldAlert,
-  medication: Pill,
-  summary: Stethoscope,
-};
-const fileTypes: RecordType[] = ["analysis", "imaging"];
+const filters: RecordFilter[] = ["all", ...recordSections];
 
 /**
- * Medical record viewer shared by patient (editable) and doctor (read + add summary).
+ * The medical record as one continuous document ("notebook"): cover, then dated entries newest first,
+ * grouped by month. Shared by the patient app (`role="patient"`: may add entries, sees private ones)
+ * and the doctor app (`role="doctor"`: may write a summary; private entries never reach it).
  */
 export function RecordsView({
+  patient,
   records,
-  mode = "patient",
+  role = "patient",
   state = "normal",
   onAddSummary,
+  printHref,
 }: {
+  patient: User;
   records: MedicalRecord[];
-  mode?: "patient" | "doctor";
+  role?: "patient" | "doctor";
   state?: DemoState;
   onAddSummary?: () => void;
+  /** This record's print route (e.g. "/patient/records/print"); enables "Print / PDF". */
+  printHref?: string;
 }) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
-  const locale = useLocale();
-  const [tab, setTab] = useState<RecordType>("analysis");
-  const [uploadOpen, setUploadOpen] = useState(false);
-  const [entryOpen, setEntryOpen] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const tst = useTranslations("states");
+  const [filter, setFilter] = useState<RecordFilter>("all");
+  const [added, setAdded] = useState<MedicalRecord[]>([]);
+  const [preset, setPreset] = useState<AddPreset | null>(null);
+  const [printOpen, setPrintOpen] = useState(false);
+  const { toast, show } = useToast();
 
-  const list = state === "empty" ? [] : records.filter((r) => r.type === tab).sort((a, b) => b.date.localeCompare(a.date));
-  const counts = Object.fromEntries(tabOrder.map((k) => [k, state === "empty" ? 0 : records.filter((r) => r.type === k).length]));
-  const isFileTab = fileTypes.includes(tab);
-  const canAdd = mode === "patient" || tab === "summary";
+  const all = useMemo(() => {
+    const base = state === "empty" ? [] : records;
+    // Defence in depth: the doctor app already asks the mock for shared records only.
+    return [...added, ...base].filter((r) => role === "patient" || !r.private);
+  }, [added, records, role, state]);
+  const entries = useMemo(() => timeline(all), [all]);
+  const shown = useMemo(() => byFilter(entries, filter), [entries, filter]);
+  const groups = useMemo(() => groupByMonth(shown), [shown]);
 
-  const showToast = (msg: string) => {
-    setToast(msg);
-    setTimeout(() => setToast(null), 2500);
-  };
-
-  const addButton = canAdd ? (
-    tab === "summary" && mode === "doctor" ? (
-      <Button size="sm" onClick={onAddSummary} icon={<Plus className="h-4 w-4" />}>
-        {t("add")}
+  const addButton =
+    role === "patient" ? (
+      <Button size="sm" onClick={() => setPreset("entry")} icon={<Plus className="h-4 w-4" />}>
+        {t("add.button")}
       </Button>
-    ) : isFileTab ? (
-      <Button size="sm" onClick={() => setUploadOpen(true)} icon={<Upload className="h-4 w-4" />}>
-        {t("upload")}
+    ) : onAddSummary ? (
+      <Button size="sm" onClick={onAddSummary} icon={<Stethoscope className="h-4 w-4" />}>
+        {t("writeSummary")}
       </Button>
-    ) : tab !== "summary" ? (
-      <Button size="sm" onClick={() => setEntryOpen(true)} icon={<Plus className="h-4 w-4" />}>
-        {t("add")}
-      </Button>
-    ) : null
-  ) : null;
+    ) : null;
 
-  const TabIcon = tabIcon[tab];
+  if (state === "error") return <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />;
 
   return (
-    <div className="flex flex-col gap-3">
-      <Tabs
-        items={tabOrder.map((k) => ({ key: k, label: t(`tabs.${k}`), count: counts[k] }))}
-        value={tab}
-        onChange={(k) => setTab(k as RecordType)}
-      />
-
-      <div className="flex items-center justify-between gap-2">
-        <h2 className="inline-flex items-center gap-2 font-bold text-heading">
-          <TabIcon className="h-5 w-5 text-primary" /> {t(`tabs.${tab}`)}
-        </h2>
-        {addButton}
-      </div>
-
-      {state === "loading" ? (
-        <ListSkeleton rows={3} withAvatar={false} />
-      ) : list.length === 0 ? (
-        <EmptyState icon={<TabIcon className="h-7 w-7" />} title={t(`empty.${tab}`)} description={mode === "patient" ? t("emptyDesc") : undefined} action={addButton} />
-      ) : (
-        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-          {list.map((r) => (
-            <RecordCard key={r.id} record={r} locale={locale} />
+    <div className="flex flex-col">
+      {/* Sticky controls: filter chips scroll sideways on narrow screens, actions stay put */}
+      <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-wrap items-center gap-x-3 gap-y-2">
+        <div className="flex min-w-0 flex-1 basis-full md:basis-0 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
+          {filters.map((f) => (
+            <Chip key={f} active={filter === f} onClick={() => setFilter(f)} className="min-h-[36px] shrink-0">
+              {t(`filters.${f}`)}
+            </Chip>
           ))}
         </div>
-      )}
-
-      {mode === "patient" && (
-        <div className="flex items-start gap-2 text-xs text-muted mt-2">
-          <Info className="h-4 w-4 shrink-0" />
-          <span>{t("accessHint")}</span>
-        </div>
-      )}
-
-      {/* Upload modal (UI only) */}
-      <Modal
-        open={uploadOpen}
-        onClose={() => setUploadOpen(false)}
-        title={t("uploadTitle")}
-        closeLabel={tc("close")}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setUploadOpen(false)}>
-              {tc("cancel")}
+        <div className="flex shrink-0 items-center gap-2">
+          {printHref && state === "normal" && (
+            <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />}>
+              {t("print.button")}
             </Button>
-            <Button
-              onClick={() => {
-                setUploadOpen(false);
-                showToast(t("uploaded"));
-              }}
-              icon={<Upload className="h-4 w-4" />}
-            >
-              {tc("upload")}
-            </Button>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-4">
-          <label className="flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed border-line bg-surface p-6 text-center cursor-pointer hover:border-primary">
-            <Upload className="h-8 w-8 text-primary" />
-            <span className="text-sm font-medium text-heading">{t("dropHint")}</span>
-            <span className="text-xs text-muted">{t("uploadDesc")}</span>
-            <input type="file" className="sr-only" accept=".pdf,image/*" />
-            <span className="mt-1 inline-flex min-h-[36px] items-center rounded-lg border border-primary px-3 text-sm font-semibold text-primary">{t("chooseFile")}</span>
-          </label>
-          <Input label={t("fileTitle")} placeholder={t("fileTitlePlaceholder")} />
-          <div className="grid grid-cols-2 gap-3">
-            <Input label={t("fileDate")} type="date" />
-            <Select label={t("fileTypeLabel")} defaultValue={tab} options={fileTypes.map((k) => ({ value: k, label: t(`tabs.${k}`) }))} />
-          </div>
-        </div>
-      </Modal>
-
-      {/* Text entry modal (history / allergy / medication) */}
-      <Modal
-        open={entryOpen}
-        onClose={() => setEntryOpen(false)}
-        title={t("addEntryTitle")}
-        closeLabel={tc("close")}
-        footer={
-          <>
-            <Button variant="ghost" onClick={() => setEntryOpen(false)}>
-              {tc("cancel")}
-            </Button>
-            <Button
-              onClick={() => {
-                setEntryOpen(false);
-                showToast(tc("save"));
-              }}
-            >
-              {tc("save")}
-            </Button>
-          </>
-        }
-      >
-        <div className="flex flex-col gap-4">
-          <Input label={t("entryTitle")} />
-          <Textarea label={t("entryDesc")} />
-          <Input label={t("fileDate")} type="date" />
-        </div>
-      </Modal>
-
-      <Toast message={toast} />
-    </div>
-  );
-}
-
-function RecordCard({ record, locale }: { record: MedicalRecord; locale: string }) {
-  const t = useTranslations("records");
-  const tc = useTranslations("common");
-  const [preview, setPreview] = useState<PreviewFile | null>(null);
-  const isFile = Boolean(record.fileName);
-  const fileUrl = mockFileUrl(record.fileType === "image" ? "image" : "pdf");
-  const Icon = record.fileType === "image" ? ImageIcon : isFile ? FileText : tabIcon[record.type];
-
-  return (
-    <div className={cn("bg-card rounded-xl shadow-card border border-line/60 p-4 flex gap-3", record.isNew && "border-accent/40")}>
-      <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-lg", record.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary")}>
-        <Icon className="h-5 w-5" />
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-start justify-between gap-2">
-          <div className="min-w-0">
-            <div className="font-semibold text-heading leading-tight flex items-center gap-2 flex-wrap">
-              <span className="truncate">{record.title}</span>
-              {record.isNew && <NewBadge label={tc("new")} />}
-            </div>
-            <div className="text-xs text-muted mt-0.5">
-              {fmtDate(locale, tc, record.date)}
-              {isFile && <> · {record.fileType === "image" ? t("image") : t("pdf")}</>}
-              {!isFile && <> · {t("note")}</>}
-            </div>
-          </div>
-          {isFile && (
-            <div className="flex shrink-0 -mr-1">
-              <button
-                type="button"
-                aria-label={tc("view")}
-                title={tc("view")}
-                onClick={() => setPreview({ name: record.fileName ?? record.title, type: record.fileType === "image" ? "image" : "pdf", url: fileUrl })}
-                className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
-              >
-                <Eye className="h-4 w-4" />
-              </button>
-              <a
-                href={fileUrl}
-                download={record.fileName}
-                aria-label={tc("download")}
-                title={tc("download")}
-                className="h-9 w-9 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
-              >
-                <Download className="h-4 w-4" />
-              </a>
-            </div>
           )}
-        </div>
-        {record.description && <p className="mt-1.5 text-sm text-heading/90">{record.description}</p>}
-        <div className="mt-1.5 text-xs text-muted">
-          {record.authorRole === "doctor" ? t("byDoctor", { name: record.authorName ?? "" }) : t("byYou")}
+          {addButton}
         </div>
       </div>
-      <FilePreviewModal file={preview} onClose={() => setPreview(null)} />
+
+      <RecordSheet className="mt-2">
+        {state === "loading" ? (
+          <div className="flex flex-col gap-4" aria-busy="true" aria-label={tc("loading")}>
+            <Skeleton className="h-8 w-2/3" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="grid grid-cols-[62px_1fr] gap-3 border-t border-line pt-4">
+                <Skeleton className="h-10 w-12" />
+                <div className="flex flex-col gap-2">
+                  <Skeleton className="h-4 w-1/2" />
+                  <Skeleton className="h-4 w-full" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <>
+            <RecordCover patient={patient} records={all} onAdd={role === "patient" ? setPreset : undefined} />
+
+            {entries.length === 0 ? (
+              <div className="flex flex-col items-center py-10 text-center">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-soft text-primary">
+                  <NotebookPen className="h-7 w-7" />
+                </span>
+                <h3 className="mt-3 text-base font-bold text-heading">{t("empty.title")}</h3>
+                <p className="mt-1 max-w-sm text-muted">{t(role === "patient" ? "empty.patient" : "empty.doctor")}</p>
+                {addButton && <div className="mt-4">{addButton}</div>}
+              </div>
+            ) : shown.length === 0 ? (
+              <p className="py-10 text-center text-muted">{t("empty.filtered")}</p>
+            ) : (
+              groups.map((g) => (
+                <section key={g.key} aria-label={fmtMonthYear(tc, g.key)}>
+                  <h3 className="record-month mt-6 mb-1 text-xs font-bold uppercase tracking-[0.1em] text-muted">{fmtMonthYear(tc, g.key)}</h3>
+                  <div className="divide-y divide-line">
+                    {g.items.map((r) => (
+                      <RecordEntry
+                        key={r.id}
+                        record={r}
+                        viewer={role}
+                        actions={
+                          // Entries added in this session exist only in the browser; the print route cannot see them.
+                          printHref && !r.id.startsWith("rec-local-") ? (
+                            <a
+                              href={printHref + printQuery({ recordId: r.id, mode: role === "doctor" ? "doctor" : "full", auto: true })}
+                              target="_blank"
+                              rel="noopener"
+                              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary-soft"
+                            >
+                              <Printer className="h-4 w-4" /> {t("print.entry")}
+                            </a>
+                          ) : null
+                        }
+                      />
+                    ))}
+                  </div>
+                </section>
+              ))
+            )}
+          </>
+        )}
+      </RecordSheet>
+
+      <AddRecordSheet
+        preset={preset}
+        patientId={patient.id}
+        onClose={() => setPreset(null)}
+        onSave={(r) => {
+          setAdded((prev) => [r, ...prev]);
+          setFilter("all");
+          show(t("add.saved"));
+        }}
+      />
+      {printHref && <PrintDialog open={printOpen} onClose={() => setPrintOpen(false)} printHref={printHref} chooseMode={role === "patient"} />}
+      <Toast message={toast} />
     </div>
   );
 }

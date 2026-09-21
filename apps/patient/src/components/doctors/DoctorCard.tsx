@@ -7,6 +7,7 @@ import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
 import { StarRating } from "@projectx/ui/StarRating";
+import { Tooltip } from "@projectx/ui/Tooltip";
 
 export function DoctorCard({
   doctor,
@@ -44,9 +45,10 @@ export function DoctorCard({
             <div className="text-sm text-primary font-medium">{t(`specialties.${doctor.specialty}`)}</div>
           </div>
           {doctor.category !== "none" && (
-            <Badge tone="accent" className="max-sm:hidden">
-              {t(`categories.${doctor.category}`)}
-            </Badge>
+            <span className="max-sm:hidden inline-flex shrink-0 items-center gap-0.5">
+              <Badge tone="accent">{t(`qualification.${doctor.category}`)}</Badge>
+              <Tooltip label={t("hints.label")} text={t("hints.category")} />
+            </span>
           )}
         </div>
 
@@ -54,7 +56,7 @@ export function DoctorCard({
 
         <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-sm text-muted">
           <span className="inline-flex items-center gap-1">
-            <Briefcase className="h-3.5 w-3.5" /> {t("common.years", { count: doctor.experienceYears })}
+            <Briefcase className="h-3.5 w-3.5" /> {t("common.experienceFull", { count: doctor.experienceYears })}
           </span>
           <span className="inline-flex items-center gap-1 min-w-0">
             <MapPin className="h-3.5 w-3.5 shrink-0" />

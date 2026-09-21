@@ -27,7 +27,7 @@ export function Select({ label, options, placeholder, error, className, id, ...r
         <select
           id={selectId}
           className={cn(
-            "w-full appearance-none min-h-[44px] rounded-lg border border-line bg-card pl-3 pr-10 text-[15px] text-heading focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none",
+            "w-full appearance-none min-h-[44px] rounded-lg border border-line bg-card pl-3 pr-10 text-base md:text-[15px] text-heading focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none",
             error && "border-danger",
             className,
           )}

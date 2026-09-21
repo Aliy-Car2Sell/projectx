@@ -1,0 +1,81 @@
+/*
+ * Printing the medical record (RecordPrintView). Browser "Save as PDF" is the PDF export: no library.
+ * Page numbers use @page margin boxes (Chrome / Edge 131+; other browsers simply print without them).
+ */
+@page {
+  size: A4;
+  margin: 15mm;
+  @bottom-right {
+    content: counter(page) " / " counter(pages);
+    font-size: 9pt;
+    color: #4b5563;
+  }
+}
+
+/* Running head: fixed elements repeat on every printed page; the table head below reserves its space. */
+.record-running-head {
+  display: none;
+}
+.record-print-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.record-print-table > thead > tr > td {
+  height: 0;
+  padding: 0;
+}
+
+@media print {
+  html,
+  body {
+    background: #fff !important;
+    font-size: 10.5pt;
+  }
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .record-noprint {
+    display: none !important;
+  }
+  .record-print-page {
+    padding: 0 !important;
+    background: #fff !important;
+  }
+  .record-sheet {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
+  }
+  .record-running-head {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    justify-content: space-between;
+    gap: 8mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 0.3mm solid #9ca3af;
+    font-size: 9pt;
+    color: #374151;
+  }
+  .record-print-table > thead {
+    display: table-header-group; /* repeated on every page */
+  }
+  .record-print-table > thead > tr > td {
+    height: 9mm;
+  }
+  .record-entry,
+  .record-cover {
+    break-inside: avoid;
+  }
+  .record-month {
+    break-after: avoid;
+  }
+  .record-thumb {
+    width: 26mm !important;
+    height: 26mm !important;
+  }
+}

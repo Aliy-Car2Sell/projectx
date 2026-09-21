@@ -84,11 +84,6 @@
       "sat": "Sat",
       "sun": "Sun"
     },
-    "demoStates": "States",
-    "stateNormal": "Normal",
-    "stateEmpty": "Empty",
-    "stateLoading": "Loading",
-    "stateError": "Error",
     "months": {
       "0": "January",
       "1": "February",
@@ -123,7 +118,8 @@
       "certificate": "Certificate",
       "license": "License"
     },
-    "mapLoading": "Loading map..."
+    "mapLoading": "Loading map...",
+    "experienceFull": "Experience: {count, plural, one {# year} other {# years}}"
   },
   "lang": {
     "label": "Language",
@@ -267,8 +263,8 @@
   },
   "chat": {
     "searchPlaceholder": "Search chats",
-    "noChats": "No chats",
-    "noChatsDesc": "Start a conversation from a doctor's profile.",
+    "noChats": "No conversations yet",
+    "noChatsDesc": "Open a doctor's profile and press \"Messages\" — the conversation will appear here.",
     "typeMessage": "Type a message...",
     "attach": "Attach file",
     "send": "Send",
@@ -285,7 +281,10 @@
     "you": "You",
     "openProfile": "Open profile",
     "emptyThread": "No messages yet. Write the first one.",
-    "removeAttachment": "Remove file"
+    "removeAttachment": "Remove file",
+    "noChatsDoctorDesc": "Conversations appear here once a patient writes to you, or you write from a patient's card.",
+    "findDoctor": "Find a doctor",
+    "toPatients": "Go to patients"
   },
   "placeholder": {
     "title": "Page in progress",
@@ -343,44 +342,266 @@
     "changePhoto": "Change photo"
   },
   "records": {
-    "title": "Medical records",
-    "tabs": {
-      "analysis": "Lab tests",
-      "imaging": "Scans",
-      "history": "Medical history",
+    "title": "Medical record",
+    "filterLabel": "Filter entries",
+    "filters": {
+      "all": "All",
+      "analysis": "Lab results",
+      "imaging": "Imaging",
+      "history": "Conditions",
+      "summary": "Summaries"
+    },
+    "types": {
+      "analysis": "Lab result",
+      "imaging": "Imaging",
+      "history": "Condition",
+      "summary": "Doctor's summary",
+      "other": "Other",
+      "allergy": "Allergy",
+      "medication": "Regular medication"
+    },
+    "cover": {
+      "heading": "Outpatient record",
+      "born": "Date of birth",
+      "age": "Age",
+      "years": "{count} y.o.",
+      "bloodType": "Blood type",
+      "phone": "Phone",
       "allergy": "Allergies",
-      "medication": "Medications",
-      "summary": "Doctor's notes"
+      "medication": "Regular medication",
+      "none": "none",
+      "add": "add"
     },
-    "upload": "Upload file",
-    "add": "Add",
-    "uploadTitle": "Upload a file",
-    "uploadDesc": "PDF or image (JPG, PNG). Max size 10 MB.",
-    "dropHint": "Drop a file here or choose one",
-    "chooseFile": "Choose file",
-    "fileTitle": "Title",
-    "fileTitlePlaceholder": "e.g. Complete blood count",
-    "fileDate": "Date",
-    "fileTypeLabel": "Section",
-    "addEntryTitle": "Add an entry",
-    "entryTitle": "Title",
-    "entryDesc": "Notes",
-    "empty": {
-      "analysis": "No lab tests",
-      "imaging": "No scans",
-      "history": "Medical history is empty",
-      "allergy": "No allergies recorded",
-      "medication": "No medications",
-      "summary": "No doctor's notes"
-    },
-    "emptyDesc": "Add information to this section — your doctor will see it during the visit.",
-    "byDoctor": "Doctor: {name}",
+    "norm": "normal {range}",
+    "byDoctor": "Written by Dr. {name}",
     "byYou": "Added by you",
-    "byPatient": "Added by patient",
-    "pdf": "PDF",
-    "image": "Image",
-    "note": "Note",
-    "uploaded": "File uploaded (demo)",
-    "accessHint": "Doctors with an active visit can automatically see your records."
+    "byPatient": "Added by the patient",
+    "privateBadge": "Only me",
+    "writeSummary": "Write a summary",
+    "empty": {
+      "title": "No entries yet",
+      "patient": "Add your first lab result — your doctor will see it at the visit.",
+      "doctor": "The patient has not added anything to the record yet.",
+      "filtered": "Nothing in this section yet."
+    },
+    "add": {
+      "button": "Add",
+      "title": "Add to the record",
+      "allergyTitle": "Add an allergy",
+      "medicationTitle": "Add a regular medication",
+      "type": "Type",
+      "types": {
+        "analysis": "Lab result",
+        "imaging": "Image (X-ray, MRI)",
+        "history": "Condition",
+        "other": "Other"
+      },
+      "name": "Title",
+      "namePlaceholder": {
+        "entry": "E.g. Complete blood count",
+        "allergy": "E.g. Penicillin",
+        "medication": "E.g. Amlodipine 5 mg"
+      },
+      "text": "Text",
+      "date": "Date",
+      "file": "Attach a file",
+      "fileHint": "PDF or image",
+      "private": "Only I can see this",
+      "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
+      "saved": "Entry added to your record"
+    },
+    "print": {
+      "button": "Print / PDF",
+      "title": "Print or save as PDF",
+      "period": "Period",
+      "periods": {
+        "3m": "Last 3 months",
+        "1y": "Last year",
+        "all": "Everything"
+      },
+      "sections": "Sections",
+      "mode": "Mode",
+      "modes": {
+        "full": "Full",
+        "doctor": "For the doctor"
+      },
+      "modeHint": {
+        "full": "Everything in your record, including \"Only me\" entries.",
+        "doctor": "Cover and entries. \"Only me\" entries, chat and reviews are left out."
+      },
+      "print": "Print",
+      "savePdf": "Save PDF",
+      "hint": "In the window that opens, choose \"Save as PDF\"",
+      "entry": "Print",
+      "back": "Back to the record",
+      "printedOn": "Printed: {date}",
+      "singleEntry": "Single entry",
+      "nothing": "No entries in the selected period and sections."
+    }
+  },
+  "help": {
+    "open": "Help",
+    "close": "Close",
+    "title": "Help",
+    "subtitle": "Pick a question or type your own",
+    "greeting": "Hi! How can we help? Pick one of the questions below or type your own.",
+    "placeholder": "Type your question...",
+    "send": "Send",
+    "handoff": "Thank you, we have received your question. An operator will reply shortly.",
+    "error": "Could not get an answer. Please try again in a moment.",
+    "patient": {
+      "topics": {
+        "book": {
+          "q": "How do I book?",
+          "a": "Booking a visit takes three steps:",
+          "steps": [
+            "On the Doctors page, find a doctor by specialty or city.",
+            "On the doctor's profile, press \"Book a visit\".",
+            "Pick a day and a free time, then confirm. The booking is confirmed automatically."
+          ],
+          "link": "Go to Doctors"
+        },
+        "upload": {
+          "q": "How do I upload a lab result?",
+          "a": "A lab result is added to your medical record:",
+          "steps": [
+            "Open the Record page.",
+            "Press \"Add\" and choose \"Lab result\".",
+            "Enter the date and a title, attach a PDF or an image, and save."
+          ],
+          "link": "Go to my record"
+        },
+        "cancel": {
+          "q": "Cancel a visit",
+          "a": "You can cancel or reschedule a visit up to 2 hours before it starts:",
+          "steps": [
+            "On the Appointments page, open the visit.",
+            "Press \"Cancel\" or \"Reschedule\".",
+            "Choose a reason and confirm."
+          ],
+          "link": "Go to Appointments"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top of any page, or the Language section on your Profile page. Uzbek, Russian and English are available.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Contact an operator",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "doctor": {
+      "topics": {
+        "schedule": {
+          "q": "How do I set up my schedule?",
+          "a": "Your working hours are set on the Schedule page:",
+          "steps": [
+            "Turn on your working days and enter start and end times for each.",
+            "Choose the length of one visit (slot) — free times are split accordingly.",
+            "Save. Patients can only book those times."
+          ],
+          "link": "Go to Schedule"
+        },
+        "summary": {
+          "q": "Where do I write a summary?",
+          "a": "A summary is written from the appointment page or from the patient's record:",
+          "steps": [
+            "On the Appointments page, open a completed visit.",
+            "Enter the diagnosis and recommendations, then save.",
+            "The summary appears in the patient's record."
+          ],
+          "link": "Go to Appointments"
+        },
+        "record": {
+          "q": "How do I see a patient's record?",
+          "a": "You can open the record of any patient who has an active or past visit with you. Entries the patient marked \"Only me\" are not shown.",
+          "steps": [
+            "Pick the patient on the Patients page.",
+            "Filter the entries, or print them with \"Print / PDF\"."
+          ],
+          "link": "Go to Patients"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top, or the Language section on your Profile page.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Contact an operator",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "admin": {
+      "topics": {
+        "applications": {
+          "q": "How do I review an application?",
+          "a": "New doctor applications are on the Applications page:",
+          "steps": [
+            "Open the application and check the documents.",
+            "Approve it if everything is in order; otherwise reject it with a reason."
+          ],
+          "link": "Go to Applications"
+        },
+        "block": {
+          "q": "How do I block a doctor?",
+          "a": "On the Doctors page, open the doctor and press \"Block\". A blocked doctor is hidden from search and gets no new bookings.",
+          "link": "Go to Doctors"
+        },
+        "reviews": {
+          "q": "Moderating reviews",
+          "a": "On the Reviews page you can look through new and reported reviews, and hide or keep them.",
+          "link": "Go to Reviews"
+        },
+        "language": {
+          "q": "Change the language",
+          "a": "Use the globe icon at the top, or the Language section on your Profile page.",
+          "link": "Go to Profile"
+        },
+        "operator": {
+          "q": "Technical support",
+          "a": "Operators work daily from 9:00 to 18:00. Type your question here and an operator will reply. If it is urgent: +998 71 200 00 00."
+        }
+      }
+    },
+    "guide": {
+      "title": "Getting started",
+      "progress": "{step} / {total}",
+      "skip": "Skip",
+      "next": "Next",
+      "start": "Get started",
+      "replay": "Show the guide again",
+      "replayDesc": "Shows the 3 getting-started steps once more.",
+      "steps": [
+        {
+          "title": "Find a doctor",
+          "text": "Choose the right doctor by specialty, city or on the map."
+        },
+        {
+          "title": "Book a visit",
+          "text": "Pick a convenient day and time — the booking is confirmed right away."
+        },
+        {
+          "title": "Keep your lab results in your record",
+          "text": "Upload lab results and images: your doctor sees everything in one place at the visit."
+        }
+      ]
+    }
+  },
+  "hints": {
+    "label": "Hint",
+    "category": "Qualification category — the doctor's level under state certification: second, first and, the highest, top category.",
+    "twoHours": "You can cancel or reschedule a visit up to 2 hours before it starts. After that, please call the doctor.",
+    "whoSeesLabel": "Who can see this?",
+    "whoSees": "Only you and doctors you have an active appointment with can see your record. Entries marked \"Only me\" are not shown to any doctor.",
+    "slotDuration": "The time set aside for one visit. Your working hours are split into free times of this length, and patients pick one of them."
+  },
+  "qualification": {
+    "highest": "Qualification: highest category",
+    "first": "Qualification: first category",
+    "second": "Qualification: second category",
+    "none": "Qualification: no category"
   }
 }

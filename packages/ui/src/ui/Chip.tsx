@@ -66,7 +66,7 @@ export function Switch({
           )}
         />
       </button>
-      {label && <span className="text-[15px] text-heading">{label}</span>}
+      {label && <span className="text-base md:text-[15px] text-heading">{label}</span>}
     </label>
   );
 }

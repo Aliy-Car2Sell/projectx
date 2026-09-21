@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "../ui/Button";
 import { Logo } from "./Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import { HelpChat } from "../help/HelpChat";
 
 /**
  * Shell for pages a guest may browse (doctor search / profile): no sidebar or bottom nav,
@@ -28,6 +29,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
         </div>
       </header>
       <main className="flex-1 w-full max-w-[1280px] mx-auto px-4 md:px-6 lg:px-8 py-4 md:py-6 pb-8">{children}</main>
+      <HelpChat role="patient" bottomNav={false} />
     </div>
   );
 }

@@ -2,21 +2,32 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import type { MedicalRecord } from "@projectx/types";
+import type { MedicalRecord, User } from "@projectx/types";
+import { today } from "@projectx/utils/dates";
 import { Modal } from "@projectx/ui/Modal";
 import { RecordsView } from "@projectx/ui/records/RecordsView";
 import { SummaryForm } from "./SummaryForm";
 
-/** Read-only patient records for doctors, with an "add note" modal. */
-export function PatientRecordsPanel({ records }: { records: MedicalRecord[] }) {
+/** The patient's notebook as the doctor sees it (no private entries), with a "write a summary" modal. */
+export function PatientRecordsPanel({ patient, records, doctorName }: { patient: User; records: MedicalRecord[]; doctorName: string }) {
   const t = useTranslations("doctor.appointments");
   const tc = useTranslations("common");
   const [open, setOpen] = useState(false);
+  const [written, setWritten] = useState<MedicalRecord[]>([]);
   return (
     <>
-      <RecordsView records={records} mode="doctor" onAddSummary={() => setOpen(true)} />
+      <RecordsView patient={patient} records={[...written, ...records]} role="doctor" onAddSummary={() => setOpen(true)} printHref={`/doctor/patients/${patient.id}/print`} />
       <Modal open={open} onClose={() => setOpen(false)} title={t("summaryTitle")} closeLabel={tc("close")} size="lg">
-        <SummaryForm onSaved={() => setTimeout(() => setOpen(false), 900)} />
+        <SummaryForm
+          onSaved={(s) => {
+            // Session only: the new summary drops into the notebook right away.
+            setWritten((prev) => [
+              { id: `rec-local-${Date.now()}`, patientId: patient.id, type: "summary", title: s.diagnosis, description: s.recommendations, date: today(), isNew: true, authorRole: "doctor", authorName: doctorName },
+              ...prev,
+            ]);
+            setTimeout(() => setOpen(false), 900);
+          }}
+        />
       </Modal>
     </>
   );
