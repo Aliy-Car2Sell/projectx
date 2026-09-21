@@ -31,7 +31,7 @@ export function LoginForm({
 
   return (
     <Card>
-      <h1 className="text-2xl font-bold text-primary">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
       <p className="text-sm text-muted mt-1 mb-5">{t("subtitle")}</p>
       <form
         className="flex flex-col gap-4"
@@ -61,7 +61,7 @@ export function LoginForm({
           leftIcon={<Lock className="h-4 w-4" />}
         />
         <div className="flex justify-end -mt-1">
-          <Link href={forgotHref} className="text-sm text-primary font-medium hover:underline">
+          <Link href={forgotHref} className="text-sm text-primary-text font-medium hover:underline">
             {t("forgot")}
           </Link>
         </div>
@@ -72,7 +72,7 @@ export function LoginForm({
       {registerHref && (
         <p className="mt-5 text-center text-sm text-muted">
           {t("noAccount")}{" "}
-          <Link href={registerHref} className="text-primary font-semibold hover:underline">
+          <Link href={registerHref} className="text-primary-text font-semibold hover:underline">
             {t("register")}
           </Link>
         </p>

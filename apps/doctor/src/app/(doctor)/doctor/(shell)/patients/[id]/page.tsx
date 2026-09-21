@@ -75,7 +75,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
             <ul className="divide-y divide-line">
               {[...appointments].reverse().map((a) => (
                 <li key={a.id}>
-                  <Link href={`/doctor/appointments/${a.id}`} className="flex items-center justify-between gap-2 py-2 text-sm hover:text-primary">
+                  <Link href={`/doctor/appointments/${a.id}`} className="flex items-center justify-between gap-2 py-2 text-sm hover:text-primary-text">
                     <span>
                       {fmtDate(locale, tc, a.date, "short")} · {a.time}
                     </span>

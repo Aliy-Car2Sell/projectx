@@ -39,10 +39,10 @@ export function DoctorCard({
       <div className="min-w-0 flex-1 flex flex-col gap-1">
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
-            <Link href={profileHref} className="font-bold text-heading hover:text-primary leading-tight block truncate">
+            <Link href={profileHref} className="font-bold text-heading hover:text-primary-text leading-tight block truncate">
               {name}
             </Link>
-            <div className="text-sm text-primary font-medium">{t(`specialties.${doctor.specialty}`)}</div>
+            <div className="text-sm text-primary-text font-medium">{t(`specialties.${doctor.specialty}`)}</div>
           </div>
           {doctor.category !== "none" && (
             <span className="max-sm:hidden inline-flex shrink-0 items-center gap-0.5">

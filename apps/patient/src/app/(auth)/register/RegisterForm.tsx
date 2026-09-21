@@ -26,7 +26,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
 
   return (
     <Card>
-      <h1 className="text-2xl font-bold text-primary">{t("title")}</h1>
+      <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
 
       {!role ? (
         <>
@@ -39,7 +39,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
                 onClick={() => setRole(r.key)}
                 className="group flex flex-col items-start gap-3 rounded-xl border-2 border-line p-4 text-left transition-colors hover:border-primary hover:bg-primary-soft/40 min-h-[120px]"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary group-hover:bg-primary group-hover:text-white transition-colors">
+                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary-text group-hover:bg-primary group-hover:text-white transition-colors">
                   <r.icon className="h-6 w-6" />
                 </span>
                 <span className="font-bold text-heading text-base">{r.title}</span>
@@ -59,12 +59,12 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
           }}
         >
           <div className="flex items-center justify-between rounded-lg bg-primary-soft/60 px-3 py-2">
-            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary">
+            <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary-text">
               <Check className="h-4 w-4" />
               {role === "doctor" ? t("doctor") : t("patient")}
             </span>
             {!locked && (
-              <button type="button" onClick={() => setRole(null)} className="text-sm text-muted hover:text-primary">
+              <button type="button" onClick={() => setRole(null)} className="text-sm text-muted hover:text-primary-text">
                 {t("changeRole")}
               </button>
             )}
@@ -96,7 +96,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
 
       <p className="mt-5 text-center text-sm text-muted">
         {t("haveAccount")}{" "}
-        <Link href={authHref("/login", returnTo)} className="text-primary font-semibold hover:underline">
+        <Link href={authHref("/login", returnTo)} className="text-primary-text font-semibold hover:underline">
           {t("login")}
         </Link>
       </p>

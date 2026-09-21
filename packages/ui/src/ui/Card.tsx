@@ -82,7 +82,7 @@ export function StatCard({
     <div className={cn("rounded-xl p-4 md:p-5 flex flex-col gap-1", tones[tone], className)}>
       <div className="flex items-center justify-between gap-2">
         <span className={cn("text-sm", tone === "white" ? "text-muted" : "text-white/85")}>{label}</span>
-        {icon && <span className={cn(tone === "white" ? "text-primary" : "text-white/90")}>{icon}</span>}
+        {icon && <span className={cn(tone === "white" ? "text-primary-text" : "text-white/90")}>{icon}</span>}
       </div>
       <div className="text-2xl md:text-3xl font-bold leading-tight">{value}</div>
       {hint && <div className={cn("text-xs", tone === "white" ? "text-muted" : "text-white/80")}>{hint}</div>}

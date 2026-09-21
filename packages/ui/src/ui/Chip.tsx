@@ -25,7 +25,7 @@ export function Chip({
         "inline-flex items-center justify-center min-h-[40px] px-3.5 rounded-full border text-sm font-medium transition-colors whitespace-nowrap",
         active
           ? "bg-primary border-primary text-white"
-          : "bg-card border-line text-heading hover:border-primary hover:text-primary",
+          : "bg-card border-line text-heading hover:border-primary hover:text-primary-text",
         disabled && "opacity-40 line-through pointer-events-none",
         className,
       )}

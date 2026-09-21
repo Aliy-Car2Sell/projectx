@@ -29,7 +29,7 @@ export function Avatar({
       role="img"
       aria-label={name}
       className={cn(
-        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-soft text-primary font-bold",
+        "relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-primary-soft text-primary-text font-bold",
         sizes[size],
         ring && "ring-2 ring-white shadow-sm",
         className,

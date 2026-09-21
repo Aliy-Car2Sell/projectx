@@ -10,11 +10,11 @@ const base =
 
 const variants: Record<Variant, string> = {
   primary: "bg-primary text-white hover:bg-primary-hover shadow-sm",
-  secondary: "bg-card text-primary border border-primary hover:bg-primary-soft",
+  secondary: "bg-card text-primary-text border border-primary hover:bg-primary-soft",
   ghost: "bg-transparent text-heading hover:bg-black/5",
   danger: "bg-danger text-white hover:bg-red-600",
   accent: "gradient-accent text-white hover:opacity-95 shadow-sm",
-  inverse: "bg-white text-primary hover:bg-white/90 shadow-sm",
+  inverse: "bg-white text-primary-text hover:bg-white/90 shadow-sm",
   inverseAccent: "bg-white text-accent hover:bg-white/90 shadow-sm",
 };
 

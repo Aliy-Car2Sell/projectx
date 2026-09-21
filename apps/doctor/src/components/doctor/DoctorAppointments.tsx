@@ -16,7 +16,7 @@ import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 import type { DemoState } from "@projectx/ui/demo/state";
 
 const statusTone: Record<AppointmentStatus, string> = {
-  scheduled: "bg-primary-soft text-primary border-primary/30",
+  scheduled: "bg-primary-soft text-primary-text border-primary/30",
   completed: "bg-success-soft text-green-700 border-success/30",
   cancelled: "bg-surface text-muted border-line line-through",
   no_show: "bg-danger-soft text-red-700 border-danger/30",
@@ -142,7 +142,7 @@ export function DoctorAppointments({
           <div className="flex flex-col gap-4">
             {groups.map(([date, list]) => (
               <section key={date}>
-                <h3 className={cn("text-sm font-bold mb-2 capitalize", isToday(date) ? "text-primary" : "text-heading")}>{dayTitle(date)}</h3>
+                <h3 className={cn("text-sm font-bold mb-2 capitalize", isToday(date) ? "text-primary-text" : "text-heading")}>{dayTitle(date)}</h3>
                 <div className="bg-card rounded-xl shadow-card border border-line/60 divide-y divide-line overflow-hidden">{list.map(row)}</div>
               </section>
             ))}
@@ -159,7 +159,7 @@ export function DoctorAppointments({
                 {fmtDate(locale, tc, weekDays[0], "short")} — {fmtDate(locale, tc, weekDays[6], "short")}
               </div>
               {weekOffset !== 0 && (
-                <button type="button" className="text-xs text-primary font-medium" onClick={() => setWeekOffset(0)}>
+                <button type="button" className="text-xs text-primary-text font-medium" onClick={() => setWeekOffset(0)}>
                   {t("thisWeek")}
                 </button>
               )}
@@ -176,7 +176,7 @@ export function DoctorAppointments({
               const today = isToday(date);
               return (
                 <div key={date} className={cn("rounded-xl border bg-card p-2 min-h-[64px] md:min-h-[260px]", today ? "border-primary" : "border-line/60")}>
-                  <div className={cn("flex md:flex-col items-baseline md:items-center gap-1 mb-2 px-1", today ? "text-primary" : "text-heading")}>
+                  <div className={cn("flex md:flex-col items-baseline md:items-center gap-1 mb-2 px-1", today ? "text-primary-text" : "text-heading")}>
                     <span className="text-xs uppercase text-muted">{tc(`weekdaysShort.${weekdayKey(date)}`)}</span>
                     <span className="font-bold">{Number(date.slice(8, 10))}</span>
                   </div>

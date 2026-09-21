@@ -56,7 +56,7 @@ export function Tooltip({ text, label, className }: { text: string; label: strin
         onClick={() => (pos ? close() : open())}
         onFocus={open}
         onBlur={close}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full text-muted hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-full text-muted hover:text-primary-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
       >
         <Info className="h-4 w-4" />
       </button>

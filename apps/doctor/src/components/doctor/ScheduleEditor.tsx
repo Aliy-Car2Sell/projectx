@@ -91,7 +91,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
                       {timeInput(d.start, (v) => update(i, { start: v }))}
                       <span>—</span>
                       {timeInput(d.end, (v) => update(i, { end: v }))}
-                      <button type="button" onClick={() => applyToAll(i)} className="text-xs text-primary font-medium hover:underline ml-auto sm:ml-2">
+                      <button type="button" onClick={() => applyToAll(i)} className="text-xs text-primary-text font-medium hover:underline ml-auto sm:ml-2">
                         {t("applyToAll")}
                       </button>
                     </div>
@@ -106,7 +106,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
                         </button>
                       </div>
                     ) : (
-                      <button type="button" onClick={() => update(i, { breakStart: "13:00", breakEnd: "14:00" })} className="self-start inline-flex items-center gap-1 text-xs text-primary font-medium hover:underline">
+                      <button type="button" onClick={() => update(i, { breakStart: "13:00", breakEnd: "14:00" })} className="self-start inline-flex items-center gap-1 text-xs text-primary-text font-medium hover:underline">
                         <Plus className="h-3.5 w-3.5" /> {t("addBreak")}
                       </button>
                     )}

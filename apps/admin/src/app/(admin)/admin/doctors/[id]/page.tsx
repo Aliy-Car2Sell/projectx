@@ -53,7 +53,7 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
               <Avatar src={d.avatarUrl} name={name} size="xl" />
               <div className="min-w-0 flex-1">
                 <h2 className="text-xl font-bold text-heading">{name}</h2>
-                <div className="text-primary font-medium">{ts(d.specialty)}</div>
+                <div className="text-primary-text font-medium">{ts(d.specialty)}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Badge tone="accent">{tcat(d.category)}</Badge>
                   <Badge tone="primary">{tcity(d.city)}</Badge>
@@ -73,7 +73,7 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
           </div>
 
           <Card>
-            <CardHeader title={t("contact")} action={<MapPin className="h-5 w-5 text-primary" />} />
+            <CardHeader title={t("contact")} action={<MapPin className="h-5 w-5 text-primary-text" />} />
             <dl className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-3 text-sm">
               <div>
                 <dt className="text-xs uppercase tracking-wide text-muted">{ta("clinic")}</dt>

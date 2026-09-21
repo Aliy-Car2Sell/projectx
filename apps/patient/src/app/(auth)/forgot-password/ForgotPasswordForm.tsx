@@ -36,7 +36,7 @@ export function ForgotPasswordForm() {
           }}
         >
           <div>
-            <h1 className="text-2xl font-bold text-primary">{t("title")}</h1>
+            <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
             <p className="text-sm text-muted mt-1">{t("subtitle")}</p>
           </div>
           <Input
@@ -50,7 +50,7 @@ export function ForgotPasswordForm() {
           <Button type="submit" fullWidth size="lg">
             {t("submit")}
           </Button>
-          <Link href="/login" className="inline-flex items-center justify-center gap-1 text-sm text-muted hover:text-primary">
+          <Link href="/login" className="inline-flex items-center justify-center gap-1 text-sm text-muted hover:text-primary-text">
             <ArrowLeft className="h-4 w-4" /> {t("back")}
           </Link>
         </form>

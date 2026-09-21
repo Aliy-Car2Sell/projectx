@@ -103,7 +103,7 @@ export function AddRecordSheet({
                   onClick={() => setType(k)}
                   className={cn(
                     "min-h-[44px] rounded-lg border px-3 text-sm font-medium transition-colors",
-                    type === k ? "border-primary bg-primary-soft text-primary" : "border-line text-heading hover:border-primary",
+                    type === k ? "border-primary bg-primary-soft text-primary-text" : "border-line text-heading hover:border-primary",
                   )}
                 >
                   {t(`add.types.${k}`)}
@@ -118,7 +118,7 @@ export function AddRecordSheet({
           <>
             <Input label={t("add.date")} type="date" value={date} max={today()} onChange={(e) => setDate(e.target.value)} required />
             <label className="flex min-h-[44px] cursor-pointer items-center gap-2 rounded-lg border border-dashed border-line px-3 text-sm text-heading hover:border-primary">
-              <Paperclip className="h-4 w-4 shrink-0 text-primary" />
+              <Paperclip className="h-4 w-4 shrink-0 text-primary-text" />
               <span className="min-w-0 flex-1 truncate">{file ? file.name : t("add.file")}</span>
               <span className="shrink-0 text-xs text-muted">{t("add.fileHint")}</span>
               <input type="file" className="sr-only" accept=".pdf,image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />

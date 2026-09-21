@@ -70,7 +70,7 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
         <section className="lg:col-span-2">
           <SectionTitle
             action={
-              <Link href="/doctor/appointments" className="text-sm text-primary font-medium inline-flex items-center">
+              <Link href="/doctor/appointments" className="text-sm text-primary-text font-medium inline-flex items-center">
                 {t("allAppointments")} <ChevronRight className="h-4 w-4" />
               </Link>
             }
@@ -88,8 +88,8 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
                 return (
                   <Link key={a.id} href={`/doctor/appointments/${a.id}`} className={`flex items-center gap-3 px-4 py-3 hover:bg-surface min-h-[64px] ${isNext ? "bg-primary-soft/50" : ""}`}>
                     <div className="w-12 shrink-0 text-center">
-                      <div className={`font-bold ${isNext ? "text-primary" : "text-heading"}`}>{a.time}</div>
-                      {isNext && <div className="text-[10px] font-semibold uppercase text-primary">{t("next")}</div>}
+                      <div className={`font-bold ${isNext ? "text-primary-text" : "text-heading"}`}>{a.time}</div>
+                      {isNext && <div className="text-[10px] font-semibold uppercase text-primary-text">{t("next")}</div>}
                     </div>
                     <Avatar src={p?.avatarUrl} name={name} size="sm" />
                     <div className="min-w-0 flex-1">
@@ -113,7 +113,7 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
           <SectionTitle>{t("quickLinks")}</SectionTitle>
           <div className="flex flex-col gap-2">
             <Card href="/doctor/chat" padding="sm" className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
                 <MessageCircle className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">

@@ -58,7 +58,7 @@ export function RecordPrintView({
   return (
     <div className="record-print-page min-h-dvh bg-surface px-4 py-4 md:py-8">
       <div className="record-noprint mx-auto mb-3 flex w-full max-w-[800px] items-center justify-between gap-2">
-        <Link href={backHref} className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-medium text-muted hover:text-primary">
+        <Link href={backHref} className="inline-flex min-h-[44px] items-center gap-1.5 text-sm font-medium text-muted hover:text-primary-text">
           <ArrowLeft className="h-4 w-4" /> {t("print.back")}
         </Link>
         <Button size="sm" onClick={() => window.print()} icon={<Printer className="h-4 w-4" />}>

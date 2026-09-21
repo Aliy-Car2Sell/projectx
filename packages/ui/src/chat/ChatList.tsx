@@ -72,10 +72,10 @@ export function ChatList({
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-2">
                       <span className={cn("truncate", c.unreadCount > 0 ? "font-bold text-heading" : "font-semibold text-heading")}>{c.participantName}</span>
-                      <span className={cn("shrink-0 text-xs", c.unreadCount > 0 ? "text-primary font-semibold" : "text-muted")}>{when(c.lastMessageAt)}</span>
+                      <span className={cn("shrink-0 text-xs", c.unreadCount > 0 ? "text-primary-text font-semibold" : "text-muted")}>{when(c.lastMessageAt)}</span>
                     </div>
                     {c.participantSubtitle && c.participantRole === "doctor" && (
-                      <div className="text-xs text-primary">{ts(c.participantSubtitle as Parameters<typeof ts>[0])}</div>
+                      <div className="text-xs text-primary-text">{ts(c.participantSubtitle as Parameters<typeof ts>[0])}</div>
                     )}
                     <div className="flex items-center justify-between gap-2 mt-0.5">
                       <span className={cn("truncate text-sm", c.unreadCount > 0 ? "text-heading" : "text-muted")}>{c.lastMessage}</span>

@@ -73,7 +73,7 @@ export function RecordEntry({
       <div className="text-sm leading-tight text-muted">
         <div className="font-semibold text-heading">{fmtDate(locale, tc, record.date, "short")}</div>
         <div>{record.date.slice(0, 4)}</div>
-        <div className={cn("mt-1.5 inline-flex items-center gap-1 text-xs", isSummary ? "text-primary" : "text-muted")} role="img" aria-label={t(`types.${record.type}`)} title={t(`types.${record.type}`)}>
+        <div className={cn("mt-1.5 inline-flex items-center gap-1 text-xs", isSummary ? "text-primary-text" : "text-muted")} role="img" aria-label={t(`types.${record.type}`)} title={t(`types.${record.type}`)}>
           <Icon className="h-3.5 w-3.5 shrink-0" />
           <span className={printing ? undefined : "max-md:hidden"}>{t(`types.${record.type}`)}</span>
         </div>
@@ -85,7 +85,7 @@ export function RecordEntry({
         ) : (
           <button type="button" aria-expanded={open} onClick={() => setOpen((v) => !v)} className="group flex w-full items-start gap-2 text-left">
             <span className="min-w-0 flex-1">{heading}</span>
-            <ChevronDown className={cn("mt-1 h-4 w-4 shrink-0 text-muted transition-transform group-hover:text-primary", open && "rotate-180")} />
+            <ChevronDown className={cn("mt-1 h-4 w-4 shrink-0 text-muted transition-transform group-hover:text-primary-text", open && "rotate-180")} />
           </button>
         )}
 
@@ -121,7 +121,7 @@ export function RecordEntry({
               type="button"
               onClick={() => setPreview(file)}
               className={cn(
-                "mt-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-line bg-surface text-sm text-heading hover:border-primary hover:text-primary",
+                "mt-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-line bg-surface text-sm text-heading hover:border-primary hover:text-primary-text",
                 isImage ? "p-1 pr-3" : "min-h-[36px] px-2.5",
               )}
             >
@@ -129,7 +129,7 @@ export function RecordEntry({
                 // eslint-disable-next-line @next/next/no-img-element -- mock thumbnail from /public
                 <img src={file.url} alt="" className="h-12 w-12 rounded-md object-cover" />
               ) : (
-                <FileText className="h-4 w-4 shrink-0 text-primary" />
+                <FileText className="h-4 w-4 shrink-0 text-primary-text" />
               )}
               <span className="truncate">{file.name}</span>
               {isImage ? <ImageIcon className="h-3.5 w-3.5 shrink-0 text-muted" /> : <Eye className="h-3.5 w-3.5 shrink-0 text-muted" />}
@@ -141,7 +141,7 @@ export function RecordEntry({
         {open && !printing && (file || actions) && (
           <div className="mt-2 flex flex-wrap items-center gap-1">
             {file && (
-              <a href={file.url} download={file.name} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary-soft">
+              <a href={file.url} download={file.name} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <Download className="h-4 w-4" /> {tc("download")}
               </a>
             )}

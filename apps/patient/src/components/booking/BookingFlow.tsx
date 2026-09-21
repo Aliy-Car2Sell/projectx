@@ -104,7 +104,7 @@ export function BookingFlow({
           <Avatar src={doctor.avatarUrl} name={name} size="md" />
           <div className="min-w-0">
             <div className="font-bold text-heading truncate">{name}</div>
-            <div className="text-sm text-primary">{ts(doctor.specialty)}</div>
+            <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
             <div className="text-xs text-muted inline-flex items-center gap-1 truncate">
               <MapPin className="h-3 w-3" /> {doctor.clinicName}
             </div>
@@ -200,7 +200,7 @@ export function BookingFlow({
             <div className="mt-4">
               <Textarea label={`${t("reasonLabel")} (${tc("optional")})`} placeholder={t("reasonPlaceholder")} value={reason} onChange={(e) => setReason(e.target.value)} />
             </div>
-            <div className="mt-3 flex items-start gap-2 rounded-lg bg-primary-soft px-3 py-2 text-xs text-primary">
+            <div className="mt-3 flex items-start gap-2 rounded-lg bg-primary-soft px-3 py-2 text-xs text-primary-text">
               <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{t("autoConfirm")}</span>
             </div>
@@ -215,7 +215,7 @@ export function BookingFlow({
             <div className="hidden lg:block mb-3">
               <div className="text-xs text-muted uppercase tracking-wide">{t("step", { current: step === "slot" ? 1 : 2, total: 2 })}</div>
               <div className="font-bold text-heading text-lg mt-1 capitalize">{fmtDate(locale, tc, day, "weekday")}</div>
-              <div className="text-primary font-semibold">{time ?? "--:--"}</div>
+              <div className="text-primary-text font-semibold">{time ?? "--:--"}</div>
             </div>
             <div className="flex gap-2 max-w-[1280px] mx-auto">
               {step === "confirm" && (

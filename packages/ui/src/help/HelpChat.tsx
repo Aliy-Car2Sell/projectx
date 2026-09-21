@@ -95,7 +95,7 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                     type="button"
                     disabled={pending}
                     onClick={() => send(t(`${role}.topics.${topic.key}.q`), topic.key)}
-                    className="min-h-[36px] rounded-full border border-primary/40 bg-primary-soft px-3 text-left text-sm font-medium text-primary hover:border-primary disabled:opacity-50"
+                    className="min-h-[36px] rounded-full border border-primary/40 bg-primary-soft px-3 text-left text-sm font-medium text-primary-text hover:border-primary disabled:opacity-50"
                   >
                     {t(`${role}.topics.${topic.key}.q`)}
                   </button>
@@ -117,7 +117,7 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                       </ol>
                     )}
                     {m.answer.link && (
-                      <Link href={m.answer.link.href} onClick={() => setOpen(false)} className="mt-2 inline-flex min-h-[36px] items-center gap-1 font-semibold text-primary hover:underline">
+                      <Link href={m.answer.link.href} onClick={() => setOpen(false)} className="mt-2 inline-flex min-h-[36px] items-center gap-1 font-semibold text-primary-text hover:underline">
                         {m.answer.link.label} <ArrowRight className="h-4 w-4" />
                       </Link>
                     )}

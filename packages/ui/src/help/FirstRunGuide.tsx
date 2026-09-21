@@ -53,12 +53,12 @@ export function FirstRunGuide() {
       <div className="w-full md:max-w-sm rounded-t-2xl md:rounded-2xl bg-card p-5 pb-6 shadow-2xl safe-bottom">
         <div className="flex items-center justify-between gap-3">
           <span className="text-sm font-semibold text-muted">{t("progress", { step: step + 1, total: icons.length })}</span>
-          <button type="button" onClick={() => writeSeen(true)} className="min-h-[44px] px-2 text-sm font-medium text-muted hover:text-primary">
+          <button type="button" onClick={() => writeSeen(true)} className="min-h-[44px] px-2 text-sm font-medium text-muted hover:text-primary-text">
             {t("skip")}
           </button>
         </div>
         <div className="mt-2 flex flex-col items-center text-center">
-          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary">
+          <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-text">
             <Icon className="h-8 w-8" />
           </span>
           <h2 className="mt-4 text-xl font-bold text-heading">
@@ -98,7 +98,7 @@ export function ReplayGuideLink({ href, className }: { href: string; className?:
         writeSeen(false);
         router.push(href);
       }}
-      className={cn("text-left font-medium text-primary hover:underline", className)}
+      className={cn("text-left font-medium text-primary-text hover:underline", className)}
     >
       {t("replay")}
     </button>

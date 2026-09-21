@@ -73,7 +73,7 @@ export function RecordCover({
               {onAdd && (
                 <>
                   {" "}
-                  <button type="button" onClick={() => onAdd(type)} className="record-noprint text-primary font-medium hover:underline">
+                  <button type="button" onClick={() => onAdd(type)} className="record-noprint text-primary-text font-medium hover:underline">
                     + {t("add")}
                   </button>
                 </>

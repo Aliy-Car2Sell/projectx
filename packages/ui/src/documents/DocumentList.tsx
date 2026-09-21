@@ -22,7 +22,7 @@ export function DocumentList({ documents, columns = 1 }: { documents: DoctorDocu
           const url = mockFileUrl(doc.fileType);
           return (
             <li key={doc.id} className="flex items-center gap-3 rounded-xl border border-line p-3">
-              <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-lg", doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary")}>
+              <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-lg", doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary-text")}>
                 {doc.fileType === "image" ? <ImageIcon className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
               </span>
               <div className="min-w-0 flex-1">
@@ -37,7 +37,7 @@ export function DocumentList({ documents, columns = 1 }: { documents: DoctorDocu
                   aria-label={tc("view")}
                   title={tc("view")}
                   onClick={() => setPreview({ name: doc.fileName, type: doc.fileType, url })}
-                  className="h-10 w-10 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
+                  className="h-10 w-10 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary-text"
                 >
                   <Eye className="h-4 w-4" />
                 </button>
@@ -46,7 +46,7 @@ export function DocumentList({ documents, columns = 1 }: { documents: DoctorDocu
                   download={doc.fileName}
                   aria-label={tc("download")}
                   title={tc("download")}
-                  className="h-10 w-10 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary"
+                  className="h-10 w-10 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary-text"
                 >
                   <Download className="h-4 w-4" />
                 </a>

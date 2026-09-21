@@ -11,15 +11,15 @@ import { cn, isSameDay } from "@projectx/utils";
 import { Modal } from "../ui/Modal";
 
 const icons: Record<NotificationType, { icon: LucideIcon; cls: string }> = {
-  appointmentReminder: { icon: CalendarDays, cls: "bg-primary-soft text-primary" },
+  appointmentReminder: { icon: CalendarDays, cls: "bg-primary-soft text-primary-text" },
   newBooking: { icon: CalendarDays, cls: "bg-success-soft text-success" },
-  newMessage: { icon: MessageCircle, cls: "bg-primary-soft text-primary" },
+  newMessage: { icon: MessageCircle, cls: "bg-primary-soft text-primary-text" },
   newRecord: { icon: FolderHeart, cls: "bg-accent-soft text-accent" },
   recordUploaded: { icon: FolderHeart, cls: "bg-success-soft text-success" },
   reviewRequest: { icon: Star, cls: "bg-warning-soft text-warning" },
   newApplication: { icon: FileCheck2, cls: "bg-warning-soft text-warning" },
   reviewReported: { icon: MessageSquareWarning, cls: "bg-danger-soft text-danger" },
-  userRegistered: { icon: UserPlus, cls: "bg-primary-soft text-primary" },
+  userRegistered: { icon: UserPlus, cls: "bg-primary-soft text-primary-text" },
 };
 
 /**
@@ -67,7 +67,7 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
       <div className="flex items-center justify-between gap-2 px-1 pb-2 md:px-4 md:pt-3">
         <span className="text-xs text-muted">{unread > 0 ? t("unread", { count: unread }) : t("empty")}</span>
         {unread > 0 && (
-          <button type="button" onClick={markAll} className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline min-h-[32px]">
+          <button type="button" onClick={markAll} className="inline-flex items-center gap-1 text-xs font-semibold text-primary-text hover:underline min-h-[32px]">
             <CheckCheck className="h-3.5 w-3.5" /> {t("markAllRead")}
           </button>
         )}

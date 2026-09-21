@@ -116,7 +116,7 @@ export function RecordsView({
 
             {entries.length === 0 ? (
               <div className="flex flex-col items-center py-10 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-soft text-primary">
+                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-soft text-primary-text">
                   <NotebookPen className="h-7 w-7" />
                 </span>
                 <h3 className="mt-3 text-base font-bold text-heading">{t("empty.title")}</h3>
@@ -142,7 +142,7 @@ export function RecordsView({
                               href={printHref + printQuery({ recordId: r.id, mode: role === "doctor" ? "doctor" : "full", auto: true })}
                               target="_blank"
                               rel="noopener"
-                              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary hover:bg-primary-soft"
+                              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft"
                             >
                               <Printer className="h-4 w-4" /> {t("print.entry")}
                             </a>

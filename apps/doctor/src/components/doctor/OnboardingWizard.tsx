@@ -75,7 +75,7 @@ export function OnboardingWizard() {
                   <span
                     className={cn(
                       "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                      state === "active" ? "bg-white text-primary" : state === "done" ? "bg-success text-white" : "bg-surface text-muted",
+                      state === "active" ? "bg-white text-primary-text" : state === "done" ? "bg-success text-white" : "bg-surface text-muted",
                     )}
                   >
                     {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
@@ -129,7 +129,7 @@ export function OnboardingWizard() {
             <div>
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-heading inline-flex items-center gap-1">
-                  <MapPin className="h-4 w-4 text-primary" /> {t("mapHint")}
+                  <MapPin className="h-4 w-4 text-primary-text" /> {t("mapHint")}
                 </span>
                 <span className={cn("text-xs font-semibold", pin ? "text-success" : "text-muted")}>{pin ? t("pinSet") : t("pinNotSet")}</span>
               </div>

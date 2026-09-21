@@ -97,7 +97,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
                   <span className="font-bold text-heading truncate">{name(d)}</span>
                   <DoctorStatusBadge status={d.status} />
                 </div>
-                <div className="text-sm text-primary">{ts(d.specialty)}</div>
+                <div className="text-sm text-primary-text">{ts(d.specialty)}</div>
                 <div className="text-xs text-muted">
                   {d.clinicName} · {tcity(d.city)}
                 </div>
