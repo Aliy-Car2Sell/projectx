@@ -49,7 +49,9 @@ Mobilda `body` 15px → 16px; chat xabarlari, sharh matni, "doktor haqida", inpu
 
 O'tgan joylar: havolalar, sahifa sarlavhalari, mobil bottom nav'ning aktiv yorlig'i, hover holatlari (106 ta almashtirish, 51 fayl). Sidebar'ning aktiv bandi oq matn + brend ko'k fon (3.05:1) edi — endi `primary-soft` fon + `primary-text` matn. Shu o'zgarishdan keyin to'liq audit qayta yurgizildi: **AUDIT CLEAN** (87 URL, 522 yuklash, 863 klik, 0 NO-OP, 0 overflow, mehmon 47/47).
 
-**Qolgan (ataylab):** `Button` secondary varianti matni (`#1a9be6` oq fonda, 3.05:1) va `Badge` primary toni (`#1a9be6` / `#e8f4fd`, 2.73:1) brend rangida qoldirildi — "tugma va badge'lar eski rangda" degan qarorga ko'ra.
+**Tugma va badge matni ham o'tkazildi:** `Button` secondary varianti matni (oq fonda 3.05:1 → **5.15:1**) va `Badge` primary toni matni (`#e8f4fd` fonda 2.73:1 → **4.61:1**) endi `--color-primary-text`; ularning foni va chegarasi brend rangida qoldi. Bu o'zgarish faqat matn rangi (o'lcham/joylashuv o'zgarmaydi), shuning uchun to'liq audit qayta yurgizilmadi — `pnpm build` va `pnpm lint` xatosiz.
+
+**Qolgan:** `Button` `inverse` varianti (landing hero'dagi oq tugma, matni `#1a9be6` oq fonda — 3.05:1) brend rangida turibdi; so'ralmagan, alohida qaror.
 
 ## 5. Audit jarayonida topilgan va tuzatilganlar
 

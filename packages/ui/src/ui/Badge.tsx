@@ -3,7 +3,7 @@ import { cn } from "@projectx/utils";
 export type BadgeTone = "primary" | "success" | "warning" | "danger" | "neutral" | "accent";
 
 const tones: Record<BadgeTone, string> = {
-  primary: "bg-primary-soft text-primary",
+  primary: "bg-primary-soft text-primary-text",
   success: "bg-success-soft text-green-700",
   warning: "bg-warning-soft text-amber-700",
   danger: "bg-danger-soft text-red-700",
