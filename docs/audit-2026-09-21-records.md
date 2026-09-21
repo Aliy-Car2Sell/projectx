@@ -51,7 +51,7 @@ O'tgan joylar: havolalar, sahifa sarlavhalari, mobil bottom nav'ning aktiv yorli
 
 **Tugma va badge matni ham o'tkazildi:** `Button` secondary varianti matni (oq fonda 3.05:1 → **5.15:1**) va `Badge` primary toni matni (`#e8f4fd` fonda 2.73:1 → **4.61:1**) endi `--color-primary-text`; ularning foni va chegarasi brend rangida qoldi. Bu o'zgarish faqat matn rangi (o'lcham/joylashuv o'zgarmaydi), shuning uchun to'liq audit qayta yurgizilmadi — `pnpm build` va `pnpm lint` xatosiz.
 
-**Qolgan:** `Button` `inverse` varianti (landing hero'dagi oq tugma, matni `#1a9be6` oq fonda — 3.05:1) brend rangida turibdi; so'ralmagan, alohida qaror.
+`Button` `inverse` varianti (landing hero'dagi oq tugma) matni ham o'tkazildi: oq fonda 3.05:1 → **5.15:1**. Shu bilan `#1a9be6` hech qayerda matn rangi sifatida ishlatilmaydi, faqat logotipda (brend belgisi, WCAG'dan istisno); fon, chegara va gradientlarda qoladi.
 
 ## 5. Audit jarayonida topilgan va tuzatilganlar
 
