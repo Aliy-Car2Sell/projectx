@@ -23,7 +23,10 @@
       "myChats": "Chatlar",
       "inHours": "{count} soatdan keyin",
       "inMinutes": "{count} daqiqadan keyin",
-      "at": "soat {time}"
+      "at": "soat {time}",
+      "urgentTitle": "Shoshilinch e'tibor talab qiladigan yozuv",
+      "urgentBanner": "Dr. {doctor}: shoshilinch e'tibor talab qiladigan yozuv — {title}",
+      "view": "Ko'rish"
     },
     "doctors": {
       "title": "Doktor qidirish",

@@ -23,7 +23,10 @@
       "myChats": "Чаты",
       "inHours": "через {count} ч",
       "inMinutes": "через {count} мин",
-      "at": "в {time}"
+      "at": "в {time}",
+      "urgentTitle": "Запись требует срочного внимания",
+      "urgentBanner": "Д-р {doctor}: запись требует срочного внимания — {title}",
+      "view": "Открыть"
     },
     "doctors": {
       "title": "Поиск врача",

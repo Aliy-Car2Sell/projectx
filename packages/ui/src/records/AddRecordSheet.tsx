@@ -3,15 +3,19 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Paperclip, Save } from "lucide-react";
-import type { MedicalRecord, RecordType } from "@projectx/types";
+import type { MedicalRecord, RecordSeverity, RecordType } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { today } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
 import { FieldLabel, Input, Textarea } from "../ui/Input";
 import { Modal } from "../ui/Modal";
+import { SeverityPicker } from "./SeverityPicker";
 
 const entryTypes: RecordType[] = ["analysis", "imaging", "history", "other"];
 export type AddPreset = "entry" | "allergy" | "medication";
+
+/** Who is writing: a patient's entry waits for admin review; a doctor's is approved at once and carries a severity. */
+export type RecordWriter = { role: "patient" } | { role: "doctor"; name: string; doctorId: string };
 
 /**
  * "Add to my record" form (bottom sheet on mobile, modal on desktop).
@@ -20,11 +24,13 @@ export type AddPreset = "entry" | "allergy" | "medication";
 export function AddRecordSheet({
   preset,
   patientId,
+  writer = { role: "patient" },
   onClose,
   onSave,
 }: {
   preset: AddPreset | null;
   patientId: string;
+  writer?: RecordWriter;
   onClose: () => void;
   onSave: (record: MedicalRecord) => void;
 }) {
@@ -36,7 +42,9 @@ export function AddRecordSheet({
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [isPrivate, setPrivate] = useState(false);
+  const [severity, setSeverity] = useState<RecordSeverity>("normal");
   const coverLine = preset === "allergy" || preset === "medication";
+  const byDoctor = writer.role === "doctor";
   const formId = "add-record-form";
 
   const reset = () => {
@@ -46,6 +54,7 @@ export function AddRecordSheet({
     setText("");
     setFile(null);
     setPrivate(false);
+    setSeverity("normal");
   };
   const close = () => {
     reset();
@@ -74,7 +83,7 @@ export function AddRecordSheet({
         className="flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
-          onSave({
+          const base = {
             id: `rec-local-${Date.now()}`,
             patientId,
             type: coverLine ? (preset as RecordType) : type,
@@ -82,11 +91,21 @@ export function AddRecordSheet({
             description: text.trim() || undefined,
             fileName: file?.name,
             fileType: file ? (file.type.startsWith("image/") ? "image" : "pdf") : undefined,
-            private: coverLine ? undefined : isPrivate || undefined,
             date,
             isNew: true,
-            authorRole: "patient",
-          });
+          } as const;
+          onSave(
+            writer.role === "doctor"
+              ? { ...base, authorRole: "doctor", authorName: writer.name, authorDoctorId: writer.doctorId, severity: coverLine ? undefined : severity, status: "approved" }
+              : // Cover lines (allergies, regular medication) are the patient's own words and need no review.
+                {
+                  ...base,
+                  authorRole: "patient",
+                  private: coverLine ? undefined : isPrivate || undefined,
+                  status: coverLine ? "approved" : "pending",
+                  submittedAt: new Date().toISOString(),
+                },
+          );
           close();
         }}
       >
@@ -123,13 +142,17 @@ export function AddRecordSheet({
               <span className="shrink-0 text-xs text-muted">{t("add.fileHint")}</span>
               <input type="file" className="sr-only" accept=".pdf,image/*" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
             </label>
-            <label className="flex cursor-pointer items-start gap-2.5">
-              <input type="checkbox" checked={isPrivate} onChange={(e) => setPrivate(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-primary)]" />
-              <span>
-                <span className="block font-medium text-heading">{t("add.private")}</span>
-                <span className="block text-sm text-muted">{t("add.privateHint")}</span>
-              </span>
-            </label>
+            {byDoctor ? (
+              <SeverityPicker value={severity} onChange={setSeverity} />
+            ) : (
+              <label className="flex cursor-pointer items-start gap-2.5">
+                <input type="checkbox" checked={isPrivate} onChange={(e) => setPrivate(e.target.checked)} className="mt-0.5 h-5 w-5 shrink-0 accent-[var(--color-primary)]" />
+                <span>
+                  <span className="block font-medium text-heading">{t("add.private")}</span>
+                  <span className="block text-sm text-muted">{t("add.privateHint")}</span>
+                </span>
+              </label>
+            )}
           </>
         )}
       </form>

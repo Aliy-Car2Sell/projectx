@@ -93,7 +93,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
         </aside>
 
         <div>
-          <PatientRecordsPanel patient={user} records={getSharedPatientRecords(user.id)} doctorName={`${currentDoctor.firstName} ${currentDoctor.lastName}`} />
+          <PatientRecordsPanel patient={user} records={getSharedPatientRecords(user.id)} doctorName={`${currentDoctor.firstName} ${currentDoctor.lastName}`} doctorId={currentDoctor.id} />
         </div>
       </div>
     </>

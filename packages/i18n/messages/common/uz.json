@@ -315,7 +315,9 @@
       "recordUploaded": "{name} yangi tahlil yukladi",
       "newApplication": "Yangi doktor arizasi: {name}",
       "reviewReported": "Sharh haqida shikoyat: {name}",
-      "userRegistered": "Yangi foydalanuvchi: {name}"
+      "userRegistered": "Yangi foydalanuvchi: {name}",
+      "recordUrgent": "Dr. {name}: shoshilinch yozuv — {title}",
+      "recordAttention": "Dr. {name}: e'tibor talab qiladigan yozuv — {title}"
     }
   },
   "profile": {
@@ -437,6 +439,22 @@
       "printedOn": "Chop etilgan: {date}",
       "singleEntry": "Bitta yozuv",
       "nothing": "Tanlangan davr va bo'limlarda yozuv yo'q."
+    },
+    "severity": {
+      "label": "Yozuv holati",
+      "normal": "Me'yorda",
+      "attention": "E'tibor bering",
+      "urgent": "Shoshilinch",
+      "hint": {
+        "normal": "Hammasi joyida, qo'shimcha harakat kerak emas.",
+        "attention": "Bemor o'qib chiqsin va tavsiyalarga amal qilsin.",
+        "urgent": "Bemorga darhol xabar beriladi — tez orada bog'lanish kerak."
+      },
+      "flaggedUrgent": "{count} shoshilinch",
+      "flaggedAttention": "{count} e'tibor talab qiladigan",
+      "flaggedSuffix": "yozuv",
+      "clearFlagged": "Hammasini ko'rsatish",
+      "printLabel": "Holat: {label}"
     }
   },
   "help": {

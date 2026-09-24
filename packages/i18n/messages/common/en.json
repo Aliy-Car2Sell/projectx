@@ -315,7 +315,9 @@
       "recordUploaded": "{name} uploaded a new result",
       "newApplication": "New doctor application: {name}",
       "reviewReported": "Review reported: {name}",
-      "userRegistered": "New user: {name}"
+      "userRegistered": "New user: {name}",
+      "recordUrgent": "Dr. {name}: urgent entry — {title}",
+      "recordAttention": "Dr. {name}: entry needs attention — {title}"
     }
   },
   "profile": {
@@ -437,6 +439,22 @@
       "printedOn": "Printed: {date}",
       "singleEntry": "Single entry",
       "nothing": "No entries in the selected period and sections."
+    },
+    "severity": {
+      "label": "Entry status",
+      "normal": "Normal",
+      "attention": "Needs attention",
+      "urgent": "Urgent",
+      "hint": {
+        "normal": "All fine, nothing more to do.",
+        "attention": "The patient should read this and follow the advice.",
+        "urgent": "The patient is notified at once and should get in touch soon."
+      },
+      "flaggedUrgent": "{count} urgent",
+      "flaggedAttention": "{count} needing attention",
+      "flaggedSuffix": "entries",
+      "clearFlagged": "Show all",
+      "printLabel": "Status: {label}"
     }
   },
   "help": {

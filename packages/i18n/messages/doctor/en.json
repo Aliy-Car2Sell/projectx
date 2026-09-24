@@ -153,7 +153,8 @@
       "activeBadge": "Active visit",
       "notFound": "Patient not found",
       "contact": "Contact",
-      "toSchedule": "Open schedule"
+      "toSchedule": "Open schedule",
+      "urgent": "Has an urgent entry"
     },
     "reviews": {
       "title": "Reviews and rating",

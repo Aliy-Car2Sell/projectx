@@ -153,7 +153,8 @@
       "activeBadge": "Aktiv qabul",
       "notFound": "Bemor topilmadi",
       "contact": "Aloqa",
-      "toSchedule": "Jadvalni ochish"
+      "toSchedule": "Jadvalni ochish",
+      "urgent": "Shoshilinch yozuv bor"
     },
     "reviews": {
       "title": "Sharhlar va reyting",

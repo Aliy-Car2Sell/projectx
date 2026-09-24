@@ -1,10 +1,13 @@
 import type { UserRole } from "@projectx/types";
 import { pendingDoctors } from "./doctors";
+import { getRecordById } from "./records";
 
 export type NotificationType =
   | "appointmentReminder"
   | "newMessage"
   | "newRecord"
+  | "recordUrgent"
+  | "recordAttention"
   | "reviewRequest"
   | "newBooking"
   | "recordUploaded"
@@ -34,8 +37,12 @@ const pendingName = (i: number) => {
   return d ? `${d.firstName} ${d.lastName}` : "";
 };
 
+const recordTitle = (id: string) => getRecordById(id)?.title ?? "";
+
 const byRole: Record<UserRole, MockNotification[]> = {
   patient: [
+    { id: "n-p0", type: "recordUrgent", params: { name: "Bekzod Rahimov", title: recordTitle("rec-15") }, href: "/patient/records#record-rec-15", at: iso(1, 17, 40), read: false },
+    { id: "n-p5", type: "recordAttention", params: { name: "Bekzod Rahimov", title: recordTitle("rec-13") }, href: "/patient/records#record-rec-13", at: iso(12, 12, 10), read: true },
     { id: "n-p1", type: "appointmentReminder", params: { name: "Bekzod Rahimov", time: "16:30" }, href: "/patient/appointments/apt-1", at: iso(0, 8, 0), read: false },
     { id: "n-p2", type: "newMessage", params: { name: "Bekzod Rahimov" }, href: "/patient/chat/chat-1", at: iso(0, 10, 42), read: false },
     { id: "n-p3", type: "newRecord", params: { name: "Bekzod Rahimov" }, href: "/patient/records", at: iso(1, 17, 5), read: false },

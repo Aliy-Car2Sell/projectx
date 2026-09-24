@@ -9,6 +9,7 @@ import { fmtDate } from "@projectx/utils/dates";
 import { mockFileUrl } from "@projectx/mock/files";
 import { NewBadge } from "../ui/Badge";
 import { FilePreviewModal, type PreviewFile } from "../ui/FilePreviewModal";
+import { SeverityMark } from "./SeverityMark";
 
 export const recordIcon: Partial<Record<RecordType, LucideIcon>> = {
   analysis: FlaskConical,
@@ -18,6 +19,9 @@ export const recordIcon: Partial<Record<RecordType, LucideIcon>> = {
   other: NotebookPen,
 };
 
+/** DOM id of an entry, so `/patient/records#record-<id>` can scroll to it. */
+export const recordDomId = (id: string) => `record-${id}`;
+
 /**
  * One entry of the notebook: a paragraph, not a card. Date and kind in a narrow left column,
  * text on the right. Tapping the text expands it in place; `printing` renders it fully open and static.
@@ -26,22 +30,32 @@ export function RecordEntry({
   record,
   viewer,
   printing,
+  defaultOpen,
   actions,
 }: {
   record: MedicalRecord;
   viewer: "patient" | "doctor";
   printing?: boolean;
+  /** Start expanded (deep link from the dashboard or a notification). */
+  defaultOpen?: boolean;
   /** Extra controls shown in the expanded entry (e.g. "print this entry"). */
   actions?: React.ReactNode;
 }) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
   const locale = useLocale();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(Boolean(defaultOpen));
+  const [prevDefault, setPrevDefault] = useState(defaultOpen);
   const [preview, setPreview] = useState<PreviewFile | null>(null);
+  // A deep link arriving after mount (hash change) opens the entry; the reader may still collapse it.
+  if (defaultOpen !== prevDefault) {
+    setPrevDefault(defaultOpen);
+    if (defaultOpen) setOpen(true);
+  }
   const expanded = printing || open;
   const Icon = recordIcon[record.type] ?? FileText;
   const isSummary = record.type === "summary";
+  const isUrgent = record.severity === "urgent";
   const isImage = record.fileType === "image";
   const fileUrl = record.fileName ? mockFileUrl(isImage ? "image" : "pdf") : null;
   const file: PreviewFile | null = fileUrl ? { name: record.fileName ?? record.title, type: isImage ? "image" : "pdf", url: fileUrl } : null;
@@ -52,6 +66,7 @@ export function RecordEntry({
     <>
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
         <span className="font-bold text-heading leading-snug">{record.title}</span>
+        {record.severity && !printing && <SeverityMark severity={record.severity} className="md:hidden" />}
         {record.isNew && !printing && <NewBadge label={tc("new")} />}
         {record.private && (
           <span className="inline-flex items-center gap-1 text-xs font-medium text-muted">
@@ -65,9 +80,12 @@ export function RecordEntry({
 
   return (
     <article
+      id={recordDomId(record.id)}
       className={cn(
-        "record-entry grid grid-cols-[62px_minmax(0,1fr)] md:grid-cols-[92px_minmax(0,1fr)] gap-x-3 md:gap-x-5 py-4",
-        isSummary && "record-summary -mx-2 px-2 md:-mx-4 md:px-4 border-l-[3px] border-l-primary bg-primary-soft/60",
+        "record-entry grid grid-cols-[62px_minmax(0,1fr)] md:grid-cols-[92px_minmax(0,1fr)] gap-x-3 md:gap-x-5 py-4 scroll-mt-44 md:scroll-mt-32",
+        (isSummary || isUrgent) && "-mx-2 px-2 md:-mx-4 md:px-4 border-l-[3px]",
+        // An urgent mark wins over the summary's blue edge: the colour must say "act now" at a glance.
+        isUrgent ? "record-urgent border-l-danger bg-danger-soft/40" : isSummary && "record-summary border-l-primary bg-primary-soft/60",
       )}
     >
       <div className="text-sm leading-tight text-muted">
@@ -77,6 +95,12 @@ export function RecordEntry({
           <Icon className="h-3.5 w-3.5 shrink-0" />
           <span className={printing ? undefined : "max-md:hidden"}>{t(`types.${record.type}`)}</span>
         </div>
+        {/* The doctor's mark stays visible while the entry is collapsed: the colour says it before the text does. */}
+        {record.severity && (
+          <div className={cn("mt-1.5", !printing && "max-md:hidden")}>
+            {printing ? <span className="text-xs font-semibold text-heading">{t("severity.printLabel", { label: t(`severity.${record.severity}`) })}</span> : <SeverityMark severity={record.severity} />}
+          </div>
+        )}
       </div>
 
       <div className="min-w-0">

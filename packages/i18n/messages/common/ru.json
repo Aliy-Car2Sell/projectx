@@ -315,7 +315,9 @@
       "recordUploaded": "{name} загрузил(а) новый анализ",
       "newApplication": "Новая заявка врача: {name}",
       "reviewReported": "Жалоба на отзыв: {name}",
-      "userRegistered": "Новый пользователь: {name}"
+      "userRegistered": "Новый пользователь: {name}",
+      "recordUrgent": "Д-р {name}: срочная запись — {title}",
+      "recordAttention": "Д-р {name}: запись требует внимания — {title}"
     }
   },
   "profile": {
@@ -437,6 +439,22 @@
       "printedOn": "Распечатано: {date}",
       "singleEntry": "Одна запись",
       "nothing": "За выбранный период и в выбранных разделах записей нет."
+    },
+    "severity": {
+      "label": "Статус записи",
+      "normal": "В норме",
+      "attention": "Обратите внимание",
+      "urgent": "Срочно",
+      "hint": {
+        "normal": "Всё в порядке, дополнительных действий не нужно.",
+        "attention": "Пациенту стоит прочитать и выполнить рекомендации.",
+        "urgent": "Пациент получит уведомление сразу — нужно связаться в ближайшее время."
+      },
+      "flaggedUrgent": "{count} срочных",
+      "flaggedAttention": "{count} требующих внимания",
+      "flaggedSuffix": "записей",
+      "clearFlagged": "Показать все",
+      "printLabel": "Статус: {label}"
     }
   },
   "help": {

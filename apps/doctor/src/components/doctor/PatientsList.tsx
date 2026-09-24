@@ -43,7 +43,7 @@ export function PatientsList({ patients, state = "normal" }: { patients: DoctorP
         <EmptyState icon={<Users className="h-7 w-7" />} title={t("noPatients")} description={q ? undefined : t("noPatientsDesc")} action={q ? undefined : <Button href="/doctor/schedule" size="sm">{t("toSchedule")}</Button>} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {rows.map(({ user, nextVisit, lastVisit, hasActive }) => {
+          {rows.map(({ user, nextVisit, lastVisit, hasActive, hasUrgent }) => {
             const name = `${user.firstName} ${user.lastName}`;
             const age = ageFromBirthDate(user.birthDate);
             return (
@@ -52,6 +52,7 @@ export function PatientsList({ patients, state = "normal" }: { patients: DoctorP
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
                     <span className="font-bold text-heading truncate">{name}</span>
+                    {hasUrgent && <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-danger" role="img" aria-label={t("urgent")} title={t("urgent")} />}
                     {hasActive && (
                       <Badge tone="success" dot>
                         {t("activeBadge")}

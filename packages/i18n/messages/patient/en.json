@@ -23,7 +23,10 @@
       "myChats": "Chats",
       "inHours": "in {count} h",
       "inMinutes": "in {count} min",
-      "at": "at {time}"
+      "at": "at {time}",
+      "urgentTitle": "An entry needs your urgent attention",
+      "urgentBanner": "Dr. {doctor}: an entry needs your urgent attention — {title}",
+      "view": "View"
     },
     "doctors": {
       "title": "Find a doctor",

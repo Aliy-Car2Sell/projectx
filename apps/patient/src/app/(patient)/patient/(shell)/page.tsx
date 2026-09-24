@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { CalendarDays, ChevronRight, FolderHeart, MapPin, MessageCircle, Search, Star, Stethoscope, Upload } from "lucide-react";
+import { AlertTriangle, CalendarDays, ChevronRight, FolderHeart, MapPin, MessageCircle, Search, Star, Stethoscope, Upload } from "lucide-react";
 import { currentPatient } from "@projectx/mock/users";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getPatientAppointments } from "@projectx/mock/appointments";
-import { getPatientRecords } from "@projectx/mock/records";
+import { getPatientRecords, getUrgentRecords } from "@projectx/mock/records";
 import { patientChats } from "@projectx/mock/chats";
 import { hoursUntil, isToday } from "@projectx/utils";
 import { fmtDate, today } from "@projectx/utils/dates";
@@ -31,6 +31,7 @@ export default async function PatientDashboard() {
   const nextDoctor = next ? getDoctorById(next.doctorId) : undefined;
   const needsReview = all.filter((a) => a.status === "completed" && !a.reviewId);
   const newRecords = getPatientRecords(currentPatient.id).filter((r) => r.isNew);
+  const urgent = getUrgentRecords(currentPatient.id).sort((a, b) => b.date.localeCompare(a.date))[0];
   const unread = patientChats.reduce((s, c) => s + c.unreadCount, 0);
   const newSummaries = newRecords.filter((r) => r.type === "summary");
   const lastCompleted = all
@@ -50,6 +51,21 @@ export default async function PatientDashboard() {
           </Button>
         }
       />
+
+      {urgent && (
+        <div role="alert" className="mb-4 flex flex-col gap-3 rounded-xl border border-danger/40 bg-danger-soft p-4 sm:flex-row sm:items-center">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-danger text-white">
+            <AlertTriangle className="h-6 w-6" />
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="font-bold text-heading">{t("urgentTitle")}</div>
+            <div className="text-sm text-red-800">{t("urgentBanner", { doctor: urgent.authorName ?? "", title: urgent.title })}</div>
+          </div>
+          <Button href={`/patient/records#record-${urgent.id}`} variant="danger" size="sm" className="shrink-0">
+            {t("view")}
+          </Button>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
         {/* Today / next appointment */}
