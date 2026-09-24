@@ -4,6 +4,7 @@ import type { Chat } from "@projectx/types";
 import { currentPatient } from "@projectx/mock/users";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getChatById, getChatMessages, patientChats } from "@projectx/mock/chats";
+import { getRecordById } from "@projectx/mock/records";
 import { PageHeader } from "@projectx/ui/PageHeader";
 import { ChatLayout } from "@projectx/ui/chat/ChatLayout";
 import { ChatThread } from "@projectx/ui/chat/ChatThread";
@@ -30,18 +31,29 @@ export default async function ChatThreadPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ with?: string }>;
+  searchParams: Promise<{ with?: string; record?: string }>;
 }) {
   const { id } = await params;
-  const { with: withId } = await searchParams;
+  const { with: withId, record: recordId } = await searchParams;
   const chat = id === "new" ? newChatWith(withId) : getChatById(id);
   if (!chat) notFound();
+  // `?record=<id>` ("ask the doctor"): only the patient's own, approved entries can be attached.
+  const attached = recordId ? getRecordById(recordId) : undefined;
+  const attachRecord = attached && attached.patientId === currentPatient.id && attached.status === "approved" ? attached : undefined;
   const t = await getTranslations("patient.chat");
   return (
     <>
       <PageHeader title={t("title")} className="hidden lg:block" />
       <ChatLayout chats={patientChats} basePath="/patient/chat" activeId={chat.id}>
-        <ChatThread chat={chat} messages={getChatMessages(chat.id)} meId={currentPatient.id} backHref="/patient/chat" profileHref={`/patient/doctors/${chat.participantId}`} />
+        <ChatThread
+          chat={chat}
+          messages={getChatMessages(chat.id)}
+          meId={currentPatient.id}
+          backHref="/patient/chat"
+          profileHref={`/patient/doctors/${chat.participantId}`}
+          attachRecord={attachRecord}
+          recordHrefBase="/patient/records"
+        />
       </ChatLayout>
     </>
   );

@@ -5,10 +5,13 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, FileText, Image as ImageIcon, Paperclip, Send, X } from "lucide-react";
-import type { Chat, ChatAttachment, ChatMessage } from "@projectx/types";
+import type { Chat, ChatAttachment, ChatMessage, MedicalRecord } from "@projectx/types";
 import { cn, isSameDay } from "@projectx/utils";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
+import { getRecordById } from "@projectx/mock/records";
 import { Avatar } from "../ui/Avatar";
+import { RecordCard } from "../records/RecordCard";
+import { recordDomId } from "../records/RecordEntry";
 
 export function ChatThread({
   chat,
@@ -16,12 +19,18 @@ export function ChatThread({
   meId,
   backHref,
   profileHref,
+  attachRecord,
+  recordHrefBase,
 }: {
   chat: Chat;
   messages: ChatMessage[];
   meId: string;
   backHref: string;
   profileHref?: string;
+  /** "Ask the doctor": this notebook entry rides along with the first message sent. */
+  attachRecord?: MedicalRecord;
+  /** Page of the notebook that holds attached entries; the card links to `<base>#record-<id>`. */
+  recordHrefBase?: string;
 }) {
   const t = useTranslations("chat");
   const ts = useTranslations("specialties");
@@ -30,6 +39,7 @@ export function ChatThread({
   const [messages, setMessages] = useState(initial);
   const [draft, setDraft] = useState("");
   const [pending, setPending] = useState<ChatAttachment | null>(null);
+  const [record, setRecord] = useState<MedicalRecord | null>(attachRecord ?? null);
   const fileRef = useRef<HTMLInputElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -42,11 +52,21 @@ export function ChatThread({
     if (!text && !pending) return;
     setMessages((m) => [
       ...m,
-      { id: `local-${Date.now()}`, chatId: chat.id, senderId: meId, text: text || undefined, attachment: pending ?? undefined, sentAt: new Date().toISOString() },
+      {
+        id: `local-${Date.now()}`,
+        chatId: chat.id,
+        senderId: meId,
+        text: text || undefined,
+        attachment: pending ?? undefined,
+        attachedRecordId: record?.id,
+        sentAt: new Date().toISOString(),
+      },
     ]);
     setDraft("");
     setPending(null);
+    setRecord(null);
   };
+  const recordHref = (id: string) => (recordHrefBase ? `${recordHrefBase}#${recordDomId(id)}` : undefined);
 
   const pickFile = (f: File | undefined) => {
     if (!f) return;
@@ -99,6 +119,10 @@ export function ChatThread({
                     mine ? "bg-primary text-white rounded-br-md" : "bg-card text-heading rounded-bl-md",
                   )}
                 >
+                  {m.attachedRecordId && (() => {
+                    const r = getRecordById(m.attachedRecordId);
+                    return r ? <RecordCard record={r} href={recordHref(r.id)} inverse={mine} className="mb-1.5" /> : null;
+                  })()}
                   {m.attachment?.type === "image" && (
                     <img src={m.attachment.url} alt={m.attachment.name} className="rounded-lg mb-1 max-h-60 w-full object-cover" />
                   )}
@@ -133,6 +157,7 @@ export function ChatThread({
           send();
         }}
       >
+        {record && <RecordCard record={record} onRemove={() => setRecord(null)} className="mb-2" />}
         {pending && (
           <div className="mb-2 inline-flex max-w-full items-center gap-2 self-start rounded-full border border-line bg-surface pl-2.5 pr-1 py-1 text-xs text-heading">
             {pending.type === "image" ? <ImageIcon className="h-3.5 w-3.5 text-accent" /> : <FileText className="h-3.5 w-3.5 text-primary-text" />}
@@ -168,10 +193,10 @@ export function ChatThread({
             }
           }}
           rows={1}
-          placeholder={t("typeMessage")}
+          placeholder={record && messages.length === 0 ? t("attachedRecord.placeholder") : t("typeMessage")}
           className="flex-1 resize-none rounded-lg border border-line bg-surface px-3 py-2.5 text-base md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
-        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
+        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending && !record} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
           <Send className="h-5 w-5" />
         </button>
         </div>

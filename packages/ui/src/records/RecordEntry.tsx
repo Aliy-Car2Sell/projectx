@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown, Download, Eye, FileText, FlaskConical, History, Image as ImageIcon, Lock, NotebookPen, ScanLine, Stethoscope, type LucideIcon } from "lucide-react";
+import { ChevronDown, Download, Eye, FileText, FlaskConical, History, Image as ImageIcon, Lock, MessageCircleQuestion, NotebookPen, ScanLine, Stethoscope, type LucideIcon } from "lucide-react";
 import type { MedicalRecord, RecordType } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
@@ -32,6 +32,7 @@ export function RecordEntry({
   printing,
   defaultOpen,
   actions,
+  onAskDoctor,
 }: {
   record: MedicalRecord;
   viewer: "patient" | "doctor";
@@ -40,6 +41,8 @@ export function RecordEntry({
   defaultOpen?: boolean;
   /** Extra controls shown in the expanded entry (e.g. "print this entry"). */
   actions?: React.ReactNode;
+  /** Patient app: "ask the doctor" about this entry (approved entries only). */
+  onAskDoctor?: (record: MedicalRecord) => void;
 }) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
@@ -61,6 +64,7 @@ export function RecordEntry({
   const file: PreviewFile | null = fileUrl ? { name: record.fileName ?? record.title, type: isImage ? "image" : "pdf", url: fileUrl } : null;
   const author =
     record.authorRole === "doctor" ? t("byDoctor", { name: record.authorName ?? "" }) : viewer === "patient" ? t("byYou") : t("byPatient");
+  const canAsk = Boolean(onAskDoctor) && viewer === "patient" && record.status === "approved";
 
   const heading = (
     <>
@@ -162,8 +166,13 @@ export function RecordEntry({
 
         <div className="mt-1.5 text-xs text-muted">{author}</div>
 
-        {open && !printing && (file || actions) && (
+        {open && !printing && (file || actions || canAsk) && (
           <div className="mt-2 flex flex-wrap items-center gap-1">
+            {canAsk && (
+              <button type="button" onClick={() => onAskDoctor?.(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+                <MessageCircleQuestion className="h-4 w-4" /> {t("askDoctor.button")}
+              </button>
+            )}
             {file && (
               <a href={file.url} download={file.name} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <Download className="h-4 w-4" /> {tc("download")}

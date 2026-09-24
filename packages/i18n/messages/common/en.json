@@ -284,7 +284,14 @@
     "removeAttachment": "Remove file",
     "noChatsDoctorDesc": "Conversations appear here once a patient writes to you, or you write from a patient's card.",
     "findDoctor": "Find a doctor",
-    "toPatients": "Go to patients"
+    "toPatients": "Go to patients",
+    "attachedRecord": {
+      "label": "Attached entry",
+      "placeholder": "Type your question about this entry",
+      "marker": "entry",
+      "remove": "Remove entry",
+      "open": "Open the entry in the record"
+    }
   },
   "placeholder": {
     "title": "Page in progress",
@@ -455,6 +462,12 @@
       "flaggedSuffix": "entries",
       "clearFlagged": "Show all",
       "printLabel": "Status: {label}"
+    },
+    "askDoctor": {
+      "button": "Ask a doctor",
+      "title": "Which doctor to ask?",
+      "pickDesc": "The entry is attached to your message, so the doctor sees at once what it is about.",
+      "other": "Another doctor"
     }
   },
   "help": {

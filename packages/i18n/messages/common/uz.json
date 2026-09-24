@@ -284,7 +284,14 @@
     "removeAttachment": "Faylni olib tashlash",
     "noChatsDoctorDesc": "Bemor sizga yozganda yoki siz bemor kartochkasidan yozganingizda shu yerda ko'rinadi.",
     "findDoctor": "Doktor topish",
-    "toPatients": "Bemorlarga o'tish"
+    "toPatients": "Bemorlarga o'tish",
+    "attachedRecord": {
+      "label": "Biriktirilgan yozuv",
+      "placeholder": "Bu yozuv bo'yicha savolingizni yozing",
+      "marker": "yozuv",
+      "remove": "Yozuvni olib tashlash",
+      "open": "Yozuvni kartochkada ochish"
+    }
   },
   "placeholder": {
     "title": "Sahifa tayyorlanmoqda",
@@ -455,6 +462,12 @@
       "flaggedSuffix": "yozuv",
       "clearFlagged": "Hammasini ko'rsatish",
       "printLabel": "Holat: {label}"
+    },
+    "askDoctor": {
+      "button": "Doktordan so'rash",
+      "title": "Qaysi doktordan so'raysiz?",
+      "pickDesc": "Yozuv chat xabariga biriktiriladi — doktor nima haqida gap ketayotganini darrov ko'radi.",
+      "other": "Boshqa doktor"
     }
   },
   "help": {

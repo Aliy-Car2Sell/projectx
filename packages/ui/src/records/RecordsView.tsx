@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, Stethoscope, X } from "lucide-react";
-import type { MedicalRecord, User } from "@projectx/types";
+import type { DoctorProfile, MedicalRecord, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
+import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
 import { Chip } from "../ui/Chip";
@@ -14,6 +16,7 @@ import { Skeleton } from "../ui/Skeleton";
 import { Toast, useToast } from "../ui/Toast";
 import type { DemoState } from "../demo/state";
 import { AddRecordSheet, type AddPreset, type RecordWriter } from "./AddRecordSheet";
+import { AskDoctorSheet } from "./AskDoctorSheet";
 import { PrintDialog } from "./PrintDialog";
 import { RecordCover } from "./RecordCover";
 import { RecordEntry, recordDomId } from "./RecordEntry";
@@ -45,6 +48,7 @@ export function RecordsView({
   records,
   role = "patient",
   writer,
+  doctors,
   state = "normal",
   onAddSummary,
   printHref,
@@ -54,6 +58,8 @@ export function RecordsView({
   role?: "patient" | "doctor";
   /** The doctor writing into this notebook (doctor app only). */
   writer?: RecordWriter;
+  /** Patient app: the patient's own doctors, offered by "ask the doctor" on entries no doctor wrote. */
+  doctors?: DoctorProfile[];
   state?: DemoState;
   onAddSummary?: () => void;
   /** This record's print route (e.g. "/patient/records/print"); enables "Print / PDF". */
@@ -66,6 +72,8 @@ export function RecordsView({
   const [added, setAdded] = useState<MedicalRecord[]>([]);
   const [preset, setPreset] = useState<AddPreset | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
+  const [asking, setAsking] = useState<MedicalRecord | null>(null);
+  const router = useRouter();
   const focusId = useFocusedRecordId();
   const [handledFocus, setHandledFocus] = useState<string | null>(null);
   const { toast, show } = useToast();
@@ -110,6 +118,12 @@ export function RecordsView({
         )}
       </>
     );
+
+  // "Ask the doctor": the author's chat when a doctor wrote the entry, otherwise let the patient pick one.
+  const askDoctor = (r: MedicalRecord) => {
+    if (r.authorDoctorId) router.push(chatHrefFor("patient", r.authorDoctorId, r.id));
+    else setAsking(r);
+  };
 
   const flaggedText = [flagged.urgent > 0 && t("severity.flaggedUrgent", { count: flagged.urgent }), flagged.attention > 0 && t("severity.flaggedAttention", { count: flagged.attention })]
     .filter(Boolean)
@@ -206,6 +220,7 @@ export function RecordsView({
                         record={r}
                         viewer={role}
                         defaultOpen={r.id === focusId}
+                        onAskDoctor={role === "patient" ? askDoctor : undefined}
                         actions={
                           // Entries added in this session exist only in the browser; the print route cannot see them.
                           printHref && !r.id.startsWith("rec-local-") ? (
@@ -241,6 +256,18 @@ export function RecordsView({
         }}
       />
       {printHref && <PrintDialog open={printOpen} onClose={() => setPrintOpen(false)} printHref={printHref} chooseMode={role === "patient"} />}
+      {role === "patient" && (
+        <AskDoctorSheet
+          record={asking}
+          doctors={doctors ?? []}
+          searchHref="/patient/doctors"
+          onPick={(d) => {
+            if (asking) router.push(chatHrefFor("patient", d.id, asking.id));
+            setAsking(null);
+          }}
+          onClose={() => setAsking(null)}
+        />
+      )}
       <Toast message={toast} />
     </div>
   );

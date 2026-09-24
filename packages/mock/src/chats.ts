@@ -90,7 +90,14 @@ export const doctorChats: Chat[] = [
 
 export const messages: ChatMessage[] = [
   // chat-1: patient <-> doc-1
-  { id: "m-1", chatId: "chat-1", senderId: "u-patient-1", text: "Assalomu alaykum, doktor. Qon tahlilini topshirdim, natijani yubordim.", sentAt: iso(0, 9, 15) },
+  {
+    id: "m-1",
+    chatId: "chat-1",
+    senderId: "u-patient-1",
+    text: "Assalomu alaykum, doktor. Qon tahlilini topshirdim, natijani yubordim. Xolesterin yuqori chiqibdi — bu xavflimi?",
+    attachedRecordId: "rec-2",
+    sentAt: iso(0, 9, 15),
+  },
   {
     id: "m-2",
     chatId: "chat-1",
@@ -130,7 +137,7 @@ export const messages: ChatMessage[] = [
   // dchat-2
   { id: "m-40", chatId: "dchat-2", senderId: "u-patient-2", text: "Salom doktor, kecha Xolter apparatini topshirdim.", sentAt: iso(0, 8, 10) },
   { id: "m-41", chatId: "dchat-2", senderId: "u-patient-2", attachment: { type: "file", name: "holter.pdf", sizeKb: 1180 }, sentAt: iso(0, 8, 11) },
-  { id: "m-42", chatId: "dchat-2", senderId: "u-patient-2", text: "Xolter natijasini yukladim, ko'rib chiqa olasizmi?", sentAt: iso(0, 8, 12) },
+  { id: "m-42", chatId: "dchat-2", senderId: "u-patient-2", text: "Xolter natijasini yukladim, ko'rib chiqa olasizmi?", attachedRecordId: "rec-21", sentAt: iso(0, 8, 12) },
   // dchat-3
   { id: "m-50", chatId: "dchat-3", senderId: "u-patient-6", text: "Assalomu alaykum. Ko'krak qafasida og'riq bor, qabulga kelsam bo'ladimi?", sentAt: iso(1, 19, 40) },
   { id: "m-51", chatId: "dchat-3", senderId: "doc-1", text: "Albatta. Agar og'riq kuchaysa, darhol tez yordam chaqiring.", sentAt: iso(1, 19, 55) },
@@ -144,6 +151,11 @@ export function getChatMessages(chatId: string): ChatMessage[] {
   return messages.filter((m) => m.chatId === chatId).sort((a, b) => a.sentAt.localeCompare(b.sentAt));
 }
 
+/** The conversation is about a notebook entry (a message carries `attachedRecordId`). */
+export function chatHasRecord(chatId: string): boolean {
+  return messages.some((m) => m.chatId === chatId && Boolean(m.attachedRecordId));
+}
+
 export function getChatById(id: string): Chat | undefined {
   return [...patientChats, ...doctorChats].find((c) => c.id === id);
 }
@@ -155,10 +167,13 @@ export function findChatWith(role: "patient" | "doctor", participantId: string):
 
 /**
  * Link to the conversation with `participantId`: the existing thread when one exists,
- * otherwise the "new conversation" screen for that person.
+ * otherwise the "new conversation" screen for that person. `recordId` opens it with that
+ * notebook entry attached to the first message ("ask the doctor").
  */
-export function chatHrefFor(role: "patient" | "doctor", participantId: string): string {
+export function chatHrefFor(role: "patient" | "doctor", participantId: string, recordId?: string): string {
   const base = role === "patient" ? "/patient/chat" : "/doctor/chat";
   const chat = findChatWith(role, participantId);
-  return chat ? `${base}/${chat.id}` : `${base}/new?with=${participantId}`;
+  const href = chat ? `${base}/${chat.id}` : `${base}/new?with=${participantId}`;
+  if (!recordId) return href;
+  return `${href}${href.includes("?") ? "&" : "?"}record=${encodeURIComponent(recordId)}`;
 }
