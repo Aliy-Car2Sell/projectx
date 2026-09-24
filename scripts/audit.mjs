@@ -461,7 +461,8 @@ async function probeButtons(page, app, url, vpName) {
           type: el.type,
           role: el.getAttribute("role"),
           haspopup: el.getAttribute("aria-haspopup"),
-          active: el.getAttribute("aria-selected") === "true" || el.getAttribute("aria-pressed") === "true",
+          // an already-selected tab, chip or radio legitimately does nothing when clicked again
+          active: el.getAttribute("aria-selected") === "true" || el.getAttribute("aria-pressed") === "true" || el.getAttribute("aria-checked") === "true",
           formInvalid: Boolean(el.form && !el.form.checkValidity()),
           inDialog: Boolean(el.closest('[role="dialog"]')),
           section: (el.closest("section,article,aside,form,li,header,nav")?.querySelector("h1,h2,h3")?.innerText || "").trim().slice(0, 40),

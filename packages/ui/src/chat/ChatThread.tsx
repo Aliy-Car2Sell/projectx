@@ -49,7 +49,8 @@ export function ChatThread({
 
   const send = () => {
     const text = draft.trim();
-    if (!text && !pending) return;
+    // A message may carry only a file or only the attached entry.
+    if (!text && !pending && !record) return;
     setMessages((m) => [
       ...m,
       {

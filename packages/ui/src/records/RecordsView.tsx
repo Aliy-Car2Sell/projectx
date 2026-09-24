@@ -144,7 +144,8 @@ export function RecordsView({
             </Chip>
           ))}
         </div>
-        <div className="flex shrink-0 items-center gap-2">
+        {/* Three actions for the doctor (print, add, summary) do not fit 375px on one row: let them wrap. */}
+        <div className="flex flex-wrap items-center gap-2">
           {printHref && state === "normal" && (
             <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />}>
               {t("print.button")}
