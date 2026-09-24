@@ -23,12 +23,15 @@ export function AppShell({
   role,
   user,
   unreadMessages = 0,
+  badges,
   logoutAction,
   children,
 }: {
   role: UserRole;
   user: User;
   unreadMessages?: number;
+  /** Counts shown on nav items by key (e.g. `{ records: 6 }` for the admin's review queue). */
+  badges?: Partial<Record<string, number>>;
   /** Server action ending the session; without it "log out" just links to /login. */
   logoutAction?: () => Promise<void>;
   children: React.ReactNode;
@@ -40,6 +43,7 @@ export function AppShell({
   const homeHref = items[0].href;
   const chatHref = chatHrefByRole[role];
   const fullName = `${user.firstName} ${user.lastName}`;
+  const badgeOf = (key: string) => (key === "chat" ? unreadMessages : (badges?.[key] ?? 0));
   const logoutClass =
     "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
 
@@ -82,9 +86,9 @@ export function AppShell({
               >
                 <Icon className="h-5 w-5 shrink-0" />
                 <span className="hidden lg:inline truncate">{label}</span>
-                {item.key === "chat" && unreadMessages > 0 && (
+                {badgeOf(item.key) > 0 && (
                   <span className="max-lg:hidden inline-flex ml-auto rounded-full px-1.5 min-w-[20px] h-5 items-center justify-center text-[11px] font-bold bg-primary text-white">
-                    {unreadMessages}
+                    {badgeOf(item.key)}
                   </span>
                 )}
               </Link>
@@ -164,9 +168,9 @@ export function AppShell({
                 >
                   <Icon className={cn("h-5 w-5", active && "stroke-[2.5]")} />
                   <span className="truncate max-w-full px-1">{t.has(`navShort.${role}.${item.key}`) ? t(`navShort.${role}.${item.key}`) : t(`nav.${role}.${item.key}`)}</span>
-                  {item.key === "chat" && unreadMessages > 0 && (
+                  {badgeOf(item.key) > 0 && (
                     <span className="absolute top-1.5 right-[calc(50%-18px)] h-4 min-w-[16px] rounded-full bg-danger px-1 text-[10px] font-bold text-white flex items-center justify-center">
-                      {unreadMessages}
+                      {badgeOf(item.key)}
                     </span>
                   )}
                 </Link>

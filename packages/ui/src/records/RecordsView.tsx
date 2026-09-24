@@ -70,7 +70,9 @@ export function RecordsView({
   const tst = useTranslations("states");
   const [filter, setFilter] = useState<RecordFilter>("all");
   const [added, setAdded] = useState<MedicalRecord[]>([]);
+  const [removed, setRemoved] = useState<string[]>([]);
   const [preset, setPreset] = useState<AddPreset | null>(null);
+  const [resubmitting, setResubmitting] = useState<MedicalRecord | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
   const [asking, setAsking] = useState<MedicalRecord | null>(null);
   const router = useRouter();
@@ -86,8 +88,8 @@ export function RecordsView({
   const all = useMemo(() => {
     const base = state === "empty" ? [] : records;
     // Defence in depth: the doctor app already asks the mock for shared records only.
-    return [...added, ...base].filter((r) => role === "patient" || (!r.private && r.status === "approved"));
-  }, [added, records, role, state]);
+    return [...added, ...base].filter((r) => !removed.includes(r.id) && (role === "patient" || (!r.private && r.status === "approved")));
+  }, [added, records, removed, role, state]);
   const entries = useMemo(() => timeline(all), [all]);
   const shown = useMemo(() => byFilter(entries, filter), [entries, filter]);
   const groups = useMemo(() => groupByMonth(shown), [shown]);
@@ -221,9 +223,26 @@ export function RecordsView({
                         viewer={role}
                         defaultOpen={r.id === focusId}
                         onAskDoctor={role === "patient" ? askDoctor : undefined}
+                        onResubmit={
+                          role === "patient"
+                            ? (rec) => {
+                                setResubmitting(rec);
+                                setPreset("entry");
+                              }
+                            : undefined
+                        }
+                        onDelete={
+                          role === "patient"
+                            ? (rec) => {
+                                setRemoved((prev) => [...prev, rec.id]);
+                                show(t("status.deleted"));
+                              }
+                            : undefined
+                        }
                         actions={
-                          // Entries added in this session exist only in the browser; the print route cannot see them.
-                          printHref && !r.id.startsWith("rec-local-") ? (
+                          // Entries added in this session exist only in the browser; the print route cannot see them,
+                          // and it never prints entries still under review or rejected.
+                          printHref && r.status === "approved" && !r.id.startsWith("rec-local-") ? (
                             <a
                               href={printHref + printQuery({ recordId: r.id, mode: role === "doctor" ? "doctor" : "full", auto: true })}
                               target="_blank"
@@ -245,14 +264,22 @@ export function RecordsView({
       </RecordSheet>
 
       <AddRecordSheet
+        key={resubmitting?.id ?? "new"}
         preset={preset}
         patientId={patient.id}
         writer={writer}
-        onClose={() => setPreset(null)}
+        initial={resubmitting ?? undefined}
+        onClose={() => {
+          setPreset(null);
+          setResubmitting(null);
+        }}
         onSave={(r) => {
+          // A resubmission replaces the rejected entry; a fresh patient entry goes to the admin first.
+          if (resubmitting) setRemoved((prev) => [...prev, resubmitting.id]);
           setAdded((prev) => [r, ...prev]);
           setFilter("all");
-          show(t("add.saved"));
+          show(t(r.status === "pending" ? "status.submitted" : "add.saved"));
+          setResubmitting(null);
         }}
       />
       {printHref && <PrintDialog open={printOpen} onClose={() => setPrintOpen(false)} printHref={printHref} chooseMode={role === "patient"} />}

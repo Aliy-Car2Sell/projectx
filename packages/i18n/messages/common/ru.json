@@ -151,7 +151,8 @@
       "doctors": "Врачи",
       "reviews": "Отзывы / Жалобы",
       "users": "Пользователи",
-      "profile": "Профиль"
+      "profile": "Профиль",
+      "records": "Проверка записей"
     }
   },
   "shell": {
@@ -302,7 +303,8 @@
       "applications": "Заявки",
       "reviews": "Отзывы",
       "users": "Юзеры",
-      "dashboard": "Главная"
+      "dashboard": "Главная",
+      "records": "Записи"
     }
   },
   "files": {
@@ -324,7 +326,10 @@
       "reviewReported": "Жалоба на отзыв: {name}",
       "userRegistered": "Новый пользователь: {name}",
       "recordUrgent": "Д-р {name}: срочная запись — {title}",
-      "recordAttention": "Д-р {name}: запись требует внимания — {title}"
+      "recordAttention": "Д-р {name}: запись требует внимания — {title}",
+      "recordApproved": "Ваша запись подтверждена: {title}",
+      "recordRejected": "Ваша запись отклонена: {title}",
+      "recordPending": "Новая запись на проверку: {name}"
     }
   },
   "profile": {
@@ -468,6 +473,17 @@
       "title": "Какого врача спросить?",
       "pickDesc": "Запись прикрепится к сообщению — врач сразу увидит, о чём речь.",
       "other": "Другой врач"
+    },
+    "status": {
+      "approved": "Подтверждена",
+      "pending": "На проверке",
+      "rejected": "Отклонена",
+      "submitted": "Запись отправлена на проверку. После подтверждения её увидят ваши врачи",
+      "reasonLabel": "Причина",
+      "resubmit": "Отправить снова",
+      "resubmitTitle": "Отправить запись снова",
+      "resubmitHint": "Причина отказа администратора — исправьте и отправьте снова:",
+      "deleted": "Запись удалена"
     }
   },
   "help": {

@@ -18,7 +18,8 @@
         "review_reported": "Review reported"
       },
       "thisWeek": "this week",
-      "growth": "+{count} this week"
+      "growth": "+{count} this week",
+      "pendingRecords": "Records to review"
     },
     "applications": {
       "title": "Doctor applications",
@@ -117,6 +118,59 @@
     },
     "profile": {
       "title": "Admin profile"
+    },
+    "records": {
+      "title": "Record review",
+      "subtitle": "Entries uploaded by patients, checked before their doctors see them",
+      "tabs": {
+        "pending": "Pending",
+        "approved": "Approved",
+        "rejected": "Rejected"
+      },
+      "patient": "Patient",
+      "type": "Type",
+      "recordTitle": "Title",
+      "recordDate": "Entry date",
+      "submittedAt": "Uploaded",
+      "file": "File",
+      "noFile": "No file",
+      "fileImage": "Image",
+      "filePdf": "PDF document",
+      "review": "Review",
+      "empty": {
+        "pending": "Nothing to review",
+        "approved": "No approved entries",
+        "rejected": "No rejected entries"
+      },
+      "emptyPendingDesc": "Entries patients add to their record appear here.",
+      "detailTitle": "Entry details",
+      "backToList": "Back to the list",
+      "text": "Text",
+      "noText": "The patient added no text.",
+      "values": "Values",
+      "patientLink": "Users",
+      "privateNote": "The patient hid this entry from doctors; once approved only the patient sees it.",
+      "decision": "Decision",
+      "decisionHint": "Once approved, the patient's doctors can see the entry.",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectTitle": "Reject the entry",
+      "rejectReason": "Reason",
+      "reasons": {
+        "notMedical": "Not a medical document",
+        "unreadable": "Unreadable",
+        "otherPerson": "Someone else's document",
+        "other": "Other"
+      },
+      "reasonCustom": "Comment (optional)",
+      "reasonCustomRequired": "Reason",
+      "reasonCustomPlaceholder": "E.g. the photo is blurry and the date is not visible; please upload the original",
+      "rejectHint": "The patient gets the reason as a notification and can fix the entry and resubmit it.",
+      "rejectConfirm": "Reject",
+      "approvedNote": "Approved: the patient's doctors can now see this entry",
+      "rejectedNote": "Rejected; the reason was sent to the patient",
+      "approvedToast": "Entry approved",
+      "rejectedToast": "Entry rejected, the patient was notified"
     }
   }
 }

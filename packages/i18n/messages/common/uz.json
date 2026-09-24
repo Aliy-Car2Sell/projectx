@@ -151,7 +151,8 @@
       "doctors": "Doktorlar",
       "reviews": "Sharhlar / Shikoyatlar",
       "users": "Foydalanuvchilar",
-      "profile": "Profil"
+      "profile": "Profil",
+      "records": "Yozuvlar tekshiruvi"
     }
   },
   "shell": {
@@ -302,7 +303,8 @@
       "applications": "Arizalar",
       "reviews": "Sharhlar",
       "users": "Userlar",
-      "dashboard": "Bosh sahifa"
+      "dashboard": "Bosh sahifa",
+      "records": "Yozuvlar"
     }
   },
   "files": {
@@ -324,7 +326,10 @@
       "reviewReported": "Sharh haqida shikoyat: {name}",
       "userRegistered": "Yangi foydalanuvchi: {name}",
       "recordUrgent": "Dr. {name}: shoshilinch yozuv — {title}",
-      "recordAttention": "Dr. {name}: e'tibor talab qiladigan yozuv — {title}"
+      "recordAttention": "Dr. {name}: e'tibor talab qiladigan yozuv — {title}",
+      "recordApproved": "Yozuvingiz tasdiqlandi: {title}",
+      "recordRejected": "Yozuvingiz rad etildi: {title}",
+      "recordPending": "Tekshiruvga yangi yozuv: {name}"
     }
   },
   "profile": {
@@ -468,6 +473,17 @@
       "title": "Qaysi doktordan so'raysiz?",
       "pickDesc": "Yozuv chat xabariga biriktiriladi — doktor nima haqida gap ketayotganini darrov ko'radi.",
       "other": "Boshqa doktor"
+    },
+    "status": {
+      "approved": "Tasdiqlangan",
+      "pending": "Tekshirilmoqda",
+      "rejected": "Rad etildi",
+      "submitted": "Yozuv tekshiruvga yuborildi. Tasdiqlangach doktorlaringiz ko'ra oladi",
+      "reasonLabel": "Sabab",
+      "resubmit": "Qayta yuborish",
+      "resubmitTitle": "Yozuvni qayta yuborish",
+      "resubmitHint": "Admin rad etgan sabab — tuzatib, qayta yuboring:",
+      "deleted": "Yozuv o'chirildi"
     }
   },
   "help": {

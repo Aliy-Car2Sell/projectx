@@ -1,6 +1,7 @@
 import type { UserRole } from "@projectx/types";
 import { pendingDoctors } from "./doctors";
 import { getRecordById } from "./records";
+import { getUserById } from "./users";
 
 export type NotificationType =
   | "appointmentReminder"
@@ -8,6 +9,9 @@ export type NotificationType =
   | "newRecord"
   | "recordUrgent"
   | "recordAttention"
+  | "recordApproved"
+  | "recordRejected"
+  | "recordPending"
   | "reviewRequest"
   | "newBooking"
   | "recordUploaded"
@@ -38,6 +42,10 @@ const pendingName = (i: number) => {
 };
 
 const recordTitle = (id: string) => getRecordById(id)?.title ?? "";
+const recordPatient = (id: string) => {
+  const u = getUserById(getRecordById(id)?.patientId ?? "");
+  return u ? `${u.firstName} ${u.lastName}` : "";
+};
 
 const byRole: Record<UserRole, MockNotification[]> = {
   patient: [
@@ -47,6 +55,8 @@ const byRole: Record<UserRole, MockNotification[]> = {
     { id: "n-p2", type: "newMessage", params: { name: "Bekzod Rahimov" }, href: "/patient/chat/chat-1", at: iso(0, 10, 42), read: false },
     { id: "n-p3", type: "newRecord", params: { name: "Bekzod Rahimov" }, href: "/patient/records", at: iso(1, 17, 5), read: false },
     { id: "n-p4", type: "reviewRequest", params: { name: "Bekzod Rahimov" }, href: "/patient/review/apt-4", at: iso(3, 12, 0), read: true },
+    { id: "n-p6", type: "recordRejected", params: { title: recordTitle("rec-17") }, href: "/patient/records#record-rec-17", at: iso(7, 10, 15), read: true },
+    { id: "n-p7", type: "recordApproved", params: { title: recordTitle("rec-2") }, href: "/patient/records#record-rec-2", at: iso(13, 9, 30), read: true },
   ],
   doctor: [
     { id: "n-d1", type: "newBooking", params: { name: "Otabek Qodirov", time: "15:00" }, href: "/doctor/appointments/apt-10", at: iso(0, 7, 40), read: false },
@@ -54,6 +64,8 @@ const byRole: Record<UserRole, MockNotification[]> = {
     { id: "n-d3", type: "recordUploaded", params: { name: "Jasur Tursunov" }, href: "/doctor/patients/u-patient-2", at: iso(1, 18, 30), read: true },
   ],
   admin: [
+    { id: "n-a0", type: "recordPending", params: { name: recordPatient("rec-25") }, href: "/admin/records/rec-25", at: iso(1, 9, 41), read: false },
+    { id: "n-a6", type: "recordPending", params: { name: recordPatient("rec-16") }, href: "/admin/records/rec-16", at: iso(1, 19, 26), read: false },
     { id: "n-a1", type: "newApplication", params: { name: pendingName(0) }, href: `/admin/applications/${pendingDoctors[0]?.id ?? ""}`, at: iso(0, 9, 10), read: false },
     { id: "n-a2", type: "reviewReported", params: { name: "Sardor M." }, href: "/admin/reviews", at: iso(0, 9, 45), read: false },
     { id: "n-a3", type: "newApplication", params: { name: pendingName(1) }, href: `/admin/applications/${pendingDoctors[1]?.id ?? ""}`, at: iso(1, 11, 20), read: false },

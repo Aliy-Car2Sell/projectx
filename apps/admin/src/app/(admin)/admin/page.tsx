@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { CalendarDays, ChevronRight, FileCheck2, MessageSquareWarning, Stethoscope, UserPlus, Users, Star, type LucideIcon } from "lucide-react";
+import { CalendarDays, ChevronRight, ClipboardCheck, FileCheck2, MessageSquareWarning, Stethoscope, UserPlus, Users, Star, type LucideIcon } from "lucide-react";
 import type { ActivityItem } from "@projectx/types";
 import { users } from "@projectx/mock/users";
 import { approvedDoctors, pendingDoctors } from "@projectx/mock/doctors";
 import { appointments } from "@projectx/mock/appointments";
 import { recentActivity, reviews } from "@projectx/mock/reviews";
+import { countPendingRecords } from "@projectx/mock/records";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
 import { isSameDay } from "@projectx/utils";
 import { Button } from "@projectx/ui/Button";
@@ -30,11 +31,14 @@ export default async function AdminDashboard() {
     <>
       <PageHeader title={t("title")} subtitle={t("subtitle")} actions={<Button href="/admin/applications" icon={<FileCheck2 className="h-4 w-4" />} className="max-md:hidden">{t("viewApplications")}</Button>} />
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 mb-6">
         <StatCard label={t("users")} value={users.length + 120} hint={t("growth", { count: 14 })} icon={<Users className="h-5 w-5" />} tone="white" />
         <StatCard label={t("doctors")} value={approvedDoctors.length} hint={t("growth", { count: 2 })} icon={<Stethoscope className="h-5 w-5" />} tone="white" />
         <StatCard label={t("appointments")} value={appointments.length + 340} hint={t("growth", { count: 57 })} icon={<CalendarDays className="h-5 w-5" />} tone="primary" />
         <StatCard label={t("pendingApplications")} value={pendingDoctors.length} icon={<FileCheck2 className="h-5 w-5" />} tone="accent" />
+        <Link href="/admin/records" className="contents">
+          <StatCard label={t("pendingRecords")} value={countPendingRecords()} icon={<ClipboardCheck className="h-5 w-5" />} tone="white" className="hover:border-primary transition-colors" />
+        </Link>
         <StatCard label={t("reportedReviews")} value={reported} icon={<MessageSquareWarning className="h-5 w-5" />} tone="white" className="col-span-2 lg:col-span-1" />
       </div>
 
