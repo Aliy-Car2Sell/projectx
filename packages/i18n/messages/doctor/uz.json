@@ -149,11 +149,12 @@
       "born": "Tug'ilgan: {date}",
       "addSummary": "Xulosa qo'shish",
       "appointmentsHistory": "Qabullar tarixi",
-      "accessNote": "Kartochkani aktiv qabul mavjudligi sababli ko'ryapsiz. Faqat xulosa qo'sha olasiz.",
+      "accessNote": "Kartochkani aktiv qabul mavjudligi sababli ko'ryapsiz. Yozuv yoki xulosa qo'sha olasiz; bemor yozuvlarini o'zgartira olmaysiz.",
       "activeBadge": "Aktiv qabul",
       "notFound": "Bemor topilmadi",
       "contact": "Aloqa",
-      "toSchedule": "Jadvalni ochish"
+      "toSchedule": "Jadvalni ochish",
+      "urgent": "Shoshilinch yozuv bor"
     },
     "reviews": {
       "title": "Sharhlar va reyting",

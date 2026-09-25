@@ -1,9 +1,28 @@
-import type { MedicalRecord, RecordType } from "@projectx/types";
+import type { MedicalRecord, RecordSeverity, RecordType } from "@projectx/types";
 
 /** Sections a reader can filter by (toolbar chips, print dialog). */
 export const recordSections = ["analysis", "imaging", "history", "summary"] as const;
 export type RecordSection = (typeof recordSections)[number];
-export type RecordFilter = "all" | RecordSection;
+/** "flagged" has no chip: it is reached from the "N urgent, M need attention" line under the cover. */
+export type RecordFilter = "all" | "flagged" | RecordSection;
+
+export const severities: RecordSeverity[] = ["normal", "attention", "urgent"];
+
+/** Entries the doctor marked "attention" or "urgent"; only approved ones count. */
+export function isFlagged(r: MedicalRecord): boolean {
+  return r.status === "approved" && (r.severity === "urgent" || r.severity === "attention");
+}
+
+export function flaggedCounts(records: MedicalRecord[]): { urgent: number; attention: number } {
+  let urgent = 0;
+  let attention = 0;
+  for (const r of records) {
+    if (r.status !== "approved") continue;
+    if (r.severity === "urgent") urgent++;
+    else if (r.severity === "attention") attention++;
+  }
+  return { urgent, attention };
+}
 
 export const printPeriods = ["3m", "1y", "all"] as const;
 export type PrintPeriod = (typeof printPeriods)[number];
@@ -26,9 +45,11 @@ export function timeline(records: MedicalRecord[]): MedicalRecord[] {
   return records.filter((r) => !coverTypes.includes(r.type)).sort((a, b) => b.date.localeCompare(a.date) || b.id.localeCompare(a.id));
 }
 
-/** Toolbar chip: "all" keeps everything, a section keeps exactly that record type. */
+/** Toolbar chip: "all" keeps everything, a section keeps exactly that record type, "flagged" the doctor-flagged ones. */
 export function byFilter(records: MedicalRecord[], filter: RecordFilter): MedicalRecord[] {
-  return filter === "all" ? records : records.filter((r) => r.type === filter);
+  if (filter === "all") return records;
+  if (filter === "flagged") return records.filter(isFlagged);
+  return records.filter((r) => r.type === filter);
 }
 
 /** `YYYY-MM-DD` of the first day inside the period, or null for "all". */
@@ -98,9 +119,12 @@ export function printQuery(o: Partial<Omit<PrintOptions, "auto">> & { auto?: boo
   return s ? `?${s}` : "";
 }
 
-/** What ends up on paper. "doctor" mode = cover + everything not marked private. */
+/**
+ * What ends up on paper. "doctor" mode = cover + everything not marked private.
+ * Entries still under review or rejected never print, whatever the mode.
+ */
 export function selectForPrint(records: MedicalRecord[], o: PrintOptions, today: string): { cover: MedicalRecord[]; entries: MedicalRecord[] } {
-  const visible = records.filter((r) => o.mode === "full" || !r.private);
+  const visible = records.filter((r) => r.status === "approved" && (o.mode === "full" || !r.private));
   const all = timeline(visible);
   if (o.recordId) return { cover: visible, entries: all.filter((r) => r.id === o.recordId) };
   const from = periodStart(o.period, today);

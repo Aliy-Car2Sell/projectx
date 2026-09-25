@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { Bell, CalendarDays, CheckCheck, FileCheck2, FolderHeart, MessageCircle, MessageSquareWarning, Star, UserPlus, type LucideIcon } from "lucide-react";
+import { AlertTriangle, Bell, CalendarDays, CheckCheck, ClipboardCheck, FileCheck2, FolderHeart, MessageCircle, MessageSquareWarning, Star, UserPlus, XCircle, type LucideIcon } from "lucide-react";
 import type { UserRole } from "@projectx/types";
 import { getNotifications, type MockNotification, type NotificationType } from "@projectx/mock/notifications";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
@@ -15,6 +15,11 @@ const icons: Record<NotificationType, { icon: LucideIcon; cls: string }> = {
   newBooking: { icon: CalendarDays, cls: "bg-success-soft text-success" },
   newMessage: { icon: MessageCircle, cls: "bg-primary-soft text-primary-text" },
   newRecord: { icon: FolderHeart, cls: "bg-accent-soft text-accent" },
+  recordUrgent: { icon: AlertTriangle, cls: "bg-danger-soft text-danger" },
+  recordAttention: { icon: AlertTriangle, cls: "bg-warning-soft text-warning" },
+  recordApproved: { icon: ClipboardCheck, cls: "bg-success-soft text-success" },
+  recordRejected: { icon: XCircle, cls: "bg-danger-soft text-danger" },
+  recordPending: { icon: ClipboardCheck, cls: "bg-warning-soft text-warning" },
   recordUploaded: { icon: FolderHeart, cls: "bg-success-soft text-success" },
   reviewRequest: { icon: Star, cls: "bg-warning-soft text-warning" },
   newApplication: { icon: FileCheck2, cls: "bg-warning-soft text-warning" },

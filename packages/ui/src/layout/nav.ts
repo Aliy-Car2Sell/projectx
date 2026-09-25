@@ -1,6 +1,7 @@
 import type { LucideIcon } from "lucide-react";
 import {
   CalendarDays,
+  ClipboardCheck,
   Clock,
   FileCheck2,
   FolderHeart,
@@ -46,8 +47,9 @@ export const navByRole: Record<UserRole, NavItem[]> = {
     { key: "dashboard", href: "/admin", icon: LayoutDashboard, exact: true, bottom: true },
     { key: "applications", href: "/admin/applications", icon: FileCheck2, bottom: true },
     { key: "doctors", href: "/admin/doctors", icon: Stethoscope, bottom: true },
+    { key: "records", href: "/admin/records", icon: ClipboardCheck, bottom: true },
     { key: "reviews", href: "/admin/reviews", icon: MessageSquareWarning, bottom: true },
-    { key: "users", href: "/admin/users", icon: Users, bottom: true },
+    { key: "users", href: "/admin/users", icon: Users },
     { key: "profile", href: "/admin/profile", icon: UserCircle },
   ],
 };

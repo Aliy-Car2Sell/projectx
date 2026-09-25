@@ -149,11 +149,12 @@
       "born": "Born: {date}",
       "addSummary": "Add note",
       "appointmentsHistory": "Visit history",
-      "accessNote": "You can see these records because of an active visit. You can only add notes.",
+      "accessNote": "You see this record because there is an active visit. You can add an entry or a summary; the patient's own entries cannot be changed.",
       "activeBadge": "Active visit",
       "notFound": "Patient not found",
       "contact": "Contact",
-      "toSchedule": "Open schedule"
+      "toSchedule": "Open schedule",
+      "urgent": "Has an urgent entry"
     },
     "reviews": {
       "title": "Reviews and rating",

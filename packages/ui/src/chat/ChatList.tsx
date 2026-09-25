@@ -3,10 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { MessageCircle, Search } from "lucide-react";
+import { MessageCircle, Paperclip, Search } from "lucide-react";
 import type { Chat } from "@projectx/types";
 import { cn, isSameDay } from "@projectx/utils";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
+import { chatHasRecord } from "@projectx/mock/chats";
 import { Avatar } from "../ui/Avatar";
 import { Button } from "../ui/Button";
 import { EmptyState } from "../ui/EmptyState";
@@ -76,6 +77,12 @@ export function ChatList({
                     </div>
                     {c.participantSubtitle && c.participantRole === "doctor" && (
                       <div className="text-xs text-primary-text">{ts(c.participantSubtitle as Parameters<typeof ts>[0])}</div>
+                    )}
+                    {/* Doctor app: this conversation is about a notebook entry. */}
+                    {!forPatient && chatHasRecord(c.id) && (
+                      <div className="inline-flex items-center gap-1 text-xs text-muted">
+                        <Paperclip className="h-3 w-3" /> {t("attachedRecord.marker")}
+                      </div>
                     )}
                     <div className="flex items-center justify-between gap-2 mt-0.5">
                       <span className={cn("truncate text-sm", c.unreadCount > 0 ? "text-heading" : "text-muted")}>{c.lastMessage}</span>

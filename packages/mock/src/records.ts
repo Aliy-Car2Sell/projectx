@@ -1,6 +1,18 @@
 import type { MedicalRecord } from "@projectx/types";
 import { isoDateFromNow } from "@projectx/utils";
 
+/** ISO datetime `daysAgo` days back at hh:mm local time (when a patient upload was submitted). */
+function isoAt(daysAgo: number, hh: number, mm: number): string {
+  const d = new Date();
+  d.setDate(d.getDate() - daysAgo);
+  d.setHours(hh, mm, 0, 0);
+  return d.toISOString();
+}
+
+/**
+ * Every doctor entry is approved on creation and carries the doctor's id; patient uploads start
+ * as "pending" until an admin reviews them (rec-1, rec-16, rec-20, rec-25, rec-26, rec-28).
+ */
 export const records: MedicalRecord[] = [
   {
     id: "rec-1",
@@ -18,6 +30,8 @@ export const records: MedicalRecord[] = [
     date: isoDateFromNow(-2),
     isNew: true,
     authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(2, 9, 16),
   },
   {
     id: "rec-2",
@@ -34,6 +48,8 @@ export const records: MedicalRecord[] = [
     fileType: "pdf",
     date: isoDateFromNow(-14),
     authorRole: "patient",
+    status: "approved",
+    submittedAt: isoAt(14, 18, 2),
   },
   {
     id: "rec-3",
@@ -48,6 +64,7 @@ export const records: MedicalRecord[] = [
     fileType: "pdf",
     date: isoDateFromNow(-60),
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-4",
@@ -59,6 +76,8 @@ export const records: MedicalRecord[] = [
     fileType: "image",
     date: isoDateFromNow(-20),
     authorRole: "patient",
+    status: "approved",
+    submittedAt: isoAt(20, 11, 30),
   },
   {
     id: "rec-5",
@@ -69,18 +88,23 @@ export const records: MedicalRecord[] = [
     fileType: "pdf",
     date: isoDateFromNow(-120),
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-6",
     patientId: "u-patient-1",
     type: "imaging",
     title: "EKG",
+    description: "Sinus ritmi, chap qorincha gipertrofiyasi belgilari. Qon bosimini nazorat qiling.",
     fileName: "ekg.jpg",
     fileType: "image",
     date: isoDateFromNow(-12),
     isNew: true,
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "attention",
+    status: "approved",
   },
   {
     id: "rec-7",
@@ -91,6 +115,9 @@ export const records: MedicalRecord[] = [
     date: "2024-03-10",
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "normal",
+    status: "approved",
   },
   {
     id: "rec-8",
@@ -100,6 +127,7 @@ export const records: MedicalRecord[] = [
     description: "2015-yilda operatsiya qilingan, asoratsiz.",
     date: "2015-07-22",
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-9",
@@ -109,6 +137,7 @@ export const records: MedicalRecord[] = [
     description: "Teri toshmasi, shish. Og'ir reaksiya.",
     date: "2019-05-01",
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-10",
@@ -118,6 +147,7 @@ export const records: MedicalRecord[] = [
     description: "Mavsumiy rinit (aprel–may).",
     date: "2021-04-15",
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-11",
@@ -128,6 +158,9 @@ export const records: MedicalRecord[] = [
     date: "2024-03-10",
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "normal",
+    status: "approved",
   },
   {
     id: "rec-12",
@@ -137,6 +170,7 @@ export const records: MedicalRecord[] = [
     description: "Kuniga 1 marta, ovqat bilan.",
     date: "2026-01-05",
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-13",
@@ -148,6 +182,9 @@ export const records: MedicalRecord[] = [
     isNew: true,
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "attention",
+    status: "approved",
   },
   {
     id: "rec-14",
@@ -158,6 +195,53 @@ export const records: MedicalRecord[] = [
     date: isoDateFromNow(-30),
     authorRole: "doctor",
     authorName: "Jamshid Abdullayev",
+    authorDoctorId: "doc-5",
+    severity: "normal",
+    status: "approved",
+  },
+  {
+    id: "rec-15",
+    patientId: "u-patient-1",
+    type: "summary",
+    title: "Kardiolog xulosasi: EKG o'zgarishlari",
+    description:
+      "Nazorat EKGsida ritm buzilishi (ekstrasistoliya) qayd etildi. Bugun-erta ichida qabulga keling yoki qo'ng'iroq qiling; ko'krakda og'riq paydo bo'lsa — darhol tez yordam (103).",
+    date: isoDateFromNow(-1),
+    isNew: true,
+    authorRole: "doctor",
+    authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "urgent",
+    status: "approved",
+  },
+  {
+    id: "rec-16",
+    patientId: "u-patient-1",
+    type: "analysis",
+    title: "Qondagi qand (och qoringa)",
+    description: "Glyukoza 5.8 mmol/L",
+    values: [{ name: "Glyukoza", value: "5.8", unit: "mmol/L", norm: "3.9–6.1" }],
+    fileName: "qand-tahlili.pdf",
+    fileType: "pdf",
+    date: isoDateFromNow(-1),
+    isNew: true,
+    authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(1, 19, 25),
+  },
+  {
+    id: "rec-17",
+    patientId: "u-patient-1",
+    type: "imaging",
+    title: "Tizza rentgeni (telefon surati)",
+    description: "Poliklinikada qilingan rentgen, telefon bilan suratga oldim.",
+    fileName: "tizza-rentgen.jpg",
+    fileType: "image",
+    date: isoDateFromNow(-8),
+    authorRole: "patient",
+    status: "rejected",
+    rejectReason: "O'qib bo'lmaydi: surat xira, matn va sana ko'rinmaydi. Iltimos, asl faylni yoki aniq suratni yuklang.",
+    submittedAt: isoAt(8, 12, 40),
   },
   // Records for other patients (doctor side)
   {
@@ -171,6 +255,8 @@ export const records: MedicalRecord[] = [
     date: isoDateFromNow(-5),
     isNew: true,
     authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(5, 8, 11),
   },
   {
     id: "rec-21",
@@ -181,6 +267,8 @@ export const records: MedicalRecord[] = [
     fileType: "pdf",
     date: isoDateFromNow(-4),
     authorRole: "patient",
+    status: "approved",
+    submittedAt: isoAt(4, 8, 11),
   },
   {
     id: "rec-22",
@@ -191,6 +279,9 @@ export const records: MedicalRecord[] = [
     date: "2022-09-01",
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "normal",
+    status: "approved",
   },
   {
     id: "rec-23",
@@ -201,6 +292,9 @@ export const records: MedicalRecord[] = [
     date: "2022-09-01",
     authorRole: "doctor",
     authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "normal",
+    status: "approved",
   },
   {
     id: "rec-24",
@@ -210,6 +304,7 @@ export const records: MedicalRecord[] = [
     description: "Bronxospazm.",
     date: "2018-02-11",
     authorRole: "patient",
+    status: "approved",
   },
   {
     id: "rec-25",
@@ -221,6 +316,8 @@ export const records: MedicalRecord[] = [
     date: isoDateFromNow(-1),
     isNew: true,
     authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(1, 9, 40),
   },
   {
     id: "rec-26",
@@ -233,6 +330,35 @@ export const records: MedicalRecord[] = [
     date: isoDateFromNow(-1),
     isNew: true,
     authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(1, 14, 5),
+  },
+  {
+    id: "rec-28",
+    patientId: "u-patient-5",
+    type: "analysis",
+    title: "Umumiy siydik tahlili",
+    fileName: "siydik-tahlili.pdf",
+    fileType: "pdf",
+    date: isoDateFromNow(-3),
+    isNew: true,
+    authorRole: "patient",
+    status: "pending",
+    submittedAt: isoAt(3, 16, 50),
+  },
+  {
+    id: "rec-29",
+    patientId: "u-patient-6",
+    type: "summary",
+    title: "Kardiolog xulosasi: ko'krak og'rig'i",
+    description: "Stenokardiya ehtimoli. Troponin va EKG nazorati; og'riq 15 daqiqadan uzoq davom etsa — tez yordam.",
+    date: isoDateFromNow(-1),
+    isNew: true,
+    authorRole: "doctor",
+    authorName: "Bekzod Rahimov",
+    authorDoctorId: "doc-1",
+    severity: "urgent",
+    status: "approved",
   },
   {
     id: "rec-private-1",
@@ -243,14 +369,35 @@ export const records: MedicalRecord[] = [
     private: true,
     date: isoDateFromNow(-5),
     authorRole: "patient",
+    status: "approved",
+    submittedAt: isoAt(5, 21, 10),
   },
 ];
 
+export function getRecordById(id: string): MedicalRecord | undefined {
+  return records.find((r) => r.id === id);
+}
+
+/** The patient's own view: every status, private entries included. */
 export function getPatientRecords(patientId: string): MedicalRecord[] {
   return records.filter((r) => r.patientId === patientId);
 }
 
-/** What a doctor may see of a patient's record: everything the patient did not mark "only me". */
+/** What a doctor may see of a patient's record: approved entries the patient did not mark "only me". */
 export function getSharedPatientRecords(patientId: string): MedicalRecord[] {
-  return getPatientRecords(patientId).filter((r) => !r.private);
+  return getPatientRecords(patientId).filter((r) => r.status === "approved" && !r.private);
+}
+
+/** Approved doctor entries flagged "urgent" (dashboard banner, red dot in the doctor's patient list). */
+export function getUrgentRecords(patientId: string): MedicalRecord[] {
+  return getPatientRecords(patientId).filter((r) => r.status === "approved" && r.severity === "urgent");
+}
+
+/** Admin review queue: everything patients uploaded, newest submission first (private entries included). */
+export function getRecordsForReview(): MedicalRecord[] {
+  return records.filter((r) => r.authorRole === "patient" && r.submittedAt).sort((a, b) => (b.submittedAt ?? "").localeCompare(a.submittedAt ?? ""));
+}
+
+export function countPendingRecords(): number {
+  return records.filter((r) => r.authorRole === "patient" && r.status === "pending").length;
 }

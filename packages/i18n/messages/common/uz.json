@@ -151,7 +151,8 @@
       "doctors": "Doktorlar",
       "reviews": "Sharhlar / Shikoyatlar",
       "users": "Foydalanuvchilar",
-      "profile": "Profil"
+      "profile": "Profil",
+      "records": "Yozuvlar tekshiruvi"
     }
   },
   "shell": {
@@ -284,7 +285,14 @@
     "removeAttachment": "Faylni olib tashlash",
     "noChatsDoctorDesc": "Bemor sizga yozganda yoki siz bemor kartochkasidan yozganingizda shu yerda ko'rinadi.",
     "findDoctor": "Doktor topish",
-    "toPatients": "Bemorlarga o'tish"
+    "toPatients": "Bemorlarga o'tish",
+    "attachedRecord": {
+      "label": "Biriktirilgan yozuv",
+      "placeholder": "Bu yozuv bo'yicha savolingizni yozing",
+      "marker": "yozuv",
+      "remove": "Yozuvni olib tashlash",
+      "open": "Yozuvni kartochkada ochish"
+    }
   },
   "placeholder": {
     "title": "Sahifa tayyorlanmoqda",
@@ -295,7 +303,8 @@
       "applications": "Arizalar",
       "reviews": "Sharhlar",
       "users": "Userlar",
-      "dashboard": "Bosh sahifa"
+      "dashboard": "Bosh sahifa",
+      "records": "Yozuvlar"
     }
   },
   "files": {
@@ -315,7 +324,12 @@
       "recordUploaded": "{name} yangi tahlil yukladi",
       "newApplication": "Yangi doktor arizasi: {name}",
       "reviewReported": "Sharh haqida shikoyat: {name}",
-      "userRegistered": "Yangi foydalanuvchi: {name}"
+      "userRegistered": "Yangi foydalanuvchi: {name}",
+      "recordUrgent": "Dr. {name}: shoshilinch yozuv — {title}",
+      "recordAttention": "Dr. {name}: e'tibor talab qiladigan yozuv — {title}",
+      "recordApproved": "Yozuvingiz tasdiqlandi: {title}",
+      "recordRejected": "Yozuvingiz rad etildi: {title}",
+      "recordPending": "Tekshiruvga yangi yozuv: {name}"
     }
   },
   "profile": {
@@ -437,6 +451,39 @@
       "printedOn": "Chop etilgan: {date}",
       "singleEntry": "Bitta yozuv",
       "nothing": "Tanlangan davr va bo'limlarda yozuv yo'q."
+    },
+    "severity": {
+      "label": "Yozuv holati",
+      "normal": "Me'yorda",
+      "attention": "E'tibor bering",
+      "urgent": "Shoshilinch",
+      "hint": {
+        "normal": "Hammasi joyida, qo'shimcha harakat kerak emas.",
+        "attention": "Bemor o'qib chiqsin va tavsiyalarga amal qilsin.",
+        "urgent": "Bemorga darhol xabar beriladi — tez orada bog'lanish kerak."
+      },
+      "flaggedUrgent": "{count} shoshilinch",
+      "flaggedAttention": "{count} e'tibor talab qiladigan",
+      "flaggedSuffix": "yozuv",
+      "clearFlagged": "Hammasini ko'rsatish",
+      "printLabel": "Holat: {label}"
+    },
+    "askDoctor": {
+      "button": "Doktordan so'rash",
+      "title": "Qaysi doktordan so'raysiz?",
+      "pickDesc": "Yozuv chat xabariga biriktiriladi — doktor nima haqida gap ketayotganini darrov ko'radi.",
+      "other": "Boshqa doktor"
+    },
+    "status": {
+      "approved": "Tasdiqlangan",
+      "pending": "Tekshirilmoqda",
+      "rejected": "Rad etildi",
+      "submitted": "Yozuv tekshiruvga yuborildi. Tasdiqlangach doktorlaringiz ko'ra oladi",
+      "reasonLabel": "Sabab",
+      "resubmit": "Qayta yuborish",
+      "resubmitTitle": "Yozuvni qayta yuborish",
+      "resubmitHint": "Admin rad etgan sabab — tuzatib, qayta yuboring:",
+      "deleted": "Yozuv o'chirildi"
     }
   },
   "help": {

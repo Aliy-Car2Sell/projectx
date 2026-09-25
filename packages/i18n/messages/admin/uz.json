@@ -18,7 +18,8 @@
         "review_reported": "Sharhga shikoyat"
       },
       "thisWeek": "bu hafta",
-      "growth": "+{count} bu hafta"
+      "growth": "+{count} bu hafta",
+      "pendingRecords": "Kutilayotgan yozuvlar"
     },
     "applications": {
       "title": "Doktor arizalari",
@@ -117,6 +118,59 @@
     },
     "profile": {
       "title": "Admin profili"
+    },
+    "records": {
+      "title": "Yozuvlar tekshiruvi",
+      "subtitle": "Bemorlar yuklagan yozuvlar — doktorlar ko'rishidan oldin tekshiriladi",
+      "tabs": {
+        "pending": "Kutilmoqda",
+        "approved": "Tasdiqlangan",
+        "rejected": "Rad etilgan"
+      },
+      "patient": "Bemor",
+      "type": "Tur",
+      "recordTitle": "Sarlavha",
+      "recordDate": "Yozuv sanasi",
+      "submittedAt": "Yuklangan",
+      "file": "Fayl",
+      "noFile": "Fayl yo'q",
+      "fileImage": "Rasm",
+      "filePdf": "PDF hujjat",
+      "review": "Ko'rib chiqish",
+      "empty": {
+        "pending": "Kutilayotgan yozuvlar yo'q",
+        "approved": "Tasdiqlangan yozuvlar yo'q",
+        "rejected": "Rad etilgan yozuvlar yo'q"
+      },
+      "emptyPendingDesc": "Bemor kartochkasiga yozuv qo'shganda shu yerda ko'rinadi.",
+      "detailTitle": "Yozuv tafsiloti",
+      "backToList": "Yozuvlar ro'yxatiga",
+      "text": "Matn",
+      "noText": "Bemor matn qo'shmagan.",
+      "values": "Ko'rsatkichlar",
+      "patientLink": "Foydalanuvchilar",
+      "privateNote": "Bemor bu yozuvni doktorlardan yashirgan — tasdiqlansa ham faqat bemorning o'zi ko'radi.",
+      "decision": "Qaror",
+      "decisionHint": "Tasdiqlangach yozuv bemorning doktorlariga ko'rinadi.",
+      "approve": "Tasdiqlash",
+      "reject": "Rad etish",
+      "rejectTitle": "Yozuvni rad etish",
+      "rejectReason": "Rad etish sababi",
+      "reasons": {
+        "notMedical": "Tibbiy hujjat emas",
+        "unreadable": "O'qib bo'lmaydi",
+        "otherPerson": "Boshqa odamning hujjati",
+        "other": "Boshqa"
+      },
+      "reasonCustom": "Izoh (ixtiyoriy)",
+      "reasonCustomRequired": "Sabab matni",
+      "reasonCustomPlaceholder": "Masalan: surat xira, sana ko'rinmaydi — asl faylni yuklang",
+      "rejectHint": "Sabab bemorga bildirishnoma bilan yuboriladi; u yozuvni tuzatib qayta yubora oladi.",
+      "rejectConfirm": "Rad etish",
+      "approvedNote": "Yozuv tasdiqlandi — bemorning doktorlari endi ko'ra oladi",
+      "rejectedNote": "Yozuv rad etildi, bemorga sabab yuborildi",
+      "approvedToast": "Yozuv tasdiqlandi",
+      "rejectedToast": "Yozuv rad etildi, bemorga xabar yuborildi"
     }
   }
 }

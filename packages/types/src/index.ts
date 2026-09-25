@@ -87,6 +87,8 @@ export interface DoctorSummary {
   diagnosis: string;
   recommendations: string;
   createdAt: string;
+  /** How urgently the patient should act on this note (chosen by the doctor). */
+  severity?: RecordSeverity;
 }
 
 export interface Appointment {
@@ -119,6 +121,15 @@ export interface RecordValue {
   norm?: string;
 }
 
+/** Set by the doctor only: how urgently the patient should act on the entry. Patient entries have none. */
+export type RecordSeverity = "normal" | "attention" | "urgent";
+
+/**
+ * Doctor entries are approved on creation; patient uploads wait for an admin
+ * ("pending"), who approves or rejects them with a reason.
+ */
+export type RecordStatus = "approved" | "pending" | "rejected";
+
 export interface MedicalRecord {
   id: string;
   patientId: string;
@@ -129,12 +140,20 @@ export interface MedicalRecord {
   fileType?: "pdf" | "image";
   /** Structured lab values (analysis records). */
   values?: RecordValue[];
-  /** "Only I can see this": hidden from doctors and from the "for the doctor" printout. */
+  /** "Only I can see this": hidden from doctors and from the "for the doctor" printout. Admins still see it for review. */
   private?: boolean;
   date: string; // YYYY-MM-DD
   isNew?: boolean;
   authorRole: UserRole;
   authorName?: string;
+  /** DoctorProfile id when a doctor wrote the entry ("ask the doctor" opens that chat). */
+  authorDoctorId?: string;
+  severity?: RecordSeverity;
+  status: RecordStatus;
+  /** Why an admin rejected the entry (status "rejected"). */
+  rejectReason?: string;
+  /** ISO datetime the entry was added; shown in the admin review queue. */
+  submittedAt?: string;
 }
 
 export interface Chat {
@@ -162,6 +181,8 @@ export interface ChatMessage {
   senderId: string;
   text?: string;
   attachment?: ChatAttachment;
+  /** The medical record this message is about ("ask the doctor" from the notebook). */
+  attachedRecordId?: string;
   sentAt: string; // ISO
 }
 

@@ -151,7 +151,8 @@
       "doctors": "Doctors",
       "reviews": "Reviews / Reports",
       "users": "Users",
-      "profile": "Profile"
+      "profile": "Profile",
+      "records": "Record review"
     }
   },
   "shell": {
@@ -284,7 +285,14 @@
     "removeAttachment": "Remove file",
     "noChatsDoctorDesc": "Conversations appear here once a patient writes to you, or you write from a patient's card.",
     "findDoctor": "Find a doctor",
-    "toPatients": "Go to patients"
+    "toPatients": "Go to patients",
+    "attachedRecord": {
+      "label": "Attached entry",
+      "placeholder": "Type your question about this entry",
+      "marker": "entry",
+      "remove": "Remove entry",
+      "open": "Open the entry in the record"
+    }
   },
   "placeholder": {
     "title": "Page in progress",
@@ -295,7 +303,8 @@
       "applications": "Applications",
       "reviews": "Reviews",
       "users": "Users",
-      "dashboard": "Home"
+      "dashboard": "Home",
+      "records": "Records"
     }
   },
   "files": {
@@ -315,7 +324,12 @@
       "recordUploaded": "{name} uploaded a new result",
       "newApplication": "New doctor application: {name}",
       "reviewReported": "Review reported: {name}",
-      "userRegistered": "New user: {name}"
+      "userRegistered": "New user: {name}",
+      "recordUrgent": "Dr. {name}: urgent entry — {title}",
+      "recordAttention": "Dr. {name}: entry needs attention — {title}",
+      "recordApproved": "Your entry was approved: {title}",
+      "recordRejected": "Your entry was rejected: {title}",
+      "recordPending": "New entry to review: {name}"
     }
   },
   "profile": {
@@ -437,6 +451,39 @@
       "printedOn": "Printed: {date}",
       "singleEntry": "Single entry",
       "nothing": "No entries in the selected period and sections."
+    },
+    "severity": {
+      "label": "Entry status",
+      "normal": "Normal",
+      "attention": "Needs attention",
+      "urgent": "Urgent",
+      "hint": {
+        "normal": "All fine, nothing more to do.",
+        "attention": "The patient should read this and follow the advice.",
+        "urgent": "The patient is notified at once and should get in touch soon."
+      },
+      "flaggedUrgent": "{count} urgent",
+      "flaggedAttention": "{count} needing attention",
+      "flaggedSuffix": "entries",
+      "clearFlagged": "Show all",
+      "printLabel": "Status: {label}"
+    },
+    "askDoctor": {
+      "button": "Ask a doctor",
+      "title": "Which doctor to ask?",
+      "pickDesc": "The entry is attached to your message, so the doctor sees at once what it is about.",
+      "other": "Another doctor"
+    },
+    "status": {
+      "approved": "Approved",
+      "pending": "Under review",
+      "rejected": "Rejected",
+      "submitted": "Sent for review. Your doctors will see it once it is approved",
+      "reasonLabel": "Reason",
+      "resubmit": "Resubmit",
+      "resubmitTitle": "Resubmit the entry",
+      "resubmitHint": "The admin's reason — fix it and send again:",
+      "deleted": "Entry deleted"
     }
   },
   "help": {
