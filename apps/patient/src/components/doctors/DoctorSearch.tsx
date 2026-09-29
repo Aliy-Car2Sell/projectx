@@ -187,13 +187,10 @@ export function DoctorSearch({
           leftIcon={<Search className="h-5 w-5" />}
           type="search"
         />
-        <Button variant="secondary" size="lg" className="lg:hidden relative min-h-[48px] px-4" onClick={() => setSheetOpen(true)} icon={<SlidersHorizontal />}>
+        <Button variant="secondary" size="lg" className="lg:hidden min-h-[48px] px-4" aria-label={t("common.filter")} onClick={() => setSheetOpen(true)} icon={<SlidersHorizontal />}>
           <span className="hidden sm:inline">{t("common.filter")}</span>
-          {activeCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 h-5 min-w-[20px] rounded-pill bg-primary-700 text-white text-[11px] font-bold flex items-center justify-center px-1 ring-2 ring-surface">
-              {activeCount}
-            </span>
-          )}
+          {/* How many filters are on: inside the button, so nothing sticks out of it */}
+          {activeCount > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-pill bg-primary-700 px-1 text-[11px] font-bold text-white">{activeCount}</span>}
         </Button>
       </div>
 

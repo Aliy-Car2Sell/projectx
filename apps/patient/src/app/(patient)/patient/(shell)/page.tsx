@@ -175,7 +175,7 @@ export default async function PatientDashboard() {
                       </IconBox>
                       <div className="min-w-0 flex-1">
                         <div className="font-semibold text-heading">{t("leaveReview")}</div>
-                        <div className="truncate text-sm text-muted">{t("leaveReviewDesc", { doctor: `${d.firstName} ${d.lastName}` })}</div>
+                        <div className="text-sm text-muted">{t("leaveReviewDesc", { doctor: `${d.firstName} ${d.lastName}` })}</div>
                       </div>
                       <ChevronRight className="h-5 w-5 shrink-0 text-neutral-500" />
                     </Card>
@@ -188,7 +188,7 @@ export default async function PatientDashboard() {
                     </IconBox>
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-heading">{t("uploadResults")}</div>
-                      <div className="truncate text-sm text-muted">{t("uploadResultsDesc", { doctor: `${lastDoctor.firstName} ${lastDoctor.lastName}` })}</div>
+                      <div className="text-sm text-muted">{t("uploadResultsDesc", { doctor: `${lastDoctor.firstName} ${lastDoctor.lastName}` })}</div>
                     </div>
                     <ChevronRight className="h-5 w-5 shrink-0 text-neutral-500" />
                   </Card>
