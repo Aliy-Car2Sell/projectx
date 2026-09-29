@@ -9,6 +9,7 @@ import { fmtDate } from "@projectx/utils/dates";
 import { mockFileUrl } from "@projectx/mock/files";
 import { Badge, NewBadge } from "../ui/Badge";
 import { FilePreviewModal, type PreviewFile } from "../ui/FilePreviewModal";
+import { Highlight } from "./Highlight";
 import { SeverityMark } from "./SeverityMark";
 
 export const recordIcon: Partial<Record<RecordType, LucideIcon>> = {
@@ -31,6 +32,7 @@ export function RecordEntry({
   viewer,
   printing,
   defaultOpen,
+  highlight,
   actions,
   onAskDoctor,
   onResubmit,
@@ -41,6 +43,8 @@ export function RecordEntry({
   printing?: boolean;
   /** Start expanded (deep link from the dashboard or a notification). */
   defaultOpen?: boolean;
+  /** Notebook search: its words are marked in the title, text, author and lab value names. */
+  highlight?: string;
   /** Extra controls shown in the expanded entry (e.g. "print this entry"). */
   actions?: React.ReactNode;
   /** Patient app: "ask the doctor" about this entry (approved entries only). */
@@ -71,13 +75,17 @@ export function RecordEntry({
   const file: PreviewFile | null = fileUrl ? { name: record.fileName ?? record.title, type: isImage ? "image" : "pdf", url: fileUrl } : null;
   const author =
     record.authorRole === "doctor" ? t("byDoctor", { name: record.authorName ?? "" }) : viewer === "patient" ? t("byYou") : t("byPatient");
+  // A match hidden by the two-line clamp would look like a false hit: open the text while searching.
+  const clamp = !expanded && !highlight;
   const canAsk = Boolean(onAskDoctor) && viewer === "patient" && record.status === "approved";
   const hasActions = Boolean(file || actions || canAsk || (isRejected && (onResubmit || onDelete)));
 
   const heading = (
     <>
       <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-        <span className="font-bold text-heading leading-snug">{record.title}</span>
+        <span className="font-bold text-heading leading-snug">
+          <Highlight text={record.title} q={highlight} />
+        </span>
         {record.severity && !printing && <SeverityMark severity={record.severity} className="md:hidden" />}
         {isPending && <Badge tone="warning">{t("status.pending")}</Badge>}
         {isRejected && <Badge tone="danger">{t("status.rejected")}</Badge>}
@@ -88,7 +96,11 @@ export function RecordEntry({
           </span>
         )}
       </span>
-      {record.description && <span className={cn("mt-0.5 block text-heading/90 leading-relaxed", !expanded && "line-clamp-2")}>{record.description}</span>}
+      {record.description && (
+        <span className={cn("mt-0.5 block text-heading/90 leading-relaxed", clamp && "line-clamp-2")}>
+          <Highlight text={record.description} q={highlight} />
+        </span>
+      )}
       {isRejected && record.rejectReason && (
         <span className={cn("mt-1 block text-sm text-red-800", !expanded && "line-clamp-2")}>
           <span className="font-semibold">{t("status.reasonLabel")}: </span>
@@ -141,7 +153,9 @@ export function RecordEntry({
             <tbody>
               {record.values.map((v) => (
                 <tr key={v.name} className="border-t border-line/70 first:border-t-0">
-                  <td className="py-1 pr-2 text-heading">{v.name}</td>
+                  <td className="py-1 pr-2 text-heading">
+                    <Highlight text={v.name} q={highlight} />
+                  </td>
                   <td className="py-1 pr-2 font-semibold text-heading whitespace-nowrap">
                     {v.value} {v.unit}
                   </td>
@@ -183,7 +197,9 @@ export function RecordEntry({
             </button>
           ))}
 
-        <div className="mt-1.5 text-xs text-muted">{author}</div>
+        <div className="mt-1.5 text-xs text-muted">
+          <Highlight text={author} q={highlight} />
+        </div>
 
         {open && !printing && hasActions && (
           <div className="mt-2 flex flex-wrap items-center gap-1">

@@ -11,6 +11,7 @@ import { RecordCover } from "./RecordCover";
 import { RecordEntry } from "./RecordEntry";
 import { RecordSheet } from "./RecordSheet";
 import { groupByMonth, type PrintOptions } from "./groupRecords";
+import { useRangeLabel } from "./RecordsToolbar";
 
 /**
  * The record laid out for paper (styles/print.css): just the sheet, every entry open.
@@ -37,6 +38,7 @@ export function RecordPrintView({
   const locale = useLocale();
   const name = `${patient.lastName} ${patient.firstName}`;
   const date = fmtDate(locale, tc, printedOn);
+  const rangeLabel = useRangeLabel();
 
   useEffect(() => {
     if (!options.auto) return;
@@ -51,7 +53,7 @@ export function RecordPrintView({
 
   const meta = [
     t("print.printedOn", { date }),
-    options.recordId ? t("print.singleEntry") : t(`print.periods.${options.period}`),
+    options.recordId ? t("print.singleEntry") : options.from || options.to ? rangeLabel(options.from ?? "", options.to ?? "") : t(`print.periods.${options.period}`),
     t(`print.modes.${options.mode}`),
   ];
 

@@ -3,13 +3,12 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, Stethoscope, X } from "lucide-react";
+import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, SearchX, Stethoscope, X } from "lucide-react";
 import type { DoctorProfile, MedicalRecord, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
-import { Chip } from "../ui/Chip";
 import { ErrorState } from "../ui/EmptyState";
 import { RetryButton } from "../ui/RetryButton";
 import { Skeleton } from "../ui/Skeleton";
@@ -21,7 +20,9 @@ import { PrintDialog } from "./PrintDialog";
 import { RecordCover } from "./RecordCover";
 import { RecordEntry, recordDomId } from "./RecordEntry";
 import { RecordSheet } from "./RecordSheet";
-import { byFilter, flaggedCounts, groupByMonth, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
+import { byFilter, flaggedCounts, groupByMonth, inRange, matchesSearch, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
+import { RecordsToolbar } from "./RecordsToolbar";
+import { useRecordQuery } from "./useRecordQuery";
 
 const filters: RecordFilter[] = ["all", ...recordSections];
 
@@ -79,6 +80,7 @@ export function RecordsView({
   const focusId = useFocusedRecordId();
   const [handledFocus, setHandledFocus] = useState<string | null>(null);
   const { toast, show } = useToast();
+  const { query, setSearch, setRange, clear } = useRecordQuery();
   // A new deep link always lands on "all", otherwise the entry could be hidden behind a chip.
   if (focusId !== handledFocus) {
     setHandledFocus(focusId);
@@ -91,7 +93,15 @@ export function RecordsView({
     return [...added, ...base].filter((r) => !removed.includes(r.id) && (role === "patient" || (!r.private && r.status === "approved")));
   }, [added, records, removed, role, state]);
   const entries = useMemo(() => timeline(all), [all]);
-  const shown = useMemo(() => byFilter(entries, filter), [entries, filter]);
+  const shown = useMemo(
+    () => byFilter(entries, filter).filter((r) => inRange(r, query.from, query.to) && matchesSearch(r, query.q)),
+    [entries, filter, query],
+  );
+  const narrowed = filter !== "all" || Boolean(query.q || query.from || query.to);
+  const clearFilters = () => {
+    setFilter("all");
+    clear();
+  };
   const groups = useMemo(() => groupByMonth(shown), [shown]);
   const flagged = useMemo(() => flaggedCounts(entries), [entries]);
 
@@ -101,6 +111,13 @@ export function RecordsView({
     document.getElementById(recordDomId(focusId))?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [focusId, shown, state]);
 
+  const canPrint = Boolean(printHref) && state === "normal";
+  const printButton = (className?: string) =>
+    canPrint ? (
+      <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />} className={className}>
+        {t("print.button")}
+      </Button>
+    ) : null;
   const addButton =
     role === "patient" ? (
       <Button size="sm" onClick={() => setPreset("entry")} icon={<Plus className="h-4 w-4" />}>
@@ -120,6 +137,25 @@ export function RecordsView({
         )}
       </>
     );
+  // Only two actions fit side by side on a phone: the doctor's print button becomes an icon in row 1.
+  const doctorHasTwo = role === "doctor" && Boolean(writer) && Boolean(onAddSummary);
+  const toolbarActions = (
+    <>
+      {printButton(doctorHasTwo ? "max-md:hidden" : undefined)}
+      {addButton}
+    </>
+  );
+  const compactPrint =
+    doctorHasTwo && canPrint ? (
+      <button
+        type="button"
+        onClick={() => setPrintOpen(true)}
+        aria-label={t("print.button")}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-heading hover:border-primary"
+      >
+        <Printer className="h-4 w-4" />
+      </button>
+    ) : undefined;
 
   // "Ask the doctor": the author's chat when a doctor wrote the entry, otherwise let the patient pick one.
   const askDoctor = (r: MedicalRecord) => {
@@ -135,25 +171,16 @@ export function RecordsView({
 
   return (
     <div className="flex flex-col">
-      {/* Sticky controls: filter chips scroll sideways on narrow screens, actions stay put */}
-      <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-wrap items-center gap-x-3 gap-y-2">
-        <div className="flex min-w-0 flex-1 basis-full md:basis-0 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
-          {filters.map((f) => (
-            <Chip key={f} active={filter === f} onClick={() => setFilter(f)} className="min-h-[36px] shrink-0">
-              {t(`filters.${f}`)}
-            </Chip>
-          ))}
-        </div>
-        {/* Three actions for the doctor (print, add, summary) do not fit 375px on one row: let them wrap. */}
-        <div className="flex flex-wrap items-center gap-2">
-          {printHref && state === "normal" && (
-            <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />}>
-              {t("print.button")}
-            </Button>
-          )}
-          {addButton}
-        </div>
-      </div>
+      <RecordsToolbar
+        filters={filters}
+        filter={filter}
+        onFilter={setFilter}
+        query={query}
+        onSearch={setSearch}
+        onRange={setRange}
+        actions={toolbarActions}
+        compactActions={compactPrint}
+      />
 
       <RecordSheet className="mt-2">
         {state === "loading" ? (
@@ -211,7 +238,15 @@ export function RecordsView({
                 {addButton && <div className="mt-4 flex flex-wrap justify-center gap-2">{addButton}</div>}
               </div>
             ) : shown.length === 0 ? (
-              <p className="py-10 text-center text-muted">{t("empty.filtered")}</p>
+              <div className="flex flex-col items-center py-10 text-center">
+                <SearchX className="h-8 w-8 text-muted" aria-hidden="true" />
+                <p className="mt-2 font-semibold text-heading">{t("empty.filtered")}</p>
+                {narrowed && (
+                  <Button size="sm" variant="secondary" className="mt-3" onClick={clearFilters}>
+                    {t("empty.clearFilters")}
+                  </Button>
+                )}
+              </div>
             ) : (
               groups.map((g) => (
                 <section key={g.key} aria-label={fmtMonthYear(tc, g.key)}>
@@ -223,6 +258,7 @@ export function RecordsView({
                         record={r}
                         viewer={role}
                         defaultOpen={r.id === focusId}
+                        highlight={query.q}
                         onAskDoctor={role === "patient" ? askDoctor : undefined}
                         onResubmit={
                           role === "patient"
@@ -283,7 +319,18 @@ export function RecordsView({
           setResubmitting(null);
         }}
       />
-      {printHref && <PrintDialog open={printOpen} onClose={() => setPrintOpen(false)} printHref={printHref} chooseMode={role === "patient"} />}
+      {printHref && (
+        <PrintDialog
+          // Reopening picks up the notebook's current range as the default period.
+          key={`${printOpen}-${query.from}-${query.to}`}
+          open={printOpen}
+          onClose={() => setPrintOpen(false)}
+          printHref={printHref}
+          chooseMode={role === "patient"}
+          from={query.from}
+          to={query.to}
+        />
+      )}
       {role === "patient" && (
         <AskDoctorSheet
           record={asking}

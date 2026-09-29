@@ -396,7 +396,8 @@
       "title": "Hali yozuv yo'q",
       "patient": "Birinchi tahlilingizni qo'shing — doktor qabulda ko'ra oladi.",
       "doctor": "Bemor hali kartochkasiga hech narsa qo'shmagan.",
-      "filtered": "Bu bo'limda hali yozuv yo'q."
+      "filtered": "Hech narsa topilmadi",
+      "clearFilters": "Filtrlarni tozalash"
     },
     "add": {
       "button": "Qo'shish",
@@ -431,7 +432,8 @@
       "periods": {
         "3m": "Oxirgi 3 oy",
         "1y": "Oxirgi 1 yil",
-        "all": "Hammasi"
+        "all": "Hammasi",
+        "6m": "Oxirgi 6 oy"
       },
       "sections": "Bo'limlar",
       "mode": "Rejim",
@@ -484,6 +486,25 @@
       "resubmitTitle": "Yozuvni qayta yuborish",
       "resubmitHint": "Admin rad etgan sabab — tuzatib, qayta yuboring:",
       "deleted": "Yozuv o'chirildi"
+    },
+    "search": {
+      "label": "Kartochkada qidirish",
+      "placeholder": "Tahlil, doktor, so'z…",
+      "clear": "Qidiruvni tozalash"
+    },
+    "range": {
+      "label": "Davr",
+      "presets": {
+        "3m": "3 oy",
+        "6m": "6 oy",
+        "1y": "1 yil",
+        "all": "Hammasi"
+      },
+      "custom": "Oraliq",
+      "from": "Dan",
+      "to": "Gacha",
+      "apply": "Qo'llash",
+      "invalid": "Boshlanish sanasi tugash sanasidan keyin bo'lmasin"
     }
   },
   "help": {

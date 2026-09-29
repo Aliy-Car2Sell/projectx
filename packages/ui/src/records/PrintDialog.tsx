@@ -7,24 +7,44 @@ import { cn } from "@projectx/utils";
 import { Button } from "../ui/Button";
 import { FieldLabel } from "../ui/Input";
 import { Modal } from "../ui/Modal";
-import { printPeriods, printQuery, recordSections, type PrintMode, type PrintPeriod, type RecordSection } from "./groupRecords";
+import { today } from "@projectx/utils/dates";
+import { printPeriods, printQuery, rangePreset, recordSections, type PrintMode, type PrintPeriod, type RecordSection } from "./groupRecords";
+import { useRangeLabel } from "./RecordsToolbar";
 
 const modes: PrintMode[] = ["full", "doctor"];
 
 /**
  * "Print / PDF": pick period, sections and mode, then open the print route, which calls window.print().
  * Both buttons do the same thing on purpose: the browser's own dialog offers "Save as PDF".
- * `chooseMode={false}` (doctor app) always prints the doctor's view.
+ * `chooseMode={false}` (doctor app) always prints the doctor's view. `from`/`to` (the notebook's date
+ * filter) become the default period: a quick range selects its chip, a hand-picked one gets its own option.
  */
-export function PrintDialog({ open, onClose, printHref, chooseMode = true }: { open: boolean; onClose: () => void; printHref: string; chooseMode?: boolean }) {
+export function PrintDialog({
+  open,
+  onClose,
+  printHref,
+  chooseMode = true,
+  from = "",
+  to = "",
+}: {
+  open: boolean;
+  onClose: () => void;
+  printHref: string;
+  chooseMode?: boolean;
+  from?: string;
+  to?: string;
+}) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
-  const [period, setPeriod] = useState<PrintPeriod>("all");
+  const rangeLabel = useRangeLabel();
+  const initial = rangePreset(from, to, today());
+  const [period, setPeriod] = useState<PrintPeriod | "custom">(initial);
   const [sections, setSections] = useState<RecordSection[]>([...recordSections]);
   const [mode, setMode] = useState<PrintMode>("full");
 
   const go = () => {
-    window.open(printHref + printQuery({ period, sections, mode: chooseMode ? mode : "doctor", auto: true }), "_blank", "noopener");
+    const range = period === "custom" ? { from, to } : { period };
+    window.open(printHref + printQuery({ ...range, sections, mode: chooseMode ? mode : "doctor", auto: true }), "_blank", "noopener");
     onClose();
   };
   const option = (active: boolean) =>
@@ -35,12 +55,17 @@ export function PrintDialog({ open, onClose, printHref, chooseMode = true }: { o
       <div className="flex flex-col gap-5">
         <div>
           <FieldLabel>{t("print.period")}</FieldLabel>
-          <div className="mt-1.5 grid grid-cols-3 gap-2" role="radiogroup" aria-label={t("print.period")}>
+          <div className="mt-1.5 grid grid-cols-2 gap-2 sm:grid-cols-4" role="radiogroup" aria-label={t("print.period")}>
             {printPeriods.map((p) => (
               <button key={p} type="button" role="radio" aria-checked={period === p} onClick={() => setPeriod(p)} className={option(period === p)}>
                 {t(`print.periods.${p}`)}
               </button>
             ))}
+            {initial === "custom" && (
+              <button type="button" role="radio" aria-checked={period === "custom"} onClick={() => setPeriod("custom")} className={cn(option(period === "custom"), "col-span-2 sm:col-span-4")}>
+                {rangeLabel(from, to)}
+              </button>
+            )}
           </div>
         </div>
 

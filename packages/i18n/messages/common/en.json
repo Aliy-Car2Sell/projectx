@@ -396,7 +396,8 @@
       "title": "No entries yet",
       "patient": "Add your first lab result — your doctor will see it at the visit.",
       "doctor": "The patient has not added anything to the record yet.",
-      "filtered": "Nothing in this section yet."
+      "filtered": "Nothing found",
+      "clearFilters": "Clear filters"
     },
     "add": {
       "button": "Add",
@@ -431,7 +432,8 @@
       "periods": {
         "3m": "Last 3 months",
         "1y": "Last year",
-        "all": "Everything"
+        "all": "Everything",
+        "6m": "Last 6 months"
       },
       "sections": "Sections",
       "mode": "Mode",
@@ -484,6 +486,25 @@
       "resubmitTitle": "Resubmit the entry",
       "resubmitHint": "The admin's reason — fix it and send again:",
       "deleted": "Entry deleted"
+    },
+    "search": {
+      "label": "Search the record",
+      "placeholder": "Test, doctor, word…",
+      "clear": "Clear search"
+    },
+    "range": {
+      "label": "Period",
+      "presets": {
+        "3m": "3 months",
+        "6m": "6 months",
+        "1y": "1 year",
+        "all": "All time"
+      },
+      "custom": "Date range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "invalid": "The start date must not be after the end date"
     }
   },
   "help": {
