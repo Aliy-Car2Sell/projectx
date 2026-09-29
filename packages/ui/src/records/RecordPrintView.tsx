@@ -4,13 +4,17 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ArrowLeft, Printer } from "lucide-react";
-import type { MedicalRecord, User } from "@projectx/types";
+import type { MedicalRecord, RecordAuditEntry, User } from "@projectx/types";
 import { fmtDate, fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
+import { useRecordAudit } from "./audit";
 import { RecordCover } from "./RecordCover";
 import { RecordEntry } from "./RecordEntry";
 import { RecordSheet } from "./RecordSheet";
 import { groupByMonth, type PrintOptions } from "./groupRecords";
+import { useRangeLabel } from "./RecordsToolbar";
+
+const noAudit: RecordAuditEntry[] = [];
 
 /**
  * The record laid out for paper (styles/print.css): just the sheet, every entry open.
@@ -24,6 +28,7 @@ export function RecordPrintView({
   options,
   printedOn,
   backHref,
+  audit = noAudit,
 }: {
   patient: User;
   cover: MedicalRecord[];
@@ -31,12 +36,17 @@ export function RecordPrintView({
   options: PrintOptions;
   printedOn: string; // YYYY-MM-DD, from the server so both renders agree
   backHref: string;
+  /** Record history; printed under each entry in "full" mode only, never on the doctor's copy. */
+  audit?: RecordAuditEntry[];
 }) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
   const locale = useLocale();
   const name = `${patient.lastName} ${patient.firstName}`;
   const date = fmtDate(locale, tc, printedOn);
+  const rangeLabel = useRangeLabel();
+  const { historyOf } = useRecordAudit(audit);
+  const withHistory = options.mode === "full";
 
   useEffect(() => {
     if (!options.auto) return;
@@ -51,7 +61,7 @@ export function RecordPrintView({
 
   const meta = [
     t("print.printedOn", { date }),
-    options.recordId ? t("print.singleEntry") : t(`print.periods.${options.period}`),
+    options.recordId ? t("print.singleEntry") : options.from || options.to ? rangeLabel(options.from ?? "", options.to ?? "") : t(`print.periods.${options.period}`),
     t(`print.modes.${options.mode}`),
   ];
 
@@ -92,7 +102,7 @@ export function RecordPrintView({
                         <h3 className="record-month mt-6 mb-1 text-xs font-bold uppercase tracking-[0.1em] text-muted">{fmtMonthYear(tc, g.key)}</h3>
                         <div className="divide-y divide-line">
                           {g.items.map((r) => (
-                            <RecordEntry key={r.id} record={r} viewer={options.mode === "doctor" ? "doctor" : "patient"} printing />
+                            <RecordEntry key={r.id} record={r} viewer={options.mode === "doctor" ? "doctor" : "patient"} printing history={withHistory ? historyOf(r.id) : undefined} printHistory={withHistory} />
                           ))}
                         </div>
                       </section>

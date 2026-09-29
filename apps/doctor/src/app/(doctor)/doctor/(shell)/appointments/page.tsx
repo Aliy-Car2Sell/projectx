@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { currentDoctor } from "@projectx/mock/doctors";
-import { getDoctorAppointments } from "@projectx/mock/appointments";
+import { doctorSchedule, getDoctorAppointments } from "@projectx/mock/appointments";
 import { users } from "@projectx/mock/users";
 import { PageHeader } from "@projectx/ui/PageHeader";
 import { readDemoState } from "@projectx/ui/demo/state";
@@ -13,7 +13,7 @@ export default async function DoctorAppointmentsPage({ searchParams }: { searchP
   return (
     <>
       <PageHeader title={t("title")} />
-      <DoctorAppointments appointments={getDoctorAppointments(currentDoctor.id)} patients={patients} state={state} />
+      <DoctorAppointments appointments={getDoctorAppointments(currentDoctor.id)} patients={patients} schedule={doctorSchedule} state={state} />
     </>
   );
 }

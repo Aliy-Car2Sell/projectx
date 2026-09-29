@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarClock, Clock, Info, MapPin, Star } from "lucide-react";
-import type { Appointment, DoctorProfile } from "@projectx/types";
+import { CalendarClock, Clock, Info, MapPin, Star, Wallet } from "lucide-react";
+import type { Appointment, AppointmentPayment, DoctorProfile } from "@projectx/types";
 import { cn, hoursUntil } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -12,6 +12,8 @@ import { Button } from "@projectx/ui/Button";
 import { Tooltip } from "@projectx/ui/Tooltip";
 import { Modal } from "@projectx/ui/Modal";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
+import { PaymentSheet } from "@projectx/ui/payment/PaymentSheet";
 
 const CANCEL_LIMIT_HOURS = 2;
 
@@ -19,16 +21,22 @@ export function AppointmentCard({
   appointment,
   doctor,
   onCancelled,
+  onPaid,
 }: {
   appointment: Appointment;
   doctor: DoctorProfile;
   onCancelled?: (id: string) => void;
+  /** Enables "pay" on an upcoming appointment that is not paid yet. */
+  onPaid?: (payment: AppointmentPayment) => void;
 }) {
   const t = useTranslations("patient.appointments");
   const tc = useTranslations("common");
   const th = useTranslations("hints");
+  const tp = useTranslations("payment");
   const locale = useLocale();
   const [cancelOpen, setCancelOpen] = useState(false);
+  const [payOpen, setPayOpen] = useState(false);
+  const { payment } = appointment;
   const name = `${doctor.firstName} ${doctor.lastName}`;
   const upcoming = appointment.status === "scheduled";
   const hours = hoursUntil(appointment.date, appointment.time);
@@ -49,7 +57,10 @@ export function AppointmentCard({
               </Link>
               <div className="text-sm text-primary-text">{useTranslationsSpecialty(doctor.specialty)}</div>
             </div>
-            <AppointmentStatusBadge status={appointment.status} />
+            <span className="flex shrink-0 flex-col items-end gap-1">
+              <AppointmentStatusBadge status={appointment.status} />
+              <PaymentBadge payment={payment} />
+            </span>
           </div>
           <div className="mt-2 flex flex-col gap-1 text-sm text-heading">
             <span className="inline-flex items-center gap-1.5">
@@ -76,6 +87,11 @@ export function AppointmentCard({
       <div className={cn("flex flex-wrap gap-2", "border-t border-line pt-3")}>
         {upcoming ? (
           <>
+            {payment?.status === "unpaid" && onPaid && (
+              <Button size="sm" onClick={() => setPayOpen(true)} icon={<Wallet className="h-4 w-4" />}>
+                {tp("pay")}
+              </Button>
+            )}
             <Button href={`/patient/doctors/${doctor.id}/book?reschedule=${appointment.id}`} variant="secondary" size="sm" disabled={locked} icon={<Clock className="h-4 w-4" />}>
               {t("reschedule")}
             </Button>
@@ -134,6 +150,17 @@ export function AppointmentCard({
           {t("cancelDesc", { doctor: name, date: fmtDate(locale, tc, appointment.date, "weekday"), time: appointment.time })}
         </p>
       </Modal>
+      {payment && onPaid && (
+        <PaymentSheet
+          open={payOpen}
+          amount={payment.amount}
+          onClose={() => setPayOpen(false)}
+          onPaid={(p) => {
+            setPayOpen(false);
+            onPaid(p);
+          }}
+        />
+      )}
     </article>
   );
 }

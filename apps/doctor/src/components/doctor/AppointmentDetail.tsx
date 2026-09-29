@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarClock, ClipboardList, FolderHeart, MessageCircle, Phone } from "lucide-react";
+import { CalendarClock, ClipboardList, FolderHeart, MessageCircle, Phone, Wallet } from "lucide-react";
 import type { Appointment, AppointmentStatus, User } from "@projectx/types";
 import { fmtDate } from "@projectx/utils/dates";
 import { chatHrefFor } from "@projectx/mock/chats";
-import { isToday } from "@projectx/utils";
+import { formatMoney, isToday } from "@projectx/utils";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
@@ -15,6 +15,8 @@ import { Card } from "@projectx/ui/Card";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
 import { Toast, useToast } from "@projectx/ui/Toast";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
+import { providerName } from "@projectx/ui/payment/ProviderMark";
 import { AppointmentSummaryPanel } from "./AppointmentSummaryPanel";
 
 /** Doctor's appointment page body; the status can be changed in the session (mock). */
@@ -22,6 +24,7 @@ export function AppointmentDetail({ appointment, patient, age }: { appointment: 
   const t = useTranslations("doctor.appointments");
   const tc = useTranslations("common");
   const tcity = useTranslations("cities");
+  const tp = useTranslations("payment");
   const locale = useLocale();
   const { toast, show } = useToast();
   const [status, setStatus] = useState<AppointmentStatus>(appointment.status);
@@ -70,6 +73,18 @@ export function AppointmentDetail({ appointment, patient, age }: { appointment: 
                 <Phone className="h-4 w-4" /> {tc("phone")}
               </dt>
               <dd className="text-heading">{patient.phone}</dd>
+              {apt.payment && (
+                <>
+                  <dt className="text-muted inline-flex items-center gap-1.5">
+                    <Wallet className="h-4 w-4" /> {tp("label")}
+                  </dt>
+                  <dd className="inline-flex flex-wrap items-center gap-2 text-heading">
+                    <span className="font-semibold tabular-nums">{tc("sum", { value: formatMoney(apt.payment.amount) })}</span>
+                    <PaymentBadge payment={apt.payment} />
+                    {apt.payment.status === "paid" && apt.payment.method && <span className="text-xs text-muted">{tp("method", { provider: providerName[apt.payment.method] })}</span>}
+                  </dd>
+                </>
+              )}
             </dl>
             <div className="mt-4 flex flex-wrap gap-2">
               <Button href={`/doctor/patients/${patient.id}`} size="sm" icon={<FolderHeart className="h-4 w-4" />}>

@@ -9,6 +9,8 @@ import { today } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
 import { FieldLabel, Input, Textarea } from "../ui/Input";
 import { Modal } from "../ui/Modal";
+import { dosePresets, normalizeTimes } from "../meds/medications";
+import { Chip } from "../ui/Chip";
 import { SeverityPicker } from "./SeverityPicker";
 
 const entryTypes: RecordType[] = ["analysis", "imaging", "history", "other"];
@@ -26,6 +28,7 @@ export function AddRecordSheet({
   patientId,
   writer = { role: "patient" },
   initial,
+  editing,
   onClose,
   onSave,
 }: {
@@ -34,6 +37,8 @@ export function AddRecordSheet({
   writer?: RecordWriter;
   /** Resubmitting a rejected entry: the form opens filled in, with the admin's reason on top. Pass a `key` to reset. */
   initial?: MedicalRecord;
+  /** `initial` is being edited by its author: the entry keeps its id and status, the caller records the diff. */
+  editing?: boolean;
   onClose: () => void;
   onSave: (record: MedicalRecord) => void;
 }) {
@@ -45,8 +50,14 @@ export function AddRecordSheet({
   const [text, setText] = useState(initial?.description ?? "");
   const [file, setFile] = useState<File | null>(null);
   const [isPrivate, setPrivate] = useState(Boolean(initial?.private));
-  const [severity, setSeverity] = useState<RecordSeverity>("normal");
+  const [severity, setSeverity] = useState<RecordSeverity>((editing && initial?.severity) || "normal");
+  const [times, setTimes] = useState<string[]>(initial?.schedule?.times ?? ["08:00"]);
+  const [otherTime, setOtherTime] = useState("");
+  const [startDate, setStartDate] = useState(initial?.schedule?.startDate ?? today());
+  const [endDate, setEndDate] = useState(initial?.schedule?.endDate ?? "");
   const coverLine = preset === "allergy" || preset === "medication";
+  // A doctor's summary has no chip here: editing one keeps its type.
+  const fixedType = Boolean(editing && initial && !entryTypes.includes(initial.type));
   const byDoctor = writer.role === "doctor";
   const formId = "add-record-form";
 
@@ -58,7 +69,13 @@ export function AddRecordSheet({
     setFile(null);
     setPrivate(false);
     setSeverity("normal");
+    setTimes(["08:00"]);
+    setOtherTime("");
+    setStartDate(today());
+    setEndDate("");
   };
+  const toggleTime = (time: string) => setTimes((prev) => normalizeTimes(prev.includes(time) ? prev.filter((x) => x !== time) : [...prev, time]));
+  const presetTimes: readonly string[] = dosePresets.map((p) => p.time);
   const close = () => {
     reset();
     onClose();
@@ -68,7 +85,7 @@ export function AddRecordSheet({
     <Modal
       open={preset !== null}
       onClose={close}
-      title={coverLine ? t(`add.${preset}Title`) : initial ? t("status.resubmitTitle") : t("add.title")}
+      title={coverLine ? t(`add.${preset}Title`) : editing ? t("edit.title") : initial ? t("status.resubmitTitle") : t("add.title")}
       closeLabel={tc("close")}
       footer={
         <>
@@ -86,6 +103,20 @@ export function AddRecordSheet({
         className="flex flex-col gap-4"
         onSubmit={(e) => {
           e.preventDefault();
+          if (preset === "medication" && times.length === 0) return;
+          if (editing && initial) {
+            onSave({
+              ...initial,
+              type: fixedType ? initial.type : type,
+              title: title.trim(),
+              description: text.trim() || undefined,
+              fileName: file?.name ?? initial.fileName,
+              fileType: file ? (file.type.startsWith("image/") ? "image" : "pdf") : initial.fileType,
+              date,
+              ...(byDoctor ? { severity } : { private: isPrivate || undefined }),
+            });
+            return close();
+          }
           const base = {
             id: `rec-local-${Date.now()}`,
             patientId,
@@ -96,6 +127,7 @@ export function AddRecordSheet({
             fileType: file ? (file.type.startsWith("image/") ? "image" : "pdf") : initial?.fileType,
             date,
             isNew: true,
+            schedule: preset === "medication" ? { timesPerDay: times.length, times, startDate, endDate: endDate || undefined } : undefined,
           } as const;
           onSave(
             writer.role === "doctor"
@@ -121,7 +153,7 @@ export function AddRecordSheet({
             </div>
           </div>
         )}
-        {!coverLine && (
+        {!coverLine && !fixedType && (
           <div>
             <FieldLabel>{t("add.type")}</FieldLabel>
             <div className="mt-1.5 grid grid-cols-2 gap-2" role="radiogroup" aria-label={t("add.type")}>
@@ -145,6 +177,44 @@ export function AddRecordSheet({
         )}
         <Input label={t("add.name")} value={title} onChange={(e) => setTitle(e.target.value)} placeholder={t(`add.namePlaceholder.${coverLine ? preset : "entry"}`)} required />
         <Textarea label={t("add.text")} value={text} onChange={(e) => setText(e.target.value)} rows={3} />
+        {preset === "medication" && (
+          <fieldset className="flex flex-col gap-2">
+            <legend className="text-sm font-medium text-heading">{t("add.schedule.label")}</legend>
+            <div className="mt-1.5 flex flex-wrap gap-2">
+              {dosePresets.map((p) => (
+                <Chip key={p.key} active={times.includes(p.time)} onClick={() => toggleTime(p.time)}>
+                  {t(`add.schedule.${p.key}`)} {p.time}
+                </Chip>
+              ))}
+              {times
+                .filter((x) => !presetTimes.includes(x))
+                .map((x) => (
+                  <Chip key={x} active onClick={() => toggleTime(x)}>
+                    {x} ×
+                  </Chip>
+                ))}
+            </div>
+            <div className="flex items-end gap-2">
+              <Input label={t("add.schedule.other")} type="time" value={otherTime} onChange={(e) => setOtherTime(e.target.value)} wrapperClassName="flex-1" />
+              <Button
+                type="button"
+                variant="secondary"
+                disabled={!otherTime}
+                onClick={() => {
+                  setTimes((prev) => normalizeTimes([...prev, otherTime]));
+                  setOtherTime("");
+                }}
+              >
+                {t("add.schedule.addTime")}
+              </Button>
+            </div>
+            {times.length === 0 ? <p className="text-sm text-danger">{t("add.schedule.required")}</p> : <p className="text-sm text-muted">{t("add.schedule.perDay", { count: times.length })}</p>}
+            <div className="grid grid-cols-2 gap-2">
+              <Input label={t("add.schedule.start")} type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+              <Input label={t("add.schedule.end")} type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} hint={t("add.schedule.endHint")} />
+            </div>
+          </fieldset>
+        )}
         {!coverLine && (
           <>
             <Input label={t("add.date")} type="date" value={date} max={today()} onChange={(e) => setDate(e.target.value)} required />

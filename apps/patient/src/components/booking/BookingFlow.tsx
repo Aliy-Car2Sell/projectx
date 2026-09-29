@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarCheck, CheckCircle2, ChevronLeft, ChevronRight, Info, MapPin } from "lucide-react";
-import type { DoctorProfile, Slot } from "@projectx/types";
+import { CalendarCheck, CheckCircle2, ChevronLeft, ChevronRight, Info, MapPin, Wallet } from "lucide-react";
+import type { Appointment, AppointmentPayment, DoctorProfile, PaymentMethod, Slot } from "@projectx/types";
 import { cn, formatMoney, isoDateFromNow, weekdayKey } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -13,16 +13,29 @@ import { Card } from "@projectx/ui/Card";
 import { Chip } from "@projectx/ui/Chip";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { Textarea } from "@projectx/ui/Input";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
+import { PaymentSheet, ProviderButtons } from "@projectx/ui/payment/PaymentSheet";
+import { useLocalAppointments } from "@projectx/ui/session/useLocalAppointments";
 
 type Step = "slot" | "confirm" | "done";
 
+/**
+ * Pick a slot, confirm, done. With a priced doctor the confirm step offers to pay online (mock) or at
+ * the visit; the booking is kept in the browser and shows up in "my appointments".
+ * Rescheduling moves the existing appointment and leaves its payment as it is.
+ */
 export function BookingFlow({
   doctor,
   slots,
+  patientId,
+  appointments,
   rescheduleId,
 }: {
   doctor: DoctorProfile;
   slots: Slot[];
+  patientId: string;
+  /** The patient's appointments (mock), to find the one being rescheduled. */
+  appointments: Appointment[];
   rescheduleId?: string;
 }) {
   const t = useTranslations("patient.book");
@@ -37,6 +50,25 @@ export function BookingFlow({
   const [reason, setReason] = useState("");
   const [step, setStep] = useState<Step>("slot");
   const [weekOffset, setWeekOffset] = useState(0);
+  const { merged, save } = useLocalAppointments(patientId, appointments);
+  const rescheduled = rescheduleId ? merged.find((a) => a.id === rescheduleId) : undefined;
+  const [paying, setPaying] = useState<PaymentMethod | null>(null);
+  const [payment, setPayment] = useState<AppointmentPayment | undefined>();
+  // Nothing to pay when the doctor set no price; a rescheduled visit keeps the payment it has.
+  const price = rescheduled ? undefined : doctor.price;
+
+  const book = (paid?: AppointmentPayment) => {
+    if (!time) return;
+    const pay = paid ?? (price ? { status: "onsite" as const, amount: price } : undefined);
+    save(
+      rescheduled
+        ? { ...rescheduled, date: day, time }
+        : { id: `apt-local-${Date.now()}`, doctorId: doctor.id, patientId, date: day, time, durationMin: doctor.slotDurationMin, status: "scheduled", reason: reason.trim() || undefined, payment: pay },
+    );
+    setPayment(rescheduled ? rescheduled.payment : pay);
+    setPaying(null);
+    setStep("done");
+  };
 
   const daySlots = slots.filter((s) => s.date === day);
   const freeCount = (d: string) => slots.filter((s) => s.date === d && !s.isBooked).length;
@@ -84,6 +116,12 @@ export function BookingFlow({
         <p className="mt-2 text-muted max-w-sm mx-auto">
           {t("successDesc", { doctor: name, date: fmtDate(locale, tc, day, "long"), time: time ?? "" })}
         </p>
+        {payment && (
+          <p className="mt-3 inline-flex flex-wrap items-center justify-center gap-2 text-sm text-heading">
+            <PaymentBadge payment={payment} />
+            <span className="font-semibold tabular-nums">{tc("sum", { value: formatMoney(payment.amount) })}</span>
+          </p>
+        )}
         <div className="mt-6 flex flex-col sm:flex-row gap-2 justify-center">
           <Button href="/patient/appointments" icon={<CalendarCheck className="h-4 w-4" />}>
             {t("goToAppointments")}
@@ -105,8 +143,9 @@ export function BookingFlow({
           <div className="min-w-0">
             <div className="font-bold text-heading truncate">{name}</div>
             <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
-            <div className="text-xs text-muted inline-flex items-center gap-1 truncate">
-              <MapPin className="h-3 w-3" /> {doctor.clinicName}
+            {/* A long clinic name must shorten, not widen the page: `truncate` needs a block-level box. */}
+            <div className="flex min-w-0 items-center gap-1 text-xs text-muted">
+              <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{doctor.clinicName}</span>
             </div>
           </div>
           {rescheduleId && (
@@ -200,6 +239,23 @@ export function BookingFlow({
             <div className="mt-4">
               <Textarea label={`${t("reasonLabel")} (${tc("optional")})`} placeholder={t("reasonPlaceholder")} value={reason} onChange={(e) => setReason(e.target.value)} />
             </div>
+            {price !== undefined && (
+              <section className="mt-4 rounded-xl border border-line p-3" aria-labelledby="booking-payment">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 id="booking-payment" className="inline-flex items-center gap-2 font-bold text-heading">
+                    <Wallet className="h-4 w-4 text-primary-text" /> {t("payment.title")}
+                  </h3>
+                  <span className="text-lg font-bold tabular-nums text-heading">{tc("sum", { value: formatMoney(price) })}</span>
+                </div>
+                <div className="mt-3 text-sm font-semibold text-heading">{t("payment.online")}</div>
+                <p className="mb-2 text-xs text-muted">{t("payment.onlineHint")}</p>
+                <ProviderButtons onPick={setPaying} />
+                <div className="mt-3 border-t border-line pt-3 text-sm">
+                  <span className="font-semibold text-heading">{t("payment.onsite")}</span>
+                  <span className="block text-xs text-muted">{t("payment.onsiteHint", { button: t("confirm") })}</span>
+                </div>
+              </section>
+            )}
             <div className="mt-3 flex items-start gap-2 rounded-lg bg-primary-soft px-3 py-2 text-xs text-primary-text">
               <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{t("autoConfirm")}</span>
@@ -228,7 +284,7 @@ export function BookingFlow({
                   {t("continue")} {time ? `· ${time}` : ""}
                 </Button>
               ) : (
-                <Button fullWidth size="lg" onClick={() => setStep("done")} icon={<CalendarCheck className="h-5 w-5" />}>
+                <Button fullWidth size="lg" onClick={() => book()} icon={<CalendarCheck className="h-5 w-5" />}>
                   {t("confirm")}
                 </Button>
               )}
@@ -237,6 +293,8 @@ export function BookingFlow({
         </div>
         <div className="h-20 lg:hidden" />
       </div>
+
+      {price !== undefined && <PaymentSheet open={paying !== null} amount={price} provider={paying ?? undefined} onPaid={book} onClose={() => setPaying(null)} />}
     </div>
   );
 }

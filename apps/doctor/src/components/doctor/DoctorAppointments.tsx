@@ -3,40 +3,44 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarDays, ChevronLeft, ChevronRight, ClipboardList, List } from "lucide-react";
-import type { Appointment, AppointmentStatus, User } from "@projectx/types";
-import { cn, isoDateFromNow, isToday, toIsoDate, weekdayKey } from "@projectx/utils";
-import { fmtDate } from "@projectx/utils/dates";
+import { CalendarDays, CalendarRange, ChevronLeft, ChevronRight, ClipboardList, List } from "lucide-react";
+import type { Appointment, AppointmentStatus, DoctorSchedule, User } from "@projectx/types";
+import { cn, isoDateFromNow, isToday } from "@projectx/utils";
+import { fmtDate, fmtMonthYear, today } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
+import { Button } from "@projectx/ui/Button";
 import { Chip } from "@projectx/ui/Chip";
 import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
 import { RetryButton } from "@projectx/ui/RetryButton";
 import { ListSkeleton } from "@projectx/ui/Skeleton";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
 import type { DemoState } from "@projectx/ui/demo/state";
+import { AppointmentSheet } from "./calendar/AppointmentSheet";
+import { MonthGrid } from "./calendar/MonthGrid";
+import { WeekGrid } from "./calendar/WeekGrid";
+import { addDays, addMonths, monthWeeks, weekOf, type CalendarView } from "./calendar/calendar";
+import { useCalendarQuery } from "./calendar/useCalendarQuery";
 
-const statusTone: Record<AppointmentStatus, string> = {
-  scheduled: "bg-primary-soft text-primary-text border-primary/30",
-  completed: "bg-success-soft text-green-700 border-success/30",
-  cancelled: "bg-surface text-muted border-line line-through",
-  no_show: "bg-danger-soft text-red-700 border-danger/30",
-};
+const views: { key: CalendarView; icon: typeof List }[] = [
+  { key: "list", icon: List },
+  { key: "week", icon: CalendarRange },
+  { key: "month", icon: CalendarDays },
+];
 
-function mondayOf(date: Date): Date {
-  const d = new Date(date);
-  const day = (d.getDay() + 6) % 7; // 0 = Monday
-  d.setDate(d.getDate() - day);
-  d.setHours(0, 0, 0, 0);
-  return d;
-}
-
+/**
+ * The doctor's appointments as a list, a week grid or a month grid (`?view=list|week|month&date=`).
+ * The status chips narrow all three.
+ */
 export function DoctorAppointments({
   appointments,
   patients,
+  schedule,
   state = "normal",
 }: {
   appointments: Appointment[];
   patients: Record<string, User>;
+  schedule: DoctorSchedule;
   state?: DemoState;
 }) {
   const t = useTranslations("doctor.appointments");
@@ -44,9 +48,9 @@ export function DoctorAppointments({
   const tst = useTranslations("states");
   const tstatus = useTranslations("status.appointment");
   const locale = useLocale();
-  const [view, setView] = useState<"list" | "calendar">("list");
+  const { view, date, go } = useCalendarQuery();
   const [status, setStatus] = useState<AppointmentStatus | "all">("all");
-  const [weekOffset, setWeekOffset] = useState(0);
+  const [opened, setOpened] = useState<Appointment | null>(null);
 
   const filtered = useMemo(
     () =>
@@ -56,16 +60,10 @@ export function DoctorAppointments({
     [appointments, status, state],
   );
 
-  const weekStart = useMemo(() => {
-    const m = mondayOf(new Date());
-    m.setDate(m.getDate() + weekOffset * 7);
-    return m;
-  }, [weekOffset]);
-  const weekDays = Array.from({ length: 7 }, (_, i) => {
-    const d = new Date(weekStart);
-    d.setDate(d.getDate() + i);
-    return toIsoDate(d);
-  });
+  const days = useMemo(() => weekOf(date), [date]);
+  const weeks = useMemo(() => monthWeeks(date), [date]);
+  const step = (by: -1 | 1) => go({ date: view === "month" ? addMonths(date, by) : addDays(date, by * 7) });
+  const onToday = view === "month" ? date.slice(0, 7) === today().slice(0, 7) : days.includes(today());
 
   // Group list view by day
   const groups = useMemo(() => {
@@ -104,7 +102,10 @@ export function DoctorAppointments({
               <ClipboardList className="h-3.5 w-3.5" /> {t("writeSummary")}
             </span>
           )}
-          <AppointmentStatusBadge status={a.status} />
+          <span className="flex flex-col items-end gap-1">
+            <AppointmentStatusBadge status={a.status} />
+            <PaymentBadge payment={a.payment} />
+          </span>
         </div>
       </Link>
     );
@@ -121,13 +122,18 @@ export function DoctorAppointments({
             </Chip>
           ))}
         </div>
-        <div className="sm:ml-auto inline-flex rounded-lg border border-line bg-card p-0.5 self-start">
-          <button type="button" aria-pressed={view === "list"} onClick={() => setView("list")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "list" ? "bg-primary text-white" : "text-muted")}>
-            <List className="h-4 w-4" /> {t("list")}
-          </button>
-          <button type="button" aria-pressed={view === "calendar"} onClick={() => setView("calendar")} className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === "calendar" ? "bg-primary text-white" : "text-muted")}>
-            <CalendarDays className="h-4 w-4" /> {t("calendar")}
-          </button>
+        <div className="sm:ml-auto inline-flex rounded-lg border border-line bg-card p-0.5 self-start" role="group" aria-label={t("cal.viewLabel")}>
+          {views.map(({ key, icon: Icon }) => (
+            <button
+              key={key}
+              type="button"
+              aria-pressed={view === key}
+              onClick={() => go({ view: key })}
+              className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === key ? "bg-primary text-white" : "text-muted")}
+            >
+              <Icon className="h-4 w-4" /> {t(key)}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -150,54 +156,48 @@ export function DoctorAppointments({
         )
       ) : (
         <div className="flex flex-col gap-3">
-          <div className="flex items-center justify-between">
-            <button type="button" aria-label={t("prevWeek")} onClick={() => setWeekOffset((w) => w - 1)} className="h-10 w-10 rounded-lg hover:bg-surface flex items-center justify-center">
+          <div className="flex items-center gap-1">
+            <button type="button" aria-label={t(view === "month" ? "cal.prevMonth" : "prevWeek")} onClick={() => step(-1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <div className="text-center">
-              <div className="font-bold text-heading">
-                {fmtDate(locale, tc, weekDays[0], "short")} — {fmtDate(locale, tc, weekDays[6], "short")}
-              </div>
-              {weekOffset !== 0 && (
-                <button type="button" className="text-xs text-primary-text font-medium" onClick={() => setWeekOffset(0)}>
-                  {t("thisWeek")}
-                </button>
-              )}
-            </div>
-            <button type="button" aria-label={t("nextWeek")} onClick={() => setWeekOffset((w) => w + 1)} className="h-10 w-10 rounded-lg hover:bg-surface flex items-center justify-center">
+            <button type="button" aria-label={t(view === "month" ? "cal.nextMonth" : "nextWeek")} onClick={() => step(1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
               <ChevronRight className="h-5 w-5" />
             </button>
+            <h3 className="min-w-0 flex-1 truncate px-1 font-bold text-heading" aria-live="polite">
+              {view === "month" ? fmtMonthYear(tc, date) : `${fmtDate(locale, tc, days[0], "short")} — ${fmtDate(locale, tc, days[6], "short")}, ${days[6].slice(0, 4)}`}
+            </h3>
+            <Button size="sm" variant="secondary" disabled={onToday && date === today()} onClick={() => go({ date: today() })}>
+              {tc("today")}
+            </Button>
           </div>
 
-          {/* Desktop: 7-column grid; mobile: stacked days */}
-          <div className="grid grid-cols-1 md:grid-cols-7 gap-2">
-            {weekDays.map((date) => {
-              const list = filtered.filter((a) => a.date === date);
-              const today = isToday(date);
-              return (
-                <div key={date} className={cn("rounded-xl border bg-card p-2 min-h-[64px] md:min-h-[260px]", today ? "border-primary" : "border-line/60")}>
-                  <div className={cn("flex md:flex-col items-baseline md:items-center gap-1 mb-2 px-1", today ? "text-primary-text" : "text-heading")}>
-                    <span className="text-xs uppercase text-muted">{tc(`weekdaysShort.${weekdayKey(date)}`)}</span>
-                    <span className="font-bold">{Number(date.slice(8, 10))}</span>
-                  </div>
-                  <div className="flex flex-col gap-1">
-                    {list.length === 0 && <div className="text-xs text-muted px-1 md:text-center">—</div>}
-                    {list.map((a) => {
-                      const p = patients[a.patientId];
-                      return (
-                        <Link key={a.id} href={`/doctor/appointments/${a.id}`} className={cn("rounded-md border px-2 py-1 text-xs leading-tight hover:opacity-90", statusTone[a.status])}>
-                          <div className="font-bold">{a.time}</div>
-                          <div className="truncate">{p ? `${p.firstName} ${p.lastName[0]}.` : a.patientId}</div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+          {view === "week" ? (
+            <WeekGrid days={days} focus={date} appointments={filtered} patients={patients} schedule={schedule} onOpen={setOpened} />
+          ) : (
+            <MonthGrid weeks={weeks} month={date.slice(0, 7)} appointments={filtered} patients={patients} onPickDay={(d) => go({ view: "week", date: d })} />
+          )}
+
+          <ul className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted" aria-label={t("cal.legend")}>
+            {(["scheduled", "completed", "no_show", "cancelled"] as const).map((s) => (
+              <li key={s} className="inline-flex items-center gap-1.5">
+                <span className={cn("h-2.5 w-2.5 rounded-full", { scheduled: "bg-primary", completed: "bg-success", no_show: "bg-danger", cancelled: "bg-muted/50" }[s])} /> {tstatus(s)}
+              </li>
+            ))}
+            {view === "week" && (
+              <>
+                <li className="inline-flex items-center gap-1.5">
+                  <span className="h-2.5 w-4 rounded-sm border border-line bg-success-soft/70" /> {t("cal.free")}
+                </li>
+                <li className="inline-flex items-center gap-1.5">
+                  <span className="h-2.5 w-4 rounded-sm border border-line bg-[repeating-linear-gradient(135deg,transparent_0,transparent_2px,var(--color-muted)_2px,var(--color-muted)_3px)]" /> {t("cal.break")}
+                </li>
+              </>
+            )}
+          </ul>
         </div>
       )}
+
+      <AppointmentSheet appointment={opened} patient={opened ? patients[opened.patientId] : undefined} onClose={() => setOpened(null)} />
     </div>
   );
 }

@@ -353,7 +353,15 @@
     "logout": "Chiqish",
     "logoutDesc": "Hisobdan chiqish",
     "memberSince": "Ro'yxatdan o'tgan: {date}",
-    "changePhoto": "Rasmni o'zgartirish"
+    "changePhoto": "Rasmni o'zgartirish",
+    "demo": {
+      "title": "Demo ma'lumotlarni tozalash",
+      "desc": "Shu brauzerda kiritilgan yozuvlar, dori belgilari va sozlamalar o'chadi, boshlang'ich holat qaytadi",
+      "button": "Demo ma'lumotlarni tozalash",
+      "confirm": "Shu brauzerda kiritilgan hamma narsa o'chadi. Davom etasizmi?",
+      "cleared": "Demo ma'lumotlar tozalandi",
+      "confirmButton": "Tozalash"
+    }
   },
   "records": {
     "title": "Tibbiy kartochka",
@@ -396,7 +404,8 @@
       "title": "Hali yozuv yo'q",
       "patient": "Birinchi tahlilingizni qo'shing — doktor qabulda ko'ra oladi.",
       "doctor": "Bemor hali kartochkasiga hech narsa qo'shmagan.",
-      "filtered": "Bu bo'limda hali yozuv yo'q."
+      "filtered": "Hech narsa topilmadi",
+      "clearFilters": "Filtrlarni tozalash"
     },
     "add": {
       "button": "Qo'shish",
@@ -422,7 +431,20 @@
       "fileHint": "PDF yoki rasm",
       "private": "Faqat men ko'raman",
       "privateHint": "Doktorlar bu yozuvni ko'rmaydi va u \"Doktor uchun\" chop etilmaydi.",
-      "saved": "Yozuv kartochkaga qo'shildi"
+      "saved": "Yozuv kartochkaga qo'shildi",
+      "schedule": {
+        "label": "Qachon ichiladi",
+        "morning": "Ertalab",
+        "noon": "Tushlik",
+        "evening": "Kech",
+        "other": "Boshqa vaqt",
+        "addTime": "Qo'shish",
+        "required": "Kamida bitta vaqt tanlang",
+        "perDay": "Kuniga {count} marta",
+        "start": "Boshlanish",
+        "end": "Tugash",
+        "endHint": "Doimiy bo'lsa bo'sh qoldiring"
+      }
     },
     "print": {
       "button": "Chop etish / PDF",
@@ -431,7 +453,8 @@
       "periods": {
         "3m": "Oxirgi 3 oy",
         "1y": "Oxirgi 1 yil",
-        "all": "Hammasi"
+        "all": "Hammasi",
+        "6m": "Oxirgi 6 oy"
       },
       "sections": "Bo'limlar",
       "mode": "Rejim",
@@ -483,7 +506,65 @@
       "resubmit": "Qayta yuborish",
       "resubmitTitle": "Yozuvni qayta yuborish",
       "resubmitHint": "Admin rad etgan sabab — tuzatib, qayta yuboring:",
-      "deleted": "Yozuv o'chirildi"
+      "deleted": "O'chirilgan",
+      "deletedToast": "Yozuv o'chirildi"
+    },
+    "search": {
+      "label": "Kartochkada qidirish",
+      "placeholder": "Tahlil, doktor, so'z…",
+      "clear": "Qidiruvni tozalash"
+    },
+    "range": {
+      "label": "Davr",
+      "presets": {
+        "3m": "3 oy",
+        "6m": "6 oy",
+        "1y": "1 yil",
+        "all": "Hammasi"
+      },
+      "custom": "Oraliq",
+      "from": "Dan",
+      "to": "Gacha",
+      "apply": "Qo'llash",
+      "invalid": "Boshlanish sanasi tugash sanasidan keyin bo'lmasin"
+    },
+    "audit": {
+      "title": "Tarix ({count})",
+      "actor": {
+        "patient": "Bemor {name}",
+        "doctor": "Doktor {name}",
+        "admin": "Admin {name}"
+      },
+      "action": {
+        "created": "{actor} yozuvni qo'shdi",
+        "updated": "{actor} yozuvni tahrirladi",
+        "approved": "{actor} yozuvni tasdiqladi",
+        "rejected": "{actor} yozuvni rad etdi",
+        "deleted": "{actor} yozuvni o'chirdi",
+        "severityChanged": "{actor} holatni \"{from}\" dan \"{to}\" ga o'zgartirdi"
+      },
+      "noSeverity": "belgilanmagan",
+      "reason": "Sabab: {reason}",
+      "change": "{field}: \"{from}\" → \"{to}\"",
+      "changeSet": "{field} qo'shildi: \"{to}\"",
+      "changeCleared": "{field} olib tashlandi (\"{from}\" edi)",
+      "fields": {
+        "type": "Tur",
+        "title": "Sarlavha",
+        "description": "Matn",
+        "date": "Sana",
+        "fileName": "Fayl",
+        "private": "Faqat men ko'raman",
+        "schedule": "Ichish jadvali",
+        "severity": "Holat"
+      }
+    },
+    "edit": {
+      "title": "Yozuvni tahrirlash",
+      "saved": "O'zgarishlar saqlandi va tarixga yozildi",
+      "unchanged": "Hech narsa o'zgarmadi",
+      "deleteConfirm": "\"{title}\" yozuvi o'chirilsinmi? U kartochkadan yo'qoladi, tarixda qoladi.",
+      "deleteTitle": "Yozuvni o'chirish"
     }
   },
   "help": {
@@ -650,5 +731,51 @@
     "first": "Malaka: birinchi toifa",
     "second": "Malaka: ikkinchi toifa",
     "none": "Malaka: toifasiz"
+  },
+  "meds": {
+    "today": {
+      "title": "Bugungi dorilar",
+      "allTaken": "Bugun hammasi ichildi ✓",
+      "progress": "{taken}/{total} ichildi",
+      "took": "{name}, {time} — ichdim",
+      "tookShort": "Ichdim",
+      "taken": "Ichildi",
+      "missed": "O'tkazib yuborildi"
+    },
+    "reminder": {
+      "enable": "Eslatmalarni yoqish",
+      "openOnly": "Eslatma faqat ilova ochiq turganda keladi. Ilova yopiq bo'lsa, bildirishnoma kelmaydi.",
+      "blocked": "Brauzer bildirishnomalarni bloklagan. Brauzer sozlamalarida bu sayt uchun ruxsat bering.",
+      "unsupported": "Bu brauzer bildirishnomalarni qo'llab-quvvatlamaydi.",
+      "title": "{name} ichish vaqti",
+      "body": "Soat {time}. Ichgach, ilovada \"Ichdim\" ni belgilang.",
+      "setting": "Dori eslatmalari",
+      "settingDesc": "Dori ichish vaqti kelganda bildirishnoma",
+      "on": "Yoqilgan",
+      "off": "O'chirilgan"
+    },
+    "adherence": {
+      "label": "Oxirgi 7 kun: {total} kundan {taken} kun ichilgan",
+      "taken": "ichilgan",
+      "missed": "o'tkazib yuborilgan",
+      "none": "buyurilmagan"
+    }
+  },
+  "payment": {
+    "label": "To'lov",
+    "title": "Onlayn to'lov",
+    "amount": "To'lov summasi",
+    "pay": "To'lash",
+    "payWith": "{provider} orqali to'lash",
+    "method": "{provider} orqali",
+    "redirecting": "{provider} ga yo'naltirilmoqda…",
+    "paid": "To'landi ✓",
+    "paidToast": "To'lov qabul qilindi",
+    "demoNote": "Bu demo: haqiqiy to'lov amalga oshirilmaydi, pul yechilmaydi.",
+    "status": {
+      "paid": "To'langan",
+      "unpaid": "To'lanmagan",
+      "onsite": "Qabulda to'lanadi"
+    }
   }
 }

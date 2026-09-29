@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { ClipboardCheck, FileText, Paperclip } from "lucide-react";
@@ -15,20 +15,28 @@ import { ListSkeleton } from "@projectx/ui/Skeleton";
 import { RecordStatusBadge } from "@projectx/ui/StatusBadge";
 import { Tabs } from "@projectx/ui/Tabs";
 import type { DemoState } from "@projectx/ui/demo/state";
+import { useLocalRecords } from "@projectx/ui/records/useLocalRecords";
 import { DataList } from "./DataList";
 
 export type ReviewRow = { record: MedicalRecord; patient: User };
 
-const tabs: RecordStatus[] = ["pending", "approved", "rejected"];
+const tabs: RecordStatus[] = ["pending", "approved", "rejected", "deleted"];
 
-/** The review queue: pending first, with the already decided ones one tab away. */
-export function RecordsReviewList({ rows, state = "normal" }: { rows: ReviewRow[]; state?: DemoState }) {
+/** The review queue: pending first, with the decided and the deleted ones one tab away. */
+export function RecordsReviewList({ rows: mockRows, state = "normal" }: { rows: ReviewRow[]; state?: DemoState }) {
   const t = useTranslations("admin.records");
   const tr = useTranslations("records");
   const tc = useTranslations("common");
   const tst = useTranslations("states");
   const locale = useLocale();
   const [tab, setTab] = useState<RecordStatus>("pending");
+  // Decisions taken in this browser (approve / reject on the detail page) show in the queue too.
+  const mockRecords = useMemo(() => mockRows.map((r) => r.record), [mockRows]);
+  const { merged } = useLocalRecords(null, mockRecords);
+  const rows = useMemo(() => {
+    const current = new Map(merged.map((r) => [r.id, r]));
+    return mockRows.map((row) => ({ ...row, record: current.get(row.record.id) ?? row.record }));
+  }, [merged, mockRows]);
   const shown = rows.filter((r) => r.record.status === tab);
   const name = (u: User) => `${u.firstName} ${u.lastName}`;
   const when = (iso?: string) => (iso ? (isSameDay(iso, 0) ? fmtTime(iso) : `${fmtDate(locale, tc, iso, "short")} · ${fmtTime(iso)}`) : "—");

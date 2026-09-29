@@ -13,6 +13,7 @@ import { fmtDate } from "@projectx/utils/dates";
 import { AvatarUpload } from "../ui/AvatarUpload";
 import { Button } from "../ui/Button";
 import { Card, CardHeader } from "../ui/Card";
+import { ClearDemoData } from "../session/ClearDemoData";
 import { Input } from "../ui/Input";
 import { Select } from "../ui/Select";
 import { Toast } from "../ui/Toast";
@@ -42,9 +43,12 @@ export function ProfileForm({
   const [pending, startTransition] = useTransition();
   const [toast, setToast] = useState<string | null>(null);
 
-  const save = () => {
-    setToast(t("saved"));
+  const flash = (message: string) => {
+    setToast(message);
     setTimeout(() => setToast(null), 2000);
+  };
+  const save = () => {
+    flash(t("saved"));
   };
 
   const changeLocale = (l: Locale) => {
@@ -136,6 +140,8 @@ export function ProfileForm({
             <p className="text-sm text-muted">{th("replayDesc")}</p>
           </Card>
         )}
+
+        <ClearDemoData onCleared={() => flash(t("demo.cleared"))} />
 
         <Card>
           <CardHeader title={t("logout")} subtitle={t("logoutDesc")} action={<UserRound className="h-5 w-5 text-muted" />} />

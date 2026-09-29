@@ -5,6 +5,7 @@ import { currentPatient } from "@projectx/mock/users";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getPatientAppointments } from "@projectx/mock/appointments";
 import { getPatientRecords, getUrgentRecords } from "@projectx/mock/records";
+import { getMedicationLogs } from "@projectx/mock/medications";
 import { patientChats } from "@projectx/mock/chats";
 import { hoursUntil, isToday } from "@projectx/utils";
 import { fmtDate, today } from "@projectx/utils/dates";
@@ -15,6 +16,7 @@ import { Card } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { FirstRunGuide } from "@projectx/ui/help/FirstRunGuide";
+import { TodayMedsCard } from "@projectx/ui/meds/TodayMedsCard";
 
 export default async function PatientDashboard() {
   const t = await getTranslations("patient.dashboard");
@@ -92,8 +94,8 @@ export default async function PatientDashboard() {
                       {nextDoctor.firstName} {nextDoctor.lastName}
                     </div>
                     <div className="text-white/90 text-sm">{ts(nextDoctor.specialty)}</div>
-                    <div className="text-white/85 text-xs inline-flex items-center gap-1 mt-1 truncate">
-                      <MapPin className="h-3 w-3" /> {nextDoctor.clinicName}
+                    <div className="text-white/85 text-xs flex min-w-0 items-center gap-1 mt-1">
+                      <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{nextDoctor.clinicName}</span>
                     </div>
                   </div>
                   <ChevronRight className="h-6 w-6 text-white/80 shrink-0" />
@@ -113,6 +115,8 @@ export default async function PatientDashboard() {
               />
             )}
           </section>
+
+          <TodayMedsCard patientId={currentPatient.id} records={getPatientRecords(currentPatient.id)} logs={getMedicationLogs(currentPatient.id)} serverToday={today()} />
 
           {/* Pending from you */}
           {needsReview.length > 0 && (

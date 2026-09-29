@@ -1,30 +1,38 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import type { MedicalRecord, User } from "@projectx/types";
+import type { MedicalRecord, MedicationLog, User } from "@projectx/types";
 import { ageFromBirthDate } from "@projectx/mock/patients";
+import { isoDateFromNow } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
+import { isRegularMedication } from "../meds/medications";
+import { AdherenceDots } from "../meds/AdherenceDots";
 import { Tooltip } from "../ui/Tooltip";
 import { coverItems } from "./groupRecords";
 
 /**
  * Top of the record: who the patient is, then the two standing lines a doctor must see first
- * (allergies, regular medication). `onAdd` is only passed for the patient.
+ * (allergies, regular medication). `onAdd` is only passed for the patient; `logs` only for the
+ * doctor, who then sees the last 7 days of adherence next to each scheduled medicine.
  */
 export function RecordCover({
   patient,
   records,
   onAdd,
+  logs,
 }: {
   patient: User;
   records: MedicalRecord[];
   onAdd?: (type: "allergy" | "medication") => void;
+  logs?: MedicationLog[];
 }) {
   const t = useTranslations("records.cover");
   const tc = useTranslations("common");
   const th = useTranslations("hints");
   const locale = useLocale();
   const age = ageFromBirthDate(patient.birthDate);
+  // Oldest first; today is still in progress and is not counted.
+  const lastWeek = Array.from({ length: 7 }, (_, i) => isoDateFromNow(i - 7));
 
   const facts: { label: string; value: string }[] = [];
   if (patient.birthDate) facts.push({ label: t("born"), value: fmtDate(locale, tc, patient.birthDate) });
@@ -67,6 +75,18 @@ export function RecordCover({
                     {i > 0 && "; "}
                     <span className={type === "allergy" ? "font-semibold text-danger" : "text-heading"}>{r.title}</span>
                     {r.description && <span className="text-muted"> ({r.description})</span>}
+                    {isRegularMedication(r) && (
+                      <>
+                        {" "}
+                        <span className="whitespace-nowrap text-sm font-medium tabular-nums text-primary-text">{r.schedule.times.join(" · ")}</span>
+                        {logs && (
+                          <>
+                            {" "}
+                            <AdherenceDots medication={r} logs={logs} dates={lastWeek} />
+                          </>
+                        )}
+                      </>
+                    )}
                   </span>
                 ))
               )}

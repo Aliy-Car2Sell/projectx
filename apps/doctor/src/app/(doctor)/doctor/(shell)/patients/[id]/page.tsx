@@ -5,6 +5,8 @@ import { Info, Mail, MapPin, MessageCircle, Phone } from "lucide-react";
 import { currentDoctor } from "@projectx/mock/doctors";
 import { getDoctorPatients, ageFromBirthDate } from "@projectx/mock/patients";
 import { getSharedPatientRecords } from "@projectx/mock/records";
+import { getMedicationLogs } from "@projectx/mock/medications";
+import { getPatientAudit } from "@projectx/mock/audit";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -93,7 +95,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
         </aside>
 
         <div>
-          <PatientRecordsPanel patient={user} records={getSharedPatientRecords(user.id)} doctorName={`${currentDoctor.firstName} ${currentDoctor.lastName}`} doctorId={currentDoctor.id} />
+          <PatientRecordsPanel patient={user} records={getSharedPatientRecords(user.id)} medicationLogs={getMedicationLogs(user.id)} audit={getPatientAudit(user.id)} doctorName={`${currentDoctor.firstName} ${currentDoctor.lastName}`} doctorId={currentDoctor.id} />
         </div>
       </div>
     </>

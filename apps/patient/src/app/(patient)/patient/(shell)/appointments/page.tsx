@@ -13,7 +13,7 @@ export default async function AppointmentsPage({ searchParams }: { searchParams:
   return (
     <>
       <PageHeader title={t("title")} />
-      <AppointmentsList appointments={getPatientAppointments(currentPatient.id)} doctors={map} state={state} />
+      <AppointmentsList appointments={getPatientAppointments(currentPatient.id)} patientId={currentPatient.id} doctors={map} state={state} />
     </>
   );
 }

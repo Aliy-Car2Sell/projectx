@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { currentPatient } from "@projectx/mock/users";
 import { getPatientRecords } from "@projectx/mock/records";
+import { getPatientAudit } from "@projectx/mock/audit";
 import { getPatientDoctors } from "@projectx/mock/patients";
 import { PageHeader } from "@projectx/ui/PageHeader";
 import { readDemoState } from "@projectx/ui/demo/state";
@@ -18,6 +19,7 @@ export default async function RecordsPage({ searchParams }: { searchParams: Prom
         role="patient"
         doctors={getPatientDoctors(currentPatient.id)}
         state={state}
+        audit={getPatientAudit(currentPatient.id)}
         printHref="/patient/records/print"
       />
     </>

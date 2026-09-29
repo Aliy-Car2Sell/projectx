@@ -111,7 +111,26 @@
       "age": "{count} y.o.",
       "duration": "Duration",
       "markedCompleted": "Appointment marked as completed",
-      "markedNoShow": "Marked as no-show"
+      "markedNoShow": "Marked as no-show",
+      "template": {
+        "label": "Template",
+        "mine": "My templates",
+        "others": "Other specialties",
+        "fillOne": "Fill in at least one part"
+      },
+      "month": "Month",
+      "cal": {
+        "viewLabel": "View",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "free": "Free",
+        "break": "Break",
+        "dayOff": "Day off",
+        "now": "Now {time}",
+        "count": "{count} appointments",
+        "open": "Open in full",
+        "legend": "Legend"
+      }
     },
     "schedule": {
       "title": "Schedule settings",
@@ -189,6 +208,36 @@
     },
     "chat": {
       "title": "Patient chats"
+    },
+    "templates": {
+      "title": "My templates",
+      "desc": "Your own summary templates: copy an existing one and change its parts",
+      "empty": "No templates of your own yet. Copy one below.",
+      "mine": "My templates",
+      "others": "Other specialties",
+      "copyFrom": "Template to copy",
+      "copy": "Copy",
+      "copyName": "{name} (copy)",
+      "editTitle": "Edit the template",
+      "name": "Template name",
+      "sections": "Parts",
+      "sectionTitle": "Part title",
+      "sectionHint": "Hint shown inside the field",
+      "diagnosisNote": "This part's text becomes the entry's title",
+      "addSection": "Add a part",
+      "removeSection": "Remove the part",
+      "moveUp": "Move up",
+      "moveDown": "Move down",
+      "saved": "Template saved",
+      "deleted": "Template deleted",
+      "deleteConfirm": "Delete the template \"{name}\"?",
+      "errors": {
+        "name": "Enter a template name",
+        "noSections": "At least one part is needed",
+        "sectionTitle": "Give every part a title",
+        "duplicate": "Part titles must not repeat"
+      },
+      "deleteTitle": "Delete the template"
     }
   }
 }

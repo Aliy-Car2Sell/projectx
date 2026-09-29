@@ -8,6 +8,7 @@ import { fmtDate } from "@projectx/utils/dates";
 import { Button } from "@projectx/ui/Button";
 import { Card } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
+import { SummarySections } from "@projectx/ui/summary/SummarySections";
 import { SummaryForm } from "./SummaryForm";
 
 /** Shows the saved note or the note editor for a doctor's appointment. */
@@ -35,8 +36,14 @@ export function AppointmentSummaryPanel({ appointment }: { appointment: Appointm
         </div>
         <div className="text-xs font-semibold uppercase tracking-wide text-muted">{t("diagnosis")}</div>
         <p className="font-semibold text-heading mt-0.5">{summary.diagnosis}</p>
-        <div className="text-xs font-semibold uppercase tracking-wide text-muted mt-3">{t("recommendations")}</div>
-        <p className="text-heading mt-0.5 leading-relaxed whitespace-pre-line">{summary.recommendations}</p>
+        {summary.sections?.length ? (
+          <SummarySections sections={summary.sections.filter((s) => s.body !== summary.diagnosis)} className="mt-3" />
+        ) : (
+          <>
+            <div className="text-xs font-semibold uppercase tracking-wide text-muted mt-3">{t("recommendations")}</div>
+            <p className="text-heading mt-0.5 leading-relaxed whitespace-pre-line">{summary.recommendations}</p>
+          </>
+        )}
       </Card>
     );
   }

@@ -3,13 +3,13 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, Stethoscope, X } from "lucide-react";
-import type { DoctorProfile, MedicalRecord, User } from "@projectx/types";
+import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, SearchX, Stethoscope, X } from "lucide-react";
+import type { DoctorProfile, MedicalRecord, MedicationLog, RecordAuditEntry, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
-import { Chip } from "../ui/Chip";
+import { ConfirmDialog } from "../ui/ConfirmDialog";
 import { ErrorState } from "../ui/EmptyState";
 import { RetryButton } from "../ui/RetryButton";
 import { Skeleton } from "../ui/Skeleton";
@@ -17,13 +17,18 @@ import { Toast, useToast } from "../ui/Toast";
 import type { DemoState } from "../demo/state";
 import { AddRecordSheet, type AddPreset, type RecordWriter } from "./AddRecordSheet";
 import { AskDoctorSheet } from "./AskDoctorSheet";
+import { useRecordAudit, type AuditActor } from "./audit";
 import { PrintDialog } from "./PrintDialog";
 import { RecordCover } from "./RecordCover";
 import { RecordEntry, recordDomId } from "./RecordEntry";
 import { RecordSheet } from "./RecordSheet";
-import { byFilter, flaggedCounts, groupByMonth, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
+import { byFilter, flaggedCounts, groupByMonth, inRange, matchesSearch, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
+import { RecordsToolbar } from "./RecordsToolbar";
+import { useLocalRecords } from "./useLocalRecords";
+import { useRecordQuery } from "./useRecordQuery";
 
 const filters: RecordFilter[] = ["all", ...recordSections];
+const noAudit: RecordAuditEntry[] = [];
 
 /** `#record-<id>` in the URL: the entry to open and scroll to (null on the server and without a hash). */
 const subscribeHash = (cb: () => void) => {
@@ -51,6 +56,9 @@ export function RecordsView({
   doctors,
   state = "normal",
   onAddSummary,
+  onEditSummary,
+  medicationLogs,
+  audit = noAudit,
   printHref,
 }: {
   patient: User;
@@ -62,6 +70,12 @@ export function RecordsView({
   doctors?: DoctorProfile[];
   state?: DemoState;
   onAddSummary?: () => void;
+  /** Doctor app: reopen one of the doctor's own summaries in the summary form (other entries use the add sheet). */
+  onEditSummary?: (record: MedicalRecord) => void;
+  /** Doctor app: the patient's dose log, shown as 7-day adherence next to each medicine on the cover. */
+  medicationLogs?: MedicationLog[];
+  /** The patient's record history (mock); what happens in this browser is added on top. */
+  audit?: RecordAuditEntry[];
   /** This record's print route (e.g. "/patient/records/print"); enables "Print / PDF". */
   printHref?: string;
 }) {
@@ -69,29 +83,53 @@ export function RecordsView({
   const tc = useTranslations("common");
   const tst = useTranslations("states");
   const [filter, setFilter] = useState<RecordFilter>("all");
-  const [added, setAdded] = useState<MedicalRecord[]>([]);
-  const [removed, setRemoved] = useState<string[]>([]);
   const [preset, setPreset] = useState<AddPreset | null>(null);
   const [resubmitting, setResubmitting] = useState<MedicalRecord | null>(null);
+  const [editing, setEditing] = useState<MedicalRecord | null>(null);
+  const [deleting, setDeleting] = useState<MedicalRecord | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
   const [asking, setAsking] = useState<MedicalRecord | null>(null);
   const router = useRouter();
   const focusId = useFocusedRecordId();
   const [handledFocus, setHandledFocus] = useState<string | null>(null);
   const { toast, show } = useToast();
+  const { query, setSearch, setRange, clear } = useRecordQuery();
   // A new deep link always lands on "all", otherwise the entry could be hidden behind a chip.
   if (focusId !== handledFocus) {
     setHandledFocus(focusId);
     if (focusId) setFilter("all");
   }
 
+  // Additions and changes made in this browser sit on top of the mock data (see session/store).
+  const { merged, save } = useLocalRecords(patient.id, records);
+  const { historyOf, log, logEdit } = useRecordAudit(audit);
+  const actor: AuditActor | null =
+    role === "patient" ? { id: patient.id, role: "patient", name: `${patient.firstName} ${patient.lastName}` } : writer?.role === "doctor" ? { id: writer.doctorId, role: "doctor", name: writer.name } : null;
+  // Authors only: a patient may change an entry until the admin has reviewed it, a doctor their own entries.
+  const canEdit = (r: MedicalRecord) =>
+    role === "patient" ? r.authorRole === "patient" && r.status === "pending" : r.authorRole === "doctor" && writer?.role === "doctor" && r.authorDoctorId === writer.doctorId;
+  const canDelete = (r: MedicalRecord) => canEdit(r) || (role === "patient" && r.authorRole === "patient" && r.status === "rejected");
+  /** The entry stays in the data as "deleted" (admins and the history still see it). */
+  const remove = (r: MedicalRecord) => {
+    save({ ...r, status: "deleted" });
+    if (actor) log(r.id, actor, "deleted");
+  };
   const all = useMemo(() => {
-    const base = state === "empty" ? [] : records;
+    if (state === "empty") return [];
     // Defence in depth: the doctor app already asks the mock for shared records only.
-    return [...added, ...base].filter((r) => !removed.includes(r.id) && (role === "patient" || (!r.private && r.status === "approved")));
-  }, [added, records, removed, role, state]);
+    // Medication is never private: the doctor must see what the patient takes.
+    return merged.filter((r) => r.status !== "deleted" && (role === "patient" || ((!r.private || r.type === "medication") && r.status === "approved")));
+  }, [merged, role, state]);
   const entries = useMemo(() => timeline(all), [all]);
-  const shown = useMemo(() => byFilter(entries, filter), [entries, filter]);
+  const shown = useMemo(
+    () => byFilter(entries, filter).filter((r) => inRange(r, query.from, query.to) && matchesSearch(r, query.q)),
+    [entries, filter, query],
+  );
+  const narrowed = filter !== "all" || Boolean(query.q || query.from || query.to);
+  const clearFilters = () => {
+    setFilter("all");
+    clear();
+  };
   const groups = useMemo(() => groupByMonth(shown), [shown]);
   const flagged = useMemo(() => flaggedCounts(entries), [entries]);
 
@@ -101,6 +139,13 @@ export function RecordsView({
     document.getElementById(recordDomId(focusId))?.scrollIntoView({ block: "start", behavior: "smooth" });
   }, [focusId, shown, state]);
 
+  const canPrint = Boolean(printHref) && state === "normal";
+  const printButton = (className?: string) =>
+    canPrint ? (
+      <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />} className={className}>
+        {t("print.button")}
+      </Button>
+    ) : null;
   const addButton =
     role === "patient" ? (
       <Button size="sm" onClick={() => setPreset("entry")} icon={<Plus className="h-4 w-4" />}>
@@ -120,6 +165,25 @@ export function RecordsView({
         )}
       </>
     );
+  // Only two actions fit side by side on a phone: the doctor's print button becomes an icon in row 1.
+  const doctorHasTwo = role === "doctor" && Boolean(writer) && Boolean(onAddSummary);
+  const toolbarActions = (
+    <>
+      {printButton(doctorHasTwo ? "max-md:hidden" : undefined)}
+      {addButton}
+    </>
+  );
+  const compactPrint =
+    doctorHasTwo && canPrint ? (
+      <button
+        type="button"
+        onClick={() => setPrintOpen(true)}
+        aria-label={t("print.button")}
+        className="flex h-10 w-10 items-center justify-center rounded-full border border-line bg-card text-heading hover:border-primary"
+      >
+        <Printer className="h-4 w-4" />
+      </button>
+    ) : undefined;
 
   // "Ask the doctor": the author's chat when a doctor wrote the entry, otherwise let the patient pick one.
   const askDoctor = (r: MedicalRecord) => {
@@ -135,25 +199,16 @@ export function RecordsView({
 
   return (
     <div className="flex flex-col">
-      {/* Sticky controls: filter chips scroll sideways on narrow screens, actions stay put */}
-      <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-wrap items-center gap-x-3 gap-y-2">
-        <div className="flex min-w-0 flex-1 basis-full md:basis-0 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
-          {filters.map((f) => (
-            <Chip key={f} active={filter === f} onClick={() => setFilter(f)} className="min-h-[36px] shrink-0">
-              {t(`filters.${f}`)}
-            </Chip>
-          ))}
-        </div>
-        {/* Three actions for the doctor (print, add, summary) do not fit 375px on one row: let them wrap. */}
-        <div className="flex flex-wrap items-center gap-2">
-          {printHref && state === "normal" && (
-            <Button size="sm" variant="secondary" onClick={() => setPrintOpen(true)} icon={<Printer className="h-4 w-4" />}>
-              {t("print.button")}
-            </Button>
-          )}
-          {addButton}
-        </div>
-      </div>
+      <RecordsToolbar
+        filters={filters}
+        filter={filter}
+        onFilter={setFilter}
+        query={query}
+        onSearch={setSearch}
+        onRange={setRange}
+        actions={toolbarActions}
+        compactActions={compactPrint}
+      />
 
       <RecordSheet className="mt-2">
         {state === "loading" ? (
@@ -173,7 +228,7 @@ export function RecordsView({
           </div>
         ) : (
           <>
-            <RecordCover patient={patient} records={all} onAdd={role === "patient" ? setPreset : undefined} />
+            <RecordCover patient={patient} records={all} onAdd={role === "patient" ? setPreset : undefined} logs={role === "doctor" ? medicationLogs : undefined} />
 
             {/* One line for everything the doctor flagged; tapping it narrows the notebook to those entries. */}
             {flaggedText && (
@@ -211,7 +266,15 @@ export function RecordsView({
                 {addButton && <div className="mt-4 flex flex-wrap justify-center gap-2">{addButton}</div>}
               </div>
             ) : shown.length === 0 ? (
-              <p className="py-10 text-center text-muted">{t("empty.filtered")}</p>
+              <div className="flex flex-col items-center py-10 text-center">
+                <SearchX className="h-8 w-8 text-muted" aria-hidden="true" />
+                <p className="mt-2 font-semibold text-heading">{t("empty.filtered")}</p>
+                {narrowed && (
+                  <Button size="sm" variant="secondary" className="mt-3" onClick={clearFilters}>
+                    {t("empty.clearFilters")}
+                  </Button>
+                )}
+              </div>
             ) : (
               groups.map((g) => (
                 <section key={g.key} aria-label={fmtMonthYear(tc, g.key)}>
@@ -223,6 +286,7 @@ export function RecordsView({
                         record={r}
                         viewer={role}
                         defaultOpen={r.id === focusId}
+                        highlight={query.q}
                         onAskDoctor={role === "patient" ? askDoctor : undefined}
                         onResubmit={
                           role === "patient"
@@ -232,14 +296,26 @@ export function RecordsView({
                               }
                             : undefined
                         }
-                        onDelete={
-                          role === "patient"
+                        onEdit={
+                          canEdit(r)
                             ? (rec) => {
-                                setRemoved((prev) => [...prev, rec.id]);
-                                show(t("status.deleted"));
+                                if (rec.type === "summary" && onEditSummary) return onEditSummary(rec);
+                                setEditing(rec);
+                                setPreset("entry");
                               }
                             : undefined
                         }
+                        onDelete={
+                          canDelete(r)
+                            ? (rec) => {
+                                // A rejected entry goes without asking; anything else is still in use.
+                                if (rec.status !== "rejected") return setDeleting(rec);
+                                remove(rec);
+                                show(t("status.deletedToast"));
+                              }
+                            : undefined
+                        }
+                        history={historyOf(r.id)}
                         actions={
                           // Entries added in this session exist only in the browser; the print route cannot see them,
                           // and it never prints entries still under review or rejected.
@@ -265,25 +341,46 @@ export function RecordsView({
       </RecordSheet>
 
       <AddRecordSheet
-        key={resubmitting?.id ?? "new"}
+        key={(editing ?? resubmitting)?.id ?? "new"}
         preset={preset}
         patientId={patient.id}
         writer={writer}
-        initial={resubmitting ?? undefined}
+        initial={editing ?? resubmitting ?? undefined}
+        editing={Boolean(editing)}
         onClose={() => {
           setPreset(null);
           setResubmitting(null);
+          setEditing(null);
         }}
         onSave={(r) => {
+          if (editing) {
+            save(r);
+            const changed = actor ? logEdit(editing, r, actor) : false;
+            show(t(changed ? "edit.saved" : "edit.unchanged"));
+            setEditing(null);
+            return;
+          }
           // A resubmission replaces the rejected entry; a fresh patient entry goes to the admin first.
-          if (resubmitting) setRemoved((prev) => [...prev, resubmitting.id]);
-          setAdded((prev) => [r, ...prev]);
+          if (resubmitting) remove(resubmitting);
+          save(r);
+          if (actor) log(r.id, actor, "created");
           setFilter("all");
           show(t(r.status === "pending" ? "status.submitted" : "add.saved"));
           setResubmitting(null);
         }}
       />
-      {printHref && <PrintDialog open={printOpen} onClose={() => setPrintOpen(false)} printHref={printHref} chooseMode={role === "patient"} />}
+      {printHref && (
+        <PrintDialog
+          // Reopening picks up the notebook's current range as the default period.
+          key={`${printOpen}-${query.from}-${query.to}`}
+          open={printOpen}
+          onClose={() => setPrintOpen(false)}
+          printHref={printHref}
+          chooseMode={role === "patient"}
+          from={query.from}
+          to={query.to}
+        />
+      )}
       {role === "patient" && (
         <AskDoctorSheet
           record={asking}
@@ -296,6 +393,19 @@ export function RecordsView({
           onClose={() => setAsking(null)}
         />
       )}
+      <ConfirmDialog
+        open={deleting !== null}
+        title={t("edit.deleteTitle")}
+        message={t("edit.deleteConfirm", { title: deleting?.title ?? "" })}
+        confirmLabel={tc("delete")}
+        danger
+        onClose={() => setDeleting(null)}
+        onConfirm={() => {
+          if (!deleting) return;
+          remove(deleting);
+          show(t("status.deletedToast"));
+        }}
+      />
       <Toast message={toast} />
     </div>
   );

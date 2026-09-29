@@ -98,7 +98,14 @@
       "step": "{current} / {total}",
       "autoConfirm": "Bookings are confirmed automatically. Cancel or reschedule at least 2 hours before the visit.",
       "rescheduling": "Rescheduling",
-      "price": "Price"
+      "price": "Price",
+      "payment": {
+        "title": "Payment",
+        "online": "Pay online",
+        "onlineHint": "The appointment is confirmed as soon as the payment goes through",
+        "onsite": "Pay at the visit",
+        "onsiteHint": "Cash or card at the clinic. Press \"{button}\" below."
+      }
     },
     "appointments": {
       "title": "My visits",
@@ -134,7 +141,10 @@
       "timeLeft": "{hours} h left",
       "startsSoon": "Starting soon",
       "showRoute": "Show route",
-      "findDoctor": "Find a doctor"
+      "findDoctor": "Find a doctor",
+      "paidSuccess": "Payment received",
+      "notFound": "Appointment not found",
+      "notFoundDesc": "It may have been booked in another browser, or the demo data was cleared."
     },
     "chat": {
       "title": "Chat"

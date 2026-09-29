@@ -353,7 +353,15 @@
     "logout": "Log out",
     "logoutDesc": "Sign out of your account",
     "memberSince": "Member since {date}",
-    "changePhoto": "Change photo"
+    "changePhoto": "Change photo",
+    "demo": {
+      "title": "Clear demo data",
+      "desc": "Entries, dose ticks and settings made in this browser are removed and the initial state returns",
+      "button": "Clear demo data",
+      "confirm": "Everything entered in this browser will be removed. Continue?",
+      "cleared": "Demo data cleared",
+      "confirmButton": "Clear"
+    }
   },
   "records": {
     "title": "Medical record",
@@ -396,7 +404,8 @@
       "title": "No entries yet",
       "patient": "Add your first lab result — your doctor will see it at the visit.",
       "doctor": "The patient has not added anything to the record yet.",
-      "filtered": "Nothing in this section yet."
+      "filtered": "Nothing found",
+      "clearFilters": "Clear filters"
     },
     "add": {
       "button": "Add",
@@ -422,7 +431,20 @@
       "fileHint": "PDF or image",
       "private": "Only I can see this",
       "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
-      "saved": "Entry added to your record"
+      "saved": "Entry added to your record",
+      "schedule": {
+        "label": "When to take it",
+        "morning": "Morning",
+        "noon": "Noon",
+        "evening": "Evening",
+        "other": "Other time",
+        "addTime": "Add",
+        "required": "Pick at least one time",
+        "perDay": "{count} time(s) a day",
+        "start": "Start",
+        "end": "End",
+        "endHint": "Leave empty if ongoing"
+      }
     },
     "print": {
       "button": "Print / PDF",
@@ -431,7 +453,8 @@
       "periods": {
         "3m": "Last 3 months",
         "1y": "Last year",
-        "all": "Everything"
+        "all": "Everything",
+        "6m": "Last 6 months"
       },
       "sections": "Sections",
       "mode": "Mode",
@@ -483,7 +506,65 @@
       "resubmit": "Resubmit",
       "resubmitTitle": "Resubmit the entry",
       "resubmitHint": "The admin's reason — fix it and send again:",
-      "deleted": "Entry deleted"
+      "deleted": "Deleted",
+      "deletedToast": "Entry deleted"
+    },
+    "search": {
+      "label": "Search the record",
+      "placeholder": "Test, doctor, word…",
+      "clear": "Clear search"
+    },
+    "range": {
+      "label": "Period",
+      "presets": {
+        "3m": "3 months",
+        "6m": "6 months",
+        "1y": "1 year",
+        "all": "All time"
+      },
+      "custom": "Date range",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply",
+      "invalid": "The start date must not be after the end date"
+    },
+    "audit": {
+      "title": "History ({count})",
+      "actor": {
+        "patient": "Patient {name}",
+        "doctor": "Dr. {name}",
+        "admin": "Admin {name}"
+      },
+      "action": {
+        "created": "{actor} added the entry",
+        "updated": "{actor} edited the entry",
+        "approved": "{actor} approved the entry",
+        "rejected": "{actor} rejected the entry",
+        "deleted": "{actor} deleted the entry",
+        "severityChanged": "{actor} changed the status from \"{from}\" to \"{to}\""
+      },
+      "noSeverity": "not set",
+      "reason": "Reason: {reason}",
+      "change": "{field}: \"{from}\" → \"{to}\"",
+      "changeSet": "{field} added: \"{to}\"",
+      "changeCleared": "{field} removed (was \"{from}\")",
+      "fields": {
+        "type": "Type",
+        "title": "Title",
+        "description": "Text",
+        "date": "Date",
+        "fileName": "File",
+        "private": "Only I can see",
+        "schedule": "Schedule",
+        "severity": "Status"
+      }
+    },
+    "edit": {
+      "title": "Edit the entry",
+      "saved": "Changes saved and added to the history",
+      "unchanged": "Nothing changed",
+      "deleteConfirm": "Delete \"{title}\"? It leaves the record but stays in the history.",
+      "deleteTitle": "Delete the entry"
     }
   },
   "help": {
@@ -650,5 +731,51 @@
     "first": "Qualification: first category",
     "second": "Qualification: second category",
     "none": "Qualification: no category"
+  },
+  "meds": {
+    "today": {
+      "title": "Today's medicines",
+      "allTaken": "All taken today ✓",
+      "progress": "{taken}/{total} taken",
+      "took": "{name}, {time} — I took it",
+      "tookShort": "I took it",
+      "taken": "Taken",
+      "missed": "Missed"
+    },
+    "reminder": {
+      "enable": "Turn on reminders",
+      "openOnly": "Reminders arrive only while the app is open. Nothing is shown when it is closed.",
+      "blocked": "The browser is blocking notifications. Allow them for this site in the browser settings.",
+      "unsupported": "This browser does not support notifications.",
+      "title": "Time to take {name}",
+      "body": "{time}. Tick \"I took it\" in the app afterwards.",
+      "setting": "Medicine reminders",
+      "settingDesc": "A notification when a dose is due",
+      "on": "On",
+      "off": "Off"
+    },
+    "adherence": {
+      "label": "Last 7 days: taken on {taken} of {total}",
+      "taken": "taken",
+      "missed": "missed",
+      "none": "not prescribed"
+    }
+  },
+  "payment": {
+    "label": "Payment",
+    "title": "Online payment",
+    "amount": "Amount to pay",
+    "pay": "Pay",
+    "payWith": "Pay with {provider}",
+    "method": "via {provider}",
+    "redirecting": "Redirecting to {provider}…",
+    "paid": "Paid ✓",
+    "paidToast": "Payment received",
+    "demoNote": "This is a demo: no real payment is made and no money is taken.",
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Not paid",
+      "onsite": "Pays at the visit"
+    }
   }
 }
