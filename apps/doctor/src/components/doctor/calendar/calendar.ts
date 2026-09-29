@@ -100,16 +100,17 @@ export function placeDay(appointments: Appointment[]): PlacedAppointment[] {
   return placed;
 }
 
-/** Block and dot colours by status (the list view's badges use the same tones). */
+/** Block colours by status: the 50 as background, the 700 as text (the list view's badges use the same pairs). */
 export const statusBlock: Record<AppointmentStatus, string> = {
-  scheduled: "bg-primary-soft text-primary-text border-primary/40",
-  completed: "bg-success-soft text-green-800 border-success/40",
-  cancelled: "bg-surface text-muted border-line line-through",
-  no_show: "bg-danger-soft text-red-800 border-danger/40",
+  scheduled: "bg-primary-50 text-primary-700 border-primary-200",
+  completed: "bg-success-50 text-success-700 border-success-500/30",
+  cancelled: "bg-neutral-100 text-neutral-600 border-neutral-200 line-through",
+  no_show: "bg-danger-50 text-danger-700 border-danger-500/30",
 };
+/** Dots (month view, legend, the dashboard's timeline): the status 500. */
 export const statusDot: Record<AppointmentStatus, string> = {
-  scheduled: "bg-primary",
-  completed: "bg-success",
-  cancelled: "bg-muted/50",
-  no_show: "bg-danger",
+  scheduled: "bg-primary-500",
+  completed: "bg-success-500",
+  cancelled: "bg-neutral-300",
+  no_show: "bg-danger-500",
 };

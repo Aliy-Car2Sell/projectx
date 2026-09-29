@@ -132,7 +132,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
       </div>
 
       {/* Preview */}
-      <aside className="lg:sticky lg:top-20 self-start">
+      <aside className="lg:sticky lg:top-24 self-start">
         <div className="rounded-lg gradient-accent text-white p-4 md:p-5">
           <div className="flex items-center gap-2 font-bold">
             <Sparkles className="h-5 w-5" /> {t("previewTitle")}

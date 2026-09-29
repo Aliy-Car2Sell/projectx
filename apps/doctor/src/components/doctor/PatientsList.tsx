@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarClock, ChevronRight, Search, Users } from "lucide-react";
+import { CalendarClock, ChevronRight, Search } from "lucide-react";
 import type { DoctorPatient } from "@projectx/mock/patients";
 import { ageFromBirthDate } from "@projectx/mock/patients";
 import { fmtDate } from "@projectx/utils/dates";
@@ -40,18 +40,18 @@ export function PatientsList({ patients, state = "normal" }: { patients: DoctorP
       ) : state === "error" ? (
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : rows.length === 0 ? (
-        <EmptyState icon={<Users className="h-7 w-7" />} title={t("noPatients")} description={q ? undefined : t("noPatientsDesc")} action={q ? undefined : <Button href="/doctor/schedule" size="sm">{t("toSchedule")}</Button>} />
+        <EmptyState illustration="search" title={t("noPatients")} description={q ? undefined : t("noPatientsDesc")} action={q ? undefined : <Button href="/doctor/schedule" size="sm">{t("toSchedule")}</Button>} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {rows.map(({ user, nextVisit, lastVisit, hasActive, hasUrgent }) => {
             const name = `${user.firstName} ${user.lastName}`;
             const age = ageFromBirthDate(user.birthDate);
             return (
-              <Link key={user.id} href={`/doctor/patients/${user.id}`} className="bg-card rounded-lg shadow-card border border-line/60 p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
+              <Link key={user.id} href={`/doctor/patients/${user.id}`} className="bg-card rounded-lg shadow-card border border-line/60 p-4 flex items-center gap-3 lift hover:border-primary-200">
                 <Avatar src={user.avatarUrl} name={name} size="md" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-bold text-heading truncate">{name}</span>
+                    <span className="min-w-0 [overflow-wrap:anywhere] font-bold text-heading">{name}</span>
                     {hasUrgent && <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-danger" role="img" aria-label={t("urgent")} title={t("urgent")} />}
                     {hasActive && (
                       <Badge tone="success" dot>

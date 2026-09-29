@@ -56,16 +56,16 @@ export function MonthGrid({
               onClick={() => onPickDay(date)}
               aria-label={`${fmtDate(locale, tc, date, "weekday")}: ${t("cal.count", { count: list.length })}`}
               className={cn(
-                "flex min-h-[64px] min-w-0 flex-col items-stretch gap-1 border-b border-r border-line/60 p-1 text-left transition-colors hover:bg-surface md:min-h-[116px] md:p-1.5 [&:nth-child(7n)]:border-r-0",
-                outside && "bg-surface/60 text-muted",
-                isToday && "bg-primary-soft/40",
+                "flex min-h-[64px] min-w-0 flex-col items-stretch gap-1 border-b border-r border-line/60 p-1 text-left transition-colors hover:bg-neutral-50 md:min-h-[116px] md:p-1.5 [&:nth-child(7n)]:border-r-0",
+                outside && "bg-neutral-50 text-muted",
+                isToday && "bg-accent-50/60",
               )}
             >
               <span className="flex items-center justify-between gap-1">
-                <span className={cn("flex h-6 min-w-6 items-center justify-center rounded-full px-1 text-sm font-semibold", isToday ? "bg-primary text-white" : outside ? "text-muted" : "text-heading")}>
+                <span className={cn("flex h-6 min-w-6 items-center justify-center rounded-pill px-1 font-display text-sm font-bold", isToday ? "bg-accent-700 text-white" : outside ? "text-muted" : "text-heading")}>
                   {Number(date.slice(8, 10))}
                 </span>
-                {list.length > 0 && <span className="rounded-full bg-primary-soft px-1.5 text-[11px] font-bold tabular-nums text-primary-text max-md:hidden">{list.length}</span>}
+                {list.length > 0 && <span className="rounded-pill bg-neutral-100 px-1.5 text-[11px] font-bold tabular-nums text-neutral-600 max-md:hidden">{list.length}</span>}
               </span>
 
               {/* Phones: a dot per appointment */}
@@ -81,7 +81,7 @@ export function MonthGrid({
                 {list.slice(0, SHOWN).map((a) => {
                   const p = patients[a.patientId];
                   return (
-                    <span key={a.id} className={cn("truncate rounded border px-1 text-[11px] leading-[18px]", statusBlock[a.status])}>
+                    <span key={a.id} className={cn("truncate rounded-xs border px-1 text-[11px] leading-[18px]", statusBlock[a.status])}>
                       <span className="font-bold tabular-nums">{a.time}</span> {p ? `${p.firstName} ${p.lastName[0]}.` : a.patientId}
                     </span>
                   );

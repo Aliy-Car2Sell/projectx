@@ -28,7 +28,7 @@ export function RatingSummary({
           {([5, 4, 3, 2, 1] as const).map((n) => (
             <li key={n} className="flex items-center gap-3 text-sm">
               <span className="w-12 shrink-0 inline-flex items-center gap-1 text-muted">
-                {n} <Star className="h-3.5 w-3.5 text-warning" fill="currentColor" strokeWidth={0} />
+                {n} <Star className="h-3.5 w-3.5 text-warning-700" fill="currentColor" strokeWidth={0} />
               </span>
               <div className="flex-1 h-2.5 rounded-full bg-surface overflow-hidden">
                 <div className="h-full rounded-full gradient-accent" style={{ width: `${(distribution[n] / max) * 100}%` }} />

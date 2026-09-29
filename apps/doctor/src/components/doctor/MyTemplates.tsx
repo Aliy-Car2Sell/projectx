@@ -163,7 +163,7 @@ export function MyTemplates({ specialty }: { specialty: SpecialtyKey }) {
                 {t("addSection")}
               </Button>
             </div>
-            {problem && <p className="text-sm text-danger">{problem}</p>}
+            {problem && <p className="text-sm text-danger-700">{problem}</p>}
           </div>
         )}
       </Modal>

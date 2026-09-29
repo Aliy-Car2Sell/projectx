@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ClipboardList, Pencil, Stethoscope } from "lucide-react";
+import { Pencil, Stethoscope } from "lucide-react";
 import type { Appointment, DoctorSummary } from "@projectx/types";
 import { fmtDate } from "@projectx/utils/dates";
 import { Button } from "@projectx/ui/Button";
@@ -25,7 +25,7 @@ export function AppointmentSummaryPanel({ appointment }: { appointment: Appointm
       <Card className="border-accent/40">
         <div className="flex items-center justify-between gap-2 mb-3">
           <div className="flex items-center gap-2 text-xs text-muted">
-            <span className="flex h-8 w-8 items-center justify-center rounded-md gradient-accent text-white">
+            <span className="flex h-8 w-8 items-center justify-center rounded-pill gradient-accent text-white">
               <Stethoscope className="h-4 w-4" />
             </span>
             {fmtDate(locale, tc, summary.createdAt)}
@@ -49,7 +49,7 @@ export function AppointmentSummaryPanel({ appointment }: { appointment: Appointm
   }
 
   if (!canWrite) {
-    return <EmptyState compact icon={<ClipboardList className="h-7 w-7" />} title={t("noSummaryYet")} description={t("noSummaryYetDesc")} />;
+    return <EmptyState compact illustration="records" title={t("noSummaryYet")} description={t("noSummaryYetDesc")} />;
   }
 
   return (

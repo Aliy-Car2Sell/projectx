@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { EyeOff, Flag, Star } from "lucide-react";
+import { EyeOff, Flag } from "lucide-react";
 import type { Review } from "@projectx/types";
 import { Badge } from "@projectx/ui/Badge";
 import { EmptyState } from "@projectx/ui/EmptyState";
@@ -15,7 +15,7 @@ export function DoctorReviewsList({ reviews }: { reviews: Review[] }) {
   const [toast, setToast] = useState<string | null>(null);
 
   if (reviews.length === 0) {
-    return <EmptyState icon={<Star className="h-7 w-7" />} title={t("noReviews")} description={t("noReviewsDesc")} />;
+    return <EmptyState illustration="chat" title={t("noReviews")} description={t("noReviewsDesc")} />;
   }
 
   return (
@@ -43,7 +43,7 @@ export function DoctorReviewsList({ reviews }: { reviews: Review[] }) {
                   setToast(t("reportSent"));
                   setTimeout(() => setToast(null), 2500);
                 }}
-                className="inline-flex items-center gap-1 text-xs text-muted hover:text-danger min-h-[32px]"
+                className="inline-flex items-center gap-1 text-xs text-muted hover:text-danger-700 min-h-[32px]"
               >
                 <Flag className="h-3.5 w-3.5" /> {t("report")}
               </button>
