@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
 import { CalendarClock, Clock, Info, MapPin, Star, Wallet } from "lucide-react";
 import type { Appointment, AppointmentPayment, DoctorProfile } from "@projectx/types";
-import { cn, hoursUntil } from "@projectx/utils";
+import { hoursUntil } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Button } from "@projectx/ui/Button";
@@ -44,18 +44,18 @@ export function AppointmentCard({
   const detailHref = `/patient/appointments/${appointment.id}`;
 
   return (
-    <article className="bg-card rounded-xl shadow-card border border-line/60 p-4 flex flex-col gap-3">
+    <article className="bg-card rounded-lg shadow-sm border border-neutral-200/70 p-4 md:p-5 flex flex-col gap-3.5">
       <div className="flex gap-3">
         <Link href={`/patient/doctors/${doctor.id}`}>
-          <Avatar src={doctor.avatarUrl} name={name} size="md" />
+          <Avatar src={doctor.avatarUrl} name={name} size="lg" shape="square" />
         </Link>
         <div className="min-w-0 flex-1">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">
-              <Link href={detailHref} className="font-bold text-heading hover:text-primary-text block truncate">
+              <Link href={detailHref} className="block font-display text-lg font-bold leading-tight text-heading [overflow-wrap:anywhere] hover:text-primary-700">
                 {name}
               </Link>
-              <div className="text-sm text-primary-text">{useTranslationsSpecialty(doctor.specialty)}</div>
+              <div className="mt-0.5 text-sm font-medium text-primary-700">{useTranslationsSpecialty(doctor.specialty)}</div>
             </div>
             <span className="flex shrink-0 flex-col items-end gap-1">
               <AppointmentStatusBadge status={appointment.status} />
@@ -78,13 +78,13 @@ export function AppointmentCard({
       </div>
 
       {upcoming && locked && (
-        <div className="flex items-start gap-2 rounded-lg bg-warning-soft px-3 py-2 text-xs text-amber-800">
+        <div className="flex items-start gap-2 rounded-md bg-warning-50 px-3.5 py-2.5 text-sm text-warning-700">
           <Info className="h-4 w-4 shrink-0 mt-0.5" />
           <span>{t("cancelDisabledHint")}</span>
         </div>
       )}
 
-      <div className={cn("flex flex-wrap gap-2", "border-t border-line pt-3")}>
+      <div className="mt-auto flex flex-wrap gap-2 border-t border-line pt-3.5">
         {upcoming ? (
           <>
             {payment?.status === "unpaid" && onPaid && (
@@ -95,7 +95,7 @@ export function AppointmentCard({
             <Button href={`/patient/doctors/${doctor.id}/book?reschedule=${appointment.id}`} variant="secondary" size="sm" disabled={locked} icon={<Clock className="h-4 w-4" />}>
               {t("reschedule")}
             </Button>
-            <Button variant="ghost" size="sm" disabled={locked} onClick={() => setCancelOpen(true)} className="text-danger hover:bg-danger-soft">
+            <Button variant="ghost" size="sm" disabled={locked} onClick={() => setCancelOpen(true)} className="text-danger-700 hover:bg-danger-50">
               {t("cancel")}
             </Button>
             <Button href={detailHref} variant="ghost" size="sm" className="ml-auto">
@@ -105,7 +105,7 @@ export function AppointmentCard({
         ) : appointment.status === "completed" ? (
           <>
             {appointment.reviewId ? (
-              <span className="inline-flex items-center gap-1.5 text-sm text-success font-medium min-h-[36px]">
+              <span className="inline-flex items-center gap-1.5 text-sm text-success-700 font-medium min-h-[36px]">
                 <Star className="h-4 w-4" fill="currentColor" /> {t("reviewLeft")}
               </span>
             ) : (
@@ -146,7 +146,7 @@ export function AppointmentCard({
           </>
         }
       >
-        <p className="text-base md:text-[15px] text-heading">
+        <p className="text-base text-muted">
           {t("cancelDesc", { doctor: name, date: fmtDate(locale, tc, appointment.date, "weekday"), time: appointment.time })}
         </p>
       </Modal>

@@ -2,7 +2,6 @@ import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getAppointmentById } from "@projectx/mock/appointments";
 import { getDoctorById } from "@projectx/mock/doctors";
-import { CheckCircle2 } from "lucide-react";
 import { Button } from "@projectx/ui/Button";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { PageHeader } from "@projectx/ui/PageHeader";
@@ -20,7 +19,7 @@ export default async function ReviewPage({ params }: { params: Promise<{ appoint
       <PageHeader title={t("title")} backHref="/patient/appointments" backLabel={tc("back")} />
       {apt.reviewId ? (
         <EmptyState
-          icon={<CheckCircle2 className="h-7 w-7" />}
+          illustration="success"
           title={t("alreadyTitle")}
           description={t("alreadyDesc")}
           action={<Button href="/patient/appointments">{t("backToAppointments")}</Button>}

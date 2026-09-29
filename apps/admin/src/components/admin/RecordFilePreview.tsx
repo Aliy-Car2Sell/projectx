@@ -15,7 +15,7 @@ export function RecordFilePreview({ record }: { record: MedicalRecord }) {
   const t = useTranslations("admin.records");
   const tc = useTranslations("common");
   const [preview, setPreview] = useState<PreviewFile | null>(null);
-  if (!record.fileName) return <EmptyState compact icon={<FileText className="h-7 w-7" />} title={t("noFile")} />;
+  if (!record.fileName) return <EmptyState compact illustration="records" title={t("noFile")} />;
   const isImage = record.fileType === "image";
   const file: PreviewFile = { name: record.fileName, type: isImage ? "image" : "pdf", url: mockFileUrl(isImage ? "image" : "pdf") };
   return (
@@ -23,12 +23,12 @@ export function RecordFilePreview({ record }: { record: MedicalRecord }) {
       <button
         type="button"
         onClick={() => setPreview(file)}
-        className={cn("flex w-full items-center gap-3 rounded-xl border border-line p-3 text-left hover:border-primary", isImage && "sm:w-auto")}
+        className={cn("flex w-full items-center gap-3 rounded-lg border border-line p-3 text-left hover:border-primary", isImage && "sm:w-auto")}
       >
         {isImage ? (
-          <img src={file.url} alt="" className="h-20 w-20 rounded-lg object-cover" />
+          <img src={file.url} alt="" className="h-20 w-20 rounded-md object-cover" />
         ) : (
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill bg-primary-soft text-primary-text">
             <FileText className="h-5 w-5" />
           </span>
         )}

@@ -18,6 +18,7 @@ import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
 import type { DemoState } from "@projectx/ui/demo/state";
 import { AppointmentSheet } from "./calendar/AppointmentSheet";
 import { MonthGrid } from "./calendar/MonthGrid";
+import { statusDot } from "./calendar/calendar";
 import { WeekGrid } from "./calendar/WeekGrid";
 import { addDays, addMonths, monthWeeks, weekOf, type CalendarView } from "./calendar/calendar";
 import { useCalendarQuery } from "./calendar/useCalendarQuery";
@@ -85,15 +86,15 @@ export function DoctorAppointments({
       <Link
         key={a.id}
         href={`/doctor/appointments/${a.id}`}
-        className="flex items-center gap-3 px-3 py-3 hover:bg-surface transition-colors min-h-[64px]"
+        className="flex items-center gap-3 px-4 py-3.5 hover:bg-neutral-50 transition-colors min-h-[68px]"
       >
         <div className="w-12 shrink-0 text-center">
-          <div className="font-bold text-heading">{a.time}</div>
-          <div className="text-[11px] text-muted">{tc("min", { count: a.durationMin })}</div>
+          <div className="font-display font-bold tabular-nums text-heading">{a.time}</div>
+          <div className="text-xs text-neutral-500">{tc("min", { count: a.durationMin })}</div>
         </div>
-        <Avatar src={p?.avatarUrl} name={name} size="sm" />
+        <Avatar src={p?.avatarUrl} name={name} size="sm" className="h-10 w-10" />
         <div className="min-w-0 flex-1">
-          <div className="font-semibold text-heading truncate">{name}</div>
+          <div className="min-w-0 [overflow-wrap:anywhere] font-semibold text-heading">{name}</div>
           <div className="text-xs text-muted truncate">{a.reason ?? t("noReason")}</div>
         </div>
         <div className="shrink-0 flex items-center gap-2">
@@ -115,21 +116,21 @@ export function DoctorAppointments({
     <div className="flex flex-col gap-4">
       {/* Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-5 px-5 sm:mx-0 sm:px-0">
           {(["all", "scheduled", "completed", "cancelled", "no_show"] as const).map((s) => (
             <Chip key={s} active={status === s} onClick={() => setStatus(s)} className="min-h-[36px]">
               {s === "all" ? t("all") : tstatus(s)}
             </Chip>
           ))}
         </div>
-        <div className="sm:ml-auto inline-flex rounded-lg border border-line bg-card p-0.5 self-start" role="group" aria-label={t("cal.viewLabel")}>
+        <div className="sm:ml-auto inline-flex gap-1 rounded-pill bg-neutral-100 p-1 self-start" role="group" aria-label={t("cal.viewLabel")}>
           {views.map(({ key, icon: Icon }) => (
             <button
               key={key}
               type="button"
               aria-pressed={view === key}
               onClick={() => go({ view: key })}
-              className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === key ? "bg-primary text-white" : "text-muted")}
+              className={cn("h-9 px-3.5 rounded-pill inline-flex items-center gap-1.5 text-sm font-semibold transition-colors", view === key ? "bg-card text-accent-700 shadow-sm" : "text-muted hover:text-heading")}
             >
               <Icon className="h-4 w-4" /> {t(key)}
             </button>
@@ -143,13 +144,16 @@ export function DoctorAppointments({
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : view === "list" ? (
         groups.length === 0 ? (
-          <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noAppointments")} description={t("noAppointmentsDesc")} />
+          <EmptyState illustration="appointments" title={t("noAppointments")} description={t("noAppointmentsDesc")} />
         ) : (
           <div className="flex flex-col gap-4">
             {groups.map(([date, list]) => (
               <section key={date}>
-                <h3 className={cn("text-sm font-bold mb-2 capitalize", isToday(date) ? "text-primary-text" : "text-heading")}>{dayTitle(date)}</h3>
-                <div className="bg-card rounded-xl shadow-card border border-line/60 divide-y divide-line overflow-hidden">{list.map(row)}</div>
+                <h3 className={cn("mb-2 flex items-center gap-2 font-sans text-sm font-bold capitalize tracking-normal", isToday(date) ? "text-accent-700" : "text-heading")}>
+                  {isToday(date) && <span className="h-2 w-2 rounded-pill bg-accent-500" aria-hidden="true" />}
+                  {dayTitle(date)}
+                </h3>
+                <div className="bg-card rounded-lg shadow-sm border border-neutral-200/70 divide-y divide-line overflow-hidden">{list.map(row)}</div>
               </section>
             ))}
           </div>
@@ -157,13 +161,13 @@ export function DoctorAppointments({
       ) : (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-1">
-            <button type="button" aria-label={t(view === "month" ? "cal.prevMonth" : "prevWeek")} onClick={() => step(-1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
+            <button type="button" aria-label={t(view === "month" ? "cal.prevMonth" : "prevWeek")} onClick={() => step(-1)} className="h-10 w-10 shrink-0 rounded-pill text-neutral-700 hover:bg-neutral-100 flex items-center justify-center">
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <button type="button" aria-label={t(view === "month" ? "cal.nextMonth" : "nextWeek")} onClick={() => step(1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
+            <button type="button" aria-label={t(view === "month" ? "cal.nextMonth" : "nextWeek")} onClick={() => step(1)} className="h-10 w-10 shrink-0 rounded-pill text-neutral-700 hover:bg-neutral-100 flex items-center justify-center">
               <ChevronRight className="h-5 w-5" />
             </button>
-            <h3 className="min-w-0 flex-1 truncate px-1 font-bold text-heading" aria-live="polite">
+            <h3 className="min-w-0 flex-1 truncate px-1 text-lg font-bold text-heading" aria-live="polite">
               {view === "month" ? fmtMonthYear(tc, date) : `${fmtDate(locale, tc, days[0], "short")} — ${fmtDate(locale, tc, days[6], "short")}, ${days[6].slice(0, 4)}`}
             </h3>
             <Button size="sm" variant="secondary" disabled={onToday && date === today()} onClick={() => go({ date: today() })}>
@@ -180,16 +184,16 @@ export function DoctorAppointments({
           <ul className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted" aria-label={t("cal.legend")}>
             {(["scheduled", "completed", "no_show", "cancelled"] as const).map((s) => (
               <li key={s} className="inline-flex items-center gap-1.5">
-                <span className={cn("h-2.5 w-2.5 rounded-full", { scheduled: "bg-primary", completed: "bg-success", no_show: "bg-danger", cancelled: "bg-muted/50" }[s])} /> {tstatus(s)}
+                <span className={cn("h-2.5 w-2.5 rounded-pill", statusDot[s])} /> {tstatus(s)}
               </li>
             ))}
             {view === "week" && (
               <>
                 <li className="inline-flex items-center gap-1.5">
-                  <span className="h-2.5 w-4 rounded-sm border border-line bg-success-soft/70" /> {t("cal.free")}
+                  <span className="h-2.5 w-4 rounded-xs border border-line bg-success-50" /> {t("cal.free")}
                 </li>
                 <li className="inline-flex items-center gap-1.5">
-                  <span className="h-2.5 w-4 rounded-sm border border-line bg-[repeating-linear-gradient(135deg,transparent_0,transparent_2px,var(--color-muted)_2px,var(--color-muted)_3px)]" /> {t("cal.break")}
+                  <span className="h-2.5 w-4 rounded-xs border border-line bg-[repeating-linear-gradient(135deg,transparent_0,transparent_2px,var(--color-muted)_2px,var(--color-muted)_3px)]" /> {t("cal.break")}
                 </li>
               </>
             )}

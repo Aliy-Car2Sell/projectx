@@ -29,7 +29,7 @@ export function ReminderSetting() {
         }}
       />
       <p className="mt-2 text-sm text-muted">{t("openOnly")}</p>
-      {problem && <p className="mt-1 text-sm text-amber-700">{t(problem === "unsupported" ? "unsupported" : "blocked")}</p>}
+      {problem && <p className="mt-1 text-sm text-warning-700">{t(problem === "unsupported" ? "unsupported" : "blocked")}</p>}
     </Card>
   );
 }

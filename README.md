@@ -22,6 +22,7 @@ packages/
   utils/       cn(), date formatting, appUrl() for cross-app links
   config/      Shared eslint / tsconfig / postcss
 scripts/audit.mjs   UI audit (links, buttons, i18n, 375px) across the three apps — see "UI audit" below
+scripts/contrast.mjs, make-icons.mjs   colour contrast check, favicon / PWA icons — see "Design system"
 docs/               Spec, setup, audit reports
 ```
 
@@ -58,6 +59,23 @@ pnpm audit:ui            # full UI audit (~9 min): before opening a PR
 Cross-app links (e.g. admin → doctor's public profile in the patient app) use
 `NEXT_PUBLIC_PATIENT_URL / NEXT_PUBLIC_DOCTOR_URL / NEXT_PUBLIC_ADMIN_URL`.
 Each app has a committed `.env` with the local ports; override with `.env.local`.
+
+## Design system
+
+Everything visual comes from `packages/ui`: the tokens in `styles/theme.css` (colour scales, type,
+radius, shadow, motion), the components in `src/ui`, the empty-state illustrations in
+`src/illustrations` and the logo in `src/layout/Logo.tsx`. No UI library: Tailwind v4, lucide and
+`next/font` (Manrope for headings, Inter for text, both with Cyrillic).
+
+- **`/design`** in the patient app (`pnpm dev --filter patient`, then http://localhost:3000/design)
+  shows every token and component in all its variants. It exists in development only.
+- Each app has an accent on top of the same base: patient brand blue, doctor teal, admin indigo
+  (`data-accent` on `<html>`; use the `accent-*` colours, not `teal-*` / `indigo-*`).
+- `node scripts/contrast.mjs` checks the text and icon colours against WCAG AA. White text goes on
+  a 600 / 700 (buttons and the own chat bubble are `primary-700`); `primary-500` is for backgrounds,
+  accents and icon containers.
+- `node scripts/make-icons.mjs` redraws the favicon and the PWA icons from the logo.
+- Photos and their licences are listed in `docs/IMAGES.md`.
 
 ## UI audit
 

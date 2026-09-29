@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Ban, ExternalLink, Search, ShieldCheck, Stethoscope } from "lucide-react";
+import { Ban, ExternalLink, Search, ShieldCheck } from "lucide-react";
 import type { DoctorProfile } from "@projectx/types";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Button } from "@projectx/ui/Button";
@@ -49,7 +49,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState icon={<Stethoscope className="h-7 w-7" />} title={t("noDoctors")} description={t("noDoctorsDesc")} />
+        <EmptyState illustration="findDoctor" title={t("noDoctors")} description={t("noDoctorsDesc")} />
       ) : (
         <DataList
           rows={rows}
@@ -59,11 +59,11 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
               key: "doctor",
               header: tc("name"),
               render: (d) => (
-                <div className="flex items-center gap-3">
-                  <Avatar src={d.avatarUrl} name={name(d)} size="sm" />
-                  <div>
+                <div className="flex min-w-[200px] items-center gap-3">
+                  <Avatar src={d.avatarUrl} name={name(d)} size="sm" className="h-10 w-10" />
+                  <div className="min-w-0">
                     <div className="font-semibold text-heading">{name(d)}</div>
-                    <div className="text-xs text-muted">{d.clinicName}</div>
+                    <div className="line-clamp-1 text-xs text-muted">{d.clinicName}</div>
                   </div>
                 </div>
               ),
@@ -75,16 +75,16 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
           ]}
           actions={(d) => (
             <div className="inline-flex gap-1">
-              <Button href={`/admin/doctors/${d.id}`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />}>
-                {t("viewProfile")}
+              <Button href={`/admin/doctors/${d.id}`} variant="ghost" size="sm" icon={<ExternalLink className="h-4 w-4" />} title={t("viewProfile")} aria-label={t("viewProfile")} className="md:max-2xl:px-2.5">
+                <span className="md:max-2xl:hidden">{t("viewProfile")}</span>
               </Button>
               {d.status === "blocked" ? (
-                <Button variant="secondary" size="sm" icon={<ShieldCheck className="h-4 w-4" />} onClick={() => toggle(d)}>
-                  {t("unblock")}
+                <Button variant="secondary" size="sm" icon={<ShieldCheck className="h-4 w-4" />} onClick={() => toggle(d)} title={t("unblock")} aria-label={t("unblock")} className="md:max-2xl:px-2.5">
+                  <span className="md:max-2xl:hidden">{t("unblock")}</span>
                 </Button>
               ) : (
-                <Button variant="ghost" size="sm" className="text-danger" icon={<Ban className="h-4 w-4" />} onClick={() => setTarget(d)}>
-                  {t("block")}
+                <Button variant="ghost" size="sm" className="text-danger-700 hover:bg-danger-50 md:max-2xl:px-2.5" icon={<Ban className="h-4 w-4" />} onClick={() => setTarget(d)} title={t("block")} aria-label={t("block")}>
+                  <span className="md:max-2xl:hidden">{t("block")}</span>
                 </Button>
               )}
             </div>
@@ -94,7 +94,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
               <Avatar src={d.avatarUrl} name={name(d)} size="md" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <span className="font-bold text-heading truncate">{name(d)}</span>
+                  <span className="min-w-0 [overflow-wrap:anywhere] font-bold text-heading">{name(d)}</span>
                   <DoctorStatusBadge status={d.status} />
                 </div>
                 <div className="text-sm text-primary-text">{ts(d.specialty)}</div>
@@ -132,7 +132,7 @@ export function AdminDoctors({ doctors: initial }: { doctors: DoctorProfile[] })
           </>
         }
       >
-        <p className="text-base md:text-[15px] text-heading">{target && t("blockDesc", { name: name(target) })}</p>
+        <p className="text-base text-muted">{target && t("blockDesc", { name: name(target) })}</p>
       </Modal>
 
       <Toast message={toast} />

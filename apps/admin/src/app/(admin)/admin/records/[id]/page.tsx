@@ -50,12 +50,12 @@ export default async function AdminRecordDetailPage({ params }: { params: Promis
                 </Badge>
               )}
             </div>
-            <h2 className="mt-2 text-xl font-bold text-heading">{record.title}</h2>
+            <h2 className="mt-2 text-h3 text-heading">{record.title}</h2>
             <div className="mt-1 text-sm text-muted">
               {t("recordDate")}: {fmtDate(locale, tc, record.date)}
             </div>
             {record.private && (
-              <p className="mt-3 flex items-start gap-2 rounded-lg bg-surface px-3 py-2 text-sm text-muted">
+              <p className="mt-3 flex items-start gap-2 rounded-md bg-surface px-3 py-2 text-sm text-muted">
                 <Lock className="mt-0.5 h-4 w-4 shrink-0" /> {t("privateNote")}
               </p>
             )}
@@ -102,7 +102,7 @@ export default async function AdminRecordDetailPage({ params }: { params: Promis
                   {patient.phone} · {patient.email}
                 </div>
               </div>
-              <Link href="/admin/users" className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+              <Link href="/admin/users" className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <UserRound className="h-4 w-4" /> {t("patientLink")}
               </Link>
             </div>

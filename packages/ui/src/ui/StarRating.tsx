@@ -33,9 +33,9 @@ export function StarRating({
           const half = !filled && value >= n - 0.75;
           const star = (
             <span className="relative inline-block">
-              <Star className={cn(px, "text-line")} fill="currentColor" strokeWidth={0} />
+              <Star className={cn(px, "text-neutral-200")} fill="currentColor" strokeWidth={0} />
               <span className={cn("absolute inset-0 overflow-hidden", filled ? "w-full" : half ? "w-1/2" : "w-0")}>
-                <Star className={cn(px, "text-warning")} fill="currentColor" strokeWidth={0} />
+                <Star className={cn(px, "text-star")} fill="currentColor" strokeWidth={0} />
               </span>
             </span>
           );
@@ -47,7 +47,7 @@ export function StarRating({
               role="radio"
               aria-checked={value === n}
               aria-label={`${n}`}
-              className="rounded-md p-0.5 transition-transform hover:scale-110 active:scale-95"
+              className="rounded-sm p-0.5 transition-transform hover:scale-110 active:scale-95"
               onClick={() => onChange?.(n)}
             >
               {star}

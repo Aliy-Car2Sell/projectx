@@ -50,7 +50,7 @@ export function RecordCover({
           </span>
         )}
       </div>
-      <h2 className="mt-1 text-2xl md:text-[28px] font-bold leading-tight text-heading">
+      <h2 className="mt-1 text-h2 md:text-[28px] text-heading">
         {patient.lastName} {patient.firstName}
       </h2>
       <dl className="mt-3 grid grid-cols-[repeat(auto-fit,minmax(132px,1fr))] gap-x-4 gap-y-2">
@@ -73,7 +73,7 @@ export function RecordCover({
                 items.map((r, i) => (
                   <span key={r.id}>
                     {i > 0 && "; "}
-                    <span className={type === "allergy" ? "font-semibold text-danger" : "text-heading"}>{r.title}</span>
+                    <span className={type === "allergy" ? "font-semibold text-danger-700" : "text-heading"}>{r.title}</span>
                     {r.description && <span className="text-muted"> ({r.description})</span>}
                     {isRegularMedication(r) && (
                       <>

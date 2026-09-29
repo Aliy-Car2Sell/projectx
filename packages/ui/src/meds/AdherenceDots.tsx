@@ -15,7 +15,7 @@ export function AdherenceDots({ medication, logs, dates }: { medication: Regular
   if (a.total === 0) return null;
   return (
     <span className="record-noprint inline-flex items-center gap-1.5 whitespace-nowrap align-middle" role="img" aria-label={t("label", { taken: a.taken, total: a.total })} title={t("label", { taken: a.taken, total: a.total })}>
-      <span className={cn("text-sm font-bold tabular-nums", a.taken === a.total ? "text-green-700" : a.taken / a.total < 0.6 ? "text-red-700" : "text-amber-700")}>
+      <span className={cn("text-sm font-bold tabular-nums", a.taken === a.total ? "text-success-700" : a.taken / a.total < 0.6 ? "text-danger-700" : "text-warning-700")}>
         {a.taken}/{a.total}
       </span>
       <span className="inline-flex items-center gap-[3px]" aria-hidden="true">

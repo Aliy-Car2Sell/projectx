@@ -35,7 +35,7 @@ export function AskDoctorSheet({
           <RecordCard record={record} />
           <p className="text-sm text-muted">{t("pickDesc")}</p>
           {doctors.length > 0 && (
-            <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line">
+            <ul className="divide-y divide-line overflow-hidden rounded-lg border border-line">
               {doctors.map((d) => (
                 <li key={d.id}>
                   <button type="button" onClick={() => onPick(d)} className="flex min-h-[56px] w-full items-center gap-3 px-3 py-2 text-left hover:bg-surface">

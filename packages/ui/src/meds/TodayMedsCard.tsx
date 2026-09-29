@@ -8,6 +8,7 @@ import { cn } from "@projectx/utils";
 import { today } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
 import { Card } from "../ui/Card";
+import { IconBox } from "../ui/IconBox";
 import { useNow } from "../session/useNow";
 import { dosesFor } from "./medications";
 import { useReminderSettings, type ReminderPermission } from "./reminders";
@@ -31,19 +32,22 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
   const allTaken = doses.every((d) => d.status === "taken");
 
   return (
-    <Card padding="sm" className={cn(allTaken && "border-success/40 bg-success-soft/40")}>
+    <Card className={cn(allTaken && "border-success-500/40 bg-success-50/60")}>
       <div className="flex items-center justify-between gap-3">
-        <h3 className="inline-flex items-center gap-2 whitespace-nowrap text-base font-bold text-heading">
-          <Pill className="h-5 w-5 text-primary-text" aria-hidden="true" /> {t("today.title")}
+        <h3 className="inline-flex items-center gap-3 whitespace-nowrap text-lg font-bold text-heading">
+          <IconBox tone="success" size="md">
+            <Pill />
+          </IconBox>
+          {t("today.title")}
         </h3>
         {allTaken ? (
-          <span className="whitespace-nowrap text-sm font-semibold text-green-700">{t("today.allTaken")}</span>
+          <span className="whitespace-nowrap text-sm font-semibold text-success-700">{t("today.allTaken")}</span>
         ) : (
           <span className="text-sm text-muted">{t("today.progress", { taken: doses.filter((d) => d.status === "taken").length, total: doses.length })}</span>
         )}
       </div>
 
-      <ul className="mt-2 divide-y divide-line">
+      <ul className="mt-3 divide-y divide-line">
         {doses.map((d) => {
           const taken = d.status === "taken";
           const missed = d.status === "missed";
@@ -51,8 +55,8 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
             <li key={`${d.medication.id}-${d.time}`}>
               <label
                 className={cn(
-                  "-mx-2 flex min-h-[52px] cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 transition-colors",
-                  taken ? "bg-success-soft/60" : missed ? "bg-warning-soft/60" : "hover:bg-surface",
+                  "-mx-2 flex min-h-[56px] cursor-pointer items-center gap-3 rounded-md px-2 py-2 transition-colors",
+                  taken ? "bg-success-50" : missed ? "bg-warning-50" : "hover:bg-neutral-50",
                 )}
               >
                 <input
@@ -65,19 +69,19 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40",
-                    taken ? "border-success bg-success text-white" : missed ? "border-warning bg-card" : "border-line bg-card",
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-pill border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 peer-focus-visible:ring-offset-2",
+                    taken ? "border-success-700 bg-success-700 text-white" : missed ? "border-warning-500 bg-card" : "border-neutral-300 bg-card",
                   )}
                 >
                   {taken && <Check className="h-4 w-4" strokeWidth={3} />}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className={cn("block font-semibold leading-tight text-heading", taken && "text-green-800")}>{d.medication.title}</span>
+                  <span className={cn("block font-semibold leading-tight text-heading", taken && "text-success-700")}>{d.medication.title}</span>
                   {d.medication.description && <span className="block truncate text-sm text-muted">{d.medication.description}</span>}
                 </span>
                 <span className="shrink-0 text-right">
                   <span className="block text-sm font-semibold tabular-nums text-heading">{d.time}</span>
-                  <span className={cn("block text-xs font-medium", taken ? "text-green-700" : missed ? "text-amber-700" : "text-muted")}>
+                  <span className={cn("block text-xs font-medium", taken ? "text-success-700" : missed ? "text-warning-700" : "text-muted")}>
                     {t(taken ? "today.taken" : missed ? "today.missed" : "today.tookShort")}
                   </span>
                 </span>
@@ -96,7 +100,7 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
           <p className="mt-1.5 text-xs text-muted">{t("reminder.openOnly")}</p>
         </div>
       )}
-      {blocked && <p className="mt-3 border-t border-line pt-3 text-sm text-amber-700">{t(blocked === "unsupported" ? "reminder.unsupported" : "reminder.blocked")}</p>}
+      {blocked && <p className="mt-3 border-t border-line pt-3 text-sm text-warning-700">{t(blocked === "unsupported" ? "reminder.unsupported" : "reminder.blocked")}</p>}
     </Card>
   );
 }

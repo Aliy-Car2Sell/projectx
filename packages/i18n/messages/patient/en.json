@@ -26,7 +26,16 @@
       "at": "at {time}",
       "urgentTitle": "An entry needs your urgent attention",
       "urgentBanner": "Dr. {doctor}: an entry needs your urgent attention — {title}",
-      "view": "View"
+      "view": "View",
+      "medsToday": "Medications today",
+      "medsNone": "No medications today",
+      "newMessages": "New messages",
+      "noMessages": "No new messages",
+      "noAppointmentShort": "No visit scheduled",
+      "newRecords": "New records",
+      "noNewRecords": "No new records",
+      "noNewRecordsDesc": "A doctor's summary or a new lab result will show up here.",
+      "todaySummary": "Today at a glance"
     },
     "doctors": {
       "title": "Find a doctor",
@@ -71,7 +80,8 @@
       "ratingLabel": "Rating",
       "notFound": "Doctor not found",
       "openMap": "Open in map",
-      "slotDuration": "Visit duration"
+      "slotDuration": "Visit duration",
+      "reviewsStat": "Reviews"
     },
     "book": {
       "title": "Book a visit",
@@ -171,28 +181,81 @@
     }
   },
   "landing": {
-    "heroTitle": "Find the right doctor and book a visit",
-    "heroSubtitle": "Doctors, clinics and your medical records across Uzbekistan — all in one place.",
-    "findDoctor": "Find a doctor",
     "login": "Log in",
     "register": "Sign up",
+    "findDoctor": "Find a doctor",
+    "eyebrow": "Doctors across Uzbekistan",
+    "heroTitle1": "Find your doctor.",
+    "heroTitle2": "Your health in one place.",
+    "heroSubtitle": "Choose a specialist and book online. Lab results, medications and messages with your doctor — in one app, always at hand.",
+    "searchLabel": "Search for a doctor",
+    "searchPlaceholder": "Specialty or doctor's name",
+    "searchButton": "Search",
+    "popular": "Popular",
+    "heroImageAlt": "A doctor talking to a patient during a visit",
+    "float": {
+      "chatName": "Dr. Rahimov",
+      "chatText": "The MRI looks good, no new changes",
+      "chatTime": "now",
+      "apptLabel": "Next visit",
+      "apptTime": "Tomorrow, 10:30"
+    },
+    "trust": "Clinics on the platform",
+    "how": {
+      "title": "How it works",
+      "subtitle": "Three steps and you are seeing a doctor.",
+      "find": {
+        "title": "Choose a doctor",
+        "desc": "Search by specialty, rating and distance, and read what patients say."
+      },
+      "book": {
+        "title": "Book a time that suits you",
+        "desc": "See available slots and confirm a visit in a couple of taps."
+      },
+      "visit": {
+        "title": "Results land in your records",
+        "desc": "After the visit the summary, lab results and medications appear in your medical records."
+      }
+    },
     "features": {
+      "title": "What's inside",
+      "subtitle": "Everything about your health in one place.",
       "search": {
-        "title": "Doctors near you",
-        "desc": "Search by specialty, rating and distance, and see them on the map."
+        "title": "Find a doctor",
+        "desc": "Specialists near you on a map and in a list, with ratings."
       },
       "booking": {
         "title": "Online booking",
-        "desc": "See available slots and confirm a visit in a couple of taps."
+        "desc": "No queues, no phone calls: you pick the time."
       },
       "records": {
         "title": "Medical records",
         "desc": "Lab results, scans and doctor notes always at hand."
+      },
+      "chat": {
+        "title": "Chat with your doctor",
+        "desc": "A question after the visit? Message your doctor."
       }
     },
-    "forDoctors": "Are you a doctor?",
-    "forDoctorsDesc": "Create a profile, set your schedule and meet new patients.",
+    "forDoctors": "Are you a doctor? Join for free",
+    "forDoctorsDesc": "Create a profile, set your schedule and meet new patients. Visits, patient records and chat in one app.",
+    "forDoctorsBadge": "For doctors",
+    "forDoctorsPoints": {
+      "schedule": "Online schedule",
+      "patients": "Patient base",
+      "chat": "Chat with patients"
+    },
     "joinAsDoctor": "Join as a doctor",
-    "footer": "© {year} ProjectX. All rights reserved."
+    "doctorApp": "Open the doctor app",
+    "footer": {
+      "tagline": "The platform that connects patients and doctors.",
+      "patients": "For patients",
+      "appointments": "My visits",
+      "records": "Medical records",
+      "doctors": "For doctors",
+      "account": "Account",
+      "forgot": "Reset password",
+      "rights": "© {year} ProjectX. All rights reserved."
+    }
   }
 }

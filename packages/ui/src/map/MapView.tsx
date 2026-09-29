@@ -13,7 +13,7 @@ const LeafletMap = dynamic(() => import("./LeafletMap"), {
 function MapPlaceholder() {
   const t = useTranslations("common");
   return (
-    <div className="h-full w-full flex items-center justify-center bg-primary-soft/40 text-muted text-sm animate-pulse rounded-xl">
+    <div className="h-full w-full flex items-center justify-center bg-primary-soft/40 text-muted text-sm animate-pulse rounded-lg">
       {t("mapLoading")}
     </div>
   );
@@ -36,7 +36,7 @@ export function MapView({
   className?: string;
 }) {
   return (
-    <div className={cn("relative overflow-hidden rounded-xl border border-line bg-surface", className)}>
+    <div className={cn("relative overflow-hidden rounded-lg border border-line bg-surface", className)}>
       <LeafletMap pins={pins} center={center} zoom={zoom} fit={fit} onClick={onClick} />
     </div>
   );

@@ -37,10 +37,10 @@ export function OnboardingWizard() {
   if (done) {
     return (
       <Card className="text-center py-10 max-w-xl mx-auto">
-        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success">
+        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success-700">
           <CheckCircle2 className="h-10 w-10" />
         </span>
-        <h2 className="text-2xl font-bold text-heading">{t("submittedTitle")}</h2>
+        <h2 className="text-h2 text-heading">{t("submittedTitle")}</h2>
         <p className="mt-2 text-muted max-w-md mx-auto">{t("submittedDesc")}</p>
         <Button href="/doctor?state=pending" className="mt-6">
           {t("goDashboard")}
@@ -54,7 +54,7 @@ export function OnboardingWizard() {
       {/* Stepper */}
       <aside>
         <div className="lg:hidden text-xs font-semibold uppercase tracking-wide text-muted mb-2">{t("stepOf", { current: idx + 1, total: steps.length })}</div>
-        <ol className="flex lg:flex-col gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 lg:mx-0 lg:px-0">
+        <ol className="flex lg:flex-col gap-2 overflow-x-auto scrollbar-none -mx-5 px-5 lg:mx-0 lg:px-0">
           {steps.map((s, i) => {
             const state = i < idx ? "done" : i === idx ? "active" : "todo";
             return (
@@ -65,9 +65,9 @@ export function OnboardingWizard() {
                   aria-current={i === idx ? "step" : undefined}
                   onClick={() => i < idx && setIdx(i)}
                   className={cn(
-                    "flex items-center gap-2 rounded-lg px-3 min-h-[40px] text-sm font-medium w-full text-left",
-                    state === "active" && "bg-primary text-white",
-                    state === "done" && "bg-success-soft text-green-700",
+                    "flex items-center gap-2 rounded-md px-3 min-h-[40px] text-sm font-medium w-full text-left",
+                    state === "active" && "bg-primary-700 text-white",
+                    state === "done" && "bg-success-soft text-success-700",
                     state === "todo" && "bg-card border border-line text-muted",
                     "disabled:cursor-default",
                   )}
@@ -75,7 +75,7 @@ export function OnboardingWizard() {
                   <span
                     className={cn(
                       "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold",
-                      state === "active" ? "bg-white text-primary-text" : state === "done" ? "bg-success text-white" : "bg-surface text-muted",
+                      state === "active" ? "bg-white text-primary-text" : state === "done" ? "bg-success-700 text-white" : "bg-surface text-muted",
                     )}
                   >
                     {state === "done" ? <Check className="h-3.5 w-3.5" /> : i + 1}
@@ -131,7 +131,7 @@ export function OnboardingWizard() {
                 <span className="text-sm font-medium text-heading inline-flex items-center gap-1">
                   <MapPin className="h-4 w-4 text-primary-text" /> {t("mapHint")}
                 </span>
-                <span className={cn("text-xs font-semibold", pin ? "text-success" : "text-muted")}>{pin ? t("pinSet") : t("pinNotSet")}</span>
+                <span className={cn("text-xs font-semibold", pin ? "text-success-700" : "text-muted")}>{pin ? t("pinSet") : t("pinNotSet")}</span>
               </div>
               <MapView
                 key={city}
@@ -176,13 +176,13 @@ export function OnboardingWizard() {
               <p className="text-sm text-muted">{t("documentsDesc")}</p>
             </div>
             {(["diploma", "certificate", "license"] as const).map((k) => (
-              <div key={k} className="flex items-center justify-between gap-3 rounded-xl border border-line p-3">
+              <div key={k} className="flex items-center justify-between gap-3 rounded-lg border border-line p-3">
                 <div className="min-w-0">
                   <div className="font-semibold text-heading text-sm">{t(k)}</div>
                   <div className="text-xs text-muted truncate">{files[k] ?? t("fileFormats")}</div>
                 </div>
                 {files[k] ? (
-                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-success shrink-0">
+                  <span className="inline-flex items-center gap-1 text-sm font-semibold text-success-700 shrink-0">
                     <Check className="h-4 w-4" /> {t("fileAdded")}
                   </span>
                 ) : (

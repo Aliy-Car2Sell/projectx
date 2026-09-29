@@ -50,7 +50,7 @@ export function FirstRunGuide() {
 
   return (
     <div role="dialog" aria-modal="true" aria-label={t("title")} className="fixed inset-0 z-[70] flex items-end md:items-center justify-center bg-black/45 p-0 md:p-4">
-      <div className="w-full md:max-w-sm rounded-t-2xl md:rounded-2xl bg-card p-5 pb-6 shadow-2xl safe-bottom">
+      <div className="w-full md:max-w-sm rounded-t-xl md:rounded-xl bg-card p-5 pb-6 shadow-2xl safe-bottom">
         <div className="flex items-center justify-between gap-3">
           <span className="text-sm font-semibold text-muted">{t("progress", { step: step + 1, total: icons.length })}</span>
           <button type="button" onClick={() => writeSeen(true)} className="min-h-[44px] px-2 text-sm font-medium text-muted hover:text-primary-text">
@@ -61,7 +61,7 @@ export function FirstRunGuide() {
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-text">
             <Icon className="h-8 w-8" />
           </span>
-          <h2 className="mt-4 text-xl font-bold text-heading">
+          <h2 className="mt-4 text-h3 text-heading">
             {step + 1} — {t(`steps.${step}.title`)}
           </h2>
           <p className="mt-1.5 text-muted">{t(`steps.${step}.text`)}</p>

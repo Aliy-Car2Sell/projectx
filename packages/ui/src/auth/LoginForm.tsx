@@ -31,7 +31,7 @@ export function LoginForm({
 
   return (
     <Card>
-      <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
+      <h1 className="text-h2 text-primary-900">{t("title")}</h1>
       <p className="text-sm text-muted mt-1 mb-5">{t("subtitle")}</p>
       <form
         className="flex flex-col gap-4"

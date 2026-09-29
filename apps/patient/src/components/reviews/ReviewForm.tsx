@@ -24,10 +24,10 @@ export function ReviewForm({ appointment, doctor }: { appointment: Appointment; 
   if (done) {
     return (
       <Card className="text-center py-10">
-        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success">
+        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success-700">
           <CheckCircle2 className="h-10 w-10" />
         </span>
-        <h2 className="text-2xl font-bold text-heading">{t("successTitle")}</h2>
+        <h2 className="text-h2 text-heading">{t("successTitle")}</h2>
         <p className="mt-2 text-muted">{t("successDesc")}</p>
         <Button href="/patient/appointments" className="mt-6">
           {t("backToAppointments")}
@@ -41,7 +41,7 @@ export function ReviewForm({ appointment, doctor }: { appointment: Appointment; 
       <Card padding="sm" className="flex items-center gap-3">
         <Avatar src={doctor.avatarUrl} name={name} size="md" />
         <div className="min-w-0">
-          <div className="font-bold text-heading truncate">{name}</div>
+          <div className="min-w-0 [overflow-wrap:anywhere] font-bold text-heading">{name}</div>
           <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
           <div className="text-xs text-muted">
             {fmtDate(locale, tc, appointment.date)} · {appointment.time}

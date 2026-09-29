@@ -34,12 +34,12 @@ export function RecordCard({
   const Icon = recordIcon[record.type] ?? FileText;
   const body = (
     <>
-      <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-lg", inverse ? "bg-white/20 text-white" : "bg-primary-soft text-primary-text")}>
+      <span className={cn("flex h-8 w-8 shrink-0 items-center justify-center rounded-pill", inverse ? "bg-white/20 text-white" : "bg-primary-soft text-primary-text")}>
         <Icon className="h-4 w-4" />
       </span>
       <span className="min-w-0 flex-1">
         <span className={cn("block truncate text-sm font-semibold", inverse ? "text-white" : "text-heading")}>{record.title}</span>
-        <span className={cn("flex flex-wrap items-center gap-x-2 text-xs", inverse ? "text-white/80" : "text-muted")}>
+        <span className={cn("flex flex-wrap items-center gap-x-2 text-xs", inverse ? "text-primary-50" : "text-muted")}>
           <span>
             {t(`types.${record.type}`)} · {fmtDate(locale, tc, record.date, "short")}
           </span>
@@ -48,7 +48,7 @@ export function RecordCard({
       </span>
     </>
   );
-  const base = cn("flex items-center gap-2.5 rounded-lg border px-2 py-1.5 text-left", inverse ? "border-white/30 bg-white/10" : "border-line bg-surface", className);
+  const base = cn("flex items-center gap-2.5 rounded-md border px-2 py-1.5 text-left", inverse ? "border-white/30 bg-white/10" : "border-line bg-surface", className);
 
   if (href) {
     return (

@@ -104,7 +104,7 @@ export function AppointmentDetail({ appointment, patient, age }: { appointment: 
               <Button variant="secondary" size="sm" onClick={() => setAndNotify("completed", t("markedCompleted"))}>
                 {t("markCompleted")}
               </Button>
-              <Button variant="ghost" size="sm" className="text-danger" onClick={() => setAndNotify("no_show", t("markedNoShow"))}>
+              <Button variant="ghost" size="sm" className="text-danger-700" onClick={() => setAndNotify("no_show", t("markedNoShow"))}>
                 {t("markNoShow")}
               </Button>
               {isToday(apt.date) && (

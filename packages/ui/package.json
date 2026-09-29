@@ -5,6 +5,9 @@
   "type": "module",
   "exports": {
     "./styles/*": "./styles/*",
+    "./fonts": "./src/fonts.ts",
+    "./illustrations": "./src/illustrations/index.tsx",
+    "./illustrations/*": "./src/illustrations/*.tsx",
     "./layout/nav": "./src/layout/nav.ts",
     "./demo/state": "./src/demo/state.ts",
     "./session/store": "./src/session/store.ts",

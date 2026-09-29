@@ -35,7 +35,7 @@ export default async function DoctorPatientPage({ params }: { params: Promise<{ 
       <PageHeader title={t("patientCard")} backHref="/doctor/patients" backLabel={tc("back")} />
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-20 self-start">
+        <aside className="flex flex-col gap-4 lg:sticky lg:top-24 self-start">
           <Card>
             <div className="flex items-center gap-3">
               <Avatar src={user.avatarUrl} name={name} size="lg" />

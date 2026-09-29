@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
+import { fontVariables } from "@projectx/ui/fonts";
 import { ServiceWorker } from "./ServiceWorker";
 import "./globals.css";
 
@@ -28,7 +29,7 @@ export default async function RootLayout({
 }) {
   const locale = await getLocale();
   return (
-    <html lang={locale} className="h-full antialiased">
+    <html lang={locale} className={`${fontVariables} h-full antialiased`}>
       <body className="min-h-full flex flex-col">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
         <ServiceWorker />

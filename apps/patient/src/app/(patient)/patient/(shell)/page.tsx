@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
-import { AlertTriangle, CalendarDays, ChevronRight, FolderHeart, MapPin, MessageCircle, Search, Star, Stethoscope, Upload } from "lucide-react";
+import { AlertTriangle, CalendarClock, CalendarDays, ChevronRight, Clock, FolderHeart, MapPin, MessageCircle, Pill, Search, Star, Stethoscope, Upload } from "lucide-react";
 import { currentPatient } from "@projectx/mock/users";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getPatientAppointments } from "@projectx/mock/appointments";
@@ -10,13 +10,15 @@ import { patientChats } from "@projectx/mock/chats";
 import { hoursUntil, isToday } from "@projectx/utils";
 import { fmtDate, today } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
-import { Badge } from "@projectx/ui/Badge";
+import { Badge, NewBadge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
-import { Card } from "@projectx/ui/Card";
+import { Card, StatCard } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
-import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { IconBox } from "@projectx/ui/IconBox";
+import { SectionHeader } from "@projectx/ui/PageHeader";
 import { FirstRunGuide } from "@projectx/ui/help/FirstRunGuide";
 import { TodayMedsCard } from "@projectx/ui/meds/TodayMedsCard";
+import { isActiveOn, isRegularMedication } from "@projectx/ui/meds/medications";
 
 export default async function PatientDashboard() {
   const t = await getTranslations("patient.dashboard");
@@ -40,28 +42,40 @@ export default async function PatientDashboard() {
     .filter((a) => a.status === "completed")
     .sort((a, b) => `${b.date}${b.time}`.localeCompare(`${a.date}${a.time}`))[0];
   const lastDoctor = lastCompleted ? getDoctorById(lastCompleted.doctorId) : undefined;
+  const records = getPatientRecords(currentPatient.id);
+  // Today's doses as prescribed; what was already taken is counted by the card below (it knows this browser's ticks).
+  const doseTimes = records
+    .filter(isRegularMedication)
+    .filter((m) => isActiveOn(m.schedule, today()))
+    .flatMap((m) => m.schedule.times)
+    .sort();
+  const fullName = `${currentPatient.firstName} ${currentPatient.lastName}`;
+  const nextDay = next ? (isToday(next.date) ? t("today") : fmtDate(locale, tc, next.date, "weekday")) : "";
 
   return (
     <>
       <FirstRunGuide />
-      <PageHeader
-        title={tsh("greeting", { name: currentPatient.firstName })}
-        subtitle={fmtDate(locale, tc, today(), "weekday")}
-        actions={
-          <Button href="/patient/doctors" icon={<Search className="h-4 w-4" />} className="max-md:hidden">
-            {t("findDoctor")}
-          </Button>
-        }
-      />
+
+      {/* Greeting */}
+      <header className="mb-5 flex items-center gap-4 md:mb-6">
+        <Avatar src={currentPatient.avatarUrl} name={fullName} size="lg" ring className="max-md:h-14 max-md:w-14" />
+        <div className="min-w-0 flex-1">
+          <h1 className="text-h2 text-primary-900 md:text-h1">{tsh("greeting", { name: currentPatient.firstName })}</h1>
+          <p className="mt-1 text-sm capitalize text-muted md:text-base">{fmtDate(locale, tc, today(), "weekday")}</p>
+        </div>
+        <Button href="/patient/doctors" icon={<Search />} className="max-md:hidden">
+          {t("findDoctor")}
+        </Button>
+      </header>
 
       {urgent && (
-        <div role="alert" className="mb-4 flex flex-col gap-3 rounded-xl border border-danger/40 bg-danger-soft p-4 sm:flex-row sm:items-center">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-danger text-white">
-            <AlertTriangle className="h-6 w-6" />
-          </span>
+        <div role="alert" className="mb-5 flex flex-col gap-3 rounded-lg border border-danger-500/30 bg-danger-50 p-4 sm:flex-row sm:items-center md:p-5">
+          <IconBox tone="danger" size="lg" active className="bg-danger-600">
+            <AlertTriangle />
+          </IconBox>
           <div className="min-w-0 flex-1">
-            <div className="font-bold text-heading">{t("urgentTitle")}</div>
-            <div className="text-sm text-red-800">{t("urgentBanner", { doctor: urgent.authorName ?? "", title: urgent.title })}</div>
+            <div className="font-display font-bold text-heading">{t("urgentTitle")}</div>
+            <div className="mt-0.5 text-sm text-danger-700">{t("urgentBanner", { doctor: urgent.authorName ?? "", title: urgent.title })}</div>
           </div>
           <Button href={`/patient/records#record-${urgent.id}`} variant="danger" size="sm" className="shrink-0">
             {t("view")}
@@ -69,46 +83,76 @@ export default async function PatientDashboard() {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
-        {/* Today / next appointment */}
-        <div className="lg:col-span-2 flex flex-col gap-4">
+      {/* Today at a glance */}
+      <section aria-label={t("todaySummary")} className="mb-6 grid grid-cols-3 gap-2 sm:gap-3 md:mb-8 md:gap-4">
+        <StatCard
+          compact
+          href={next ? `/patient/appointments/${next.id}` : "/patient/doctors"}
+          label={t("nextAppointment")}
+          value={next ? next.time : "—"}
+          hint={next && nextDoctor ? `${nextDay} · ${ts(nextDoctor.specialty)}` : t("noAppointmentShort")}
+          icon={<CalendarClock />}
+        />
+        <StatCard
+          compact
+          href="/patient/records"
+          label={t("medsToday")}
+          value={doseTimes.length}
+          hint={doseTimes.length ? [...new Set(doseTimes)].join(" · ") : t("medsNone")}
+          icon={<Pill />}
+          tone="success"
+        />
+        <StatCard
+          compact
+          href="/patient/chat"
+          label={t("newMessages")}
+          value={unread}
+          hint={unread > 0 ? t("from", { name: patientChats[0].participantName }) : t("noMessages")}
+          icon={<MessageCircle />}
+          tone="warning"
+        />
+      </section>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="flex flex-col gap-6 lg:col-span-2">
+          <TodayMedsCard patientId={currentPatient.id} records={records} logs={getMedicationLogs(currentPatient.id)} serverToday={today()} />
+
+          {/* Next appointment */}
           <section>
-            <SectionTitle
+            <SectionHeader
               action={
-                <Link href="/patient/appointments" className="text-sm text-primary-text font-medium inline-flex items-center">
+                <Link href="/patient/appointments" className="inline-flex min-h-[32px] items-center text-sm font-semibold text-primary-700 hover:underline">
                   {tc("viewAll")} <ChevronRight className="h-4 w-4" />
                 </Link>
               }
             >
               {next && isToday(next.date) ? t("today") : t("nextAppointment")}
-            </SectionTitle>
+            </SectionHeader>
             {next && nextDoctor ? (
-              <Card href={`/patient/appointments/${next.id}`} className="gradient-primary text-white border-0">
-                <div className="flex items-center gap-3">
-                  <Avatar src={nextDoctor.avatarUrl} name={`${nextDoctor.firstName} ${nextDoctor.lastName}`} size="lg" ring />
-                  <div className="min-w-0 flex-1">
-                    <div className="text-white/85 text-sm capitalize">
-                      {isToday(next.date) ? t("today") : fmtDate(locale, tc, next.date, "weekday")} · {t("at", { time: next.time })}
-                    </div>
-                    <div className="font-bold text-lg leading-tight text-white truncate">
-                      {nextDoctor.firstName} {nextDoctor.lastName}
-                    </div>
-                    <div className="text-white/90 text-sm">{ts(nextDoctor.specialty)}</div>
-                    <div className="text-white/85 text-xs flex min-w-0 items-center gap-1 mt-1">
-                      <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{nextDoctor.clinicName}</span>
-                    </div>
+              <Card href={`/patient/appointments/${next.id}`} accent="primary" className="flex items-center gap-4 md:gap-5">
+                <Avatar src={nextDoctor.avatarUrl} name={`${nextDoctor.firstName} ${nextDoctor.lastName}`} size="xl" shape="square" className="max-md:h-[72px] max-md:w-[72px]" />
+                <div className="min-w-0 flex-1">
+                  {/* The day is plain text so a long one can wrap; only the hour is a badge. */}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="text-sm font-semibold capitalize text-primary-700">{nextDay}</span>
+                    <Badge tone="primary">
+                      <Clock className="h-3.5 w-3.5" /> {next.time}
+                    </Badge>
+                    {isToday(next.date) && <Badge tone="warning">{t("inHours", { count: Math.max(0, Math.round(hoursUntil(next.date, next.time))) })}</Badge>}
                   </div>
-                  <ChevronRight className="h-6 w-6 text-white/80 shrink-0" />
+                  <div className="mt-2 font-display text-lg font-bold leading-tight text-heading md:text-h3">
+                    {nextDoctor.firstName} {nextDoctor.lastName}
+                  </div>
+                  <div className="text-sm font-medium text-primary-700">{ts(nextDoctor.specialty)}</div>
+                  <div className="mt-1 flex min-w-0 items-center gap-1.5 text-sm text-muted">
+                    <MapPin className="h-4 w-4 shrink-0" /> <span className="truncate">{nextDoctor.clinicName}</span>
+                  </div>
                 </div>
-                {isToday(next.date) && (
-                  <div className="mt-3 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white">
-                    {t("inHours", { count: Math.max(0, Math.round(hoursUntil(next.date, next.time))) })}
-                  </div>
-                )}
+                <ChevronRight className="h-5 w-5 shrink-0 text-neutral-500" />
               </Card>
             ) : (
               <EmptyState
-                icon={<CalendarDays className="h-7 w-7" />}
+                illustration="appointments"
                 title={t("noAppointmentTitle")}
                 description={t("noAppointmentDesc")}
                 action={<Button href="/patient/doctors">{t("findDoctor")}</Button>}
@@ -116,39 +160,37 @@ export default async function PatientDashboard() {
             )}
           </section>
 
-          <TodayMedsCard patientId={currentPatient.id} records={getPatientRecords(currentPatient.id)} logs={getMedicationLogs(currentPatient.id)} serverToday={today()} />
-
           {/* Pending from you */}
           {needsReview.length > 0 && (
             <section>
-              <SectionTitle>{t("pendingFromYou")}</SectionTitle>
-              <div className="flex flex-col gap-2">
+              <SectionHeader>{t("pendingFromYou")}</SectionHeader>
+              <div className="flex flex-col gap-3">
                 {needsReview.slice(0, 2).map((a) => {
                   const d = getDoctorById(a.doctorId);
                   if (!d) return null;
                   return (
-                    <Card key={a.id} href={`/patient/review/${a.id}`} padding="sm" className="flex items-center gap-3">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-warning-soft text-warning">
-                        <Star className="h-5 w-5" />
-                      </span>
+                    <Card key={a.id} href={`/patient/review/${a.id}`} padding="sm" className="flex items-center gap-3.5">
+                      <IconBox tone="warning">
+                        <Star />
+                      </IconBox>
                       <div className="min-w-0 flex-1">
                         <div className="font-semibold text-heading">{t("leaveReview")}</div>
-                        <div className="text-sm text-muted truncate">{t("leaveReviewDesc", { doctor: `${d.firstName} ${d.lastName}` })}</div>
+                        <div className="text-sm text-muted">{t("leaveReviewDesc", { doctor: `${d.firstName} ${d.lastName}` })}</div>
                       </div>
-                      <ChevronRight className="h-5 w-5 text-muted shrink-0" />
+                      <ChevronRight className="h-5 w-5 shrink-0 text-neutral-500" />
                     </Card>
                   );
                 })}
                 {lastDoctor && (
-                  <Card href="/patient/records" padding="sm" className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
-                      <Upload className="h-5 w-5" />
-                    </span>
+                  <Card href="/patient/records" padding="sm" className="flex items-center gap-3.5">
+                    <IconBox>
+                      <Upload />
+                    </IconBox>
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-heading">{t("uploadResults")}</div>
-                      <div className="text-sm text-muted truncate">{t("uploadResultsDesc", { doctor: `${lastDoctor.firstName} ${lastDoctor.lastName}` })}</div>
+                      <div className="text-sm text-muted">{t("uploadResultsDesc", { doctor: `${lastDoctor.firstName} ${lastDoctor.lastName}` })}</div>
                     </div>
-                    <ChevronRight className="h-5 w-5 text-muted shrink-0" />
+                    <ChevronRight className="h-5 w-5 shrink-0 text-neutral-500" />
                   </Card>
                 )}
               </div>
@@ -156,75 +198,78 @@ export default async function PatientDashboard() {
           )}
         </div>
 
-        {/* New for you + quick actions */}
-        <div className="flex flex-col gap-4">
+        {/* New records + quick actions */}
+        <div className="flex flex-col gap-6">
           <section>
-            <SectionTitle>{t("newForYou")}</SectionTitle>
-            <Card padding="none" className="divide-y divide-line">
-              {newSummaries.map((r) => (
-                <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 hover:bg-surface">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg gradient-accent text-white">
-                    <Stethoscope className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-heading text-sm">{t("newSummary")}</div>
-                    <div className="text-xs text-muted truncate">{t("from", { name: r.authorName ?? "" })}</div>
-                  </div>
-                  <Badge tone="accent">{tc("new")}</Badge>
-                </Link>
-              ))}
-              {unread > 0 && (
-                <Link href="/patient/chat" className="flex items-center gap-3 p-4 hover:bg-surface">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
-                    <MessageCircle className="h-5 w-5" />
-                  </span>
-                  <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-heading text-sm">{t("newMessage", { count: unread })}</div>
-                    <div className="text-xs text-muted truncate">{t("from", { name: patientChats[0].participantName })}</div>
-                  </div>
-                  <span className="h-6 min-w-[24px] rounded-full bg-danger text-white text-xs font-bold flex items-center justify-center px-1.5">{unread}</span>
-                </Link>
-              )}
-              {newRecords
-                .filter((r) => r.type !== "summary")
-                .slice(0, 2)
-                .map((r) => (
-                  <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 hover:bg-surface">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-success-soft text-success">
-                      <FolderHeart className="h-5 w-5" />
-                    </span>
+            <SectionHeader>{t("newRecords")}</SectionHeader>
+            {newRecords.length === 0 && unread === 0 ? (
+              <EmptyState compact illustration="records" title={t("noNewRecords")} description={t("noNewRecordsDesc")} />
+            ) : (
+              <Card padding="none" className="divide-y divide-line overflow-hidden">
+                {newSummaries.map((r) => (
+                  <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 transition-colors hover:bg-neutral-50">
+                    <IconBox size="md">
+                      <Stethoscope />
+                    </IconBox>
                     <div className="min-w-0 flex-1">
-                      <div className="font-semibold text-heading text-sm">{t("newRecord")}</div>
-                      <div className="text-xs text-muted truncate">{r.title}</div>
+                      <div className="text-sm font-semibold text-heading">{t("newSummary")}</div>
+                      <div className="truncate text-xs text-muted">{t("from", { name: r.authorName ?? "" })}</div>
                     </div>
+                    <NewBadge label={tc("new")} />
                   </Link>
                 ))}
-            </Card>
+                {unread > 0 && (
+                  <Link href="/patient/chat" className="flex items-center gap-3 p-4 transition-colors hover:bg-neutral-50">
+                    <IconBox size="md" tone="warning">
+                      <MessageCircle />
+                    </IconBox>
+                    <div className="min-w-0 flex-1">
+                      <div className="text-sm font-semibold text-heading">{t("newMessage", { count: unread })}</div>
+                      <div className="truncate text-xs text-muted">{t("from", { name: patientChats[0].participantName })}</div>
+                    </div>
+                    <span className="flex h-6 min-w-[24px] items-center justify-center rounded-pill bg-danger-600 px-1.5 text-xs font-bold text-white">{unread}</span>
+                  </Link>
+                )}
+                {newRecords
+                  .filter((r) => r.type !== "summary")
+                  .slice(0, 2)
+                  .map((r) => (
+                    <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 transition-colors hover:bg-neutral-50">
+                      <IconBox size="md" tone="success">
+                        <FolderHeart />
+                      </IconBox>
+                      <div className="min-w-0 flex-1">
+                        <div className="text-sm font-semibold text-heading">{t("newRecord")}</div>
+                        <div className="truncate text-xs text-muted">{r.title}</div>
+                      </div>
+                    </Link>
+                  ))}
+              </Card>
+            )}
           </section>
 
           <section>
-            <SectionTitle>{t("quickActions")}</SectionTitle>
+            <SectionHeader>{t("quickActions")}</SectionHeader>
             <div className="grid grid-cols-2 gap-3">
-              <Card href="/patient/doctors" padding="sm" className="flex flex-col items-center text-center gap-2 py-5 md:hidden">
-                <Search className="h-6 w-6 text-primary-text" />
-                <span className="text-sm font-semibold">{t("findDoctor")}</span>
-              </Card>
-              <Card href="/patient/appointments" padding="sm" className="flex flex-col items-center text-center gap-2 py-5">
-                <CalendarDays className="h-6 w-6 text-primary-text" />
-                <span className="text-sm font-semibold">{t("myAppointments")}</span>
-              </Card>
-              <Card href="/patient/records" padding="sm" className="flex flex-col items-center text-center gap-2 py-5">
-                <FolderHeart className="h-6 w-6 text-primary-text" />
-                <span className="text-sm font-semibold">{t("myRecords")}</span>
-              </Card>
-              <Card href="/patient/chat" padding="sm" className="flex flex-col items-center text-center gap-2 py-5 hidden md:flex">
-                <MessageCircle className="h-6 w-6 text-primary-text" />
-                <span className="text-sm font-semibold">{t("myChats")}</span>
-              </Card>
+              <QuickAction href="/patient/doctors" icon={<Search />} label={t("findDoctor")} className="md:hidden" />
+              <QuickAction href="/patient/appointments" icon={<CalendarDays />} label={t("myAppointments")} />
+              <QuickAction href="/patient/records" icon={<FolderHeart />} label={t("myRecords")} />
+              <QuickAction href="/patient/chat" icon={<MessageCircle />} label={t("myChats")} className="max-md:hidden" />
             </div>
           </section>
         </div>
       </div>
     </>
+  );
+}
+
+function QuickAction({ href, icon, label, className }: { href: string; icon: React.ReactNode; label: string; className?: string }) {
+  return (
+    <Card href={href} padding="sm" className={className}>
+      <span className="flex flex-col items-center gap-2.5 py-2 text-center">
+        <IconBox>{icon}</IconBox>
+        <span className="text-sm font-semibold text-heading">{label}</span>
+      </span>
+    </Card>
   );
 }

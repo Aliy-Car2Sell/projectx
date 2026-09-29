@@ -50,7 +50,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
       value={value}
       step={300}
       onChange={(e) => onChange(e.target.value)}
-      className="h-10 rounded-lg border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 w-[124px]"
+      className="h-10 rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 w-[124px]"
     />
   );
 
@@ -101,7 +101,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
                         {timeInput(d.breakStart, (v) => update(i, { breakStart: v }))}
                         <span>—</span>
                         {timeInput(d.breakEnd ?? "14:00", (v) => update(i, { breakEnd: v }))}
-                        <button type="button" aria-label={t("removeBreak")} title={t("removeBreak")} onClick={() => update(i, { breakStart: undefined, breakEnd: undefined })} className="h-8 w-8 rounded-md hover:bg-surface flex items-center justify-center">
+                        <button type="button" aria-label={t("removeBreak")} title={t("removeBreak")} onClick={() => update(i, { breakStart: undefined, breakEnd: undefined })} className="h-8 w-8 rounded-sm hover:bg-surface flex items-center justify-center">
                           <X className="h-4 w-4" />
                         </button>
                       </div>
@@ -132,8 +132,8 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
       </div>
 
       {/* Preview */}
-      <aside className="lg:sticky lg:top-20 self-start">
-        <div className="rounded-xl gradient-accent text-white p-4 md:p-5">
+      <aside className="lg:sticky lg:top-24 self-start">
+        <div className="rounded-lg gradient-accent text-white p-4 md:p-5">
           <div className="flex items-center gap-2 font-bold">
             <Sparkles className="h-5 w-5" /> {t("previewTitle")}
           </div>
@@ -145,7 +145,7 @@ export function ScheduleEditor({ initial }: { initial: DoctorSchedule }) {
               </div>
               <div className="mt-2 flex flex-wrap gap-1.5">
                 {perDay[previewIdx].map((s) => (
-                  <span key={s} className="rounded-md bg-white/20 px-2 py-1 text-xs font-semibold">
+                  <span key={s} className="rounded-sm bg-white/20 px-2 py-1 text-xs font-semibold">
                     {s}
                   </span>
                 ))}

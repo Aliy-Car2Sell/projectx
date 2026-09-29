@@ -55,7 +55,7 @@ export function WeekGrid({
   }, [focus, days]);
 
   return (
-    <div ref={scroller} className="overflow-x-auto overscroll-x-contain rounded-xl border border-line/60 bg-card shadow-card [container-type:inline-size] max-md:snap-x max-md:scroll-pl-11">
+    <div ref={scroller} className="overflow-x-auto overscroll-x-contain rounded-lg border border-neutral-200/70 bg-card shadow-sm [container-type:inline-size] max-md:snap-x max-md:scroll-pl-11">
       <div className="flex w-max min-w-full md:w-full">
         {/* Time column: stays put while the days scroll sideways */}
         <div data-gutter className="sticky left-0 z-20 w-11 shrink-0 border-r border-line bg-card md:w-14">
@@ -64,7 +64,7 @@ export function WeekGrid({
             {rows
               .filter((m) => m % 60 === 0)
               .map((m) => (
-                <span key={m} className="absolute right-1.5 -translate-y-1/2 text-[11px] tabular-nums text-muted first:translate-y-0.5" style={{ top: y(m) }}>
+                <span key={m} className="absolute right-1.5 -translate-y-1/2 text-[11px] tabular-nums text-neutral-500 first:translate-y-0.5" style={{ top: y(m) }}>
                   {timeOf(m)}
                 </span>
               ))}
@@ -82,11 +82,11 @@ export function WeekGrid({
               data-date={date}
               role="group"
               aria-label={fmtDate(locale, tc, date, "weekday")}
-              className={cn("w-[calc((100cqw-2.75rem)/3)] shrink-0 border-r border-line last:border-r-0 max-md:snap-start md:w-auto md:min-w-0 md:flex-1", isToday && "bg-primary-soft/40")}
+              className={cn("w-[calc((100cqw-2.75rem)/3)] shrink-0 border-r border-line last:border-r-0 max-md:snap-start md:w-auto md:min-w-0 md:flex-1", isToday && "bg-accent-50/60")}
             >
-              <div className={cn("flex h-14 flex-col items-center justify-center border-b border-line", isToday ? "text-primary-text" : "text-heading")}>
-                <span className="text-xs uppercase text-muted">{tc(`weekdaysShort.${weekdayKey(date)}`)}</span>
-                <span className={cn("flex h-7 min-w-7 items-center justify-center rounded-full px-1 text-sm font-bold", isToday && "bg-primary text-white")}>{Number(date.slice(8, 10))}</span>
+              <div className={cn("flex h-14 flex-col items-center justify-center border-b border-line", isToday ? "text-accent-700" : "text-heading")}>
+                <span className="text-xs font-semibold uppercase text-muted">{tc(`weekdaysShort.${weekdayKey(date)}`)}</span>
+                <span className={cn("flex h-7 min-w-7 items-center justify-center rounded-pill px-1 font-display text-sm font-bold", isToday && "bg-accent-700 text-white")}>{Number(date.slice(8, 10))}</span>
               </div>
 
               <div className="relative" style={{ height }}>
@@ -96,7 +96,7 @@ export function WeekGrid({
                     <div
                       key={m}
                       title={kind === "break" ? t("cal.break") : kind === "free" ? `${timeOf(m)} · ${t("cal.free")}` : undefined}
-                      className={cn("absolute inset-x-0 border-b border-line/60", m % 60 !== 0 && "border-dashed", kind === "free" && "bg-success-soft/50", kind === "break" && hatch)}
+                      className={cn("absolute inset-x-0 border-b border-line/60", m % 60 !== 0 && "border-dashed", kind === "free" && "bg-success-50", kind === "break" && hatch)}
                       style={{ top: y(m), height: ROW }}
                     />
                   );
@@ -112,7 +112,7 @@ export function WeekGrid({
                       type="button"
                       onClick={() => onOpen(a)}
                       aria-label={`${a.time}, ${p ? `${p.firstName} ${p.lastName}` : a.patientId}, ${tstatus(a.status)}`}
-                      className={cn("absolute z-10 overflow-hidden rounded-md border px-1.5 py-0.5 text-left text-xs leading-tight shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-primary", statusBlock[a.status])}
+                      className={cn("absolute z-10 overflow-hidden rounded-xs border px-1.5 py-0.5 text-left text-xs leading-tight shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-primary-500", statusBlock[a.status])}
                       style={{ top: y(s) + 1, height: Math.max(y(e) - y(s) - 2, 22), left: `calc(${(lane / lanes) * 100}% + 2px)`, width: `calc(${100 / lanes}% - 4px)` }}
                     >
                       <span className="block font-bold tabular-nums">{a.time}</span>
@@ -123,8 +123,8 @@ export function WeekGrid({
 
                 {showNow && (
                   <div className="pointer-events-none absolute inset-x-0 z-20 flex items-center" style={{ top: y(nowMin) }} role="img" aria-label={t("cal.now", { time: now?.time ?? "" })}>
-                    <span className="-ml-1 h-2 w-2 -translate-y-1/2 rounded-full bg-danger" />
-                    <span className="h-0.5 flex-1 -translate-y-1/2 bg-danger" />
+                    <span className="-ml-1 h-2 w-2 -translate-y-1/2 rounded-pill bg-danger-500" />
+                    <span className="h-0.5 flex-1 -translate-y-1/2 bg-danger-500" />
                   </div>
                 )}
               </div>

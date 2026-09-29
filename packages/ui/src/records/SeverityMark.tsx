@@ -2,11 +2,11 @@ import { useTranslations } from "next-intl";
 import type { RecordSeverity } from "@projectx/types";
 import { cn } from "@projectx/utils";
 
-/** Fill for the dot and an AA text colour for the label (same pairs the Badge uses). */
+/** The dot is the status 500 inside a soft halo of its 50; the label is the AA text colour (the 700). */
 export const severityTone: Record<RecordSeverity, { dot: string; text: string }> = {
-  normal: { dot: "bg-success", text: "text-green-700" },
-  attention: { dot: "bg-warning", text: "text-amber-700" },
-  urgent: { dot: "bg-danger", text: "text-red-700" },
+  normal: { dot: "bg-success-500 ring-[3px] ring-success-500/20", text: "text-success-700" },
+  attention: { dot: "bg-warning-500 ring-[3px] ring-warning-500/25", text: "text-warning-700" },
+  urgent: { dot: "bg-danger-500 ring-[3px] ring-danger-500/20", text: "text-danger-700" },
 };
 
 /**
@@ -18,8 +18,8 @@ export function SeverityMark({ severity, compact, className }: { severity: Recor
   const tone = severityTone[severity];
   const label = t(severity);
   return (
-    <span className={cn("inline-flex items-start gap-1.5 text-xs font-semibold leading-tight", tone.text, className)} title={label} aria-label={compact ? label : undefined} role={compact ? "img" : undefined}>
-      <span className={cn("mt-[3px] h-2.5 w-2.5 shrink-0 rounded-full", tone.dot)} aria-hidden="true" />
+    <span className={cn("inline-flex items-start gap-2 text-xs font-semibold leading-tight", tone.text, className)} title={label} aria-label={compact ? label : undefined} role={compact ? "img" : undefined}>
+      <span className={cn("ml-[3px] mt-[3px] h-2 w-2 shrink-0 rounded-pill", tone.dot)} aria-hidden="true" />
       {!compact && <span>{label}</span>}
     </span>
   );

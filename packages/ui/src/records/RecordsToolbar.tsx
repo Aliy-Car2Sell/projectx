@@ -114,7 +114,7 @@ export function RecordsToolbar({
   const iconButton = "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors";
 
   return (
-    <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3">
+    <div className="sticky top-14 md:top-16 z-20 -mx-5 px-5 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3">
       {/* Wide enough for the open search field; in a narrow column (doctor's patient card) the actions wrap below. */}
       <div className="flex min-w-0 flex-1 items-center gap-2 md:min-w-[26rem]">
         <div className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
@@ -190,7 +190,7 @@ function RangePanel({ query, onRange, onClose }: { query: RecordQuery; onRange: 
   const invalid = Boolean(from && to && from > to);
 
   return (
-    <div ref={ref} role="dialog" aria-label={t("label")} className="absolute inset-x-4 top-full z-30 rounded-xl border border-line bg-card p-3 shadow-lg md:absolute md:inset-x-auto md:right-0 md:top-full md:mt-2 md:w-80">
+    <div ref={ref} role="dialog" aria-label={t("label")} className="absolute inset-x-4 top-full z-30 rounded-lg border border-line bg-card p-3 shadow-lg md:absolute md:inset-x-auto md:right-0 md:top-full md:mt-2 md:w-80">
       <div className="grid grid-cols-2 gap-2">
         {printPeriods.map((p) => (
           <Chip key={p} active={!custom && preset === p} onClick={() => pick(p)} className="min-h-[40px]">
@@ -214,14 +214,14 @@ function RangePanel({ query, onRange, onClose }: { query: RecordQuery; onRange: 
           <div className="grid grid-cols-2 gap-2">
             <label className="flex flex-col gap-1 text-xs font-medium text-muted">
               {t("from")}
-              <input type="date" value={from} max={to || now} onChange={(e) => setFrom(e.target.value)} className="min-h-[40px] w-full rounded-lg border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
+              <input type="date" value={from} max={to || now} onChange={(e) => setFrom(e.target.value)} className="min-h-[40px] w-full rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-medium text-muted">
               {t("to")}
-              <input type="date" value={to} min={from || undefined} max={now} onChange={(e) => setTo(e.target.value)} className="min-h-[40px] w-full rounded-lg border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
+              <input type="date" value={to} min={from || undefined} max={now} onChange={(e) => setTo(e.target.value)} className="min-h-[40px] w-full rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
             </label>
           </div>
-          {invalid && <p className="text-xs text-danger">{t("invalid")}</p>}
+          {invalid && <p className="text-xs text-danger-700">{t("invalid")}</p>}
           <Button type="submit" size="sm" disabled={invalid || (!from && !to)}>
             {t("apply")}
           </Button>

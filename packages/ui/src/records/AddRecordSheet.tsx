@@ -145,7 +145,7 @@ export function AddRecordSheet({
         }}
       >
         {initial?.rejectReason && (
-          <div className="flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2 text-sm text-red-800">
+          <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-danger-700">
             <AlertCircle className="h-5 w-5 shrink-0" />
             <div>
               <div className="font-semibold">{t("status.resubmitHint")}</div>
@@ -165,7 +165,7 @@ export function AddRecordSheet({
                   aria-checked={type === k}
                   onClick={() => setType(k)}
                   className={cn(
-                    "min-h-[44px] rounded-lg border px-3 text-sm font-medium transition-colors",
+                    "min-h-[44px] rounded-md border px-3 text-sm font-medium transition-colors",
                     type === k ? "border-primary bg-primary-soft text-primary-text" : "border-line text-heading hover:border-primary",
                   )}
                 >
@@ -208,7 +208,7 @@ export function AddRecordSheet({
                 {t("add.schedule.addTime")}
               </Button>
             </div>
-            {times.length === 0 ? <p className="text-sm text-danger">{t("add.schedule.required")}</p> : <p className="text-sm text-muted">{t("add.schedule.perDay", { count: times.length })}</p>}
+            {times.length === 0 ? <p className="text-sm text-danger-700">{t("add.schedule.required")}</p> : <p className="text-sm text-muted">{t("add.schedule.perDay", { count: times.length })}</p>}
             <div className="grid grid-cols-2 gap-2">
               <Input label={t("add.schedule.start")} type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
               <Input label={t("add.schedule.end")} type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} hint={t("add.schedule.endHint")} />
@@ -218,7 +218,7 @@ export function AddRecordSheet({
         {!coverLine && (
           <>
             <Input label={t("add.date")} type="date" value={date} max={today()} onChange={(e) => setDate(e.target.value)} required />
-            <label className="flex min-h-[44px] cursor-pointer items-center gap-2 rounded-lg border border-dashed border-line px-3 text-sm text-heading hover:border-primary">
+            <label className="flex min-h-[44px] cursor-pointer items-center gap-2 rounded-md border border-dashed border-line px-3 text-sm text-heading hover:border-primary">
               <Paperclip className="h-4 w-4 shrink-0 text-primary-text" />
               <span className="min-w-0 flex-1 truncate">{file ? file.name : (initial?.fileName ?? t("add.file"))}</span>
               <span className="shrink-0 text-xs text-muted">{t("add.fileHint")}</span>

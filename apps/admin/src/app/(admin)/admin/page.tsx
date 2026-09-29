@@ -9,16 +9,18 @@ import { recentActivity, reviews } from "@projectx/mock/reviews";
 import { countPendingRecords } from "@projectx/mock/records";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
 import { isSameDay } from "@projectx/utils";
+import { Avatar } from "@projectx/ui/Avatar";
 import { Button } from "@projectx/ui/Button";
 import { Card, StatCard } from "@projectx/ui/Card";
-import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { IconBox, type IconTone } from "@projectx/ui/IconBox";
+import { PageHeader, SectionHeader } from "@projectx/ui/PageHeader";
 
-const activityIcon: Record<ActivityItem["type"], { icon: LucideIcon; cls: string }> = {
-  user_registered: { icon: UserPlus, cls: "bg-primary-soft text-primary-text" },
-  doctor_applied: { icon: FileCheck2, cls: "bg-warning-soft text-warning" },
-  appointment_created: { icon: CalendarDays, cls: "bg-success-soft text-success" },
-  review_posted: { icon: Star, cls: "bg-accent-soft text-accent" },
-  review_reported: { icon: MessageSquareWarning, cls: "bg-danger-soft text-danger" },
+const activityIcon: Record<ActivityItem["type"], { icon: LucideIcon; tone: IconTone }> = {
+  user_registered: { icon: UserPlus, tone: "primary" },
+  doctor_applied: { icon: FileCheck2, tone: "warning" },
+  appointment_created: { icon: CalendarDays, tone: "success" },
+  review_posted: { icon: Star, tone: "accent" },
+  review_reported: { icon: MessageSquareWarning, tone: "danger" },
 };
 
 export default async function AdminDashboard() {
@@ -29,35 +31,41 @@ export default async function AdminDashboard() {
 
   return (
     <>
-      <PageHeader title={t("title")} subtitle={t("subtitle")} actions={<Button href="/admin/applications" icon={<FileCheck2 className="h-4 w-4" />} className="max-md:hidden">{t("viewApplications")}</Button>} />
+      <PageHeader
+        title={t("title")}
+        subtitle={t("subtitle")}
+        actions={
+          <Button href="/admin/applications" icon={<FileCheck2 />} className="max-md:hidden">
+            {t("viewApplications")}
+          </Button>
+        }
+      />
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 mb-6">
-        <StatCard label={t("users")} value={users.length + 120} hint={t("growth", { count: 14 })} icon={<Users className="h-5 w-5" />} tone="white" />
-        <StatCard label={t("doctors")} value={approvedDoctors.length} hint={t("growth", { count: 2 })} icon={<Stethoscope className="h-5 w-5" />} tone="white" />
-        <StatCard label={t("appointments")} value={appointments.length + 340} hint={t("growth", { count: 57 })} icon={<CalendarDays className="h-5 w-5" />} tone="primary" />
-        <StatCard label={t("pendingApplications")} value={pendingDoctors.length} icon={<FileCheck2 className="h-5 w-5" />} tone="accent" />
-        <Link href="/admin/records" className="contents">
-          <StatCard label={t("pendingRecords")} value={countPendingRecords()} icon={<ClipboardCheck className="h-5 w-5" />} tone="white" className="hover:border-primary transition-colors" />
-        </Link>
-        <StatCard label={t("reportedReviews")} value={reported} icon={<MessageSquareWarning className="h-5 w-5" />} tone="white" className="col-span-2 lg:col-span-1" />
+      <div className="mb-6 grid grid-cols-2 gap-3 md:mb-8 md:grid-cols-3 md:gap-4">
+        <StatCard compact href="/admin/users" label={t("users")} value={users.length + 120} hint={t("growth", { count: 14 })} icon={<Users />} tone="accent" />
+        <StatCard compact href="/admin/doctors" label={t("doctors")} value={approvedDoctors.length} hint={t("growth", { count: 2 })} icon={<Stethoscope />} />
+        <StatCard compact label={t("appointments")} value={appointments.length + 340} hint={t("growth", { count: 57 })} icon={<CalendarDays />} tone="success" />
+        <StatCard compact href="/admin/applications" label={t("pendingApplications")} value={pendingDoctors.length} icon={<FileCheck2 />} tone="warning" />
+        <StatCard compact href="/admin/records" label={t("pendingRecords")} value={countPendingRecords()} icon={<ClipboardCheck />} tone="warning" />
+        <StatCard compact href="/admin/reviews" label={t("reportedReviews")} value={reported} icon={<MessageSquareWarning />} tone="danger" />
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <section className="lg:col-span-2">
-          <SectionTitle>{t("recentActivity")}</SectionTitle>
-          <Card padding="none" className="divide-y divide-line">
+          <SectionHeader>{t("recentActivity")}</SectionHeader>
+          <Card padding="none" className="divide-y divide-line overflow-hidden">
             {recentActivity.map((a) => {
-              const { icon: Icon, cls } = activityIcon[a.type];
+              const { icon: Icon, tone } = activityIcon[a.type];
               return (
-                <div key={a.id} className="flex items-center gap-3 px-4 py-3">
-                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${cls}`}>
-                    <Icon className="h-5 w-5" />
-                  </span>
+                <div key={a.id} className="flex items-center gap-3.5 px-5 py-3.5 transition-colors hover:bg-neutral-50">
+                  <IconBox tone={tone} size="md">
+                    <Icon />
+                  </IconBox>
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-semibold text-heading">{t(`activity.${a.type}`)}</div>
-                    <div className="text-sm text-muted truncate">{a.text}</div>
+                    <div className="truncate text-sm text-muted">{a.text}</div>
                   </div>
-                  <div className="text-xs text-muted shrink-0">{isSameDay(a.at, 0) ? fmtTime(a.at) : fmtDate(locale, tc, a.at, "short")}</div>
+                  <div className="shrink-0 text-xs tabular-nums text-neutral-500">{isSameDay(a.at, 0) ? fmtTime(a.at) : fmtDate(locale, tc, a.at, "short")}</div>
                 </div>
               );
             })}
@@ -65,20 +73,21 @@ export default async function AdminDashboard() {
         </section>
 
         <section>
-          <SectionTitle>{t("pendingApplications")}</SectionTitle>
-          <Card padding="none" className="divide-y divide-line">
+          <SectionHeader>{t("pendingApplications")}</SectionHeader>
+          <Card padding="none" className="divide-y divide-line overflow-hidden">
             {pendingDoctors.map((d) => (
-              <Link key={d.id} href={`/admin/applications/${d.id}`} className="flex items-center gap-3 px-4 py-3 hover:bg-surface">
+              <Link key={d.id} href={`/admin/applications/${d.id}`} className="flex items-center gap-3 px-5 py-3.5 transition-colors hover:bg-accent-50/60">
+                <Avatar src={d.avatarUrl} name={`${d.firstName} ${d.lastName}`} size="sm" className="h-10 w-10" />
                 <div className="min-w-0 flex-1">
-                  <div className="text-sm font-semibold text-heading truncate">
+                  <div className="truncate text-sm font-semibold text-heading">
                     {d.firstName} {d.lastName}
                   </div>
-                  <div className="text-xs text-muted truncate">{d.clinicName}</div>
+                  <div className="truncate text-xs text-muted">{d.clinicName}</div>
                 </div>
-                <ChevronRight className="h-4 w-4 text-muted" />
+                <ChevronRight className="h-4 w-4 shrink-0 text-neutral-500" />
               </Link>
             ))}
-            <div className="p-3">
+            <div className="p-4">
               <Button href="/admin/applications" variant="secondary" size="sm" fullWidth>
                 {t("viewApplications")}
               </Button>

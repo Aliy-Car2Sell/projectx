@@ -47,7 +47,7 @@ export function AppointmentSheet({ appointment: a, patient, onClose }: { appoint
           <div className="flex items-center gap-3">
             <Avatar src={patient?.avatarUrl} name={name} size="lg" />
             <div className="min-w-0 flex-1">
-              <div className="truncate text-lg font-bold leading-tight text-heading">{name}</div>
+              <div className="min-w-0 [overflow-wrap:anywhere] text-lg font-bold leading-tight text-heading">{name}</div>
               {patient && <div className="text-sm text-muted">{patient.phone}</div>}
               <div className="mt-1 flex flex-wrap items-center gap-1.5">
                 <AppointmentStatusBadge status={a.status} />

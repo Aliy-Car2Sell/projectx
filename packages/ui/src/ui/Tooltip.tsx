@@ -56,7 +56,7 @@ export function Tooltip({ text, label, className }: { text: string; label: strin
         onClick={() => (pos ? close() : open())}
         onFocus={open}
         onBlur={close}
-        className="inline-flex h-6 w-6 items-center justify-center rounded-full text-muted hover:text-primary-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+        className="inline-flex h-6 w-6 items-center justify-center rounded-pill text-neutral-500 transition-colors hover:bg-primary-50 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500"
       >
         <Info className="h-4 w-4" />
       </button>
@@ -65,7 +65,7 @@ export function Tooltip({ text, label, className }: { text: string; label: strin
           id={id}
           role="tooltip"
           style={{ left: pos.left, top: pos.top, width: Math.min(WIDTH, window.innerWidth - 2 * GAP) }}
-          className={cn("fixed z-[60] rounded-lg bg-heading px-3 py-2 text-left text-sm font-normal normal-case leading-snug tracking-normal text-white shadow-lg", pos.above && "-translate-y-full")}
+          className={cn("fixed z-[60] rounded-sm bg-neutral-900 px-3.5 py-2.5 text-left text-sm font-normal normal-case leading-snug tracking-normal text-white shadow-lg", pos.above && "-translate-y-full")}
         >
           {text}
         </span>

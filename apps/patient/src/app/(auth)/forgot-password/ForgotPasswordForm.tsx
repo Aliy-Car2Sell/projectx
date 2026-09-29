@@ -17,10 +17,10 @@ export function ForgotPasswordForm() {
     <Card>
       {sent ? (
         <div className="flex flex-col items-center text-center py-4">
-          <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-success-soft text-green-600">
+          <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-pill bg-success-soft text-success-700">
             <MailCheck className="h-7 w-7" />
           </span>
-          <h1 className="text-xl font-bold text-heading">{t("sentTitle")}</h1>
+          <h1 className="text-h3 text-heading">{t("sentTitle")}</h1>
           <p className="mt-1 text-sm text-muted">{t("sentDesc", { email })}</p>
           <Button href="/login" variant="secondary" className="mt-5" icon={<ArrowLeft className="h-4 w-4" />}>
             {t("back")}
@@ -36,7 +36,7 @@ export function ForgotPasswordForm() {
           }}
         >
           <div>
-            <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
+            <h1 className="text-h2 text-primary-900">{t("title")}</h1>
             <p className="text-sm text-muted mt-1">{t("subtitle")}</p>
           </div>
           <Input

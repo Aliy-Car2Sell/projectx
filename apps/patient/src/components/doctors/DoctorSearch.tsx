@@ -31,10 +31,19 @@ type Filters = {
 
 const initialFilters: Filters = { q: "", specialty: "", city: "", minExp: 0, category: "", minRating: 0, sort: "nearest" };
 
-export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorProfile[]; state?: DemoState }) {
+export function DoctorSearch({
+  doctors,
+  state = "normal",
+  initial,
+}: {
+  doctors: DoctorProfile[];
+  state?: DemoState;
+  /** What the visitor asked for on the landing page (`?q=` from its search field, `?specialty=` from its chips). */
+  initial?: { q?: string; specialty?: SpecialtyKey };
+}) {
   const t = useTranslations();
   const td = useTranslations("patient.doctors");
-  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [filters, setFilters] = useState<Filters>({ ...initialFilters, q: initial?.q ?? "", specialty: initial?.specialty ?? "" });
   const [view, setView] = useState<"list" | "map">("list");
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -90,7 +99,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         options={cityKeys.map((k) => ({ value: k, label: t(`cities.${k}`) }))}
       />
       <div className="flex flex-col gap-1.5">
-        <span className="text-sm font-medium text-heading">{td("experience")}</span>
+        <span className="text-sm font-semibold text-neutral-800">{td("experience")}</span>
         <div className="flex flex-wrap gap-2">
           {([0, 3, 5, 10] as const).map((v) => (
             <Chip key={v} active={filters.minExp === v} onClick={() => set("minExp", v)}>
@@ -107,7 +116,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         options={(["highest", "first", "second", "none"] as CategoryKey[]).map((k) => ({ value: k, label: t(`categories.${k}`) }))}
       />
       <div className="flex flex-col gap-1.5">
-        <span className="text-sm font-medium text-heading">{td("rating")}</span>
+        <span className="text-sm font-semibold text-neutral-800">{td("rating")}</span>
         <div className="flex flex-wrap gap-2">
           {([0, 4, 4.5] as const).map((v) => (
             <Chip key={v} active={filters.minRating === v} onClick={() => set("minRating", v)}>
@@ -117,7 +126,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         </div>
       </div>
       <div className="flex flex-col gap-1.5">
-        <span className="text-sm font-medium text-heading">{td("sortBy")}</span>
+        <span className="text-sm font-semibold text-neutral-800">{td("sortBy")}</span>
         <div className="flex flex-wrap gap-2">
           <Chip active={filters.sort === "nearest"} onClick={() => set("sort", "nearest")}>
             {td("nearest")}
@@ -142,7 +151,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
   else if (results.length === 0)
     body = (
       <EmptyState
-        icon={<Search className="h-7 w-7" />}
+        illustration="search"
         title={td("noResults")}
         description={td("noResultsDesc")}
         action={
@@ -172,49 +181,38 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         <Input
           wrapperClassName="flex-1 min-w-0"
           placeholder={td("searchPlaceholder")}
+          aria-label={td("searchPlaceholder")}
           value={filters.q}
           onChange={(e) => set("q", e.target.value)}
-          leftIcon={<Search className="h-4 w-4" />}
+          leftIcon={<Search className="h-5 w-5" />}
           type="search"
         />
-        <Button variant="secondary" className="lg:hidden relative" onClick={() => setSheetOpen(true)} icon={<SlidersHorizontal className="h-4 w-4" />}>
+        <Button variant="secondary" size="lg" className="lg:hidden min-h-[48px] px-4" aria-label={t("common.filter")} onClick={() => setSheetOpen(true)} icon={<SlidersHorizontal />}>
           <span className="hidden sm:inline">{t("common.filter")}</span>
-          {activeCount > 0 && (
-            <span className="absolute -top-1.5 -right-1.5 h-5 min-w-[20px] rounded-full bg-accent text-white text-[11px] font-bold flex items-center justify-center px-1">
-              {activeCount}
-            </span>
-          )}
+          {/* How many filters are on: inside the button, so nothing sticks out of it */}
+          {activeCount > 0 && <span className="flex h-5 min-w-[20px] items-center justify-center rounded-pill bg-primary-700 px-1 text-[11px] font-bold text-white">{activeCount}</span>}
         </Button>
-        <div className="lg:hidden inline-flex rounded-lg border border-line bg-card p-0.5">
-          <button
-            type="button"
-            aria-label={t("common.list")}
-            aria-pressed={view === "list"}
-            onClick={() => setView("list")}
-            className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "list" ? "bg-primary text-white" : "text-muted")}
-          >
-            <List className="h-5 w-5" />
-          </button>
-          <button
-            type="button"
-            aria-label={t("common.map")}
-            aria-pressed={view === "map"}
-            onClick={() => setView("map")}
-            className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "map" ? "bg-primary text-white" : "text-muted")}
-          >
-            <MapIcon className="h-5 w-5" />
-          </button>
+      </div>
+
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div className="text-sm text-muted">{td("found", { count: results.length })}</div>
+        {/* Phones show one at a time: the list or the map. */}
+        <div className="flex gap-2 lg:hidden">
+          <Chip active={view === "list"} onClick={() => setView("list")} className="min-h-[36px] px-3.5">
+            <List /> {t("common.list")}
+          </Chip>
+          <Chip active={view === "map"} onClick={() => setView("map")} className="min-h-[36px] px-3.5">
+            <MapIcon /> {t("common.map")}
+          </Chip>
         </div>
       </div>
 
-      <div className="text-sm text-muted">{td("found", { count: results.length })}</div>
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1.2fr)_minmax(0,1fr)]">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[264px_minmax(0,1fr)] xl:grid-cols-[264px_minmax(0,1.15fr)_minmax(0,1fr)] xl:gap-5">
         {/* Desktop filters */}
         <aside className="hidden lg:block">
-          <div className="bg-card rounded-xl shadow-card border border-line/60 p-4 sticky top-20">
-            <h2 className="font-bold text-heading mb-3 flex items-center gap-2">
-              <SlidersHorizontal className="h-4 w-4 text-primary-text" /> {td("filters")}
+          <div className="bg-card rounded-lg shadow-sm border border-neutral-200/70 p-5 sticky top-24">
+            <h2 className="mb-4 flex items-center gap-2 text-lg font-bold text-heading">
+              <SlidersHorizontal className="h-5 w-5 text-primary-700" /> {td("filters")}
             </h2>
             {filterPanel}
           </div>
@@ -223,10 +221,10 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
         {/* List */}
         <div className={cn(view === "map" && "hidden lg:block")}>{body}</div>
 
-        {/* Map */}
-        <div className={cn(view === "list" && "hidden lg:block")}>
-          <div className="lg:sticky lg:top-20">
-            <MapView pins={pins} className="h-[60vh] lg:h-[calc(100vh-7rem)]" />
+        {/* Map: beside the list from xl up, under it on narrower desktops */}
+        <div className={cn("lg:col-start-2 xl:col-start-3", view === "list" && "hidden lg:block")}>
+          <div className="xl:sticky xl:top-24">
+            <MapView pins={pins} className="h-[60vh] lg:h-[420px] xl:h-[calc(100vh-8rem)]" />
           </div>
         </div>
       </div>

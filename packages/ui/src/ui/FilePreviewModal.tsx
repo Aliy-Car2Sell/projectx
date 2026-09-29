@@ -28,10 +28,10 @@ export function FilePreviewModal({ file, onClose }: { file: PreviewFile | null; 
       }
     >
       {file?.type === "image" ? (
-        <img src={file.url} alt={file.name} className="max-h-[60vh] w-full rounded-lg bg-surface object-contain" />
+        <img src={file.url} alt={file.name} className="max-h-[60vh] w-full rounded-md bg-surface object-contain" />
       ) : (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl bg-surface px-6 py-12 text-center">
-          <span className="flex h-20 w-20 items-center justify-center rounded-2xl bg-primary-soft text-primary-text">
+        <div className="flex flex-col items-center justify-center gap-3 rounded-lg bg-surface px-6 py-12 text-center">
+          <span className="flex h-20 w-20 items-center justify-center rounded-xl bg-primary-soft text-primary-text">
             <FileText className="h-10 w-10" />
           </span>
           <div className="font-semibold text-heading break-all">{file?.name}</div>

@@ -95,7 +95,7 @@ export function SummaryForm({
       <SeverityPicker value={severity} onChange={setSeverity} />
       <div className="flex items-center justify-between gap-3">
         {saved ? (
-          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-success">
+          <span className="inline-flex items-center gap-1.5 text-sm font-medium text-success-700">
             <Check className="h-4 w-4" /> {t("summarySaved")}
           </span>
         ) : (

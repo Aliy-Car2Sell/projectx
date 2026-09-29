@@ -16,10 +16,28 @@ type Message = { id: number; from: "user"; text: string } | { id: number; from: 
  * quick-question chips with ready answers, plus free text. Hidden on chat and print pages.
  * `bottomNav={false}` for shells without a bottom navigation (guest header).
  */
-export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; source?: HelpSource; bottomNav?: boolean }) {
+export function HelpChat({
+  role,
+  source,
+  bottomNav = true,
+  open: controlled,
+  onOpenChange,
+}: {
+  role: UserRole;
+  source?: HelpSource;
+  bottomNav?: boolean;
+  /** Given by a shell whose sidebar has its own "Help" entry: the round button is then shown on phones only. */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+}) {
   const t = useTranslations("help");
   const pathname = usePathname();
-  const [open, setOpen] = useState(false);
+  const [own, setOwn] = useState(false);
+  const open = controlled ?? own;
+  const setOpen = (v: boolean) => {
+    setOwn(v);
+    onOpenChange?.(v);
+  };
   const [messages, setMessages] = useState<Message[]>([]);
   const [pending, setPending] = useState(false);
   const [text, setText] = useState("");
@@ -29,15 +47,21 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
 
   useEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setOwn(false);
+      onOpenChange?.(false);
+    };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [open]);
+  }, [open, onOpenChange]);
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
   }, [messages, pending]);
 
-  if (/\/(chat|print)(\/|$)/.test(pathname)) return null;
+  // Chat and print pages have no round button (it would cover the composer); the sidebar entry still opens the help.
+  const noButton = /\/(chat|print)(\/|$)/.test(pathname);
+  if (noButton && !open) return null;
   // The doctor profile keeps its own sticky call-to-action bar at the bottom on mobile.
   const lifted = /^\/patient\/doctors\/[^/]+$/.test(pathname);
 
@@ -60,13 +84,17 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
 
   return (
     <div className="record-noprint">
-      {!open && (
+      {!open && !noButton && (
         <button
           type="button"
           aria-label={t("open")}
           title={t("open")}
           onClick={() => setOpen(true)}
-          className={cn("fixed right-4 md:right-6 md:bottom-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-white shadow-lg hover:bg-primary-hover focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30 safe-bottom", mobileBottom)}
+          className={cn(
+            "press fixed right-4 md:right-6 md:bottom-6 z-40 flex h-12 w-12 items-center justify-center rounded-pill bg-primary-700 text-white shadow-lg hover:bg-primary-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 safe-bottom",
+            onOpenChange && "md:hidden",
+            mobileBottom,
+          )}
         >
           <CircleHelp className="h-6 w-6" />
         </button>
@@ -74,19 +102,19 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
 
       {open && (
         <div role="dialog" aria-label={t("title")} className="fixed z-50 inset-x-0 bottom-0 md:inset-x-auto md:right-6 md:bottom-6 md:w-[380px]">
-          <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="md:hidden fixed inset-0 -z-10 bg-black/40" />
-          <div className="flex max-h-[80dvh] md:h-[540px] md:max-h-[calc(100dvh-48px)] flex-col overflow-hidden rounded-t-2xl md:rounded-2xl border border-line bg-card shadow-2xl">
-            <div className="flex items-center justify-between gap-2 bg-primary px-4 py-3 text-white">
+          <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="md:hidden fixed inset-0 -z-10 bg-neutral-900/45" />
+          <div className="flex max-h-[80dvh] md:h-[540px] md:max-h-[calc(100dvh-48px)] flex-col overflow-hidden rounded-t-xl md:rounded-xl border border-line bg-card shadow-lg animate-sheet">
+            <div className="flex items-center justify-between gap-2 bg-primary-700 py-3 pl-5 pr-3 text-white">
               <div className="min-w-0">
-                <h2 className="font-bold leading-tight text-white">{t("title")}</h2>
-                <p className="text-sm text-white/90">{t("subtitle")}</p>
+                <h2 className="text-lg font-bold leading-tight text-white">{t("title")}</h2>
+                <p className="text-sm text-primary-50">{t("subtitle")}</p>
               </div>
-              <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg hover:bg-white/15">
+              <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-pill hover:bg-white/15">
                 <X className="h-5 w-5" />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2.5" aria-live="polite">
+            <div className="flex-1 overflow-y-auto bg-surface px-4 py-4 flex flex-col gap-2.5" aria-live="polite">
               <Bubble from="bot">{t("greeting")}</Bubble>
               <div className="flex flex-wrap gap-1.5">
                 {helpTopics[role].map((topic) => (
@@ -95,7 +123,7 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                     type="button"
                     disabled={pending}
                     onClick={() => send(t(`${role}.topics.${topic.key}.q`), topic.key)}
-                    className="min-h-[36px] rounded-full border border-primary/40 bg-primary-soft px-3 text-left text-sm font-medium text-primary-text hover:border-primary disabled:opacity-50"
+                    className="press min-h-[36px] rounded-pill border border-primary-200 bg-card px-3.5 py-1.5 text-left text-sm font-medium text-primary-700 hover:border-primary-300 hover:bg-primary-50 disabled:opacity-50"
                   >
                     {t(`${role}.topics.${topic.key}.q`)}
                   </button>
@@ -117,7 +145,7 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                       </ol>
                     )}
                     {m.answer.link && (
-                      <Link href={m.answer.link.href} onClick={() => setOpen(false)} className="mt-2 inline-flex min-h-[36px] items-center gap-1 font-semibold text-primary-text hover:underline">
+                      <Link href={m.answer.link.href} onClick={() => setOpen(false)} className="mt-2 inline-flex min-h-[36px] items-center gap-1 font-semibold text-primary-700 hover:underline">
                         {m.answer.link.label} <ArrowRight className="h-4 w-4" />
                       </Link>
                     )}
@@ -129,7 +157,7 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
             </div>
 
             <form
-              className="flex items-center gap-2 border-t border-line p-2 safe-bottom"
+              className="flex items-center gap-2 border-t border-line bg-card p-2.5 safe-bottom"
               onSubmit={(e) => {
                 e.preventDefault();
                 void send(text);
@@ -140,9 +168,9 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                 onChange={(e) => setText(e.target.value)}
                 placeholder={t("placeholder")}
                 aria-label={t("placeholder")}
-                className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-line bg-surface px-3 text-base md:text-sm text-heading placeholder:text-muted focus:border-primary focus:outline-none"
+                className="min-h-[44px] min-w-0 flex-1 rounded-pill border border-neutral-300 bg-card px-4 text-base text-heading placeholder:text-neutral-500 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
               />
-              <button type="submit" aria-label={t("send")} disabled={!text.trim() || pending} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-hover disabled:opacity-40">
+              <button type="submit" aria-label={t("send")} disabled={!text.trim() || pending} className="press flex h-11 w-11 shrink-0 items-center justify-center rounded-pill bg-primary-700 text-white hover:bg-primary-800 disabled:opacity-40">
                 <Send className="h-5 w-5" />
               </button>
             </form>
@@ -155,6 +183,13 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
 
 function Bubble({ from, children }: { from: "bot" | "user"; children: React.ReactNode }) {
   return (
-    <div className={cn("max-w-[88%] rounded-2xl px-3 py-2 leading-snug", from === "bot" ? "self-start rounded-bl-md bg-surface text-heading" : "self-end rounded-br-md bg-primary text-white")}>{children}</div>
+    <div
+      className={cn(
+        "max-w-[88%] rounded-lg px-3.5 py-2.5 leading-snug shadow-sm",
+        from === "bot" ? "self-start rounded-bl-xs bg-card text-heading" : "self-end rounded-br-xs bg-primary-700 text-white",
+      )}
+    >
+      {children}
+    </div>
   );
 }
