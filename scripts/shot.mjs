@@ -1,7 +1,10 @@
 /**
  * Screenshot one page at 375px and 1280px (signed in), for checking a change by eye.
  *
- * Usage:  node scripts/shot.mjs <url> <name> [--scroll <px>] [--click <selector>] [--full]
+ * Usage:  node scripts/shot.mjs <url> <name> [--scroll <px>] [--click <selector>]... [--set <key>=<value>]... [--full]
+ *   --click  may repeat; clicks happen in order, after the page has loaded
+ *   --set    localStorage entry written before the page loads (repeatable); the first-run guide is
+ *            always marked as seen so it does not cover the page
  * Output: scripts/audit-output/shots/<name>-375.png, <name>-1280.png
  */
 import fs from "node:fs";
@@ -15,12 +18,12 @@ const CHROME =
   process.env.CHROME_PATH ||
   ["/Applications/Google Chrome.app/Contents/MacOS/Google Chrome", "/usr/bin/google-chrome", "C:/Program Files/Google/Chrome/Application/chrome.exe"].find((p) => fs.existsSync(p));
 
+const GUIDE_SEEN = "px_guide_seen=1"; // packages/ui/src/help/FirstRunGuide.tsx
 const [url, name, ...rest] = process.argv.slice(2);
-if (!url || !name) throw new Error("usage: node scripts/shot.mjs <url> <name> [--scroll px] [--click selector] [--full]");
-const opt = (k) => {
-  const i = rest.indexOf(`--${k}`);
-  return i >= 0 ? rest[i + 1] : undefined;
-};
+if (!url || !name) throw new Error("usage: node scripts/shot.mjs <url> <name> [--scroll px] [--click selector]... [--set key=value]... [--full]");
+const all = (k) => rest.flatMap((a, i) => (a === `--${k}` && rest[i + 1] !== undefined ? [rest[i + 1]] : []));
+const opt = (k) => all(k)[0];
+const storage = [GUIDE_SEEN, ...all("set")].map((kv) => [kv.slice(0, kv.indexOf("=")), kv.slice(kv.indexOf("=") + 1)]);
 const full = rest.includes("--full");
 
 fs.mkdirSync(OUT, { recursive: true });
@@ -31,10 +34,12 @@ try {
     await page.setViewport({ width, height: width === 375 ? 740 : 900 });
     const origin = new URL(url).origin;
     await browser.setCookie({ name: "px_session", value: "patient", url: origin });
+    await page.evaluateOnNewDocument((entries) => {
+      for (const [k, v] of entries) localStorage.setItem(k, v);
+    }, storage);
     await page.goto(url, { waitUntil: "networkidle0", timeout: 60000 });
-    const click = opt("click");
-    if (click) {
-      await page.click(click).catch(() => {});
+    for (const selector of all("click")) {
+      await page.click(selector).catch((e) => console.warn(`click ${selector}: ${e.message}`));
       await new Promise((r) => setTimeout(r, 600));
     }
     const scroll = opt("scroll");

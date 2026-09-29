@@ -161,6 +161,7 @@ export const records: MedicalRecord[] = [
     authorDoctorId: "doc-1",
     severity: "normal",
     status: "approved",
+    schedule: { timesPerDay: 1, times: ["08:00"], startDate: "2024-03-10" },
   },
   {
     id: "rec-12",
@@ -171,6 +172,7 @@ export const records: MedicalRecord[] = [
     date: "2026-01-05",
     authorRole: "patient",
     status: "approved",
+    schedule: { timesPerDay: 1, times: ["13:00"], startDate: "2026-01-05" },
   },
   {
     id: "rec-13",
@@ -295,6 +297,7 @@ export const records: MedicalRecord[] = [
     authorDoctorId: "doc-1",
     severity: "normal",
     status: "approved",
+    schedule: { timesPerDay: 1, times: ["20:00"], startDate: "2022-09-01" },
   },
   {
     id: "rec-24",
@@ -385,7 +388,7 @@ export function getPatientRecords(patientId: string): MedicalRecord[] {
 
 /** What a doctor may see of a patient's record: approved entries the patient did not mark "only me". */
 export function getSharedPatientRecords(patientId: string): MedicalRecord[] {
-  return getPatientRecords(patientId).filter((r) => r.status === "approved" && !r.private);
+  return getPatientRecords(patientId).filter((r) => r.status === "approved" && (!r.private || r.type === "medication"));
 }
 
 /** Approved doctor entries flagged "urgent" (dashboard banner, red dot in the doctor's patient list). */

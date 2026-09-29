@@ -353,7 +353,14 @@
     "logout": "Chiqish",
     "logoutDesc": "Hisobdan chiqish",
     "memberSince": "Ro'yxatdan o'tgan: {date}",
-    "changePhoto": "Rasmni o'zgartirish"
+    "changePhoto": "Rasmni o'zgartirish",
+    "demo": {
+      "title": "Demo ma'lumotlarni tozalash",
+      "desc": "Shu brauzerda kiritilgan yozuvlar, dori belgilari va sozlamalar o'chadi, boshlang'ich holat qaytadi",
+      "button": "Demo ma'lumotlarni tozalash",
+      "confirm": "Shu brauzerda kiritilgan hamma narsa o'chadi. Davom etasizmi?",
+      "cleared": "Demo ma'lumotlar tozalandi"
+    }
   },
   "records": {
     "title": "Tibbiy kartochka",
@@ -423,7 +430,20 @@
       "fileHint": "PDF yoki rasm",
       "private": "Faqat men ko'raman",
       "privateHint": "Doktorlar bu yozuvni ko'rmaydi va u \"Doktor uchun\" chop etilmaydi.",
-      "saved": "Yozuv kartochkaga qo'shildi"
+      "saved": "Yozuv kartochkaga qo'shildi",
+      "schedule": {
+        "label": "Qachon ichiladi",
+        "morning": "Ertalab",
+        "noon": "Tushlik",
+        "evening": "Kech",
+        "other": "Boshqa vaqt",
+        "addTime": "Qo'shish",
+        "required": "Kamida bitta vaqt tanlang",
+        "perDay": "Kuniga {count} marta",
+        "start": "Boshlanish",
+        "end": "Tugash",
+        "endHint": "Doimiy bo'lsa bo'sh qoldiring"
+      }
     },
     "print": {
       "button": "Chop etish / PDF",
@@ -671,5 +691,34 @@
     "first": "Malaka: birinchi toifa",
     "second": "Malaka: ikkinchi toifa",
     "none": "Malaka: toifasiz"
+  },
+  "meds": {
+    "today": {
+      "title": "Bugungi dorilar",
+      "allTaken": "Bugun hammasi ichildi ✓",
+      "progress": "{taken}/{total} ichildi",
+      "took": "{name}, {time} — ichdim",
+      "tookShort": "Ichdim",
+      "taken": "Ichildi",
+      "missed": "O'tkazib yuborildi"
+    },
+    "reminder": {
+      "enable": "Eslatmalarni yoqish",
+      "openOnly": "Eslatma faqat ilova ochiq turganda keladi. Ilova yopiq bo'lsa, bildirishnoma kelmaydi.",
+      "blocked": "Brauzer bildirishnomalarni bloklagan. Brauzer sozlamalarida bu sayt uchun ruxsat bering.",
+      "unsupported": "Bu brauzer bildirishnomalarni qo'llab-quvvatlamaydi.",
+      "title": "{name} ichish vaqti",
+      "body": "Soat {time}. Ichgach, ilovada \"Ichdim\" ni belgilang.",
+      "setting": "Dori eslatmalari",
+      "settingDesc": "Dori ichish vaqti kelganda bildirishnoma",
+      "on": "Yoqilgan",
+      "off": "O'chirilgan"
+    },
+    "adherence": {
+      "label": "Oxirgi 7 kun: {total} kundan {taken} kun ichilgan",
+      "taken": "ichilgan",
+      "missed": "o'tkazib yuborilgan",
+      "none": "buyurilmagan"
+    }
   }
 }

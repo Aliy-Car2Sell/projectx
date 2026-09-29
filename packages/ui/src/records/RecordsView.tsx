@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, SearchX, Stethoscope, X } from "lucide-react";
-import type { DoctorProfile, MedicalRecord, User } from "@projectx/types";
+import type { DoctorProfile, MedicalRecord, MedicationLog, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
@@ -22,6 +22,7 @@ import { RecordEntry, recordDomId } from "./RecordEntry";
 import { RecordSheet } from "./RecordSheet";
 import { byFilter, flaggedCounts, groupByMonth, inRange, matchesSearch, printQuery, recordSections, timeline, type RecordFilter } from "./groupRecords";
 import { RecordsToolbar } from "./RecordsToolbar";
+import { useLocalRecords } from "./useLocalRecords";
 import { useRecordQuery } from "./useRecordQuery";
 
 const filters: RecordFilter[] = ["all", ...recordSections];
@@ -52,6 +53,7 @@ export function RecordsView({
   doctors,
   state = "normal",
   onAddSummary,
+  medicationLogs,
   printHref,
 }: {
   patient: User;
@@ -63,6 +65,8 @@ export function RecordsView({
   doctors?: DoctorProfile[];
   state?: DemoState;
   onAddSummary?: () => void;
+  /** Doctor app: the patient's dose log, shown as 7-day adherence next to each medicine on the cover. */
+  medicationLogs?: MedicationLog[];
   /** This record's print route (e.g. "/patient/records/print"); enables "Print / PDF". */
   printHref?: string;
 }) {
@@ -70,8 +74,6 @@ export function RecordsView({
   const tc = useTranslations("common");
   const tst = useTranslations("states");
   const [filter, setFilter] = useState<RecordFilter>("all");
-  const [added, setAdded] = useState<MedicalRecord[]>([]);
-  const [removed, setRemoved] = useState<string[]>([]);
   const [preset, setPreset] = useState<AddPreset | null>(null);
   const [resubmitting, setResubmitting] = useState<MedicalRecord | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
@@ -87,11 +89,14 @@ export function RecordsView({
     if (focusId) setFilter("all");
   }
 
+  // Additions and changes made in this browser sit on top of the mock data (see session/store).
+  const { merged, save } = useLocalRecords(patient.id, records);
   const all = useMemo(() => {
-    const base = state === "empty" ? [] : records;
+    if (state === "empty") return [];
     // Defence in depth: the doctor app already asks the mock for shared records only.
-    return [...added, ...base].filter((r) => !removed.includes(r.id) && (role === "patient" || (!r.private && r.status === "approved")));
-  }, [added, records, removed, role, state]);
+    // Medication is never private: the doctor must see what the patient takes.
+    return merged.filter((r) => r.status !== "deleted" && (role === "patient" || ((!r.private || r.type === "medication") && r.status === "approved")));
+  }, [merged, role, state]);
   const entries = useMemo(() => timeline(all), [all]);
   const shown = useMemo(
     () => byFilter(entries, filter).filter((r) => inRange(r, query.from, query.to) && matchesSearch(r, query.q)),
@@ -200,7 +205,7 @@ export function RecordsView({
           </div>
         ) : (
           <>
-            <RecordCover patient={patient} records={all} onAdd={role === "patient" ? setPreset : undefined} />
+            <RecordCover patient={patient} records={all} onAdd={role === "patient" ? setPreset : undefined} logs={role === "doctor" ? medicationLogs : undefined} />
 
             {/* One line for everything the doctor flagged; tapping it narrows the notebook to those entries. */}
             {flaggedText && (
@@ -271,7 +276,7 @@ export function RecordsView({
                         onDelete={
                           role === "patient"
                             ? (rec) => {
-                                setRemoved((prev) => [...prev, rec.id]);
+                                save({ ...rec, status: "deleted" });
                                 show(t("status.deleted"));
                               }
                             : undefined
@@ -312,8 +317,8 @@ export function RecordsView({
         }}
         onSave={(r) => {
           // A resubmission replaces the rejected entry; a fresh patient entry goes to the admin first.
-          if (resubmitting) setRemoved((prev) => [...prev, resubmitting.id]);
-          setAdded((prev) => [r, ...prev]);
+          if (resubmitting) save({ ...resubmitting, status: "deleted" });
+          save(r);
           setFilter("all");
           show(t(r.status === "pending" ? "status.submitted" : "add.saved"));
           setResubmitting(null);

@@ -353,7 +353,14 @@
     "logout": "Log out",
     "logoutDesc": "Sign out of your account",
     "memberSince": "Member since {date}",
-    "changePhoto": "Change photo"
+    "changePhoto": "Change photo",
+    "demo": {
+      "title": "Clear demo data",
+      "desc": "Entries, dose ticks and settings made in this browser are removed and the initial state returns",
+      "button": "Clear demo data",
+      "confirm": "Everything entered in this browser will be removed. Continue?",
+      "cleared": "Demo data cleared"
+    }
   },
   "records": {
     "title": "Medical record",
@@ -423,7 +430,20 @@
       "fileHint": "PDF or image",
       "private": "Only I can see this",
       "privateHint": "Doctors will not see this entry and it is left out of the \"For the doctor\" printout.",
-      "saved": "Entry added to your record"
+      "saved": "Entry added to your record",
+      "schedule": {
+        "label": "When to take it",
+        "morning": "Morning",
+        "noon": "Noon",
+        "evening": "Evening",
+        "other": "Other time",
+        "addTime": "Add",
+        "required": "Pick at least one time",
+        "perDay": "{count} time(s) a day",
+        "start": "Start",
+        "end": "End",
+        "endHint": "Leave empty if ongoing"
+      }
     },
     "print": {
       "button": "Print / PDF",
@@ -671,5 +691,34 @@
     "first": "Qualification: first category",
     "second": "Qualification: second category",
     "none": "Qualification: no category"
+  },
+  "meds": {
+    "today": {
+      "title": "Today's medicines",
+      "allTaken": "All taken today ✓",
+      "progress": "{taken}/{total} taken",
+      "took": "{name}, {time} — I took it",
+      "tookShort": "I took it",
+      "taken": "Taken",
+      "missed": "Missed"
+    },
+    "reminder": {
+      "enable": "Turn on reminders",
+      "openOnly": "Reminders arrive only while the app is open. Nothing is shown when it is closed.",
+      "blocked": "The browser is blocking notifications. Allow them for this site in the browser settings.",
+      "unsupported": "This browser does not support notifications.",
+      "title": "Time to take {name}",
+      "body": "{time}. Tick \"I took it\" in the app afterwards.",
+      "setting": "Medicine reminders",
+      "settingDesc": "A notification when a dose is due",
+      "on": "On",
+      "off": "Off"
+    },
+    "adherence": {
+      "label": "Last 7 days: taken on {taken} of {total}",
+      "taken": "taken",
+      "missed": "missed",
+      "none": "not prescribed"
+    }
   }
 }

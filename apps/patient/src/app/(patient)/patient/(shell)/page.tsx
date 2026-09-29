@@ -5,6 +5,7 @@ import { currentPatient } from "@projectx/mock/users";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getPatientAppointments } from "@projectx/mock/appointments";
 import { getPatientRecords, getUrgentRecords } from "@projectx/mock/records";
+import { getMedicationLogs } from "@projectx/mock/medications";
 import { patientChats } from "@projectx/mock/chats";
 import { hoursUntil, isToday } from "@projectx/utils";
 import { fmtDate, today } from "@projectx/utils/dates";
@@ -15,6 +16,7 @@ import { Card } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
 import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
 import { FirstRunGuide } from "@projectx/ui/help/FirstRunGuide";
+import { TodayMedsCard } from "@projectx/ui/meds/TodayMedsCard";
 
 export default async function PatientDashboard() {
   const t = await getTranslations("patient.dashboard");
@@ -113,6 +115,8 @@ export default async function PatientDashboard() {
               />
             )}
           </section>
+
+          <TodayMedsCard patientId={currentPatient.id} records={getPatientRecords(currentPatient.id)} logs={getMedicationLogs(currentPatient.id)} serverToday={today()} />
 
           {/* Pending from you */}
           {needsReview.length > 0 && (

@@ -126,9 +126,10 @@ export type RecordSeverity = "normal" | "attention" | "urgent";
 
 /**
  * Doctor entries are approved on creation; patient uploads wait for an admin
- * ("pending"), who approves or rejects them with a reason.
+ * ("pending"), who approves or rejects them with a reason. A "deleted" entry stays
+ * in the data for the audit trail: gone from the notebook, still visible to admins.
  */
-export type RecordStatus = "approved" | "pending" | "rejected";
+export type RecordStatus = "approved" | "pending" | "rejected" | "deleted";
 
 export interface MedicalRecord {
   id: string;
@@ -154,6 +155,30 @@ export interface MedicalRecord {
   rejectReason?: string;
   /** ISO datetime the entry was added; shown in the admin review queue. */
   submittedAt?: string;
+  /** Regular medication only: when to take it (dashboard "today's medicines", reminders, adherence). */
+  schedule?: MedicationSchedule;
+}
+
+/** When a regular medicine is taken: `times` are "HH:mm", one per dose. */
+export interface MedicationSchedule {
+  timesPerDay: number;
+  times: string[];
+  startDate: string; // YYYY-MM-DD
+  endDate?: string; // YYYY-MM-DD, inclusive; none = ongoing
+}
+
+/**
+ * A regular medicine is a cover line of the record (`type: "medication"`) that has a schedule.
+ * It is never hidden from doctors: "only me" does not apply to medication.
+ */
+export type RegularMedication = MedicalRecord & { type: "medication"; schedule: MedicationSchedule };
+
+/** One scheduled dose; `takenAt` (ISO) is set once the patient ticks "I took it". */
+export interface MedicationLog {
+  medicationId: string;
+  date: string; // YYYY-MM-DD
+  time: string; // HH:mm, one of the schedule's times
+  takenAt?: string;
 }
 
 export interface Chat {

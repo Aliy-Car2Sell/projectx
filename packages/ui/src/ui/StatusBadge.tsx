@@ -20,6 +20,7 @@ const recordTone: Record<RecordStatus, BadgeTone> = {
   pending: "warning",
   approved: "success",
   rejected: "danger",
+  deleted: "neutral",
 };
 
 const userTone: Record<UserStatus, BadgeTone> = {

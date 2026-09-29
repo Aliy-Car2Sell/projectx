@@ -2,14 +2,26 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import type { MedicalRecord, User } from "@projectx/types";
+import type { MedicalRecord, MedicationLog, User } from "@projectx/types";
 import { today } from "@projectx/utils/dates";
 import { Modal } from "@projectx/ui/Modal";
 import { RecordsView } from "@projectx/ui/records/RecordsView";
 import { SummaryForm } from "./SummaryForm";
 
 /** The patient's notebook as the doctor sees it (no private or unreviewed entries), with "add" and "write a summary". */
-export function PatientRecordsPanel({ patient, records, doctorName, doctorId }: { patient: User; records: MedicalRecord[]; doctorName: string; doctorId: string }) {
+export function PatientRecordsPanel({
+  patient,
+  records,
+  medicationLogs,
+  doctorName,
+  doctorId,
+}: {
+  patient: User;
+  records: MedicalRecord[];
+  medicationLogs: MedicationLog[];
+  doctorName: string;
+  doctorId: string;
+}) {
   const t = useTranslations("doctor.appointments");
   const tc = useTranslations("common");
   const [open, setOpen] = useState(false);
@@ -22,6 +34,7 @@ export function PatientRecordsPanel({ patient, records, doctorName, doctorId }: 
         role="doctor"
         writer={{ role: "doctor", name: doctorName, doctorId }}
         onAddSummary={() => setOpen(true)}
+        medicationLogs={medicationLogs}
         printHref={`/doctor/patients/${patient.id}/print`}
       />
       <Modal open={open} onClose={() => setOpen(false)} title={t("summaryTitle")} closeLabel={tc("close")} size="lg">
