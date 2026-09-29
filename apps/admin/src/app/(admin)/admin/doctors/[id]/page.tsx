@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { appUrl } from "@projectx/utils/urls";
 import { getTranslations } from "next-intl/server";
-import { CalendarDays, ExternalLink, FileText, MapPin, Phone, Star } from "lucide-react";
+import { CalendarDays, ExternalLink, MapPin, Phone, Star } from "lucide-react";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getDoctorAppointments } from "@projectx/mock/appointments";
 import { formatMoney } from "@projectx/utils";
@@ -52,7 +52,7 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
             <div className="flex items-start gap-4">
               <Avatar src={d.avatarUrl} name={name} size="xl" />
               <div className="min-w-0 flex-1">
-                <h2 className="text-xl font-bold text-heading">{name}</h2>
+                <h2 className="text-h3 text-heading">{name}</h2>
                 <div className="text-primary-text font-medium">{ts(d.specialty)}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Badge tone="accent">{tcat(d.category)}</Badge>
@@ -102,7 +102,7 @@ export default async function AdminDoctorPage({ params }: { params: Promise<{ id
           <Card>
             <CardHeader title={t("documents")} />
             {d.documents.length === 0 ? (
-              <EmptyState compact icon={<FileText className="h-7 w-7" />} title={ta("noDocs")} />
+              <EmptyState compact illustration="records" title={ta("noDocs")} />
             ) : (
               <DocumentList documents={d.documents} columns={2} />
             )}

@@ -25,18 +25,18 @@ export function ApplicationDecision({ initialStatus }: { initialStatus: DoctorSt
   };
 
   return (
-    <Card className="lg:sticky lg:top-20">
+    <Card className="lg:sticky lg:top-24">
       <CardHeader title={t("decision")} subtitle={t("decisionHint")} action={<DoctorStatusBadge status={status} />} />
       {status === "approved" ? (
-        <div className="flex items-center gap-2 rounded-md bg-success-soft px-3 py-2 text-sm text-green-700">
+        <div className="flex items-center gap-2 rounded-md bg-success-soft px-3 py-2 text-sm text-success-700">
           <CheckCircle2 className="h-5 w-5" /> {t("approved")}
         </div>
       ) : status === "rejected" ? (
-        <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-red-700">
+        <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-danger-700">
           <XCircle className="h-5 w-5 shrink-0" />
           <div>
             {t("rejectedToast")}
-            {reason && <div className="mt-1 text-xs text-red-800/80">«{reason}»</div>}
+            {reason && <div className="mt-1 text-xs text-danger-700/80">«{reason}»</div>}
           </div>
         </div>
       ) : null}

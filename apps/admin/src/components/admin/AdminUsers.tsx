@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { Ban, Search, ShieldCheck, Users } from "lucide-react";
+import { Ban, Search, ShieldCheck } from "lucide-react";
 import type { User, UserRole } from "@projectx/types";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -36,7 +36,7 @@ export function AdminUsers({ users: initial }: { users: User[] }) {
     <div className="flex flex-col gap-4">
       <div className="flex flex-col sm:flex-row sm:items-center gap-2">
         <Input wrapperClassName="flex-1 min-w-0" placeholder={t("searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} leftIcon={<Search className="h-4 w-4" />} type="search" />
-        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 sm:mx-0 sm:px-0">
+        <div className="flex gap-2 overflow-x-auto scrollbar-none -mx-5 px-5 sm:mx-0 sm:px-0">
           {(["all", "patient", "doctor", "admin"] as const).map((r) => (
             <Chip key={r} active={role === r} onClick={() => setRole(r)} className="min-h-[36px]">
               {r === "all" ? t("allRoles") : tr(r)}
@@ -47,7 +47,7 @@ export function AdminUsers({ users: initial }: { users: User[] }) {
       <div className="text-sm text-muted">{t("found", { count: rows.length })}</div>
 
       {rows.length === 0 ? (
-        <EmptyState icon={<Users className="h-7 w-7" />} title={t("noUsers")} description={t("noUsersDesc")} />
+        <EmptyState illustration="search" title={t("noUsers")} description={t("noUsersDesc")} />
       ) : (
         <DataList
           rows={rows}
@@ -77,7 +77,7 @@ export function AdminUsers({ users: initial }: { users: User[] }) {
                 {t("unblock")}
               </Button>
             ) : (
-              <Button variant="ghost" size="sm" className="text-danger" icon={<Ban className="h-4 w-4" />} onClick={() => toggle(u)}>
+              <Button variant="ghost" size="sm" className="text-danger-700" icon={<Ban className="h-4 w-4" />} onClick={() => toggle(u)}>
                 {t("block")}
               </Button>
             )
@@ -87,7 +87,7 @@ export function AdminUsers({ users: initial }: { users: User[] }) {
               <Avatar src={u.avatarUrl} name={name(u)} size="md" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <span className="font-bold text-heading truncate">{name(u)}</span>
+                  <span className="min-w-0 [overflow-wrap:anywhere] font-bold text-heading">{name(u)}</span>
                   <UserStatusBadge status={u.status} />
                 </div>
                 <div className="text-xs text-muted truncate">{u.email}</div>

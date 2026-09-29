@@ -1,5 +1,5 @@
-import { PageSkeleton } from "@projectx/ui/Skeleton";
+import { TablePageSkeleton } from "@projectx/ui/Skeleton";
 
 export default function Loading() {
-  return <PageSkeleton />;
+  return <TablePageSkeleton />;
 }

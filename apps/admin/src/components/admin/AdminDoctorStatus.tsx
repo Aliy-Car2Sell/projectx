@@ -24,7 +24,7 @@ export function AdminDoctorStatus({ doctor }: { doctor: { id: string; name: stri
   };
 
   return (
-    <Card className="lg:sticky lg:top-20">
+    <Card className="lg:sticky lg:top-24">
       <CardHeader title={t("statusTitle")} subtitle={t("statusHint")} action={<DoctorStatusBadge status={status} />} />
       {status === "blocked" ? (
         <Button
@@ -67,7 +67,7 @@ export function AdminDoctorStatus({ doctor }: { doctor: { id: string; name: stri
           </>
         }
       >
-        <p className="text-base md:text-[15px] text-heading">{t("blockDesc", { name: doctor.name })}</p>
+        <p className="text-base text-heading">{t("blockDesc", { name: doctor.name })}</p>
       </Modal>
 
       <Toast message={toast} />

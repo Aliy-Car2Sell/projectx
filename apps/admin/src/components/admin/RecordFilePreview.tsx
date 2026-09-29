@@ -15,7 +15,7 @@ export function RecordFilePreview({ record }: { record: MedicalRecord }) {
   const t = useTranslations("admin.records");
   const tc = useTranslations("common");
   const [preview, setPreview] = useState<PreviewFile | null>(null);
-  if (!record.fileName) return <EmptyState compact icon={<FileText className="h-7 w-7" />} title={t("noFile")} />;
+  if (!record.fileName) return <EmptyState compact illustration="records" title={t("noFile")} />;
   const isImage = record.fileType === "image";
   const file: PreviewFile = { name: record.fileName, type: isImage ? "image" : "pdf", url: mockFileUrl(isImage ? "image" : "pdf") };
   return (
@@ -28,7 +28,7 @@ export function RecordFilePreview({ record }: { record: MedicalRecord }) {
         {isImage ? (
           <img src={file.url} alt="" className="h-20 w-20 rounded-md object-cover" />
         ) : (
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-text">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-pill bg-primary-soft text-primary-text">
             <FileText className="h-5 w-5" />
           </span>
         )}

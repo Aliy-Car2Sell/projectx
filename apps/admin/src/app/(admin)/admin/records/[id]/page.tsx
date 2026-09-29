@@ -50,7 +50,7 @@ export default async function AdminRecordDetailPage({ params }: { params: Promis
                 </Badge>
               )}
             </div>
-            <h2 className="mt-2 text-xl font-bold text-heading">{record.title}</h2>
+            <h2 className="mt-2 text-h3 text-heading">{record.title}</h2>
             <div className="mt-1 text-sm text-muted">
               {t("recordDate")}: {fmtDate(locale, tc, record.date)}
             </div>

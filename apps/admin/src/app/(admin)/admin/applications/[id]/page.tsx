@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
-import { FileText, MapPin, Phone } from "lucide-react";
+import { MapPin, Phone } from "lucide-react";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { fmtDate } from "@projectx/utils/dates";
 import { formatMoney } from "@projectx/utils";
@@ -36,7 +36,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
             <div className="flex items-start gap-4">
               <Avatar src={d.avatarUrl} name={name} size="xl" />
               <div className="min-w-0 flex-1">
-                <h2 className="text-xl font-bold text-heading">{name}</h2>
+                <h2 className="text-h3 text-heading">{name}</h2>
                 <div className="text-primary-text font-medium">{ts(d.specialty)}</div>
                 <div className="mt-2 flex flex-wrap gap-2">
                   <Badge tone="accent">{tcat(d.category)}</Badge>
@@ -74,7 +74,7 @@ export default async function ApplicationDetailPage({ params }: { params: Promis
           <Card>
             <CardHeader title={t("uploadedDocs")} />
             {d.documents.length === 0 ? (
-              <EmptyState compact icon={<FileText className="h-7 w-7" />} title={t("noDocs")} />
+              <EmptyState compact illustration="records" title={t("noDocs")} />
             ) : (
               <DocumentList documents={d.documents} columns={2} />
             )}

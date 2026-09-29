@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { FileCheck2, FileText } from "lucide-react";
+import { FileText } from "lucide-react";
 import type { DoctorProfile } from "@projectx/types";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
@@ -35,7 +35,7 @@ export function ApplicationsList({ pending, rejected }: { pending: DoctorProfile
         onChange={(k) => setTab(k as "pending" | "rejected")}
       />
       {rows.length === 0 ? (
-        <EmptyState icon={<FileCheck2 className="h-7 w-7" />} title={t("noApplications")} description={t("noApplicationsDesc")} />
+        <EmptyState illustration="success" title={t("noApplications")} description={t("noApplicationsDesc")} />
       ) : (
         <DataList
           rows={rows}
@@ -46,22 +46,22 @@ export function ApplicationsList({ pending, rejected }: { pending: DoctorProfile
               header: t("doctor"),
               render: (d) => (
                 <div className="flex items-center gap-3">
-                  <Avatar src={d.avatarUrl} name={name(d)} size="sm" />
-                  <div>
+                  <Avatar src={d.avatarUrl} name={name(d)} size="sm" className="h-10 w-10" />
+                  <div className="min-w-0">
                     <div className="font-semibold text-heading">{name(d)}</div>
-                    <div className="text-xs text-muted">{d.clinicName}</div>
+                    <div className="line-clamp-1 text-xs text-muted">{d.clinicName}</div>
                   </div>
                 </div>
               ),
             },
             { key: "specialty", header: t("specialty"), render: (d) => ts(d.specialty) },
             { key: "city", header: t("city"), render: (d) => tcity(d.city) },
-            { key: "applied", header: t("appliedAt"), render: (d) => (d.appliedAt ? fmtDate(locale, tc, d.appliedAt) : "—") },
+            { key: "applied", header: t("appliedAt"), className: "whitespace-nowrap", render: (d) => (d.appliedAt ? fmtDate(locale, tc, d.appliedAt) : "—") },
             {
               key: "docs",
               header: t("documents"),
               render: (d) => (
-                <span className="inline-flex items-center gap-1 text-muted">
+                <span className="inline-flex items-center gap-1 whitespace-nowrap text-muted">
                   <FileText className="h-4 w-4" /> {d.documents.length > 0 ? t("docsCount", { count: d.documents.length }) : t("noDocs")}
                 </span>
               ),
@@ -78,7 +78,7 @@ export function ApplicationsList({ pending, rejected }: { pending: DoctorProfile
               <Avatar src={d.avatarUrl} name={name(d)} size="md" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <Link href={`/admin/applications/${d.id}`} className="font-bold text-heading truncate">
+                  <Link href={`/admin/applications/${d.id}`} className="min-w-0 font-bold text-heading [overflow-wrap:anywhere]">
                     {name(d)}
                   </Link>
                   <DoctorStatusBadge status={d.status} />

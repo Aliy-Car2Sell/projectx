@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { ClipboardCheck, FileText, Paperclip } from "lucide-react";
+import { FileText, Paperclip } from "lucide-react";
 import type { MedicalRecord, RecordStatus, User } from "@projectx/types";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
 import { isSameDay } from "@projectx/utils";
@@ -59,7 +59,7 @@ export function RecordsReviewList({ rows: mockRows, state = "normal" }: { rows: 
       ) : state === "error" ? (
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : shown.length === 0 ? (
-        <EmptyState icon={<ClipboardCheck className="h-7 w-7" />} title={t(`empty.${tab}`)} description={tab === "pending" ? t("emptyPendingDesc") : undefined} />
+        <EmptyState illustration="success" title={t(`empty.${tab}`)} description={tab === "pending" ? t("emptyPendingDesc") : undefined} />
       ) : (
         <DataList
           rows={shown}
@@ -70,27 +70,29 @@ export function RecordsReviewList({ rows: mockRows, state = "normal" }: { rows: 
               header: t("patient"),
               render: ({ patient }) => (
                 <div className="flex items-center gap-3">
-                  <Avatar src={patient.avatarUrl} name={name(patient)} size="sm" />
-                  <div>
+                  <Avatar src={patient.avatarUrl} name={name(patient)} size="sm" className="h-10 w-10" />
+                  <div className="min-w-0">
                     <div className="font-semibold text-heading">{name(patient)}</div>
-                    <div className="text-xs text-muted">{patient.phone}</div>
+                    <div className="whitespace-nowrap text-xs text-muted">{patient.phone}</div>
                   </div>
                 </div>
               ),
             },
-            { key: "type", header: t("type"), render: ({ record }) => tr(`types.${record.type}`) },
             {
               key: "title",
               header: t("recordTitle"),
               render: ({ record }) => (
-                <span className="inline-flex items-center gap-1.5">
-                  <span className="font-medium text-heading">{record.title}</span>
-                  {record.private && <span className="text-xs text-muted">({tr("privateBadge")})</span>}
-                </span>
+                <div>
+                  <div className="font-medium text-heading">{record.title}</div>
+                  <div className="text-xs text-muted">
+                    {tr(`types.${record.type}`)}
+                    {record.private && ` · ${tr("privateBadge")}`}
+                  </div>
+                </div>
               ),
             },
-            { key: "date", header: t("recordDate"), render: ({ record }) => fmtDate(locale, tc, record.date) },
-            { key: "submitted", header: t("submittedAt"), render: ({ record }) => when(record.submittedAt) },
+            { key: "date", header: t("recordDate"), className: "whitespace-nowrap", render: ({ record }) => fmtDate(locale, tc, record.date, "medium") },
+            { key: "submitted", header: t("submittedAt"), className: "whitespace-nowrap", render: ({ record }) => when(record.submittedAt) },
             { key: "file", header: t("file"), render: ({ record }) => file(record) },
             { key: "status", header: tc("status"), render: ({ record }) => <RecordStatusBadge status={record.status} /> },
           ]}
@@ -104,7 +106,7 @@ export function RecordsReviewList({ rows: mockRows, state = "normal" }: { rows: 
               <Avatar src={patient.avatarUrl} name={name(patient)} size="md" />
               <div className="min-w-0 flex-1">
                 <div className="flex items-start justify-between gap-2">
-                  <Link href={`/admin/records/${record.id}`} className="font-bold text-heading truncate">
+                  <Link href={`/admin/records/${record.id}`} className="min-w-0 font-bold text-heading [overflow-wrap:anywhere]">
                     {record.title}
                   </Link>
                   <RecordStatusBadge status={record.status} />

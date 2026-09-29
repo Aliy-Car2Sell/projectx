@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Eye, EyeOff, Flag, MessageSquareWarning, ShieldOff } from "lucide-react";
+import { Eye, EyeOff, Flag, ShieldOff } from "lucide-react";
 import type { Review } from "@projectx/types";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
@@ -49,14 +49,14 @@ export function AdminReviews({ reviews: initial, doctorNames }: { reviews: Revie
       </div>
 
       {rows.length === 0 ? (
-        <EmptyState icon={<MessageSquareWarning className="h-7 w-7" />} title={t("noReviews")} description={t("noReviewsDesc")} />
+        <EmptyState illustration="chat" title={t("noReviews")} description={t("noReviewsDesc")} />
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {rows.map((r) => (
             <ReviewCard key={r.id} review={r}>
               <div className="mt-2 text-xs text-muted">{t("forDoctor", { name: doctorNames[r.doctorId] ?? r.doctorId })}</div>
               {r.reportReason && (
-                <div className="mt-2 flex items-start gap-2 rounded-md bg-warning-soft px-3 py-2 text-xs text-amber-800">
+                <div className="mt-2 flex items-start gap-2 rounded-md bg-warning-soft px-3 py-2 text-xs text-warning-700">
                   <Flag className="h-4 w-4 shrink-0" />
                   <span>
                     <span className="font-semibold">{t("reportReason")}:</span> {r.reportReason}
@@ -86,7 +86,7 @@ export function AdminReviews({ reviews: initial, doctorNames }: { reviews: Revie
                     <Button
                       size="sm"
                       variant="ghost"
-                      className="text-danger"
+                      className="text-danger-700"
                       icon={<EyeOff className="h-4 w-4" />}
                       onClick={() => {
                         patch(r.id, { isHidden: true });
