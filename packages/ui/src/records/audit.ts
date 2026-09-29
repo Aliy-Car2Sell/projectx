@@ -25,9 +25,24 @@ function asText(r: MedicalRecord, field: (typeof editable)[number] | "severity")
   }
 }
 
-/** What an edit changed, severity aside (that is its own history line). */
+/** Changes to a part of a structured summary are filed under `section:<title>`. */
+export const SECTION_FIELD = "section:";
+
+/**
+ * What an edit changed, severity aside (that is its own history line). A structured summary is
+ * compared part by part: its plain text would only say "the text changed".
+ */
 export function diffRecord(before: MedicalRecord, after: MedicalRecord): RecordAuditChange[] {
-  return editable.map((field) => ({ field, from: asText(before, field), to: asText(after, field) })).filter((c) => c.from !== c.to);
+  const structured = Boolean(before.sections && after.sections);
+  const fields = editable
+    .filter((field) => !(structured && field === "description"))
+    .map((field) => ({ field: field as string, from: asText(before, field), to: asText(after, field) }));
+  if (structured) {
+    const was = new Map((before.sections ?? []).map((s) => [s.title, s.body]));
+    const now = new Map((after.sections ?? []).map((s) => [s.title, s.body]));
+    for (const title of new Set([...was.keys(), ...now.keys()])) fields.push({ field: SECTION_FIELD + title, from: was.get(title) ?? "", to: now.get(title) ?? "" });
+  }
+  return fields.filter((c) => c.from !== c.to);
 }
 
 export function severityChange(before: MedicalRecord, after: MedicalRecord): RecordAuditChange | null {

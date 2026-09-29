@@ -55,6 +55,7 @@ export function RecordsView({
   doctors,
   state = "normal",
   onAddSummary,
+  onEditSummary,
   medicationLogs,
   audit = noAudit,
   printHref,
@@ -68,6 +69,8 @@ export function RecordsView({
   doctors?: DoctorProfile[];
   state?: DemoState;
   onAddSummary?: () => void;
+  /** Doctor app: reopen one of the doctor's own summaries in the summary form (other entries use the add sheet). */
+  onEditSummary?: (record: MedicalRecord) => void;
   /** Doctor app: the patient's dose log, shown as 7-day adherence next to each medicine on the cover. */
   medicationLogs?: MedicationLog[];
   /** The patient's record history (mock); what happens in this browser is added on top. */
@@ -294,6 +297,7 @@ export function RecordsView({
                         onEdit={
                           canEdit(r)
                             ? (rec) => {
+                                if (rec.type === "summary" && onEditSummary) return onEditSummary(rec);
                                 setEditing(rec);
                                 setPreset("entry");
                               }

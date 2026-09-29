@@ -6,6 +6,7 @@ import { Card, CardHeader } from "@projectx/ui/Card";
 import { PageHeader } from "@projectx/ui/PageHeader";
 import { MapView } from "@projectx/ui/map/MapView";
 import { DocumentList } from "@projectx/ui/documents/DocumentList";
+import { MyTemplates } from "@/components/doctor/MyTemplates";
 import { ProfessionalForm } from "@/components/doctor/ProfessionalForm";
 import { ProfileForm } from "@projectx/ui/profile/ProfileForm";
 
@@ -16,6 +17,8 @@ export default async function DoctorProfilePage() {
   const professional = (
     <>
       <ProfessionalForm doctor={d} />
+
+      <MyTemplates specialty={d.specialty} />
 
       <Card>
         <CardHeader title={t("location")} action={<MapPin className="h-5 w-5 text-primary-text" />} />

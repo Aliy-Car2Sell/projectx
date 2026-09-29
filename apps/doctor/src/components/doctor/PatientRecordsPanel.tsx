@@ -29,8 +29,15 @@ export function PatientRecordsPanel({
   const t = useTranslations("doctor.appointments");
   const tc = useTranslations("common");
   const [open, setOpen] = useState(false);
+  // The summary being rewritten (its author opened it from the notebook); null = a new one.
+  const [editing, setEditing] = useState<MedicalRecord | null>(null);
+  const actor = { id: doctorId, role: "doctor" as const, name: doctorName };
+  const close = () => {
+    setOpen(false);
+    setEditing(null);
+  };
   const { save } = useLocalRecords(patient.id, records);
-  const { log } = useRecordAudit(audit);
+  const { log, logEdit } = useRecordAudit(audit);
   return (
     <>
       <RecordsView
@@ -39,13 +46,31 @@ export function PatientRecordsPanel({
         role="doctor"
         writer={{ role: "doctor", name: doctorName, doctorId }}
         onAddSummary={() => setOpen(true)}
+        onEditSummary={(r) => {
+          setEditing(r);
+          setOpen(true);
+        }}
         medicationLogs={medicationLogs}
         audit={audit}
         printHref={`/doctor/patients/${patient.id}/print`}
       />
-      <Modal open={open} onClose={() => setOpen(false)} title={t("summaryTitle")} closeLabel={tc("close")} size="lg">
+      <Modal open={open} onClose={close} title={t(editing ? "editSummary" : "summaryTitle")} closeLabel={tc("close")} size="lg">
         <SummaryForm
+          key={editing?.id ?? "new"}
+          compact={Boolean(editing)}
+          initial={
+            editing
+              ? { diagnosis: editing.title, recommendations: editing.description ?? "", sections: editing.sections, templateId: editing.templateId, severity: editing.severity, createdAt: editing.date }
+              : undefined
+          }
           onSaved={(s) => {
+            if (editing) {
+              const next: MedicalRecord = { ...editing, title: s.diagnosis, description: s.recommendations, sections: s.sections, templateId: s.templateId, severity: s.severity ?? editing.severity };
+              save(next);
+              logEdit(editing, next, actor);
+              setTimeout(close, 900);
+              return;
+            }
             // Kept in this browser only: the new summary drops into the notebook right away.
             const record: MedicalRecord = {
               id: `rec-local-${Date.now()}`,
@@ -53,6 +78,8 @@ export function PatientRecordsPanel({
               type: "summary",
               title: s.diagnosis,
               description: s.recommendations,
+              sections: s.sections,
+              templateId: s.templateId,
               date: today(),
               isNew: true,
               authorRole: "doctor",
@@ -62,8 +89,8 @@ export function PatientRecordsPanel({
               status: "approved",
             };
             save(record);
-            log(record.id, { id: doctorId, role: "doctor", name: doctorName }, "created");
-            setTimeout(() => setOpen(false), 900);
+            log(record.id, actor, "created");
+            setTimeout(close, 900);
           }}
         />
       </Modal>

@@ -12,6 +12,7 @@ import { FilePreviewModal, type PreviewFile } from "../ui/FilePreviewModal";
 import { Highlight } from "./Highlight";
 import { RecordHistory } from "./RecordHistory";
 import { SeverityMark } from "./SeverityMark";
+import { SummarySections } from "../summary/SummarySections";
 
 export const recordIcon: Partial<Record<RecordType, LucideIcon>> = {
   analysis: FlaskConical,
@@ -106,10 +107,15 @@ export function RecordEntry({
           </span>
         )}
       </span>
-      {record.description && (
-        <span className={cn("mt-0.5 block text-heading/90 leading-relaxed", clamp && "line-clamp-2")}>
-          <Highlight text={record.description} q={highlight} />
-        </span>
+      {/* A summary written from a template opens into titled parts; collapsed it reads as plain text. */}
+      {record.sections?.length && !clamp ? (
+        <SummarySections sections={record.sections} highlight={highlight} className="mt-1" />
+      ) : (
+        record.description && (
+          <span className={cn("mt-0.5 block text-heading/90 leading-relaxed", clamp && "line-clamp-2")}>
+            <Highlight text={record.description} q={highlight} />
+          </span>
+        )
       )}
       {isRejected && record.rejectReason && (
         <span className={cn("mt-1 block text-sm text-red-800", !expanded && "line-clamp-2")}>

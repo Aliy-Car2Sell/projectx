@@ -6,9 +6,10 @@ import { ChevronDown, History } from "lucide-react";
 import type { RecordAuditChange, RecordAuditEntry } from "@projectx/types";
 import { cn, toIsoDate } from "@projectx/utils";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
+import { SECTION_FIELD } from "./audit";
 import { severities } from "./groupRecords";
 
-const knownFields = ["type", "title", "description", "date", "fileName", "private", "schedule", "severity", "sections"];
+const knownFields = ["type", "title", "description", "date", "fileName", "private", "schedule", "severity"];
 const recordTypes = ["analysis", "imaging", "history", "allergy", "medication", "summary", "other"];
 const clip = (s: string) => (s.length > 90 ? `${s.slice(0, 90).trimEnd()}…` : s);
 
@@ -26,7 +27,7 @@ function useAuditText() {
     if (c.field === "date") return /^\d{4}-\d{2}-\d{2}$/.test(v) ? fmtDate(locale, tc, v, "medium") : v;
     return clip(v);
   };
-  const field = (c: RecordAuditChange) => (knownFields.includes(c.field) ? t(`audit.fields.${c.field}`) : c.field);
+  const field = (c: RecordAuditChange) => (c.field.startsWith(SECTION_FIELD) ? c.field.slice(SECTION_FIELD.length) : knownFields.includes(c.field) ? t(`audit.fields.${c.field}`) : c.field);
   const change = (c: RecordAuditChange) => {
     const from = value(c, c.from);
     const to = value(c, c.to);

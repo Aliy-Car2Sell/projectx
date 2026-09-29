@@ -555,8 +555,7 @@
         "fileName": "Fayl",
         "private": "Faqat men ko'raman",
         "schedule": "Ichish jadvali",
-        "severity": "Holat",
-        "sections": "Bo'limlar"
+        "severity": "Holat"
       }
     },
     "edit": {

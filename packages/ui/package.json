@@ -10,6 +10,8 @@
     "./session/store": "./src/session/store.ts",
     "./session/useNow": "./src/session/useNow.ts",
     "./session/*": "./src/session/*.tsx",
+    "./summary/templates": "./src/summary/templates.ts",
+    "./summary/*": "./src/summary/*.tsx",
     "./meds/medications": "./src/meds/medications.ts",
     "./meds/useMedications": "./src/meds/useMedications.ts",
     "./meds/*": "./src/meds/*.tsx",

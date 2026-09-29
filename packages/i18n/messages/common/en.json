@@ -555,8 +555,7 @@
         "fileName": "File",
         "private": "Only I can see",
         "schedule": "Schedule",
-        "severity": "Status",
-        "sections": "Sections"
+        "severity": "Status"
       }
     },
     "edit": {

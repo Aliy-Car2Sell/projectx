@@ -555,8 +555,7 @@
         "fileName": "Файл",
         "private": "Вижу только я",
         "schedule": "График приёма",
-        "severity": "Статус",
-        "sections": "Разделы"
+        "severity": "Статус"
       }
     },
     "edit": {

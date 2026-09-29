@@ -111,7 +111,13 @@
       "age": "{count} yosh",
       "duration": "Davomiyligi",
       "markedCompleted": "Qabul yakunlangan deb belgilandi",
-      "markedNoShow": "Bemor kelmadi deb belgilandi"
+      "markedNoShow": "Bemor kelmadi deb belgilandi",
+      "template": {
+        "label": "Shablon",
+        "mine": "Mening shablonlarim",
+        "others": "Boshqa mutaxassisliklar",
+        "fillOne": "Kamida bitta bo'limni to'ldiring"
+      }
     },
     "schedule": {
       "title": "Jadval sozlash",
@@ -189,6 +195,35 @@
     },
     "chat": {
       "title": "Bemorlar bilan chat"
+    },
+    "templates": {
+      "title": "Mening shablonlarim",
+      "desc": "Xulosa formasi uchun o'z shablonlaringiz: mavjudini nusxalab, bo'limlarini o'zgartiring",
+      "empty": "Hozircha o'z shabloningiz yo'q. Pastdan birini nusxalang.",
+      "mine": "Mening shablonlarim",
+      "others": "Boshqa mutaxassisliklar",
+      "copyFrom": "Qaysi shablondan nusxa olinadi",
+      "copy": "Nusxalash",
+      "copyName": "{name} (nusxa)",
+      "editTitle": "Shablonni tahrirlash",
+      "name": "Shablon nomi",
+      "sections": "Bo'limlar",
+      "sectionTitle": "Bo'lim sarlavhasi",
+      "sectionHint": "Maydon ichidagi yordamchi matn",
+      "diagnosisNote": "Bu bo'lim matni yozuv sarlavhasi bo'ladi",
+      "addSection": "Bo'lim qo'shish",
+      "removeSection": "Bo'limni olib tashlash",
+      "moveUp": "Yuqoriga",
+      "moveDown": "Pastga",
+      "saved": "Shablon saqlandi",
+      "deleted": "Shablon o'chirildi",
+      "deleteConfirm": "\"{name}\" shabloni o'chirilsinmi?",
+      "errors": {
+        "name": "Shablon nomini kiriting",
+        "noSections": "Kamida bitta bo'lim bo'lishi kerak",
+        "sectionTitle": "Har bo'limga sarlavha yozing",
+        "duplicate": "Bo'lim sarlavhalari takrorlanmasin"
+      }
     }
   }
 }

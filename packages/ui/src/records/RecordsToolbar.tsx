@@ -27,7 +27,8 @@ export function useRangeLabel() {
 /**
  * Sticky notebook controls. Phones: row 1 = section chips (scroll sideways) + search / date icons,
  * the search field opens under it, row 2 = the main actions side by side at full width.
- * Desktop: one row, the search field opening inline in place of its icon. `compactActions` go into row 1 as icon buttons on phones (the doctor has three
+ * Desktop: one row, the search field opening inline in place of its icon; where the column is too
+ * narrow for that (doctor's patient card, tablets) the actions move to a second row. `compactActions` go into row 1 as icon buttons on phones (the doctor has three
  * actions; only two fit side by side).
  */
 export function RecordsToolbar({
@@ -113,8 +114,9 @@ export function RecordsToolbar({
   const iconButton = "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors";
 
   return (
-    <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:items-center md:gap-3">
-      <div className="flex min-w-0 flex-1 items-center gap-2">
+    <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3">
+      {/* Wide enough for the open search field; in a narrow column (doctor's patient card) the actions wrap below. */}
+      <div className="flex min-w-0 flex-1 items-center gap-2 md:min-w-[26rem]">
         <div className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
           {filters.map((f) => (
             <Chip key={f} active={filter === f} onClick={() => onFilter(f)} className={chipClass}>
@@ -152,7 +154,7 @@ export function RecordsToolbar({
 
       {showSearch && field("md:hidden", 1)}
 
-      <div className="grid grid-cols-2 gap-2 md:flex md:items-center md:shrink-0 [&>*]:w-full md:[&>*]:w-auto">{actions}</div>
+      <div className="grid grid-cols-2 gap-2 md:ml-auto md:flex md:items-center md:shrink-0 [&>*]:w-full md:[&>*]:w-auto">{actions}</div>
     </div>
   );
 }

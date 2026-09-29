@@ -83,9 +83,35 @@ export interface Slot {
 
 export type AppointmentStatus = "scheduled" | "completed" | "cancelled" | "no_show";
 
+/** One titled part of a structured summary ("Shikoyatlar", "Tashxis"…), as written by the doctor. */
+export interface SummarySection {
+  title: string;
+  body: string;
+}
+
+export interface SummaryTemplateSection {
+  title: string;
+  placeholder: string;
+  /** The part that becomes the record's title (diagnosis) or its advice; at most one of each per template. */
+  role?: "diagnosis" | "recommendations";
+}
+
+/** A form layout for the doctor's summary. "general" templates (the blank one) fit every specialty. */
+export interface SummaryTemplate {
+  id: string;
+  specialty: SpecialtyKey | "general";
+  name: string;
+  sections: SummaryTemplateSection[];
+  /** Made by the doctor ("my templates"), kept in the browser. */
+  custom?: boolean;
+}
+
 export interface DoctorSummary {
   diagnosis: string;
   recommendations: string;
+  /** The summary as the template laid it out; empty parts are left out. */
+  sections?: SummarySection[];
+  templateId?: string;
   createdAt: string;
   /** How urgently the patient should act on this note (chosen by the doctor). */
   severity?: RecordSeverity;
@@ -141,6 +167,10 @@ export interface MedicalRecord {
   fileType?: "pdf" | "image";
   /** Structured lab values (analysis records). */
   values?: RecordValue[];
+  /** A summary written from a template: shown as titled parts; `description` holds the same text plainly. */
+  sections?: SummarySection[];
+  /** The template `sections` came from, so editing reopens the same form. */
+  templateId?: string;
   /** "Only I can see this": hidden from doctors and from the "for the doctor" printout. Admins still see it for review. */
   private?: boolean;
   date: string; // YYYY-MM-DD
