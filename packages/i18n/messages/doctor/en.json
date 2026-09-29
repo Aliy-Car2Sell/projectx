@@ -117,6 +117,19 @@
         "mine": "My templates",
         "others": "Other specialties",
         "fillOne": "Fill in at least one part"
+      },
+      "month": "Month",
+      "cal": {
+        "viewLabel": "View",
+        "prevMonth": "Previous month",
+        "nextMonth": "Next month",
+        "free": "Free",
+        "break": "Break",
+        "dayOff": "Day off",
+        "now": "Now {time}",
+        "count": "{count} appointments",
+        "open": "Open in full",
+        "legend": "Legend"
       }
     },
     "schedule": {

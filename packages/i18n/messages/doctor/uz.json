@@ -117,6 +117,19 @@
         "mine": "Mening shablonlarim",
         "others": "Boshqa mutaxassisliklar",
         "fillOne": "Kamida bitta bo'limni to'ldiring"
+      },
+      "month": "Oy",
+      "cal": {
+        "viewLabel": "Ko'rinish",
+        "prevMonth": "Oldingi oy",
+        "nextMonth": "Keyingi oy",
+        "free": "Bo'sh vaqt",
+        "break": "Tanaffus",
+        "dayOff": "Dam olish kuni",
+        "now": "Hozir {time}",
+        "count": "{count} ta qabul",
+        "open": "To'liq ochish",
+        "legend": "Belgilar"
       }
     },
     "schedule": {
