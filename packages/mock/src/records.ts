@@ -363,6 +363,18 @@ export const records: MedicalRecord[] = [
     severity: "urgent",
     status: "approved",
   },
+  // Deleted by the patient: gone from the notebook, kept for the admin and the audit trail.
+  {
+    id: "rec-30",
+    patientId: "u-patient-1",
+    type: "other",
+    title: "Bosh og'rig'i kundaligi",
+    description: "Haftada 2–3 marta, kechqurun. Noto'g'ri bo'limga qo'shilgan edi.",
+    date: isoDateFromNow(-9),
+    authorRole: "patient",
+    status: "deleted",
+    submittedAt: isoAt(9, 19, 40),
+  },
   {
     id: "rec-private-1",
     patientId: "u-patient-1",

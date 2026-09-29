@@ -505,7 +505,8 @@
       "resubmit": "Resubmit",
       "resubmitTitle": "Resubmit the entry",
       "resubmitHint": "The admin's reason — fix it and send again:",
-      "deleted": "Entry deleted"
+      "deleted": "Deleted",
+      "deletedToast": "Entry deleted"
     },
     "search": {
       "label": "Search the record",
@@ -525,6 +526,44 @@
       "to": "To",
       "apply": "Apply",
       "invalid": "The start date must not be after the end date"
+    },
+    "audit": {
+      "title": "History ({count})",
+      "actor": {
+        "patient": "Patient {name}",
+        "doctor": "Dr. {name}",
+        "admin": "Admin {name}"
+      },
+      "action": {
+        "created": "{actor} added the entry",
+        "updated": "{actor} edited the entry",
+        "approved": "{actor} approved the entry",
+        "rejected": "{actor} rejected the entry",
+        "deleted": "{actor} deleted the entry",
+        "severityChanged": "{actor} changed the status from \"{from}\" to \"{to}\""
+      },
+      "noSeverity": "not set",
+      "reason": "Reason: {reason}",
+      "change": "{field}: \"{from}\" → \"{to}\"",
+      "changeSet": "{field} added: \"{to}\"",
+      "changeCleared": "{field} removed (was \"{from}\")",
+      "fields": {
+        "type": "Type",
+        "title": "Title",
+        "description": "Text",
+        "date": "Date",
+        "fileName": "File",
+        "private": "Only I can see",
+        "schedule": "Schedule",
+        "severity": "Status",
+        "sections": "Sections"
+      }
+    },
+    "edit": {
+      "title": "Edit the entry",
+      "saved": "Changes saved and added to the history",
+      "unchanged": "Nothing changed",
+      "deleteConfirm": "Delete \"{title}\"? It leaves the record but stays in the history."
     }
   },
   "help": {

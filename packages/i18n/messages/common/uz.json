@@ -505,7 +505,8 @@
       "resubmit": "Qayta yuborish",
       "resubmitTitle": "Yozuvni qayta yuborish",
       "resubmitHint": "Admin rad etgan sabab — tuzatib, qayta yuboring:",
-      "deleted": "Yozuv o'chirildi"
+      "deleted": "O'chirilgan",
+      "deletedToast": "Yozuv o'chirildi"
     },
     "search": {
       "label": "Kartochkada qidirish",
@@ -525,6 +526,44 @@
       "to": "Gacha",
       "apply": "Qo'llash",
       "invalid": "Boshlanish sanasi tugash sanasidan keyin bo'lmasin"
+    },
+    "audit": {
+      "title": "Tarix ({count})",
+      "actor": {
+        "patient": "Bemor {name}",
+        "doctor": "Doktor {name}",
+        "admin": "Admin {name}"
+      },
+      "action": {
+        "created": "{actor} yozuvni qo'shdi",
+        "updated": "{actor} yozuvni tahrirladi",
+        "approved": "{actor} yozuvni tasdiqladi",
+        "rejected": "{actor} yozuvni rad etdi",
+        "deleted": "{actor} yozuvni o'chirdi",
+        "severityChanged": "{actor} holatni \"{from}\" dan \"{to}\" ga o'zgartirdi"
+      },
+      "noSeverity": "belgilanmagan",
+      "reason": "Sabab: {reason}",
+      "change": "{field}: \"{from}\" → \"{to}\"",
+      "changeSet": "{field} qo'shildi: \"{to}\"",
+      "changeCleared": "{field} olib tashlandi (\"{from}\" edi)",
+      "fields": {
+        "type": "Tur",
+        "title": "Sarlavha",
+        "description": "Matn",
+        "date": "Sana",
+        "fileName": "Fayl",
+        "private": "Faqat men ko'raman",
+        "schedule": "Ichish jadvali",
+        "severity": "Holat",
+        "sections": "Bo'limlar"
+      }
+    },
+    "edit": {
+      "title": "Yozuvni tahrirlash",
+      "saved": "O'zgarishlar saqlandi va tarixga yozildi",
+      "unchanged": "Hech narsa o'zgarmadi",
+      "deleteConfirm": "\"{title}\" yozuvi o'chirilsinmi? U kartochkadan yo'qoladi, tarixda qoladi."
     }
   },
   "help": {

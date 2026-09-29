@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, SearchX, Stethoscope, X } from "lucide-react";
-import type { DoctorProfile, MedicalRecord, MedicationLog, User } from "@projectx/types";
+import type { DoctorProfile, MedicalRecord, MedicationLog, RecordAuditEntry, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
@@ -16,6 +16,7 @@ import { Toast, useToast } from "../ui/Toast";
 import type { DemoState } from "../demo/state";
 import { AddRecordSheet, type AddPreset, type RecordWriter } from "./AddRecordSheet";
 import { AskDoctorSheet } from "./AskDoctorSheet";
+import { useRecordAudit, type AuditActor } from "./audit";
 import { PrintDialog } from "./PrintDialog";
 import { RecordCover } from "./RecordCover";
 import { RecordEntry, recordDomId } from "./RecordEntry";
@@ -26,6 +27,7 @@ import { useLocalRecords } from "./useLocalRecords";
 import { useRecordQuery } from "./useRecordQuery";
 
 const filters: RecordFilter[] = ["all", ...recordSections];
+const noAudit: RecordAuditEntry[] = [];
 
 /** `#record-<id>` in the URL: the entry to open and scroll to (null on the server and without a hash). */
 const subscribeHash = (cb: () => void) => {
@@ -54,6 +56,7 @@ export function RecordsView({
   state = "normal",
   onAddSummary,
   medicationLogs,
+  audit = noAudit,
   printHref,
 }: {
   patient: User;
@@ -67,6 +70,8 @@ export function RecordsView({
   onAddSummary?: () => void;
   /** Doctor app: the patient's dose log, shown as 7-day adherence next to each medicine on the cover. */
   medicationLogs?: MedicationLog[];
+  /** The patient's record history (mock); what happens in this browser is added on top. */
+  audit?: RecordAuditEntry[];
   /** This record's print route (e.g. "/patient/records/print"); enables "Print / PDF". */
   printHref?: string;
 }) {
@@ -76,6 +81,7 @@ export function RecordsView({
   const [filter, setFilter] = useState<RecordFilter>("all");
   const [preset, setPreset] = useState<AddPreset | null>(null);
   const [resubmitting, setResubmitting] = useState<MedicalRecord | null>(null);
+  const [editing, setEditing] = useState<MedicalRecord | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
   const [asking, setAsking] = useState<MedicalRecord | null>(null);
   const router = useRouter();
@@ -91,6 +97,18 @@ export function RecordsView({
 
   // Additions and changes made in this browser sit on top of the mock data (see session/store).
   const { merged, save } = useLocalRecords(patient.id, records);
+  const { historyOf, log, logEdit } = useRecordAudit(audit);
+  const actor: AuditActor | null =
+    role === "patient" ? { id: patient.id, role: "patient", name: `${patient.firstName} ${patient.lastName}` } : writer?.role === "doctor" ? { id: writer.doctorId, role: "doctor", name: writer.name } : null;
+  // Authors only: a patient may change an entry until the admin has reviewed it, a doctor their own entries.
+  const canEdit = (r: MedicalRecord) =>
+    role === "patient" ? r.authorRole === "patient" && r.status === "pending" : r.authorRole === "doctor" && writer?.role === "doctor" && r.authorDoctorId === writer.doctorId;
+  const canDelete = (r: MedicalRecord) => canEdit(r) || (role === "patient" && r.authorRole === "patient" && r.status === "rejected");
+  /** The entry stays in the data as "deleted" (admins and the history still see it). */
+  const remove = (r: MedicalRecord) => {
+    save({ ...r, status: "deleted" });
+    if (actor) log(r.id, actor, "deleted");
+  };
   const all = useMemo(() => {
     if (state === "empty") return [];
     // Defence in depth: the doctor app already asks the mock for shared records only.
@@ -273,14 +291,25 @@ export function RecordsView({
                               }
                             : undefined
                         }
-                        onDelete={
-                          role === "patient"
+                        onEdit={
+                          canEdit(r)
                             ? (rec) => {
-                                save({ ...rec, status: "deleted" });
-                                show(t("status.deleted"));
+                                setEditing(rec);
+                                setPreset("entry");
                               }
                             : undefined
                         }
+                        onDelete={
+                          canDelete(r)
+                            ? (rec) => {
+                                // A rejected entry goes without asking; anything else is still in use.
+                                if (rec.status !== "rejected" && !window.confirm(t("edit.deleteConfirm", { title: rec.title }))) return;
+                                remove(rec);
+                                show(t("status.deletedToast"));
+                              }
+                            : undefined
+                        }
+                        history={historyOf(r.id)}
                         actions={
                           // Entries added in this session exist only in the browser; the print route cannot see them,
                           // and it never prints entries still under review or rejected.
@@ -306,19 +335,29 @@ export function RecordsView({
       </RecordSheet>
 
       <AddRecordSheet
-        key={resubmitting?.id ?? "new"}
+        key={(editing ?? resubmitting)?.id ?? "new"}
         preset={preset}
         patientId={patient.id}
         writer={writer}
-        initial={resubmitting ?? undefined}
+        initial={editing ?? resubmitting ?? undefined}
+        editing={Boolean(editing)}
         onClose={() => {
           setPreset(null);
           setResubmitting(null);
+          setEditing(null);
         }}
         onSave={(r) => {
+          if (editing) {
+            save(r);
+            const changed = actor ? logEdit(editing, r, actor) : false;
+            show(t(changed ? "edit.saved" : "edit.unchanged"));
+            setEditing(null);
+            return;
+          }
           // A resubmission replaces the rejected entry; a fresh patient entry goes to the admin first.
-          if (resubmitting) save({ ...resubmitting, status: "deleted" });
+          if (resubmitting) remove(resubmitting);
           save(r);
+          if (actor) log(r.id, actor, "created");
           setFilter("all");
           show(t(r.status === "pending" ? "status.submitted" : "add.saved"));
           setResubmitting(null);

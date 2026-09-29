@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { currentPatient } from "@projectx/mock/users";
 import { getPatientRecords } from "@projectx/mock/records";
+import { getPatientAudit } from "@projectx/mock/audit";
 import { today } from "@projectx/utils/dates";
 import { RecordPrintView } from "@projectx/ui/records/RecordPrintView";
 import { parsePrintOptions, selectForPrint } from "@projectx/ui/records/groupRecords";
@@ -17,5 +18,5 @@ export default async function RecordsPrintPage({ searchParams }: { searchParams:
   const options = parsePrintOptions(await searchParams);
   const printedOn = today();
   const { cover, entries } = selectForPrint(getPatientRecords(currentPatient.id), options, printedOn);
-  return <RecordPrintView patient={currentPatient} cover={cover} entries={entries} options={options} printedOn={printedOn} backHref="/patient/records" />;
+  return <RecordPrintView patient={currentPatient} cover={cover} entries={entries} options={options} printedOn={printedOn} backHref="/patient/records" audit={getPatientAudit(currentPatient.id)} />;
 }

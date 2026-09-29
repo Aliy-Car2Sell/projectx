@@ -28,6 +28,7 @@ export function AddRecordSheet({
   patientId,
   writer = { role: "patient" },
   initial,
+  editing,
   onClose,
   onSave,
 }: {
@@ -36,6 +37,8 @@ export function AddRecordSheet({
   writer?: RecordWriter;
   /** Resubmitting a rejected entry: the form opens filled in, with the admin's reason on top. Pass a `key` to reset. */
   initial?: MedicalRecord;
+  /** `initial` is being edited by its author: the entry keeps its id and status, the caller records the diff. */
+  editing?: boolean;
   onClose: () => void;
   onSave: (record: MedicalRecord) => void;
 }) {
@@ -47,12 +50,14 @@ export function AddRecordSheet({
   const [text, setText] = useState(initial?.description ?? "");
   const [file, setFile] = useState<File | null>(null);
   const [isPrivate, setPrivate] = useState(Boolean(initial?.private));
-  const [severity, setSeverity] = useState<RecordSeverity>("normal");
+  const [severity, setSeverity] = useState<RecordSeverity>((editing && initial?.severity) || "normal");
   const [times, setTimes] = useState<string[]>(initial?.schedule?.times ?? ["08:00"]);
   const [otherTime, setOtherTime] = useState("");
   const [startDate, setStartDate] = useState(initial?.schedule?.startDate ?? today());
   const [endDate, setEndDate] = useState(initial?.schedule?.endDate ?? "");
   const coverLine = preset === "allergy" || preset === "medication";
+  // A doctor's summary has no chip here: editing one keeps its type.
+  const fixedType = Boolean(editing && initial && !entryTypes.includes(initial.type));
   const byDoctor = writer.role === "doctor";
   const formId = "add-record-form";
 
@@ -80,7 +85,7 @@ export function AddRecordSheet({
     <Modal
       open={preset !== null}
       onClose={close}
-      title={coverLine ? t(`add.${preset}Title`) : initial ? t("status.resubmitTitle") : t("add.title")}
+      title={coverLine ? t(`add.${preset}Title`) : editing ? t("edit.title") : initial ? t("status.resubmitTitle") : t("add.title")}
       closeLabel={tc("close")}
       footer={
         <>
@@ -99,6 +104,19 @@ export function AddRecordSheet({
         onSubmit={(e) => {
           e.preventDefault();
           if (preset === "medication" && times.length === 0) return;
+          if (editing && initial) {
+            onSave({
+              ...initial,
+              type: fixedType ? initial.type : type,
+              title: title.trim(),
+              description: text.trim() || undefined,
+              fileName: file?.name ?? initial.fileName,
+              fileType: file ? (file.type.startsWith("image/") ? "image" : "pdf") : initial.fileType,
+              date,
+              ...(byDoctor ? { severity } : { private: isPrivate || undefined }),
+            });
+            return close();
+          }
           const base = {
             id: `rec-local-${Date.now()}`,
             patientId,
@@ -135,7 +153,7 @@ export function AddRecordSheet({
             </div>
           </div>
         )}
-        {!coverLine && (
+        {!coverLine && !fixedType && (
           <div>
             <FieldLabel>{t("add.type")}</FieldLabel>
             <div className="mt-1.5 grid grid-cols-2 gap-2" role="radiogroup" aria-label={t("add.type")}>

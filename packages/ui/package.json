@@ -15,6 +15,7 @@
     "./meds/*": "./src/meds/*.tsx",
     "./records/groupRecords": "./src/records/groupRecords.ts",
     "./records/useLocalRecords": "./src/records/useLocalRecords.ts",
+    "./records/audit": "./src/records/audit.ts",
     "./layout/*": "./src/layout/*.tsx",
     "./auth/*": "./src/auth/*.tsx",
     "./chat/*": "./src/chat/*.tsx",

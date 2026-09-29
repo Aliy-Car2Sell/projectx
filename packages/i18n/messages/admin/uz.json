@@ -125,7 +125,8 @@
       "tabs": {
         "pending": "Kutilmoqda",
         "approved": "Tasdiqlangan",
-        "rejected": "Rad etilgan"
+        "rejected": "Rad etilgan",
+        "deleted": "O'chirilgan"
       },
       "patient": "Bemor",
       "type": "Tur",
@@ -140,7 +141,8 @@
       "empty": {
         "pending": "Kutilayotgan yozuvlar yo'q",
         "approved": "Tasdiqlangan yozuvlar yo'q",
-        "rejected": "Rad etilgan yozuvlar yo'q"
+        "rejected": "Rad etilgan yozuvlar yo'q",
+        "deleted": "O'chirilgan yozuvlar yo'q"
       },
       "emptyPendingDesc": "Bemor kartochkasiga yozuv qo'shganda shu yerda ko'rinadi.",
       "detailTitle": "Yozuv tafsiloti",
@@ -170,7 +172,10 @@
       "approvedNote": "Yozuv tasdiqlandi — bemorning doktorlari endi ko'ra oladi",
       "rejectedNote": "Yozuv rad etildi, bemorga sabab yuborildi",
       "approvedToast": "Yozuv tasdiqlandi",
-      "rejectedToast": "Yozuv rad etildi, bemorga xabar yuborildi"
+      "rejectedToast": "Yozuv rad etildi, bemorga xabar yuborildi",
+      "deletedNote": "Yozuv muallifi tomonidan o'chirilgan. Bemor va doktorlarga ko'rinmaydi.",
+      "history": "Tarix",
+      "historyHint": "Yozuv bilan nima bo'lgani, eskisidan yangisiga"
     }
   }
 }

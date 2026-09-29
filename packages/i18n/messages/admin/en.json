@@ -125,7 +125,8 @@
       "tabs": {
         "pending": "Pending",
         "approved": "Approved",
-        "rejected": "Rejected"
+        "rejected": "Rejected",
+        "deleted": "Deleted"
       },
       "patient": "Patient",
       "type": "Type",
@@ -140,7 +141,8 @@
       "empty": {
         "pending": "Nothing to review",
         "approved": "No approved entries",
-        "rejected": "No rejected entries"
+        "rejected": "No rejected entries",
+        "deleted": "No deleted entries"
       },
       "emptyPendingDesc": "Entries patients add to their record appear here.",
       "detailTitle": "Entry details",
@@ -170,7 +172,10 @@
       "approvedNote": "Approved: the patient's doctors can now see this entry",
       "rejectedNote": "Rejected; the reason was sent to the patient",
       "approvedToast": "Entry approved",
-      "rejectedToast": "Entry rejected, the patient was notified"
+      "rejectedToast": "Entry rejected, the patient was notified",
+      "deletedNote": "Deleted by its author. Hidden from the patient and doctors.",
+      "history": "History",
+      "historyHint": "What happened to the entry, oldest first"
     }
   }
 }

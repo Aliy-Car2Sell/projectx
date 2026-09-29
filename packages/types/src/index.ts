@@ -159,6 +159,29 @@ export interface MedicalRecord {
   schedule?: MedicationSchedule;
 }
 
+export type RecordAuditAction = "created" | "updated" | "approved" | "rejected" | "deleted" | "severityChanged";
+
+/** One changed field; values are stored as plain text ("" = was empty / became empty). */
+export interface RecordAuditChange {
+  field: string;
+  from: string;
+  to: string;
+}
+
+/** One line of a record's history: who did what, and when. */
+export interface RecordAuditEntry {
+  id: string;
+  recordId: string;
+  at: string; // ISO datetime
+  /** User id, or the DoctorProfile id when a doctor acted. */
+  actorId: string;
+  actorRole: UserRole;
+  actorName: string;
+  action: RecordAuditAction;
+  /** "updated": the edited fields; "severityChanged": the severity; "rejected": the reason. */
+  changes?: RecordAuditChange[];
+}
+
 /** When a regular medicine is taken: `times` are "HH:mm", one per dose. */
 export interface MedicationSchedule {
   timesPerDay: number;

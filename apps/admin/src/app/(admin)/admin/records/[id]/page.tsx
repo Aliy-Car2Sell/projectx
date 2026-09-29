@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Clock, Lock, UserRound } from "lucide-react";
 import { getRecordById } from "@projectx/mock/records";
-import { getUserById } from "@projectx/mock/users";
+import { currentAdmin, getUserById } from "@projectx/mock/users";
+import { getRecordAudit } from "@projectx/mock/audit";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
@@ -114,7 +115,7 @@ export default async function AdminRecordDetailPage({ params }: { params: Promis
         </div>
 
         <aside className="self-start">
-          <RecordDecision initialStatus={record.status} initialReason={record.rejectReason} />
+          <RecordDecision record={record} admin={currentAdmin} audit={getRecordAudit(record.id)} />
         </aside>
       </div>
     </>

@@ -505,7 +505,8 @@
       "resubmit": "Отправить снова",
       "resubmitTitle": "Отправить запись снова",
       "resubmitHint": "Причина отказа администратора — исправьте и отправьте снова:",
-      "deleted": "Запись удалена"
+      "deleted": "Удалена",
+      "deletedToast": "Запись удалена"
     },
     "search": {
       "label": "Поиск по карте",
@@ -525,6 +526,44 @@
       "to": "По",
       "apply": "Применить",
       "invalid": "Начальная дата не может быть позже конечной"
+    },
+    "audit": {
+      "title": "История ({count})",
+      "actor": {
+        "patient": "Пациент {name}",
+        "doctor": "Врач {name}",
+        "admin": "Администратор {name}"
+      },
+      "action": {
+        "created": "{actor} добавил(а) запись",
+        "updated": "{actor} изменил(а) запись",
+        "approved": "{actor} подтвердил(а) запись",
+        "rejected": "{actor} отклонил(а) запись",
+        "deleted": "{actor} удалил(а) запись",
+        "severityChanged": "{actor} изменил(а) статус с «{from}» на «{to}»"
+      },
+      "noSeverity": "не указан",
+      "reason": "Причина: {reason}",
+      "change": "{field}: «{from}» → «{to}»",
+      "changeSet": "{field} — добавлено: «{to}»",
+      "changeCleared": "{field} — удалено (было «{from}»)",
+      "fields": {
+        "type": "Тип",
+        "title": "Заголовок",
+        "description": "Текст",
+        "date": "Дата",
+        "fileName": "Файл",
+        "private": "Вижу только я",
+        "schedule": "График приёма",
+        "severity": "Статус",
+        "sections": "Разделы"
+      }
+    },
+    "edit": {
+      "title": "Изменить запись",
+      "saved": "Изменения сохранены и записаны в историю",
+      "unchanged": "Ничего не изменилось",
+      "deleteConfirm": "Удалить запись «{title}»? Она исчезнет из карты, но останется в истории."
     }
   },
   "help": {

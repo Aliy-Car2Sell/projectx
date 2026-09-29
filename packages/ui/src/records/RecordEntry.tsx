@@ -2,14 +2,15 @@
 
 import { useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import { ChevronDown, Download, Eye, FileText, FlaskConical, History, Image as ImageIcon, Lock, MessageCircleQuestion, NotebookPen, RotateCcw, ScanLine, Stethoscope, Trash2, type LucideIcon } from "lucide-react";
-import type { MedicalRecord, RecordType } from "@projectx/types";
+import { ChevronDown, Download, Eye, FileText, FlaskConical, History, Image as ImageIcon, Lock, MessageCircleQuestion, NotebookPen, Pencil, RotateCcw, ScanLine, Stethoscope, Trash2, type LucideIcon } from "lucide-react";
+import type { MedicalRecord, RecordAuditEntry, RecordType } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { mockFileUrl } from "@projectx/mock/files";
 import { Badge, NewBadge } from "../ui/Badge";
 import { FilePreviewModal, type PreviewFile } from "../ui/FilePreviewModal";
 import { Highlight } from "./Highlight";
+import { RecordHistory } from "./RecordHistory";
 import { SeverityMark } from "./SeverityMark";
 
 export const recordIcon: Partial<Record<RecordType, LucideIcon>> = {
@@ -36,7 +37,10 @@ export function RecordEntry({
   actions,
   onAskDoctor,
   onResubmit,
+  onEdit,
   onDelete,
+  history,
+  printHistory,
 }: {
   record: MedicalRecord;
   viewer: "patient" | "doctor";
@@ -51,7 +55,13 @@ export function RecordEntry({
   onAskDoctor?: (record: MedicalRecord) => void;
   /** Patient app, rejected entry: open the form again with the admin's reason / drop the entry. */
   onResubmit?: (record: MedicalRecord) => void;
+  /** Passed only when this reader wrote the entry and may still change it. */
+  onEdit?: (record: MedicalRecord) => void;
   onDelete?: (record: MedicalRecord) => void;
+  /** The entry's audit trail, oldest first: a "History (n)" link under the opened entry. */
+  history?: RecordAuditEntry[];
+  /** Printing the full record: list the history under the entry in small type. */
+  printHistory?: boolean;
 }) {
   const t = useTranslations("records");
   const tc = useTranslations("common");
@@ -78,7 +88,7 @@ export function RecordEntry({
   // A match hidden by the two-line clamp would look like a false hit: open the text while searching.
   const clamp = !expanded && !highlight;
   const canAsk = Boolean(onAskDoctor) && viewer === "patient" && record.status === "approved";
-  const hasActions = Boolean(file || actions || canAsk || (isRejected && (onResubmit || onDelete)));
+  const hasActions = Boolean(file || actions || canAsk || onEdit || onDelete || (isRejected && onResubmit));
 
   const heading = (
     <>
@@ -208,7 +218,12 @@ export function RecordEntry({
                 <RotateCcw className="h-4 w-4" /> {t("status.resubmit")}
               </button>
             )}
-            {isRejected && onDelete && (
+            {onEdit && (
+              <button type="button" onClick={() => onEdit(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+                <Pencil className="h-4 w-4" /> {tc("edit")}
+              </button>
+            )}
+            {onDelete && (
               <button type="button" onClick={() => onDelete(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-red-700 hover:bg-danger-soft">
                 <Trash2 className="h-4 w-4" /> {tc("delete")}
               </button>
@@ -226,6 +241,8 @@ export function RecordEntry({
             {actions}
           </div>
         )}
+        {history && open && !printing && <RecordHistory entries={history} />}
+        {history && printing && printHistory && <RecordHistory entries={history} variant="print" />}
       </div>
       <FilePreviewModal file={preview} onClose={() => setPreview(null)} />
     </article>
