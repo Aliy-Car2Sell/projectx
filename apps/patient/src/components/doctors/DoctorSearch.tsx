@@ -31,10 +31,19 @@ type Filters = {
 
 const initialFilters: Filters = { q: "", specialty: "", city: "", minExp: 0, category: "", minRating: 0, sort: "nearest" };
 
-export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorProfile[]; state?: DemoState }) {
+export function DoctorSearch({
+  doctors,
+  state = "normal",
+  initial,
+}: {
+  doctors: DoctorProfile[];
+  state?: DemoState;
+  /** What the visitor asked for on the landing page (`?q=` from its search field, `?specialty=` from its chips). */
+  initial?: { q?: string; specialty?: SpecialtyKey };
+}) {
   const t = useTranslations();
   const td = useTranslations("patient.doctors");
-  const [filters, setFilters] = useState<Filters>(initialFilters);
+  const [filters, setFilters] = useState<Filters>({ ...initialFilters, q: initial?.q ?? "", specialty: initial?.specialty ?? "" });
   const [view, setView] = useState<"list" | "map">("list");
   const [sheetOpen, setSheetOpen] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);

@@ -171,28 +171,81 @@
     }
   },
   "landing": {
-    "heroTitle": "O'zingizga mos doktorni toping va qabulga yoziling",
-    "heroSubtitle": "O'zbekiston bo'ylab doktorlar, klinikalar va tibbiy kartochkangiz — bitta joyda.",
-    "findDoctor": "Doktor topish",
     "login": "Kirish",
     "register": "Ro'yxatdan o'tish",
+    "findDoctor": "Doktor topish",
+    "eyebrow": "O'zbekiston bo'ylab doktorlar",
+    "heroTitle1": "Doktoringizni toping.",
+    "heroTitle2": "Sog'lig'ingiz bir joyda.",
+    "heroSubtitle": "Mutaxassisni tanlang va onlayn yoziling. Tahlillar, dorilar va doktor bilan yozishmalar — hammasi bitta ilovada, doim qo'lingizda.",
+    "searchLabel": "Doktor qidirish",
+    "searchPlaceholder": "Mutaxassislik yoki doktor ismi",
+    "searchButton": "Qidirish",
+    "popular": "Mashhur",
+    "heroImageAlt": "Doktor qabulda bemor bilan suhbatlashmoqda",
+    "float": {
+      "chatName": "Dr. Rahimov",
+      "chatText": "MRT natijasi yaxshi, yangi o'zgarish yo'q",
+      "chatTime": "hozir",
+      "apptLabel": "Keyingi qabul",
+      "apptTime": "Ertaga 10:30"
+    },
+    "trust": "Platformadagi klinikalar",
+    "how": {
+      "title": "Qanday ishlaydi",
+      "subtitle": "Uch qadam — va siz doktor qabulidasiz.",
+      "find": {
+        "title": "Doktorni tanlang",
+        "desc": "Mutaxassislik, reyting va masofa bo'yicha qidiring, bemorlar sharhlarini o'qing."
+      },
+      "book": {
+        "title": "Qulay vaqtga yoziling",
+        "desc": "Bo'sh vaqtlarni ko'ring va qabulni bir necha bosishda tasdiqlang."
+      },
+      "visit": {
+        "title": "Natijalar kartochkangizda",
+        "desc": "Qabuldan keyin xulosa, tahlil va dorilar ro'yxati tibbiy kartochkangizga tushadi."
+      }
+    },
     "features": {
+      "title": "Nimalar bor",
+      "subtitle": "Sog'lig'ingizga tegishli hamma narsa — bitta joyda.",
       "search": {
-        "title": "Yaqin doktorni toping",
-        "desc": "Mutaxassislik, reyting va masofa bo'yicha qidiring, xaritada ko'ring."
+        "title": "Doktor topish",
+        "desc": "Yaqin atrofdagi mutaxassislar xaritada va ro'yxatda, reytingi bilan."
       },
       "booking": {
-        "title": "Onlayn qabulga yozilish",
-        "desc": "Bo'sh vaqtlarni ko'ring va bir necha bosishda qabulni tasdiqlang."
+        "title": "Onlayn yozilish",
+        "desc": "Navbatsiz va qo'ng'iroqsiz: vaqtni o'zingiz tanlaysiz."
       },
       "records": {
         "title": "Tibbiy kartochka",
         "desc": "Tahlillar, rasmlar va doktor xulosalari doim qo'lingizda."
+      },
+      "chat": {
+        "title": "Doktor bilan chat",
+        "desc": "Qabuldan keyin savol tug'ilsa, doktoringizga yozing."
       }
     },
-    "forDoctors": "Doktormisiz?",
-    "forDoctorsDesc": "Profil yarating, jadval tuzing va yangi bemorlar bilan bog'laning.",
+    "forDoctors": "Siz doktormisiz? Bepul qo'shiling",
+    "forDoctorsDesc": "Profil yarating, jadvalingizni tuzing va yangi bemorlar bilan bog'laning. Qabullar, bemor kartochkalari va chat — bitta ilovada.",
+    "forDoctorsBadge": "Doktorlar uchun",
+    "forDoctorsPoints": {
+      "schedule": "Onlayn jadval",
+      "patients": "Bemorlar bazasi",
+      "chat": "Bemor bilan chat"
+    },
     "joinAsDoctor": "Doktor sifatida qo'shilish",
-    "footer": "© {year} ProjectX. Barcha huquqlar himoyalangan."
+    "doctorApp": "Doktor ilovasiga kirish",
+    "footer": {
+      "tagline": "Bemor va doktorlarni bog'lovchi platforma.",
+      "patients": "Bemorlar uchun",
+      "appointments": "Qabullarim",
+      "records": "Tibbiy kartochka",
+      "doctors": "Doktorlar uchun",
+      "account": "Hisob",
+      "forgot": "Parolni tiklash",
+      "rights": "© {year} ProjectX. Barcha huquqlar himoyalangan."
+    }
   }
 }
