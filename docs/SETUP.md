@@ -44,8 +44,11 @@ must match the `-p` flags in each app's `package.json`.
 pnpm lint
 pnpm build
 pnpm check-messages
-pnpm audit:ui            # needs `pnpm build` first; writes scripts/audit-output/report.md
+pnpm audit:quick         # the pages this branch touches; builds and starts the apps itself
+pnpm audit:ui            # the full audit, before a PR; writes scripts/audit-output/report.md
 ```
+
+The two audit modes are described in the README ("UI audit").
 
 Without a system Chrome, install Chrome for Testing and point `CHROME_PATH` at it:
 `npx -p @puppeteer/browsers browsers install chrome@<version>` (the version `puppeteer-core` pins is in

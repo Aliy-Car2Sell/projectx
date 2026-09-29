@@ -21,7 +21,7 @@ packages/
   mock/        Mock data — temporary, deleted once apps/api exists
   utils/       cn(), date formatting, appUrl() for cross-app links
   config/      Shared eslint / tsconfig / postcss
-scripts/audit.mjs   UI audit (links, buttons, i18n, 375px) across the three apps
+scripts/audit.mjs   UI audit (links, buttons, i18n, 375px) across the three apps — see "UI audit" below
 docs/               Spec, setup, audit reports
 ```
 
@@ -51,12 +51,61 @@ pnpm dev --filter admin
 pnpm build               # builds every app
 pnpm lint                # lints apps + packages
 pnpm check-messages      # uz/ru/en keys in sync per bundle
-pnpm audit:ui            # UI audit against the built apps (starts them if needed)
+pnpm audit:quick         # UI audit of the pages this branch touches (~1–4 min): after every stage of work
+pnpm audit:ui            # full UI audit (~9 min): before opening a PR
 ```
 
 Cross-app links (e.g. admin → doctor's public profile in the patient app) use
 `NEXT_PUBLIC_PATIENT_URL / NEXT_PUBLIC_DOCTOR_URL / NEXT_PUBLIC_ADMIN_URL`.
 Each app has a committed `.env` with the local ports; override with `.env.local`.
+
+## UI audit
+
+`scripts/audit.mjs` opens the apps in headless Chrome and checks what a person would notice: pages that
+do not load, links that lead nowhere, buttons that do nothing, message keys showing instead of text,
+console errors, and layouts that overflow a 375px screen. It has two modes.
+
+| | `pnpm audit:quick` | `pnpm audit:ui` (full) |
+|---|---|---|
+| When | after every stage of work | before opening a PR |
+| Pages | the pages the branch touches + 3 main pages per app (48 at most) | every seed and every page reachable from one (108 today) |
+| Languages | uz, plus one page per app in ru | uz, plus ru and en at 375px |
+| Viewports | 1280px and 375px | 1280px and 375px |
+| Buttons | pressed on every page checked | pressed on every page checked |
+| Links | checked, not followed | checked and followed |
+| Guest pass, language switcher | only when the change reaches them | always |
+| Target | ≤ 5 min | ≤ 12 min |
+| Measured (M-series MacBook, 5 workers) | 1m 08s for a small change, 3m 36s for an 89-file one | 8m 38s |
+
+**The usual routine: `pnpm audit:quick` after each stage, `pnpm audit:ui` once before the PR.**
+Both end with the time they took and the last time of the other mode (`quick: 1m 08s, full: 8m 38s`),
+and exit with 0 when clean, 2 when something was found. The report is `scripts/audit-output/report.md`;
+`screenshots/` holds only the pages that were flagged.
+
+How quick picks its pages: the files changed since the branch left `main` (committed or not) are
+followed through the import graph to the routes that load them (`scripts/audit-routes.mjs`). A changed
+message is followed through the code that reads that key. Pages the change is most specific to come
+first; a file every page imports counts for little. What did not fit is listed in the report as not
+checked, and so is a changed route that has an `[id]` but no seed URL in `scripts/audit-pages.mjs`.
+The report's first table says, per page, which changed files led to it.
+
+Good to know:
+
+- The audit runs against production builds. It builds what it needs (`turbo run build`, cached) and
+  starts the apps itself; nothing has to be running. `pnpm dev` may stay up: the audit leaves it alone
+  and serves the production build on ports 4000–4002 for the duration.
+- Pages are checked in parallel (`--workers`, default 5), each check in a browser context of its own,
+  so the result does not depend on the order. If Chrome dies mid-run it is restarted and the checks
+  that were running are repeated; the report says how often that happened.
+- Map tiles and demo photos from other servers (OpenStreetMap, pravatar, picsum) are answered with a
+  one-pixel image, so a run neither depends on the network nor loads a free tile server.
+- ru and en are loaded at 375px only. Nothing else about a page depends on the language: the message
+  keys are the same in every locale (`pnpm check-messages`).
+- Options: `--apps patient,doctor`, `--base <branch>` (quick: compare with something other than
+  `main`), `--max-pages <n>`, `--workers <n>`, `--no-probe`, `--no-build`, `--guest`, `--keep`.
+  Through pnpm: `pnpm audit:quick --base develop`.
+- No system Chrome: see `docs/SETUP.md`.
+- `node scripts/shot.mjs <url> <name>` takes 375px and 1280px screenshots of one page.
 
 ## Demo navigation
 

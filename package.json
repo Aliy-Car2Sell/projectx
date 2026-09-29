@@ -8,7 +8,8 @@
     "build": "turbo run build",
     "lint": "turbo run lint",
     "check-messages": "turbo run check-messages",
-    "audit:ui": "node scripts/audit.mjs"
+    "audit:quick": "node scripts/audit.mjs",
+    "audit:ui": "node scripts/audit.mjs --full"
   },
   "devDependencies": {
     "puppeteer-core": "25.10.0",
