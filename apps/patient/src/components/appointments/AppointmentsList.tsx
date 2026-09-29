@@ -11,31 +11,39 @@ import { ListSkeleton } from "@projectx/ui/Skeleton";
 import { Toast } from "@projectx/ui/Toast";
 import { Tabs } from "@projectx/ui/Tabs";
 import type { DemoState } from "@projectx/ui/demo/state";
+import { useLocalAppointments } from "@projectx/ui/session/useLocalAppointments";
 import { AppointmentCard } from "./AppointmentCard";
 
+/** "My appointments": the mock ones plus what was booked, paid or cancelled in this browser. */
 export function AppointmentsList({
   appointments,
+  patientId,
   doctors,
   state = "normal",
 }: {
   appointments: Appointment[];
+  patientId: string;
   doctors: Record<string, DoctorProfile>;
   state?: DemoState;
 }) {
   const t = useTranslations("patient.appointments");
   const tst = useTranslations("states");
   const [tab, setTab] = useState<"upcoming" | "past">("upcoming");
-  const [items, setItems] = useState(appointments);
+  const { merged: items, save } = useLocalAppointments(patientId, appointments);
   const [toast, setToast] = useState<string | null>(null);
+  const flash = (message: string) => {
+    setToast(message);
+    setTimeout(() => setToast(null), 2500);
+  };
 
   const upcoming = items.filter((a) => a.status === "scheduled").sort((a, b) => `${a.date}${a.time}`.localeCompare(`${b.date}${b.time}`));
   const past = items.filter((a) => a.status !== "scheduled").sort((a, b) => `${b.date}${b.time}`.localeCompare(`${a.date}${a.time}`));
   const list = state === "empty" ? [] : tab === "upcoming" ? upcoming : past;
 
   const cancel = (id: string) => {
-    setItems((all) => all.map((a) => (a.id === id ? { ...a, status: "cancelled" as const } : a)));
-    setToast(t("cancelledSuccess"));
-    setTimeout(() => setToast(null), 2500);
+    const a = items.find((x) => x.id === id);
+    if (a) save({ ...a, status: "cancelled" });
+    flash(t("cancelledSuccess"));
   };
 
   return (
@@ -63,7 +71,16 @@ export function AppointmentsList({
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {list.map((a) => {
             const d = doctors[a.doctorId];
-            return d ? <AppointmentCard key={a.id} appointment={a} doctor={d} onCancelled={cancel} /> : null;
+            return d ? <AppointmentCard
+                key={a.id}
+                appointment={a}
+                doctor={d}
+                onCancelled={cancel}
+                onPaid={(payment) => {
+                  save({ ...a, payment });
+                  flash(t("paidSuccess"));
+                }}
+              /> : null;
           })}
         </div>
       )}

@@ -1,11 +1,12 @@
-import type { Appointment, DoctorSchedule, Slot } from "@projectx/types";
+import type { Appointment, AppointmentPayment, DoctorSchedule, Slot } from "@projectx/types";
 import { isoDateFromNow } from "@projectx/utils";
+import { getDoctorById } from "./doctors";
 
 /**
  * Appointments are generated relative to today so that "upcoming" and "past"
  * tabs always have content in the mockup.
  */
-export const appointments: Appointment[] = [
+const bare: Appointment[] = [
   // Upcoming for demo patient (u-patient-1)
   {
     id: "apt-1",
@@ -175,6 +176,24 @@ export const appointments: Appointment[] = [
     status: "cancelled",
   },
 ];
+
+/** How each mock appointment is paid (the rest: paid online if completed, at the clinic otherwise). */
+const paymentOf: Record<string, Pick<AppointmentPayment, "status" | "method">> = {
+  "apt-1": { status: "unpaid" },
+  "apt-4": { status: "paid", method: "payme" },
+  "apt-8": { status: "paid", method: "click" },
+  "apt-10": { status: "paid", method: "payme" },
+  "apt-11": { status: "unpaid" },
+  "apt-13": { status: "paid", method: "click" },
+};
+
+/** Appointments with a payment wherever the doctor has a price; cancelled visits carry none. */
+export const appointments: Appointment[] = bare.map((a) => {
+  const amount = getDoctorById(a.doctorId)?.price;
+  if (!amount || a.status === "cancelled") return a;
+  const p = paymentOf[a.id] ?? (a.status === "completed" ? { status: "paid" as const, method: "payme" as const } : { status: "onsite" as const });
+  return { ...a, payment: { ...p, amount, paidAt: p.status === "paid" ? new Date(`${a.date < isoDateFromNow(0) ? a.date : isoDateFromNow(-1)}T12:00:00`).toISOString() : undefined } };
+});
 
 export function getAppointmentById(id: string): Appointment | undefined {
   return appointments.find((a) => a.id === id);

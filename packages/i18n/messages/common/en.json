@@ -758,5 +758,22 @@
       "missed": "missed",
       "none": "not prescribed"
     }
+  },
+  "payment": {
+    "label": "Payment",
+    "title": "Online payment",
+    "amount": "Amount to pay",
+    "pay": "Pay",
+    "payWith": "Pay with {provider}",
+    "method": "via {provider}",
+    "redirecting": "Redirecting to {provider}…",
+    "paid": "Paid ✓",
+    "paidToast": "Payment received",
+    "demoNote": "This is a demo: no real payment is made and no money is taken.",
+    "status": {
+      "paid": "Paid",
+      "unpaid": "Not paid",
+      "onsite": "Pays at the visit"
+    }
   }
 }

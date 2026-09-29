@@ -117,6 +117,20 @@ export interface DoctorSummary {
   severity?: RecordSeverity;
 }
 
+export type PaymentStatus = "paid" | "unpaid" | "onsite";
+export type PaymentMethod = "payme" | "click";
+
+/**
+ * How the visit is paid for; only appointments with a doctor who set a price have one.
+ * "unpaid" = online payment chosen or expected but not made yet; "onsite" = pays at the clinic.
+ */
+export interface AppointmentPayment {
+  status: PaymentStatus;
+  amount: number; // UZS
+  method?: PaymentMethod;
+  paidAt?: string; // ISO datetime
+}
+
 export interface Appointment {
   id: string;
   doctorId: string;
@@ -128,6 +142,7 @@ export interface Appointment {
   reason?: string;
   summary?: DoctorSummary;
   reviewId?: string;
+  payment?: AppointmentPayment;
 }
 
 export type RecordType =

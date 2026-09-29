@@ -758,5 +758,22 @@
       "missed": "o'tkazib yuborilgan",
       "none": "buyurilmagan"
     }
+  },
+  "payment": {
+    "label": "To'lov",
+    "title": "Onlayn to'lov",
+    "amount": "To'lov summasi",
+    "pay": "To'lash",
+    "payWith": "{provider} orqali to'lash",
+    "method": "{provider} orqali",
+    "redirecting": "{provider} ga yo'naltirilmoqda…",
+    "paid": "To'landi ✓",
+    "paidToast": "To'lov qabul qilindi",
+    "demoNote": "Bu demo: haqiqiy to'lov amalga oshirilmaydi, pul yechilmaydi.",
+    "status": {
+      "paid": "To'langan",
+      "unpaid": "To'lanmagan",
+      "onsite": "Qabulda to'lanadi"
+    }
   }
 }

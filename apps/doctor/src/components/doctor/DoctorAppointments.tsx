@@ -14,6 +14,7 @@ import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
 import { RetryButton } from "@projectx/ui/RetryButton";
 import { ListSkeleton } from "@projectx/ui/Skeleton";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
 import type { DemoState } from "@projectx/ui/demo/state";
 import { AppointmentSheet } from "./calendar/AppointmentSheet";
 import { MonthGrid } from "./calendar/MonthGrid";
@@ -101,7 +102,10 @@ export function DoctorAppointments({
               <ClipboardList className="h-3.5 w-3.5" /> {t("writeSummary")}
             </span>
           )}
-          <AppointmentStatusBadge status={a.status} />
+          <span className="flex flex-col items-end gap-1">
+            <AppointmentStatusBadge status={a.status} />
+            <PaymentBadge payment={a.payment} />
+          </span>
         </div>
       </Link>
     );

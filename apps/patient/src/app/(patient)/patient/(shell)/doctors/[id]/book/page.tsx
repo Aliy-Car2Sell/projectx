@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { getDoctorById } from "@projectx/mock/doctors";
-import { generateSlots } from "@projectx/mock/appointments";
+import { generateSlots, getPatientAppointments } from "@projectx/mock/appointments";
+import { currentPatient } from "@projectx/mock/users";
 import { PageHeader } from "@projectx/ui/PageHeader";
 import { BookingFlow } from "@/components/booking/BookingFlow";
 
@@ -28,7 +29,7 @@ export default async function BookPage({
         backHref={`/patient/doctors/${doctor.id}`}
         backLabel={tc("back")}
       />
-      <BookingFlow doctor={doctor} slots={slots} rescheduleId={reschedule} />
+      <BookingFlow doctor={doctor} slots={slots} patientId={currentPatient.id} appointments={getPatientAppointments(currentPatient.id)} rescheduleId={reschedule} />
     </>
   );
 }

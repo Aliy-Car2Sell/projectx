@@ -98,7 +98,14 @@
       "step": "{current} / {total}",
       "autoConfirm": "Qabul avtomatik tasdiqlanadi. Bekor qilish yoki ko'chirish — qabulga kamida 2 soat qolganda.",
       "rescheduling": "Qabulni ko'chirish",
-      "price": "Narx"
+      "price": "Narx",
+      "payment": {
+        "title": "To'lov",
+        "online": "Onlayn to'lash",
+        "onlineHint": "To'lov o'tgach, qabul darhol tasdiqlanadi",
+        "onsite": "Qabulda to'lash",
+        "onsiteHint": "Klinikada naqd yoki karta bilan. Pastdagi «{button}» tugmasini bosing."
+      }
     },
     "appointments": {
       "title": "Qabullarim",
@@ -134,7 +141,10 @@
       "timeLeft": "{hours} soat qoldi",
       "startsSoon": "Tez orada boshlanadi",
       "showRoute": "Yo'lni ko'rsatish",
-      "findDoctor": "Doktor topish"
+      "findDoctor": "Doktor topish",
+      "paidSuccess": "To'lov qabul qilindi",
+      "notFound": "Qabul topilmadi",
+      "notFoundDesc": "U boshqa brauzerda yozilgan yoki demo ma'lumotlar tozalangan bo'lishi mumkin."
     },
     "chat": {
       "title": "Chat"

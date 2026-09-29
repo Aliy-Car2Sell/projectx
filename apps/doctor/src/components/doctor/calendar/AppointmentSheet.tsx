@@ -4,17 +4,20 @@ import { useLocale, useTranslations } from "next-intl";
 import { ArrowRight, CalendarDays, Clock, MessageCircle } from "lucide-react";
 import type { Appointment, User } from "@projectx/types";
 import { chatHrefFor } from "@projectx/mock/chats";
+import { formatMoney } from "@projectx/utils";
 import { fmtDate } from "@projectx/utils/dates";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Button } from "@projectx/ui/Button";
 import { Modal } from "@projectx/ui/Modal";
 import { AppointmentStatusBadge } from "@projectx/ui/StatusBadge";
+import { PaymentBadge } from "@projectx/ui/payment/PaymentBadge";
 import { minutesOf, timeOf } from "./calendar";
 
 /** The appointment behind a calendar block (bottom sheet on phones); the full page is one tap away. */
 export function AppointmentSheet({ appointment: a, patient, onClose }: { appointment: Appointment | null; patient?: User; onClose: () => void }) {
   const t = useTranslations("doctor.appointments");
   const tc = useTranslations("common");
+  const tp = useTranslations("payment");
   const locale = useLocale();
   const name = patient ? `${patient.firstName} ${patient.lastName}` : (a?.patientId ?? "");
 
@@ -48,6 +51,7 @@ export function AppointmentSheet({ appointment: a, patient, onClose }: { appoint
               {patient && <div className="text-sm text-muted">{patient.phone}</div>}
               <div className="mt-1 flex flex-wrap items-center gap-1.5">
                 <AppointmentStatusBadge status={a.status} />
+                <PaymentBadge payment={a.payment} />
               </div>
             </div>
           </div>
@@ -67,6 +71,12 @@ export function AppointmentSheet({ appointment: a, patient, onClose }: { appoint
               </dd>
             </div>
           </dl>
+          {a.payment && (
+            <div>
+              <div className="text-xs text-muted">{tp("label")}</div>
+              <p className="font-semibold tabular-nums text-heading">{tc("sum", { value: formatMoney(a.payment.amount) })}</p>
+            </div>
+          )}
           <div>
             <div className="text-xs text-muted">{t("reason")}</div>
             <p className="text-heading">{a.reason ?? t("noReason")}</p>
