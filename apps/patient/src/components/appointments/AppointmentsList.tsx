@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { CalendarDays, CheckCircle2 } from "lucide-react";
 import type { Appointment, DoctorProfile } from "@projectx/types";
 import { Button } from "@projectx/ui/Button";
 import { EmptyState, ErrorState } from "@projectx/ui/EmptyState";
@@ -63,9 +62,9 @@ export function AppointmentsList({
         <ErrorState title={tst("errorTitle")} description={tst("errorDesc")} action={<RetryButton />} />
       ) : list.length === 0 ? (
         tab === "upcoming" ? (
-          <EmptyState icon={<CalendarDays className="h-7 w-7" />} title={t("noUpcoming")} description={t("noUpcomingDesc")} action={<Button href="/patient/doctors">{t("findDoctor")}</Button>} />
+          <EmptyState illustration="appointments" title={t("noUpcoming")} description={t("noUpcomingDesc")} action={<Button href="/patient/doctors">{t("findDoctor")}</Button>} />
         ) : (
-          <EmptyState icon={<CheckCircle2 className="h-7 w-7" />} title={t("noPast")} description={t("noPastDesc")} />
+          <EmptyState illustration="appointments" title={t("noPast")} description={t("noPastDesc")} />
         )
       ) : (
         <div className="grid grid-cols-1 gap-3 md:grid-cols-2">

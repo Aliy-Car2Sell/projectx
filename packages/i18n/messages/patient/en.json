@@ -26,7 +26,16 @@
       "at": "at {time}",
       "urgentTitle": "An entry needs your urgent attention",
       "urgentBanner": "Dr. {doctor}: an entry needs your urgent attention — {title}",
-      "view": "View"
+      "view": "View",
+      "medsToday": "Medications today",
+      "medsNone": "No medications today",
+      "newMessages": "New messages",
+      "noMessages": "No new messages",
+      "noAppointmentShort": "No visit scheduled",
+      "newRecords": "New records",
+      "noNewRecords": "No new records",
+      "noNewRecordsDesc": "A doctor's summary or a new lab result will show up here.",
+      "todaySummary": "Today at a glance"
     },
     "doctors": {
       "title": "Find a doctor",
@@ -71,7 +80,8 @@
       "ratingLabel": "Rating",
       "notFound": "Doctor not found",
       "openMap": "Open in map",
-      "slotDuration": "Visit duration"
+      "slotDuration": "Visit duration",
+      "reviewsStat": "Reviews"
     },
     "book": {
       "title": "Book a visit",

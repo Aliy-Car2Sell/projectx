@@ -26,7 +26,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
 
   return (
     <Card>
-      <h1 className="text-2xl font-bold text-primary-text">{t("title")}</h1>
+      <h1 className="text-h2 text-primary-900">{t("title")}</h1>
 
       {!role ? (
         <>
@@ -39,7 +39,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
                 onClick={() => setRole(r.key)}
                 className="group flex flex-col items-start gap-3 rounded-lg border-2 border-line p-4 text-left transition-colors hover:border-primary hover:bg-primary-soft/40 min-h-[120px]"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary-soft text-primary-text group-hover:bg-primary group-hover:text-white transition-colors">
+                <span className="flex h-11 w-11 items-center justify-center rounded-pill bg-primary-soft text-primary-text group-hover:bg-primary-700 group-hover:text-white transition-colors">
                   <r.icon className="h-6 w-6" />
                 </span>
                 <span className="font-bold text-heading text-base">{r.title}</span>

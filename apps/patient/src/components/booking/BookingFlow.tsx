@@ -93,13 +93,13 @@ export function BookingFlow({
         className={cn(
           "flex flex-col items-center justify-center rounded-lg border transition-colors",
           mobile ? "shrink-0 w-[64px] h-[76px]" : "h-[84px]",
-          active ? "bg-primary border-primary text-white shadow-sm" : "bg-card border-line text-heading hover:border-primary",
+          active ? "bg-primary-700 border-primary-700 text-white shadow-sm" : "bg-card border-line text-heading hover:border-primary-700",
           free === 0 && "opacity-40",
         )}
       >
         <span className={cn("text-[11px] uppercase", active ? "text-white/80" : "text-muted")}>{tc(`weekdaysShort.${weekdayKey(d)}`)}</span>
         <span className="text-xl font-bold leading-tight">{dayNum}</span>
-        <span className={cn("text-[10px]", active ? "text-white/80" : free > 0 ? "text-success" : "text-muted")}>
+        <span className={cn("text-[10px]", active ? "text-white/80" : free > 0 ? "text-success-700" : "text-muted")}>
           {free > 0 ? `${free} ${t("free").toLowerCase()}` : "—"}
         </span>
       </button>
@@ -109,10 +109,10 @@ export function BookingFlow({
   if (step === "done") {
     return (
       <Card className="text-center py-10">
-        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success">
+        <span className="mx-auto mb-4 flex h-20 w-20 items-center justify-center rounded-full bg-success-soft text-success-700">
           <CheckCircle2 className="h-10 w-10" />
         </span>
-        <h2 className="text-2xl font-bold text-heading">{t("successTitle")}</h2>
+        <h2 className="text-h2 text-heading">{t("successTitle")}</h2>
         <p className="mt-2 text-muted max-w-sm mx-auto">
           {t("successDesc", { doctor: name, date: fmtDate(locale, tc, day, "long"), time: time ?? "" })}
         </p>
@@ -141,7 +141,7 @@ export function BookingFlow({
         <Card padding="sm" className="flex items-center gap-3">
           <Avatar src={doctor.avatarUrl} name={name} size="md" />
           <div className="min-w-0">
-            <div className="font-bold text-heading truncate">{name}</div>
+            <div className="min-w-0 [overflow-wrap:anywhere] font-bold text-heading">{name}</div>
             <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
             {/* A long clinic name must shorten, not widen the page: `truncate` needs a block-level box. */}
             <div className="flex min-w-0 items-center gap-1 text-xs text-muted">
@@ -171,7 +171,7 @@ export function BookingFlow({
                 </div>
               </div>
               {/* Mobile: horizontal scroll */}
-              <div className="md:hidden flex gap-2 overflow-x-auto scrollbar-none -mx-4 px-4 pb-1">{days.map((d) => dayButton(d, true))}</div>
+              <div className="md:hidden flex gap-2 overflow-x-auto scrollbar-none -mx-5 px-5 pb-1">{days.map((d) => dayButton(d, true))}</div>
               {/* Desktop: 7-column week grid */}
               <div className="hidden md:grid grid-cols-7 gap-2">{visibleDays.map((d) => dayButton(d, false))}</div>
             </Card>
@@ -181,7 +181,7 @@ export function BookingFlow({
               <h2 className="font-bold text-heading mb-1">{t("chooseTime")}</h2>
               <p className="text-sm text-muted mb-3 capitalize">{fmtDate(locale, tc, day, "weekday")}</p>
               {daySlots.length === 0 || daySlots.every((s) => s.isBooked) ? (
-                <EmptyState compact title={t("noSlots")} description={t("noSlotsDesc")} />
+                <EmptyState compact illustration="appointments" title={t("noSlots")} description={t("noSlotsDesc")} />
               ) : (
                 <div className="flex flex-col gap-4">
                   {[
@@ -265,7 +265,7 @@ export function BookingFlow({
       </div>
 
       {/* Summary / actions: sticky bottom on mobile, side card on desktop */}
-      <div className="lg:sticky lg:top-20 self-start">
+      <div className="lg:sticky lg:top-24 self-start">
         <div className="fixed inset-x-0 bottom-14 md:bottom-0 z-20 bg-card border-t border-line p-3 safe-bottom lg:static lg:bg-transparent lg:border-0 lg:p-0">
           <Card padding="none" className="lg:p-4 border-0 shadow-none lg:border lg:shadow-card">
             <div className="hidden lg:block mb-3">

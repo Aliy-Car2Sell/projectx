@@ -3,7 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { CalendarClock, CalendarX, ClipboardList, FolderHeart, MapPin, MessageCircle, Phone, Star, Stethoscope, Wallet } from "lucide-react";
+import { CalendarClock, ClipboardList, FolderHeart, MapPin, MessageCircle, Phone, Star, Stethoscope, Wallet } from "lucide-react";
 import type { Appointment } from "@projectx/types";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { chatHrefFor } from "@projectx/mock/chats";
@@ -52,7 +52,7 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
       <>
         <PageHeader title={t("details")} backHref="/patient/appointments" backLabel={tc("back")} />
         {hydrated ? (
-          <EmptyState icon={<CalendarX className="h-7 w-7" />} title={t("notFound")} description={t("notFoundDesc")} action={<Button href="/patient/appointments">{t("title")}</Button>} />
+          <EmptyState illustration="appointments" title={t("notFound")} description={t("notFoundDesc")} action={<Button href="/patient/appointments">{t("title")}</Button>} />
         ) : (
           <Skeleton className="h-64 w-full" />
         )}
@@ -68,18 +68,18 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex flex-col gap-4">
           <Card>
-            <div className="flex items-center gap-3">
-              <Link href={`/patient/doctors/${doctor.id}`}>
-                <Avatar src={doctor.avatarUrl} name={name} size="lg" />
+            <div className="flex items-center gap-4">
+              <Link href={`/patient/doctors/${doctor.id}`} className="shrink-0 rounded-lg">
+                <Avatar src={doctor.avatarUrl} name={name} size="photo" shape="square" />
               </Link>
               <div className="min-w-0 flex-1">
-                <Link href={`/patient/doctors/${doctor.id}`} className="font-bold text-heading text-lg hover:text-primary-text block truncate">
+                <Link href={`/patient/doctors/${doctor.id}`} className="block font-display text-h3 text-heading [overflow-wrap:anywhere] hover:text-primary-700">
                   {name}
                 </Link>
                 <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
               </div>
             </div>
-            <dl className="mt-4 grid grid-cols-[auto_1fr] gap-x-4 gap-y-2 text-sm">
+            <dl className="mt-5 grid grid-cols-[auto_1fr] gap-x-5 gap-y-3 border-t border-line pt-5 text-sm">
               <dt className="text-muted inline-flex items-center gap-1.5">
                 <CalendarClock className="h-4 w-4" /> {tc("date")}
               </dt>
@@ -122,7 +122,7 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
                 </>
               )}
             </dl>
-            <div className="mt-4 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2">
               {apt.status === "scheduled" && apt.payment?.status === "unpaid" && (
                 <Button size="sm" onClick={() => setPayOpen(true)} icon={<Wallet className="h-4 w-4" />}>
                   {tp("pay")}
@@ -145,9 +145,9 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
           <section>
             <SectionTitle>{t("summary")}</SectionTitle>
             {apt.summary ? (
-              <Card className="border-accent/40">
+              <Card accent="primary">
                 <div className="flex items-center gap-2 text-xs text-muted mb-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-md gradient-accent text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-pill gradient-accent text-white">
                     <Stethoscope className="h-4 w-4" />
                   </span>
                   {name} · {fmtDate(locale, tc, apt.summary.createdAt)}
@@ -167,12 +167,12 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
                 </Link>
               </Card>
             ) : (
-              <EmptyState compact icon={<Stethoscope className="h-7 w-7" />} title={t("noSummary")} description={t("noSummaryDesc")} />
+              <EmptyState compact illustration="records" title={t("noSummary")} description={t("noSummaryDesc")} />
             )}
           </section>
         </div>
 
-        <aside className="lg:sticky lg:top-20 self-start">
+        <aside className="lg:sticky lg:top-24 self-start">
           <Card>
             <h3 className="font-bold text-heading mb-2 inline-flex items-center gap-2">
               <MapPin className="h-4 w-4 text-primary-text" /> {doctor.clinicName}

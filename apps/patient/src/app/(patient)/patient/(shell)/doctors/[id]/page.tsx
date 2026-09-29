@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { appUrl } from "@projectx/utils/urls";
 import { getTranslations } from "next-intl/server";
-import { Award, Briefcase, CalendarCheck, Clock, MapPin, MessageCircle, Phone, Star, Users } from "lucide-react";
+import { Award, Briefcase, CalendarCheck, Clock, MapPin, MessageCircle, MessagesSquare, Phone, Users, Wallet } from "lucide-react";
 import { getDoctorById } from "@projectx/mock/doctors";
 import { getDoctorReviews } from "@projectx/mock/reviews";
 import { chatHrefFor } from "@projectx/mock/chats";
@@ -10,9 +10,9 @@ import { cn, formatMoney } from "@projectx/utils";
 import { Avatar } from "@projectx/ui/Avatar";
 import { Badge } from "@projectx/ui/Badge";
 import { Button } from "@projectx/ui/Button";
-import { Card } from "@projectx/ui/Card";
+import { Card, StatCard } from "@projectx/ui/Card";
 import { EmptyState } from "@projectx/ui/EmptyState";
-import { PageHeader, SectionTitle } from "@projectx/ui/PageHeader";
+import { BackLink, SectionHeader } from "@projectx/ui/PageHeader";
 import { StarRating } from "@projectx/ui/StarRating";
 import { Tooltip } from "@projectx/ui/Tooltip";
 import { MapView } from "@projectx/ui/map/MapView";
@@ -51,90 +51,84 @@ export default async function DoctorProfilePage({
         ? { href: appUrl("admin", `/admin/doctors/${doctor.id}`), label: tc("backToPanel") }
         : { href: "/patient/doctors", label: tc("back") };
 
+  const bookHref = `/patient/doctors/${doctor.id}/book`;
+  const price = doctor.price ? tc("sum", { value: formatMoney(doctor.price) }) : null;
+
   return (
     <>
-      <PageHeader title={name} subtitle={ts(doctor.specialty)} backHref={back.href} backLabel={back.label} className="mb-3" />
+      <BackLink href={back.href} label={back.label} className="mb-3" />
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
-        <div className="flex flex-col gap-4">
-          {/* Hero card */}
-          <Card>
-            <div className="flex gap-4">
-              <Avatar src={doctor.avatarUrl} name={name} size="xl" ring />
-              <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  {doctor.category !== "none" && (
-                    <span className="flex min-w-0 max-w-full items-center gap-0.5">
-                      <Badge tone="accent" className="whitespace-normal! text-left rounded-lg!">
-                        <Award className="h-3 w-3" /> {tq(doctor.category)}
-                      </Badge>
-                      <Tooltip label={th("label")} text={th("category")} className="shrink-0" />
-                    </span>
-                  )}
-                  <Badge tone="primary">{tcity(doctor.city)}</Badge>
-                </div>
-                <div className="mt-2">
-                  <StarRating value={doctor.rating} showValue count={doctor.reviewCount} countLabel={tc("reviews", { count: doctor.reviewCount })} size="sm" />
-                </div>
-              </div>
+      {/* Hero band */}
+      <section className="relative overflow-hidden rounded-xl border border-primary-100 bg-card shadow-sm">
+        <span aria-hidden="true" className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-primary-100 to-transparent md:h-28" />
+        <div className="relative flex flex-col gap-5 p-5 md:flex-row md:items-center md:gap-7 md:p-8">
+          <Avatar src={doctor.avatarUrl} name={name} size="xl" shape="square" ring className="md:h-32 md:w-32" />
+          <div className="min-w-0 flex-1">
+            <h1 className="text-h2 text-primary-900 [overflow-wrap:anywhere] md:text-h1">{name}</h1>
+            <div className="mt-1 text-base font-semibold text-primary-700 md:text-lg">{ts(doctor.specialty)}</div>
+            <div className="mt-2.5">
+              <StarRating value={doctor.rating} showValue count={doctor.reviewCount} countLabel={tc("reviews", { count: doctor.reviewCount })} size="sm" />
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-md bg-surface p-2">
-                <div className="text-xs text-muted inline-flex items-center gap-1">
-                  <Briefcase className="h-3 w-3" /> {t("experience")}
-                </div>
-                <div className="font-bold text-heading">{tc("years", { count: doctor.experienceYears })}</div>
-              </div>
-              <div className="rounded-md bg-surface p-2">
-                <div className="text-xs text-muted inline-flex items-center gap-1">
-                  <Users className="h-3 w-3" /> {t("patients")}
-                </div>
-                <div className="font-bold text-heading">{doctor.reviewCount * 7}+</div>
-              </div>
-              <div className="rounded-md bg-surface p-2">
-                <div className="text-xs text-muted inline-flex items-center gap-1">
-                  <Clock className="h-3 w-3" /> {t("slotDuration")}
-                </div>
-                <div className="font-bold text-heading">{tc("min", { count: doctor.slotDurationMin })}</div>
-              </div>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              {doctor.category !== "none" && (
+                <span className="flex min-w-0 max-w-full items-center gap-0.5">
+                  <Badge tone="accent" className="min-w-0">
+                    <Award className="h-3.5 w-3.5 shrink-0" /> <span className="truncate">{tq(doctor.category)}</span>
+                  </Badge>
+                  <Tooltip label={th("label")} text={th("category")} className="shrink-0" />
+                </span>
+              )}
+              <Badge tone="primary">
+                <MapPin className="h-3.5 w-3.5" /> {tcity(doctor.city)}
+              </Badge>
+              <Badge tone="neutral">
+                <Clock className="h-3.5 w-3.5" /> {t("slotDuration")}: {tc("min", { count: doctor.slotDurationMin })}
+              </Badge>
+              <Badge tone="neutral">
+                <Users className="h-3.5 w-3.5" /> {t("patients")}: {doctor.reviewCount * 7}+
+              </Badge>
             </div>
-
-            <div className="mt-4 hidden md:flex gap-2">
-              <Button href={`/patient/doctors/${doctor.id}/book`} size="lg" icon={<CalendarCheck className="h-5 w-5" />}>
-                {t("book")}
-              </Button>
-              <Button href={`tel:${tel}`} variant="secondary" size="lg" icon={<Phone className="h-5 w-5" />}>
+          </div>
+          <div className="hidden shrink-0 flex-col gap-2 md:flex">
+            <Button href={bookHref} size="lg" icon={<CalendarCheck />}>
+              {t("book")}
+            </Button>
+            <div className="flex gap-2">
+              <Button href={`tel:${tel}`} variant="secondary" icon={<Phone />} className="flex-1">
                 {t("call")}
               </Button>
-              <Button href={chatHref} variant="ghost" size="lg" icon={<MessageCircle className="h-5 w-5" />}>
+              <Button href={chatHref} variant="secondary" icon={<MessageCircle />} className="flex-1">
                 {tc("messages")}
               </Button>
             </div>
-          </Card>
+          </div>
+        </div>
+      </section>
 
-          {/* Price */}
-          <Card padding="sm" className="flex items-center justify-between gap-3">
-            <div className="text-sm text-muted">{t("price")}</div>
-            <div className="font-bold text-heading text-lg">
-              {doctor.price ? tc("sum", { value: formatMoney(doctor.price) }) : <span className="text-sm text-muted font-normal">{t("priceNotSet")}</span>}
-            </div>
-          </Card>
+      {/* Experience, reviews, price */}
+      <section className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:gap-4">
+        <StatCard compact label={t("experience")} value={tc("years", { count: doctor.experienceYears })} icon={<Briefcase />} />
+        <StatCard compact label={t("reviewsStat")} value={doctor.reviewCount} hint={`${t("ratingLabel")}: ${doctor.rating.toFixed(1)}`} icon={<MessagesSquare />} tone="warning" />
+        <StatCard label={t("price")} value={price ?? "—"} hint={price ? undefined : t("priceNotSet")} icon={<Wallet />} tone="success" className="max-sm:col-span-2 [&_.text-h1]:text-h2 md:[&_.text-h1]:text-h1" />
+      </section>
 
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <div className="flex flex-col gap-6">
           {/* About */}
           <section>
-            <SectionTitle>{t("about")}</SectionTitle>
+            <SectionHeader>{t("about")}</SectionHeader>
             <Card>
-              <p className="text-base md:text-sm leading-relaxed text-heading">{doctor.about}</p>
+              <p className="text-base leading-relaxed text-neutral-800">{doctor.about}</p>
             </Card>
           </section>
 
           {/* Reviews */}
           <section>
-            <SectionTitle>
-              {t("reviews")} <span className="text-muted font-normal text-sm">({reviews.length})</span>
-            </SectionTitle>
+            <SectionHeader>
+              {t("reviews")} <span className="font-sans text-sm font-normal text-muted">({reviews.length})</span>
+            </SectionHeader>
             {reviews.length === 0 ? (
-              <EmptyState icon={<Star className="h-7 w-7" />} title={t("noReviews")} description={t("noReviewsDesc")} />
+              <EmptyState illustration="chat" title={t("noReviews")} description={t("noReviewsDesc")} />
             ) : (
               <div className="flex flex-col gap-3">
                 {reviews.map((r) => (
@@ -145,25 +139,32 @@ export default async function DoctorProfilePage({
           </section>
         </div>
 
-        {/* Workplace + map */}
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-20 self-start">
+        {/* Booking (sticky on desktop) + workplace */}
+        <aside className="flex flex-col gap-4 self-start lg:sticky lg:top-24">
+          <Card accent="primary" className="max-md:hidden">
+            <div className="text-sm text-muted">{t("price")}</div>
+            <div className="mt-1 font-display text-h2 text-heading">{price ?? <span className="font-sans text-sm font-normal text-muted">{t("priceNotSet")}</span>}</div>
+            <Button href={bookHref} size="lg" fullWidth className="mt-4" icon={<CalendarCheck />}>
+              {t("book")}
+            </Button>
+          </Card>
           <Card>
-            <h3 className="font-bold text-heading mb-2 inline-flex items-center gap-2">
-              <MapPin className="h-4 w-4 text-primary-text" /> {t("workplace")}
+            <h3 className="mb-3 flex items-center gap-2 text-lg font-bold text-heading">
+              <MapPin className="h-5 w-5 text-primary-700" /> {t("workplace")}
             </h3>
             <div className="font-semibold text-heading">{doctor.clinicName}</div>
             <div className="text-sm text-muted">{doctor.address}</div>
-            <div className="text-sm text-muted mt-1 inline-flex items-center gap-1">
-              <Phone className="h-3.5 w-3.5" /> {doctor.phone}
+            <div className="mt-1.5 inline-flex items-center gap-1.5 text-sm text-muted">
+              <Phone className="h-4 w-4" /> {doctor.phone}
             </div>
-            <div className="mt-3">
+            <div className="mt-4">
               <MapView pins={[{ id: doctor.id, lat: doctor.lat, lng: doctor.lng, title: doctor.clinicName, subtitle: doctor.address }]} zoom={14} className="h-48" />
             </div>
             <a
               href={`https://www.openstreetmap.org/?mlat=${doctor.lat}&mlon=${doctor.lng}#map=16/${doctor.lat}/${doctor.lng}`}
               target="_blank"
               rel="noreferrer"
-              className="mt-2 inline-block text-sm text-primary-text font-medium hover:underline"
+              className="mt-3 inline-block text-sm font-semibold text-primary-700 hover:underline"
             >
               {t("openMap")} →
             </a>
@@ -172,18 +173,18 @@ export default async function DoctorProfilePage({
       </div>
 
       {/* Mobile sticky CTA (sits above the bottom nav, which guests don't have) */}
-      <div className={cn("md:hidden fixed inset-x-0 z-20 bg-card border-t border-line p-3 flex gap-2 safe-bottom", signedIn ? "bottom-14" : "bottom-0")}>
-        <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0 w-11 px-0!" aria-label={t("call")}>
+      <div className={cn("md:hidden fixed inset-x-0 z-20 flex gap-2 border-t border-line bg-card/85 p-3 backdrop-blur-md safe-bottom", signedIn ? "bottom-14" : "bottom-0")}>
+        <Button href={`tel:${tel}`} variant="secondary" size="lg" className="shrink-0 w-[52px] px-0!" aria-label={t("call")}>
           <Phone className="h-5 w-5" />
         </Button>
-        <Button href={chatHref} variant="secondary" size="lg" className="shrink-0 w-11 px-0!" aria-label={tc("messages")}>
+        <Button href={chatHref} variant="secondary" size="lg" className="shrink-0 w-[52px] px-0!" aria-label={tc("messages")}>
           <MessageCircle className="h-5 w-5" />
         </Button>
-        <Button href={`/patient/doctors/${doctor.id}/book`} size="lg" fullWidth className="min-w-0 px-3!" icon={<CalendarCheck className="h-5 w-5" />}>
+        <Button href={bookHref} size="lg" fullWidth className="min-w-0 px-3!" icon={<CalendarCheck />}>
           {t("book")}
         </Button>
       </div>
-      <div className="h-16 md:hidden" />
+      <div className="h-20 md:hidden" />
     </>
   );
 }
