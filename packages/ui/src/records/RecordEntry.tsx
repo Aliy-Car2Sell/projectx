@@ -118,7 +118,7 @@ export function RecordEntry({
         )
       )}
       {isRejected && record.rejectReason && (
-        <span className={cn("mt-1 block text-sm text-red-800", !expanded && "line-clamp-2")}>
+        <span className={cn("mt-1 block text-sm text-danger-700", !expanded && "line-clamp-2")}>
           <span className="font-semibold">{t("status.reasonLabel")}: </span>
           {record.rejectReason}
         </span>
@@ -230,7 +230,7 @@ export function RecordEntry({
               </button>
             )}
             {onDelete && (
-              <button type="button" onClick={() => onDelete(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-red-700 hover:bg-danger-soft">
+              <button type="button" onClick={() => onDelete(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-danger-700 hover:bg-danger-soft">
                 <Trash2 className="h-4 w-4" /> {tc("delete")}
               </button>
             )}

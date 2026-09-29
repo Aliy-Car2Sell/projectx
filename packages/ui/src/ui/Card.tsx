@@ -79,7 +79,10 @@ export function CardHeader({
 
 type StatTone = IconTone | "white";
 
-/** A number that matters: the figure large, its label small, the icon in its container. */
+/**
+ * A number that matters: the figure large, its label small, the icon in its container.
+ * `compact` lets three of them share a phone's width: there the icon goes on top and the hint is dropped.
+ */
 export function StatCard({
   label,
   value,
@@ -87,6 +90,7 @@ export function StatCard({
   icon,
   tone = "primary",
   href,
+  compact,
   className,
 }: {
   label: string;
@@ -96,22 +100,24 @@ export function StatCard({
   /** Colour of the icon container ("white" is the old name of "primary"). */
   tone?: StatTone;
   href?: string;
+  compact?: boolean;
   className?: string;
 }) {
   const classes = cn(
-    "flex items-start justify-between gap-3 rounded-lg border border-neutral-200/70 bg-card p-5 shadow-sm",
+    "flex min-w-0 rounded-lg border border-neutral-200/70 bg-card shadow-sm",
+    compact ? "max-sm:flex-col max-sm:gap-2.5 max-sm:p-3.5 sm:items-start sm:justify-between sm:gap-3 sm:p-5" : "items-start justify-between gap-3 p-5",
     href && "lift hover:border-primary-200",
     className,
   );
   const body = (
     <>
       <div className="min-w-0">
-        <div className="font-display text-h1 leading-none text-heading">{value}</div>
-        <div className="mt-2 text-sm font-medium text-muted">{label}</div>
-        {hint && <div className="mt-0.5 text-xs text-neutral-500">{hint}</div>}
+        <div className={cn("font-display text-h1 leading-none text-heading", compact && "max-sm:text-h2 max-sm:leading-none")}>{value}</div>
+        <div className={cn("mt-2 text-sm font-medium text-muted", compact && "max-sm:mt-1.5 max-sm:text-xs max-sm:leading-tight")}>{label}</div>
+        {hint && <div className={cn("mt-0.5 text-xs text-neutral-500", compact && "max-sm:hidden")}>{hint}</div>}
       </div>
       {icon && (
-        <IconBox tone={tone === "white" ? "primary" : tone} size="lg">
+        <IconBox tone={tone === "white" ? "primary" : tone} size="lg" className={cn(compact && "max-sm:order-first max-sm:h-9 max-sm:w-9 max-sm:[&>svg]:h-[18px] max-sm:[&>svg]:w-[18px]")}>
           {icon}
         </IconBox>
       )}

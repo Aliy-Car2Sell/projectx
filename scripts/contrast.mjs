@@ -7,6 +7,8 @@
  *   ui     needs 3:1   (icons, borders of controls, focus ring)
  *   known  below AA on purpose; listed so the number stays in sight, not counted as a failure
  *
+ * White text never sits on a 500: buttons, the own chat bubble and counters use the 600 / 700 of their colour.
+ *
  * Usage:  node scripts/contrast.mjs          exit code 1 if a pair fails
  */
 import fs from "node:fs";
@@ -70,19 +72,21 @@ const PAIRS = [
   ["indigo-700", "indigo-50", "text", "admin accent badge"],
   ["indigo-700", "card", "text", "admin accent text"],
   ["card", "neutral-900", "text", "toast, tooltip"],
-  ["card", "danger-700", "text", "danger button"],
+  ["card", "danger-600", "text", "danger button, unread counter"],
+  ["card", "danger-700", "text", "danger button, hovered"],
+  ["card", "success-700", "text", "success fill"],
+  ["card", "warning-700", "text", "warning fill"],
   ["card", "teal-700", "text", "doctor call-to-action button"],
   ["card", "indigo-600", "text", "admin accent fill"],
-  ["card", "primary-700", "text", "primary button (AA variant)"],
+  ["card", "primary-700", "text", "primary button, own chat bubble, counter"],
+  ["card", "primary-800", "text", "primary button, hovered"],
+  ["primary-50", "primary-700", "text", "time and file size inside the own chat bubble"],
   ["card", "primary-500", "ui", "icon on a brand fill (active nav item)"],
   ["card", "teal-500", "ui", "icon on a teal fill"],
   ["card", "indigo-500", "ui", "icon on an indigo fill"],
   ["primary-500", "card", "ui", "focus ring, brand icon"],
   ["primary-700", "primary-50", "ui", "icon in its container"],
-  // Below AA on purpose.
-  // The brand fill keeps #1a9be6 (docs/audit-2026-09-21-records.md); the label is 16px semibold, so AA asks for 4.5:1.
-  ["card", "primary-500", "known", "primary button label on the brand fill"],
-  // Stars are decoration: the rating is always written next to them as a number.
+  // Below AA on purpose. Stars are decoration: the rating is always written next to them as a number.
   ["star", "card", "known", "rating star"],
 ];
 

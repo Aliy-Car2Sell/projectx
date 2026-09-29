@@ -145,7 +145,7 @@ export function AddRecordSheet({
         }}
       >
         {initial?.rejectReason && (
-          <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-red-800">
+          <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-danger-700">
             <AlertCircle className="h-5 w-5 shrink-0" />
             <div>
               <div className="font-semibold">{t("status.resubmitHint")}</div>
@@ -208,7 +208,7 @@ export function AddRecordSheet({
                 {t("add.schedule.addTime")}
               </Button>
             </div>
-            {times.length === 0 ? <p className="text-sm text-danger">{t("add.schedule.required")}</p> : <p className="text-sm text-muted">{t("add.schedule.perDay", { count: times.length })}</p>}
+            {times.length === 0 ? <p className="text-sm text-danger-700">{t("add.schedule.required")}</p> : <p className="text-sm text-muted">{t("add.schedule.perDay", { count: times.length })}</p>}
             <div className="grid grid-cols-2 gap-2">
               <Input label={t("add.schedule.start")} type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
               <Input label={t("add.schedule.end")} type="date" value={endDate} min={startDate} onChange={(e) => setEndDate(e.target.value)} hint={t("add.schedule.endHint")} />

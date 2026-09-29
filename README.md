@@ -71,7 +71,9 @@ radius, shadow, motion), the components in `src/ui`, the empty-state illustratio
   shows every token and component in all its variants. It exists in development only.
 - Each app has an accent on top of the same base: patient brand blue, doctor teal, admin indigo
   (`data-accent` on `<html>`; use the `accent-*` colours, not `teal-*` / `indigo-*`).
-- `node scripts/contrast.mjs` checks the text and icon colours against WCAG AA.
+- `node scripts/contrast.mjs` checks the text and icon colours against WCAG AA. White text goes on
+  a 600 / 700 (buttons and the own chat bubble are `primary-700`); `primary-500` is for backgrounds,
+  accents and icon containers.
 - `node scripts/make-icons.mjs` redraws the favicon and the PWA icons from the logo.
 - Photos and their licences are listed in `docs/IMAGES.md`.
 

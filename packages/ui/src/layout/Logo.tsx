@@ -8,18 +8,12 @@ import { cn } from "@projectx/utils";
  */
 export const LOGO_BUBBLE =
   "M9.5 3h13A7.5 7.5 0 0 1 30 10.5v8a7.5 7.5 0 0 1-7.5 7.5h-7.3l-5.9 4.4c-.8.6-1.9 0-1.9-1v-3.7A7.5 7.5 0 0 1 2 18.5v-8A7.5 7.5 0 0 1 9.5 3z";
-/** Variant B (the alternative shown on /design): a heart in the bubble instead of the cross. */
-export const LOGO_HEART =
-  "M16 21.3c-.3 0-.6-.1-.8-.3l-4.5-4.4a3.8 3.8 0 0 1 5.3-5.4 3.8 3.8 0 0 1 5.3 5.4L16.8 21c-.2.2-.5.3-.8.3z";
-
 export function LogoMark({
   size = 32,
-  variant = "cross",
   light,
   className,
 }: {
   size?: number;
-  variant?: "cross" | "heart";
   /** On a coloured background: white bubble, brand-coloured sign. */
   light?: boolean;
   className?: string;
@@ -35,14 +29,8 @@ export function LogoMark({
       className={cn("shrink-0", className)}
     >
       <path d={LOGO_BUBBLE} fill={light ? "#fff" : "var(--color-primary-500)"} />
-      {variant === "cross" ? (
-        <>
-          <rect x="14.2" y="8.5" width="3.6" height="12" rx="1.8" fill={sign} />
-          <rect x="10" y="12.7" width="12" height="3.6" rx="1.8" fill={sign} />
-        </>
-      ) : (
-        <path d={LOGO_HEART} fill={sign} />
-      )}
+      <rect x="14.2" y="8.5" width="3.6" height="12" rx="1.8" fill={sign} />
+      <rect x="10" y="12.7" width="12" height="3.6" rx="1.8" fill={sign} />
     </svg>
   );
 }

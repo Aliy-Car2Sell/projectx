@@ -61,7 +61,7 @@ export function FirstRunGuide() {
           <span className="flex h-16 w-16 items-center justify-center rounded-full bg-primary-soft text-primary-text">
             <Icon className="h-8 w-8" />
           </span>
-          <h2 className="mt-4 text-xl font-bold text-heading">
+          <h2 className="mt-4 text-h3 text-heading">
             {step + 1} — {t(`steps.${step}.title`)}
           </h2>
           <p className="mt-1.5 text-muted">{t(`steps.${step}.text`)}</p>

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { AlertTriangle, ChevronRight, NotebookPen, Plus, Printer, SearchX, Stethoscope, X } from "lucide-react";
+import { AlertTriangle, ChevronRight, Plus, Printer, Stethoscope, X } from "lucide-react";
 import type { DoctorProfile, MedicalRecord, MedicationLog, RecordAuditEntry, User } from "@projectx/types";
 import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
@@ -11,6 +11,7 @@ import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
 import { ConfirmDialog } from "../ui/ConfirmDialog";
 import { ErrorState } from "../ui/EmptyState";
+import { Illustration } from "../illustrations";
 import { RetryButton } from "../ui/RetryButton";
 import { Skeleton } from "../ui/Skeleton";
 import { Toast, useToast } from "../ui/Toast";
@@ -238,7 +239,7 @@ export function RecordsView({
                 onClick={() => setFilter(filter === "flagged" ? "all" : "flagged")}
                 className={cn(
                   "record-noprint mt-3 flex w-full min-h-[44px] items-center gap-2 rounded-md border px-3 py-2 text-left text-sm font-semibold transition-colors",
-                  flagged.urgent > 0 ? "border-danger/40 bg-danger-soft/60 text-red-700 hover:bg-danger-soft" : "border-warning/50 bg-warning-soft/70 text-amber-700 hover:bg-warning-soft",
+                  flagged.urgent > 0 ? "border-danger/40 bg-danger-soft/60 text-danger-700 hover:bg-danger-soft" : "border-warning/50 bg-warning-soft/70 text-warning-700 hover:bg-warning-soft",
                   filter === "flagged" && "ring-2 ring-primary/30",
                 )}
               >
@@ -258,17 +259,15 @@ export function RecordsView({
 
             {entries.length === 0 ? (
               <div className="flex flex-col items-center py-10 text-center">
-                <span className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-soft text-primary-text">
-                  <NotebookPen className="h-7 w-7" />
-                </span>
-                <h3 className="mt-3 text-base font-bold text-heading">{t("empty.title")}</h3>
+                <Illustration name="records" />
+                <h3 className="mt-3 text-h3 text-heading">{t("empty.title")}</h3>
                 <p className="mt-1 max-w-sm text-muted">{t(role === "patient" ? "empty.patient" : "empty.doctor")}</p>
                 {addButton && <div className="mt-4 flex flex-wrap justify-center gap-2">{addButton}</div>}
               </div>
             ) : shown.length === 0 ? (
               <div className="flex flex-col items-center py-10 text-center">
-                <SearchX className="h-8 w-8 text-muted" aria-hidden="true" />
-                <p className="mt-2 font-semibold text-heading">{t("empty.filtered")}</p>
+                <Illustration name="search" width={128} />
+                <p className="mt-2 font-display text-lg font-bold text-heading">{t("empty.filtered")}</p>
                 {narrowed && (
                   <Button size="sm" variant="secondary" className="mt-3" onClick={clearFilters}>
                     {t("empty.clearFilters")}

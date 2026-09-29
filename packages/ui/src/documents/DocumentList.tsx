@@ -22,7 +22,7 @@ export function DocumentList({ documents, columns = 1 }: { documents: DoctorDocu
           const url = mockFileUrl(doc.fileType);
           return (
             <li key={doc.id} className="flex items-center gap-3 rounded-lg border border-line p-3">
-              <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-md", doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary-text")}>
+              <span className={cn("flex h-11 w-11 shrink-0 items-center justify-center rounded-pill", doc.fileType === "image" ? "bg-accent-soft text-accent" : "bg-primary-soft text-primary-text")}>
                 {doc.fileType === "image" ? <ImageIcon className="h-5 w-5" /> : <FileText className="h-5 w-5" />}
               </span>
               <div className="min-w-0 flex-1">

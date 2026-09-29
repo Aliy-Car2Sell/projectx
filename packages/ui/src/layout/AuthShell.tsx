@@ -12,15 +12,15 @@ export async function AuthShell({ children }: { children: React.ReactNode }) {
   const t = await getTranslations("shell");
   return (
     <div className="min-h-dvh flex flex-col">
-      <header className="flex items-center justify-between px-4 md:px-8 h-16">
+      <header className="flex items-center justify-between px-page h-16 md:h-[72px]">
         <span className="inline-flex items-center gap-2">
           <Logo />
           {demo && <Badge tone="accent">{t("demoBadge")}</Badge>}
         </span>
         <LanguageSwitcher />
       </header>
-      <main className="flex-1 flex items-start md:items-center justify-center px-4 pb-10">
-        <div className="w-full max-w-md">{children}</div>
+      <main className="flex-1 flex items-start md:items-center justify-center px-page pb-10">
+        <div className="w-full max-w-md animate-enter">{children}</div>
       </main>
     </div>
   );

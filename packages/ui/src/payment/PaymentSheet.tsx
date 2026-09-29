@@ -91,7 +91,7 @@ export function PaymentSheet({
           </div>
         ) : paid ? (
           <>
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-success-soft text-success">
+            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-success-soft text-success-700">
               <CheckCircle2 className="h-9 w-9" />
             </span>
             <div className="text-lg font-bold text-heading">{t("paid")}</div>

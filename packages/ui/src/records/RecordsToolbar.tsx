@@ -114,7 +114,7 @@ export function RecordsToolbar({
   const iconButton = "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border transition-colors";
 
   return (
-    <div className="sticky top-14 md:top-16 z-20 -mx-4 px-4 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3">
+    <div className="sticky top-14 md:top-16 z-20 -mx-5 px-5 md:mx-0 md:px-0 py-2 bg-surface/95 backdrop-blur flex flex-col gap-2 md:flex-row md:flex-wrap md:items-center md:gap-x-3">
       {/* Wide enough for the open search field; in a narrow column (doctor's patient card) the actions wrap below. */}
       <div className="flex min-w-0 flex-1 items-center gap-2 md:min-w-[26rem]">
         <div className="flex min-w-0 flex-1 gap-1.5 overflow-x-auto scrollbar-none" role="group" aria-label={t("filterLabel")}>
@@ -221,7 +221,7 @@ function RangePanel({ query, onRange, onClose }: { query: RecordQuery; onRange: 
               <input type="date" value={to} min={from || undefined} max={now} onChange={(e) => setTo(e.target.value)} className="min-h-[40px] w-full rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
             </label>
           </div>
-          {invalid && <p className="text-xs text-danger">{t("invalid")}</p>}
+          {invalid && <p className="text-xs text-danger-700">{t("invalid")}</p>}
           <Button type="submit" size="sm" disabled={invalid || (!from && !to)}>
             {t("apply")}
           </Button>

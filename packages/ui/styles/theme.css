@@ -17,10 +17,10 @@
   --color-primary-200: #bde1fa;
   --color-primary-300: #88ccf5;
   --color-primary-400: #4cb1ee;
-  --color-primary-500: #1a9be6; /* brand: fills, icons, focus ring. 3.05:1 on white, so never body text */
-  --color-primary-600: #1584c7; /* hover of a brand fill */
-  --color-primary-700: #0d72b3; /* brand as text: 5.15:1 on white */
-  --color-primary-800: #0b5a8c; /* text on primary-100 */
+  --color-primary-500: #1a9be6; /* brand: backgrounds, accents, icon containers, focus ring. Never under white text (3.05:1) */
+  --color-primary-600: #1584c7;
+  --color-primary-700: #0d72b3; /* brand as text (5.15:1 on white) and the fill under white text: buttons, own chat bubble */
+  --color-primary-800: #0b5a8c; /* hover of a 700 fill, text on primary-100 */
   --color-primary-900: #0a3d5f; /* dark heading */
 
   /* ---------- Color: neutral, blue-tinted (no pure black or grey) ---------- */
@@ -35,7 +35,7 @@
   --color-neutral-800: #1d2f42;
   --color-neutral-900: #0f1f2e; /* text */
 
-  /* ---------- Color: status (50 background + 700 text, 500 for dots and fills) ---------- */
+  /* ---------- Color: status (50 background + 700 text; 500 for dots and lines; white text only on 600 / 700) ---------- */
   --color-success-50: #ecfdf3;
   --color-success-500: #22c55e;
   --color-success-700: #15803d;
@@ -44,6 +44,7 @@
   --color-warning-700: #b45309;
   --color-danger-50: #fef3f2;
   --color-danger-500: #ef4444;
+  --color-danger-600: #dc2626; /* the fill under white text: danger button, unread counter */
   --color-danger-700: #b91c1c;
 
   /* ---------- Color: role accents. The base is the same in every app, only the accent differs. ---------- */
@@ -72,7 +73,7 @@
 
   /* ---------- Semantic aliases (what components and pages use) ---------- */
   --color-primary: var(--color-primary-500);
-  --color-primary-hover: var(--color-primary-600);
+  --color-primary-hover: var(--color-primary-800);
   --color-primary-soft: var(--color-primary-50);
   --color-primary-text: var(--color-primary-700);
   --color-surface: var(--color-neutral-50);
@@ -147,8 +148,12 @@
 
   /* ---------- Motion ---------- */
   --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --animate-enter: enter 200ms var(--ease-out-soft) both;
-  --animate-sheet: sheet-in 220ms var(--ease-out-soft) both;
+  /*
+   * `backwards`, never `forwards`: an animation that keeps holding `transform` makes its element the
+   * containing block of every position:fixed descendant (a modal, the chat thread on a phone) for good.
+   */
+  --animate-enter: enter 200ms var(--ease-out-soft) backwards;
+  --animate-sheet: sheet-in 220ms var(--ease-out-soft) backwards;
   --animate-shimmer: shimmer 1.6s linear infinite;
 
   @keyframes enter {
@@ -271,12 +276,13 @@
   }
 }
 
+/* Both gradients stay dark enough for white text from end to end. */
 @utility gradient-accent {
-  background-image: linear-gradient(135deg, var(--color-accent-700) 0%, var(--color-accent-500) 100%);
+  background-image: linear-gradient(135deg, color-mix(in srgb, var(--color-accent-700) 82%, #000) 0%, var(--color-accent-700) 100%);
 }
 
 @utility gradient-primary {
-  background-image: linear-gradient(135deg, var(--color-primary-700) 0%, var(--color-primary-500) 100%);
+  background-image: linear-gradient(135deg, var(--color-primary-800) 0%, var(--color-primary-700) 100%);
 }
 
 @utility skeleton {

@@ -3,6 +3,19 @@ import { useTranslations } from "next-intl";
 import { ArrowLeft } from "lucide-react";
 import { cn } from "@projectx/utils";
 
+/** "← Back" above a page title (or above a hero that carries the title itself). */
+export function BackLink({ href, label, className }: { href: string; label?: string; className?: string }) {
+  const tc = useTranslations("common");
+  return (
+    <Link
+      href={href}
+      className={cn("-ml-1 inline-flex min-h-[32px] items-center gap-1.5 rounded-pill px-1 text-sm font-medium text-muted transition-colors hover:text-primary-700", className)}
+    >
+      <ArrowLeft className="h-4 w-4" /> {label ?? tc("back")}
+    </Link>
+  );
+}
+
 /** Top of a page: the title, a line about it, and on the right what can be done here. */
 export function PageHeader({
   title,
@@ -19,17 +32,9 @@ export function PageHeader({
   backLabel?: string;
   className?: string;
 }) {
-  const tc = useTranslations("common");
   return (
     <div className={cn("mb-5 md:mb-8", className)}>
-      {backHref && (
-        <Link
-          href={backHref}
-          className="-ml-1 mb-2 inline-flex min-h-[32px] items-center gap-1.5 rounded-pill px-1 text-sm font-medium text-muted transition-colors hover:text-primary-700"
-        >
-          <ArrowLeft className="h-4 w-4" /> {backLabel ?? tc("back")}
-        </Link>
-      )}
+      {backHref && <BackLink href={backHref} label={backLabel} className="mb-2" />}
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-3">
         <div className="min-w-0">
           <h1 className="text-h2 md:text-h1 text-primary-900">{title}</h1>

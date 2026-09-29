@@ -35,7 +35,6 @@ import { Tabs } from "@projectx/ui/Tabs";
 import { Toast, useToast, type ToastTone } from "@projectx/ui/Toast";
 import { Tooltip } from "@projectx/ui/Tooltip";
 import { Illustration, illustrations, type IllustrationName } from "@projectx/ui/illustrations";
-import { EmptyAppointmentsB, EmptyChatB, SuccessB } from "@projectx/ui/illustrations/StyleB";
 import { Logo, LogoMark } from "@projectx/ui/layout/Logo";
 
 /* This page is a developer's tool and is not translated: its labels are written in Uzbek. */
@@ -59,11 +58,11 @@ const SECTIONS = [
 
 const STEPS = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"];
 const SCALES: { name: string; token: string; steps: string[]; note: string }[] = [
-  { name: "Primary", token: "primary", steps: STEPS, note: "50 fon · 100 chip · 500 brend · 600 hover · 700 matn · 900 sarlavha" },
+  { name: "Primary", token: "primary", steps: STEPS, note: "50 fon · 100 chip · 500 brend · 700 matn va tugma · 800 hover · 900 sarlavha" },
   { name: "Neutral", token: "neutral", steps: STEPS, note: "ko'kimtir tonli: 50 sahifa foni · 200 chiziq · 600 ikkinchi matn · 900 matn" },
   { name: "Success", token: "success", steps: ["50", "500", "700"], note: "50 fon + 700 matn" },
   { name: "Warning", token: "warning", steps: ["50", "500", "700"], note: "50 fon + 700 matn" },
-  { name: "Danger", token: "danger", steps: ["50", "500", "700"], note: "50 fon + 700 matn" },
+  { name: "Danger", token: "danger", steps: ["50", "500", "600", "700"], note: "50 fon + 700 matn · 600 oq yozuv ostida" },
   { name: "Teal (doktor)", token: "teal", steps: ["50", "100", "300", "500", "600", "700"], note: "doktor ilovasi aksenti" },
   { name: "Indigo (admin)", token: "indigo", steps: ["50", "100", "300", "500", "600", "700"], note: "admin ilovasi aksenti" },
 ];
@@ -223,42 +222,33 @@ export function DesignShowcase() {
           </Row>
         </Section>
 
-        <Section id="logo" title="Logo" note="Ikki variant. A hozir ishlatilgan (header, favicon, PWA ikonkalari); B ni tanlasangiz, almashtiraman.">
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {(
-              [
-                ["cross", "A · plus + chat pufakchasi", "Tibbiyot belgisi + muloqot. 16px da ham o'qiladi."],
-                ["heart", "B · yurak + chat pufakchasi", "Yumshoqroq, g'amxo'rlik ohangida."],
-              ] as const
-            ).map(([variant, name, note]) => (
-              <Card key={variant}>
-                <CardHeader title={name} subtitle={note} />
-                <div className="flex flex-wrap items-end gap-6">
-                  {[24, 32, 48].map((size) => (
-                    <div key={size} className="flex flex-col items-center gap-2">
-                      <LogoMark size={size} variant={variant} />
-                      <span className="text-caption text-neutral-500">{size}</span>
-                    </div>
-                  ))}
-                  <div className="flex flex-col items-center gap-2">
-                    <span className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary-500">
-                      <LogoMark size={40} variant={variant} light />
-                    </span>
-                    <span className="text-caption text-neutral-500">ilova ikonkasi</span>
-                  </div>
-                  <div className="flex flex-col items-start gap-2">
-                    <span className="inline-flex items-center gap-2">
-                      <LogoMark size={32} variant={variant} />
-                      <span className="font-display text-[19px] font-extrabold leading-none tracking-[-0.03em] text-primary-900">
-                        Project<span className="text-primary-500">X</span>
-                      </span>
-                    </span>
-                    <span className="text-caption text-neutral-500">so&apos;z bilan</span>
-                  </div>
+        <Section id="logo" title="Logo" note="Plus + chat pufakchasi: tibbiyot belgisi va muloqot. Bitta rang; favicon va PWA ikonkalari shu belgidan chiziladi.">
+          <Card>
+            <div className="flex flex-wrap items-end gap-8">
+              {[24, 32, 48].map((size) => (
+                <div key={size} className="flex flex-col items-center gap-2">
+                  <LogoMark size={size} />
+                  <span className="text-caption text-neutral-500">{size}</span>
                 </div>
-              </Card>
-            ))}
-          </div>
+              ))}
+              <div className="flex flex-col items-center gap-2">
+                <span className="flex h-16 w-16 items-center justify-center rounded-lg bg-primary-500">
+                  <LogoMark size={40} light />
+                </span>
+                <span className="text-caption text-neutral-500">ilova ikonkasi</span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <Logo href="/design" />
+                <span className="text-caption text-neutral-500">so&apos;z bilan</span>
+              </div>
+              <div className="flex flex-col items-start gap-2">
+                <span className="rounded-md bg-primary-900 px-4 py-3">
+                  <Logo href="/design" light />
+                </span>
+                <span className="text-caption text-neutral-500">to&apos;q fonda</span>
+              </div>
+            </div>
+          </Card>
         </Section>
 
         <Section id="icons" title="Ikonkalar" note="lucide, stroke 1.75. Yalang'och ikonka yo'q: har biri o'z konteynerida.">
@@ -317,8 +307,8 @@ export function DesignShowcase() {
           </Row>
         </Section>
 
-        <Section id="illustrations" title="Illyustratsiyalar" note="160×120, yassi, uch rang (primary-100 / 300 / 500) va oq. Ikki uslub: A to'liq chizilgan, B dan uchta namuna.">
-          <Row label="A · yumshoq fon ustida oq buyum (hozir ishlatilgan)" className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
+        <Section id="illustrations" title="Illyustratsiyalar" note="160×120, yassi, uch rang (primary-100 / 300 / 500) va oq: yumshoq fon ustida oq buyum.">
+          <Row label="Bo'sh holatlar va landing uchun" className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-5">
             {(Object.keys(illustrations) as IllustrationName[]).map((name) => (
               <Card key={name} className="flex flex-col items-center text-center">
                 <Illustration name={name} />
@@ -327,25 +317,9 @@ export function DesignShowcase() {
               </Card>
             ))}
           </Row>
-          <Row label="B · fonsiz, rangli buyum soya ustida (solishtirish uchun)" className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {[
-              [EmptyAppointmentsB, "Bo'sh qabullar"],
-              [EmptyChatB, "Bo'sh chat"],
-              [SuccessB, "Muvaffaqiyat"],
-            ].map(([Drawing, label]) => {
-              const D = Drawing as typeof EmptyAppointmentsB;
-              return (
-                <Card key={label as string} className="flex flex-col items-center text-center">
-                  <D />
-                  <div className="mt-2 text-sm font-semibold text-heading">{label as string}</div>
-                  <div className="text-caption text-neutral-500">B uslubi</div>
-                </Card>
-              );
-            })}
-          </Row>
         </Section>
 
-        <Section id="buttons" title="Tugmalar" note="Pill shakl. Bosilganda 0.98 scale, hover da soya kuchayadi.">
+        <Section id="buttons" title="Tugmalar" note="Pill shakl. Oq yozuv faqat primary-700 ustida (5.15:1); primary-500 fon, aksent va ikonka konteynerlarida qoladi. Bosilganda 0.98 scale.">
           {(["primary", "secondary", "ghost", "danger"] as const).map((v) => (
             <Row key={v} label={v}>
               <Button variant={v} size="sm">
@@ -377,24 +351,6 @@ export function DesignShowcase() {
               <Plus className="h-5 w-5" />
             </IconButton>
           </Row>
-          <Card accent="warning" className="bg-warning-50/40">
-            <CardHeader
-              title="Savol: asosiy tugma rangi"
-              subtitle="Oq yozuv brend ko'k (primary-500) ustida 3.05:1 — AA (4.5:1) dan past. Hozir topshiriqdagidek 500 qoldirilgan; primary-700 ustida 5.15:1 bo'ladi."
-            />
-            <div className="flex flex-wrap items-center gap-6">
-              <div className="flex flex-col items-start gap-1.5">
-                <Button size="lg">Yozilish</Button>
-                <span className="text-caption text-muted">Hozirgi · 500 → hover 600 · 3.05:1</span>
-              </div>
-              <div className="flex flex-col items-start gap-1.5">
-                <Button size="lg" className="bg-primary-700 hover:bg-primary-800">
-                  Yozilish
-                </Button>
-                <span className="text-caption text-muted">AA varianti · 700 → hover 800 · 5.15:1</span>
-              </div>
-            </div>
-          </Card>
         </Section>
 
         <Section id="cards" title="Kartalar" note="Radius lg, ichki bo'shliq 20–24. Interaktiv karta hover da 2px ko'tariladi (150ms).">

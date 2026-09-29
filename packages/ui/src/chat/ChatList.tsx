@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useLocale, useTranslations } from "next-intl";
-import { MessageCircle, Paperclip, Search } from "lucide-react";
+import { Paperclip, Search } from "lucide-react";
 import type { Chat } from "@projectx/types";
 import { cn, isSameDay } from "@projectx/utils";
 import { fmtDate, fmtTime } from "@projectx/utils/dates";
@@ -45,12 +45,12 @@ export function ChatList({
 
   return (
     <div className="flex flex-col gap-3">
-      <Input placeholder={t("searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} leftIcon={<Search className="h-4 w-4" />} type="search" />
+      <Input placeholder={t("searchPlaceholder")} aria-label={t("searchPlaceholder")} value={q} onChange={(e) => setQ(e.target.value)} leftIcon={<Search className="h-5 w-5" />} type="search" />
       {state === "loading" ? (
         <ListSkeleton rows={4} />
       ) : list.length === 0 ? (
         <EmptyState
-          icon={<MessageCircle className="h-7 w-7" />}
+          illustration="chat"
           title={t("noChats")}
           description={t(forPatient ? "noChatsDesc" : "noChatsDoctorDesc")}
           action={
@@ -60,20 +60,20 @@ export function ChatList({
           }
         />
       ) : (
-        <ul className="bg-card rounded-lg shadow-card border border-line/60 divide-y divide-line overflow-hidden">
+        <ul className="bg-card rounded-lg shadow-sm border border-neutral-200/70 divide-y divide-line overflow-hidden">
           {list.map((c) => {
             const active = c.id === activeId;
             return (
               <li key={c.id}>
                 <Link
                   href={`${basePath}/${c.id}`}
-                  className={cn("flex items-center gap-3 px-3 py-3 min-h-[72px] transition-colors", active ? "bg-primary-soft/70" : "hover:bg-surface")}
+                  className={cn("relative flex items-center gap-3 px-4 py-3.5 min-h-[76px] transition-colors", active ? "bg-primary-50 before:absolute before:inset-y-3 before:left-0 before:w-1 before:rounded-r-pill before:bg-primary-500" : "hover:bg-neutral-50")}
                 >
                   <Avatar src={c.participantAvatar} name={c.participantName} size="md" />
                   <div className="min-w-0 flex-1">
                     <div className="flex items-baseline justify-between gap-2">
                       <span className={cn("truncate", c.unreadCount > 0 ? "font-bold text-heading" : "font-semibold text-heading")}>{c.participantName}</span>
-                      <span className={cn("shrink-0 text-xs", c.unreadCount > 0 ? "text-primary-text font-semibold" : "text-muted")}>{when(c.lastMessageAt)}</span>
+                      <span className={cn("shrink-0 text-xs tabular-nums", c.unreadCount > 0 ? "text-primary-700 font-semibold" : "text-neutral-500")}>{when(c.lastMessageAt)}</span>
                     </div>
                     {c.participantSubtitle && c.participantRole === "doctor" && (
                       <div className="text-xs text-primary-text">{ts(c.participantSubtitle as Parameters<typeof ts>[0])}</div>
@@ -87,7 +87,7 @@ export function ChatList({
                     <div className="flex items-center justify-between gap-2 mt-0.5">
                       <span className={cn("truncate text-sm", c.unreadCount > 0 ? "text-heading" : "text-muted")}>{c.lastMessage}</span>
                       {c.unreadCount > 0 && (
-                        <span className="shrink-0 h-5 min-w-[20px] rounded-full bg-primary text-white text-[11px] font-bold flex items-center justify-center px-1.5">
+                        <span className="shrink-0 h-5 min-w-[20px] rounded-pill bg-primary-700 text-white text-[11px] font-bold flex items-center justify-center px-1.5">
                           {c.unreadCount}
                         </span>
                       )}

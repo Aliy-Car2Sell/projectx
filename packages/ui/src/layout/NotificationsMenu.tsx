@@ -11,20 +11,20 @@ import { cn, isSameDay } from "@projectx/utils";
 import { Modal } from "../ui/Modal";
 
 const icons: Record<NotificationType, { icon: LucideIcon; cls: string }> = {
-  appointmentReminder: { icon: CalendarDays, cls: "bg-primary-soft text-primary-text" },
-  newBooking: { icon: CalendarDays, cls: "bg-success-soft text-success" },
-  newMessage: { icon: MessageCircle, cls: "bg-primary-soft text-primary-text" },
-  newRecord: { icon: FolderHeart, cls: "bg-accent-soft text-accent" },
-  recordUrgent: { icon: AlertTriangle, cls: "bg-danger-soft text-danger" },
-  recordAttention: { icon: AlertTriangle, cls: "bg-warning-soft text-warning" },
-  recordApproved: { icon: ClipboardCheck, cls: "bg-success-soft text-success" },
-  recordRejected: { icon: XCircle, cls: "bg-danger-soft text-danger" },
-  recordPending: { icon: ClipboardCheck, cls: "bg-warning-soft text-warning" },
-  recordUploaded: { icon: FolderHeart, cls: "bg-success-soft text-success" },
-  reviewRequest: { icon: Star, cls: "bg-warning-soft text-warning" },
-  newApplication: { icon: FileCheck2, cls: "bg-warning-soft text-warning" },
-  reviewReported: { icon: MessageSquareWarning, cls: "bg-danger-soft text-danger" },
-  userRegistered: { icon: UserPlus, cls: "bg-primary-soft text-primary-text" },
+  appointmentReminder: { icon: CalendarDays, cls: "bg-primary-50 text-primary-700" },
+  newBooking: { icon: CalendarDays, cls: "bg-success-50 text-success-700" },
+  newMessage: { icon: MessageCircle, cls: "bg-primary-50 text-primary-700" },
+  newRecord: { icon: FolderHeart, cls: "bg-accent-50 text-accent-700" },
+  recordUrgent: { icon: AlertTriangle, cls: "bg-danger-50 text-danger-700" },
+  recordAttention: { icon: AlertTriangle, cls: "bg-warning-50 text-warning-700" },
+  recordApproved: { icon: ClipboardCheck, cls: "bg-success-50 text-success-700" },
+  recordRejected: { icon: XCircle, cls: "bg-danger-50 text-danger-700" },
+  recordPending: { icon: ClipboardCheck, cls: "bg-warning-50 text-warning-700" },
+  recordUploaded: { icon: FolderHeart, cls: "bg-success-50 text-success-700" },
+  reviewRequest: { icon: Star, cls: "bg-warning-50 text-warning-700" },
+  newApplication: { icon: FileCheck2, cls: "bg-warning-50 text-warning-700" },
+  reviewReported: { icon: MessageSquareWarning, cls: "bg-danger-50 text-danger-700" },
+  userRegistered: { icon: UserPlus, cls: "bg-primary-50 text-primary-700" },
 };
 
 /**
@@ -88,10 +88,10 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
                   markOne(n.id);
                   setOpen(false);
                 }}
-                className={cn("flex items-start gap-3 px-1 py-3 md:px-4 hover:bg-surface transition-colors", !n.read && "bg-primary-soft/30")}
+                className={cn("flex items-start gap-3 px-1 py-3 md:px-4 hover:bg-neutral-50 transition-colors", !n.read && "bg-primary-50/60")}
               >
-                <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-md", cls)}>
-                  <Icon className="h-4 w-4" />
+                <span className={cn("flex h-10 w-10 shrink-0 items-center justify-center rounded-pill", cls)}>
+                  <Icon className="h-5 w-5" />
                 </span>
                 <span className="min-w-0 flex-1">
                   <span className={cn("block text-sm leading-snug", n.read ? "text-heading" : "font-semibold text-heading")}>
@@ -99,7 +99,7 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
                   </span>
                   <span className="block text-xs text-muted mt-0.5">{when(n.at)}</span>
                 </span>
-                {!n.read && <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" aria-hidden="true" />}
+                {!n.read && <span className="mt-2 h-2 w-2 shrink-0 rounded-pill bg-primary-500" aria-hidden="true" />}
               </Link>
             </li>
           );
@@ -116,19 +116,19 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="relative inline-flex h-11 w-11 items-center justify-center rounded-md text-heading hover:bg-black/5"
+        className="relative inline-flex h-11 w-11 items-center justify-center rounded-pill text-neutral-700 hover:bg-neutral-900/5 hover:text-heading"
       >
         <Bell className="h-5 w-5" />
         {unread > 0 && (
-          <span className="absolute top-1.5 right-1.5 h-4 min-w-[16px] rounded-full bg-danger px-1 text-[10px] font-bold text-white flex items-center justify-center">
+          <span className="absolute top-1.5 right-1.5 h-4 min-w-[16px] rounded-full bg-danger-600 px-1 text-[10px] font-bold text-white flex items-center justify-center">
             {unread}
           </span>
         )}
       </button>
 
       {open && !isMobile && (
-        <div role="dialog" aria-label={t("title")} className="absolute right-0 z-40 mt-1 w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-line bg-card shadow-lg">
-          <div className="px-4 pt-3 text-base font-bold text-heading">{t("title")}</div>
+        <div role="dialog" aria-label={t("title")} className="absolute right-0 z-40 mt-2 w-[380px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-neutral-200/70 bg-card shadow-lg animate-enter">
+          <div className="px-4 pt-4 font-display text-lg font-bold text-heading">{t("title")}</div>
           {list}
         </div>
       )}
