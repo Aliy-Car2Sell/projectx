@@ -198,13 +198,13 @@ export function RecordEntry({
               type="button"
               onClick={() => setPreview(file)}
               className={cn(
-                "mt-2 inline-flex max-w-full items-center gap-2 rounded-lg border border-line bg-surface text-sm text-heading hover:border-primary hover:text-primary-text",
+                "mt-2 inline-flex max-w-full items-center gap-2 rounded-md border border-line bg-surface text-sm text-heading hover:border-primary hover:text-primary-text",
                 isImage ? "p-1 pr-3" : "min-h-[36px] px-2.5",
               )}
             >
               {isImage ? (
                 // eslint-disable-next-line @next/next/no-img-element -- mock thumbnail from /public
-                <img src={file.url} alt="" className="h-12 w-12 rounded-md object-cover" />
+                <img src={file.url} alt="" className="h-12 w-12 rounded-sm object-cover" />
               ) : (
                 <FileText className="h-4 w-4 shrink-0 text-primary-text" />
               )}
@@ -220,27 +220,27 @@ export function RecordEntry({
         {open && !printing && hasActions && (
           <div className="mt-2 flex flex-wrap items-center gap-1">
             {isRejected && onResubmit && (
-              <button type="button" onClick={() => onResubmit(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+              <button type="button" onClick={() => onResubmit(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <RotateCcw className="h-4 w-4" /> {t("status.resubmit")}
               </button>
             )}
             {onEdit && (
-              <button type="button" onClick={() => onEdit(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+              <button type="button" onClick={() => onEdit(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <Pencil className="h-4 w-4" /> {tc("edit")}
               </button>
             )}
             {onDelete && (
-              <button type="button" onClick={() => onDelete(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-red-700 hover:bg-danger-soft">
+              <button type="button" onClick={() => onDelete(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-red-700 hover:bg-danger-soft">
                 <Trash2 className="h-4 w-4" /> {tc("delete")}
               </button>
             )}
             {canAsk && (
-              <button type="button" onClick={() => onAskDoctor?.(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+              <button type="button" onClick={() => onAskDoctor?.(record)} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <MessageCircleQuestion className="h-4 w-4" /> {t("askDoctor.button")}
               </button>
             )}
             {file && (
-              <a href={file.url} download={file.name} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
+              <a href={file.url} download={file.name} className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft">
                 <Download className="h-4 w-4" /> {tc("download")}
               </a>
             )}

@@ -15,14 +15,14 @@ export function RatingSummary({
   const max = Math.max(1, ...Object.values(distribution));
   return (
     <div className="grid grid-cols-1 sm:grid-cols-[200px_minmax(0,1fr)] gap-4">
-      <div className="rounded-xl gradient-accent text-white p-5 flex flex-col items-center justify-center text-center">
+      <div className="rounded-lg gradient-accent text-white p-5 flex flex-col items-center justify-center text-center">
         <div className="text-5xl font-bold leading-none">{average.toFixed(1)}</div>
         <div className="mt-2">
           <StarRating value={average} size="sm" />
         </div>
         <div className="mt-1 text-sm text-white/85">{t("total", { count: total })}</div>
       </div>
-      <div className="bg-card rounded-xl shadow-card border border-line/60 p-4 md:p-5">
+      <div className="bg-card rounded-lg shadow-card border border-line/60 p-4 md:p-5">
         <div className="text-sm font-semibold text-heading mb-3">{t("distribution")}</div>
         <ul className="flex flex-col gap-2">
           {([5, 4, 3, 2, 1] as const).map((n) => (

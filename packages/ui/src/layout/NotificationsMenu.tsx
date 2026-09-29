@@ -90,7 +90,7 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
                 }}
                 className={cn("flex items-start gap-3 px-1 py-3 md:px-4 hover:bg-surface transition-colors", !n.read && "bg-primary-soft/30")}
               >
-                <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-lg", cls)}>
+                <span className={cn("flex h-9 w-9 shrink-0 items-center justify-center rounded-md", cls)}>
                   <Icon className="h-4 w-4" />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -116,7 +116,7 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
         aria-haspopup="dialog"
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
-        className="relative inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
+        className="relative inline-flex h-11 w-11 items-center justify-center rounded-md text-heading hover:bg-black/5"
       >
         <Bell className="h-5 w-5" />
         {unread > 0 && (
@@ -127,7 +127,7 @@ export function NotificationsMenu({ role }: { role: UserRole }) {
       </button>
 
       {open && !isMobile && (
-        <div role="dialog" aria-label={t("title")} className="absolute right-0 z-40 mt-1 w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-xl border border-line bg-card shadow-lg">
+        <div role="dialog" aria-label={t("title")} className="absolute right-0 z-40 mt-1 w-[360px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-lg border border-line bg-card shadow-lg">
           <div className="px-4 pt-3 text-base font-bold text-heading">{t("title")}</div>
           {list}
         </div>

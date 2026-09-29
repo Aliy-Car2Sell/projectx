@@ -1,8 +1,9 @@
 "use client";
 
 import { useId } from "react";
-import { ChevronDown } from "lucide-react";
+import { AlertCircle, ChevronDown } from "lucide-react";
 import { cn } from "@projectx/utils";
+import { fieldBase, fieldError } from "./Input";
 
 export type SelectOption = { value: string; label: string };
 export type SelectGroup = { label: string; options: SelectOption[] };
@@ -22,18 +23,15 @@ export function Select({ label, options = [], groups = [], placeholder, error, c
   return (
     <div className="flex flex-col gap-1.5">
       {label && (
-        <label htmlFor={selectId} className="text-sm font-medium text-heading">
+        <label htmlFor={selectId} className="text-sm font-semibold text-neutral-800">
           {label}
         </label>
       )}
       <div className="relative">
         <select
           id={selectId}
-          className={cn(
-            "w-full appearance-none min-h-[44px] rounded-lg border border-line bg-card pl-3 pr-10 text-base md:text-[15px] text-heading focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none",
-            error && "border-danger",
-            className,
-          )}
+          aria-invalid={error ? true : undefined}
+          className={cn(fieldBase, "appearance-none min-h-[48px] pl-4 pr-11 text-base", error && fieldError, className)}
           {...rest}
         >
           {placeholder && <option value="">{placeholder}</option>}
@@ -54,9 +52,14 @@ export function Select({ label, options = [], groups = [], placeholder, error, c
               </optgroup>
             ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted" />
+        <ChevronDown className="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-500" />
       </div>
-      {error && <p className="text-xs text-danger">{error}</p>}
+      {error && (
+        <p className="flex items-start gap-1.5 text-xs font-medium text-danger-700">
+          <AlertCircle className="mt-px h-3.5 w-3.5 shrink-0" />
+          {error}
+        </p>
+      )}
     </div>
   );
 }

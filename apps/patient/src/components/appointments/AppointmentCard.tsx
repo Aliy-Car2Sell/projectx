@@ -44,7 +44,7 @@ export function AppointmentCard({
   const detailHref = `/patient/appointments/${appointment.id}`;
 
   return (
-    <article className="bg-card rounded-xl shadow-card border border-line/60 p-4 flex flex-col gap-3">
+    <article className="bg-card rounded-lg shadow-card border border-line/60 p-4 flex flex-col gap-3">
       <div className="flex gap-3">
         <Link href={`/patient/doctors/${doctor.id}`}>
           <Avatar src={doctor.avatarUrl} name={name} size="md" />
@@ -78,7 +78,7 @@ export function AppointmentCard({
       </div>
 
       {upcoming && locked && (
-        <div className="flex items-start gap-2 rounded-lg bg-warning-soft px-3 py-2 text-xs text-amber-800">
+        <div className="flex items-start gap-2 rounded-md bg-warning-soft px-3 py-2 text-xs text-amber-800">
           <Info className="h-4 w-4 shrink-0 mt-0.5" />
           <span>{t("cancelDisabledHint")}</span>
         </div>

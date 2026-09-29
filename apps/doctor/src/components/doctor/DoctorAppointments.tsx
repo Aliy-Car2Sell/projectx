@@ -122,14 +122,14 @@ export function DoctorAppointments({
             </Chip>
           ))}
         </div>
-        <div className="sm:ml-auto inline-flex rounded-lg border border-line bg-card p-0.5 self-start" role="group" aria-label={t("cal.viewLabel")}>
+        <div className="sm:ml-auto inline-flex rounded-md border border-line bg-card p-0.5 self-start" role="group" aria-label={t("cal.viewLabel")}>
           {views.map(({ key, icon: Icon }) => (
             <button
               key={key}
               type="button"
               aria-pressed={view === key}
               onClick={() => go({ view: key })}
-              className={cn("h-9 px-3 rounded-md inline-flex items-center gap-1.5 text-sm font-medium", view === key ? "bg-primary text-white" : "text-muted")}
+              className={cn("h-9 px-3 rounded-sm inline-flex items-center gap-1.5 text-sm font-medium", view === key ? "bg-primary text-white" : "text-muted")}
             >
               <Icon className="h-4 w-4" /> {t(key)}
             </button>
@@ -149,7 +149,7 @@ export function DoctorAppointments({
             {groups.map(([date, list]) => (
               <section key={date}>
                 <h3 className={cn("text-sm font-bold mb-2 capitalize", isToday(date) ? "text-primary-text" : "text-heading")}>{dayTitle(date)}</h3>
-                <div className="bg-card rounded-xl shadow-card border border-line/60 divide-y divide-line overflow-hidden">{list.map(row)}</div>
+                <div className="bg-card rounded-lg shadow-card border border-line/60 divide-y divide-line overflow-hidden">{list.map(row)}</div>
               </section>
             ))}
           </div>
@@ -157,10 +157,10 @@ export function DoctorAppointments({
       ) : (
         <div className="flex flex-col gap-3">
           <div className="flex items-center gap-1">
-            <button type="button" aria-label={t(view === "month" ? "cal.prevMonth" : "prevWeek")} onClick={() => step(-1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
+            <button type="button" aria-label={t(view === "month" ? "cal.prevMonth" : "prevWeek")} onClick={() => step(-1)} className="h-10 w-10 shrink-0 rounded-md hover:bg-surface flex items-center justify-center">
               <ChevronLeft className="h-5 w-5" />
             </button>
-            <button type="button" aria-label={t(view === "month" ? "cal.nextMonth" : "nextWeek")} onClick={() => step(1)} className="h-10 w-10 shrink-0 rounded-lg hover:bg-surface flex items-center justify-center">
+            <button type="button" aria-label={t(view === "month" ? "cal.nextMonth" : "nextWeek")} onClick={() => step(1)} className="h-10 w-10 shrink-0 rounded-md hover:bg-surface flex items-center justify-center">
               <ChevronRight className="h-5 w-5" />
             </button>
             <h3 className="min-w-0 flex-1 truncate px-1 font-bold text-heading" aria-live="polite">

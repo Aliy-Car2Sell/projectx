@@ -55,8 +55,8 @@ export default async function PatientDashboard() {
       />
 
       {urgent && (
-        <div role="alert" className="mb-4 flex flex-col gap-3 rounded-xl border border-danger/40 bg-danger-soft p-4 sm:flex-row sm:items-center">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-danger text-white">
+        <div role="alert" className="mb-4 flex flex-col gap-3 rounded-lg border border-danger/40 bg-danger-soft p-4 sm:flex-row sm:items-center">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-danger text-white">
             <AlertTriangle className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
@@ -128,7 +128,7 @@ export default async function PatientDashboard() {
                   if (!d) return null;
                   return (
                     <Card key={a.id} href={`/patient/review/${a.id}`} padding="sm" className="flex items-center gap-3">
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-warning-soft text-warning">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-warning-soft text-warning">
                         <Star className="h-5 w-5" />
                       </span>
                       <div className="min-w-0 flex-1">
@@ -141,7 +141,7 @@ export default async function PatientDashboard() {
                 })}
                 {lastDoctor && (
                   <Card href="/patient/records" padding="sm" className="flex items-center gap-3">
-                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-text">
                       <Upload className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 flex-1">
@@ -163,7 +163,7 @@ export default async function PatientDashboard() {
             <Card padding="none" className="divide-y divide-line">
               {newSummaries.map((r) => (
                 <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 hover:bg-surface">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg gradient-accent text-white">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md gradient-accent text-white">
                     <Stethoscope className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -175,7 +175,7 @@ export default async function PatientDashboard() {
               ))}
               {unread > 0 && (
                 <Link href="/patient/chat" className="flex items-center gap-3 p-4 hover:bg-surface">
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-text">
                     <MessageCircle className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -190,7 +190,7 @@ export default async function PatientDashboard() {
                 .slice(0, 2)
                 .map((r) => (
                   <Link key={r.id} href="/patient/records" className="flex items-center gap-3 p-4 hover:bg-surface">
-                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-success-soft text-success">
+                    <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md bg-success-soft text-success">
                       <FolderHeart className="h-5 w-5" />
                     </span>
                     <div className="min-w-0 flex-1">

@@ -28,11 +28,11 @@ export function ApplicationDecision({ initialStatus }: { initialStatus: DoctorSt
     <Card className="lg:sticky lg:top-20">
       <CardHeader title={t("decision")} subtitle={t("decisionHint")} action={<DoctorStatusBadge status={status} />} />
       {status === "approved" ? (
-        <div className="flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm text-green-700">
+        <div className="flex items-center gap-2 rounded-md bg-success-soft px-3 py-2 text-sm text-green-700">
           <CheckCircle2 className="h-5 w-5" /> {t("approved")}
         </div>
       ) : status === "rejected" ? (
-        <div className="flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2 text-sm text-red-700">
+        <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-red-700">
           <XCircle className="h-5 w-5 shrink-0" />
           <div>
             {t("rejectedToast")}

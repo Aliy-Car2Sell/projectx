@@ -82,10 +82,10 @@ export function ChatThread({
   };
 
   return (
-    <div className="flex flex-col max-md:fixed max-md:inset-x-0 max-md:top-14 max-md:bottom-14 max-md:z-10 md:h-[calc(100dvh-4rem-3rem)] lg:h-[calc(100vh-8rem)] md:rounded-xl md:border md:border-line/60 md:bg-card md:shadow-card overflow-hidden bg-surface">
+    <div className="flex flex-col max-md:fixed max-md:inset-x-0 max-md:top-14 max-md:bottom-14 max-md:z-10 md:h-[calc(100dvh-4rem-3rem)] lg:h-[calc(100vh-8rem)] md:rounded-lg md:border md:border-line/60 md:bg-card md:shadow-card overflow-hidden bg-surface">
       {/* Thread header */}
       <div className="flex items-center gap-2 px-2 md:px-4 h-14 border-b border-line bg-card shrink-0">
-        <Link href={backHref} className="md:hidden h-10 w-10 flex items-center justify-center rounded-lg hover:bg-surface" aria-label={tc("back")}>
+        <Link href={backHref} className="md:hidden h-10 w-10 flex items-center justify-center rounded-md hover:bg-surface" aria-label={tc("back")}>
           <ArrowLeft className="h-5 w-5" />
         </Link>
         <Link href={profileHref ?? "#"} className="flex items-center gap-3 min-w-0">
@@ -116,8 +116,8 @@ export function ChatThread({
               <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
                 <div
                   className={cn(
-                    "max-w-[82%] md:max-w-[70%] rounded-2xl px-3.5 py-2 text-base md:text-sm shadow-sm",
-                    mine ? "bg-primary text-white rounded-br-md" : "bg-card text-heading rounded-bl-md",
+                    "max-w-[82%] md:max-w-[70%] rounded-xl px-3.5 py-2 text-base md:text-sm shadow-sm",
+                    mine ? "bg-primary text-white rounded-br-sm" : "bg-card text-heading rounded-bl-sm",
                   )}
                 >
                   {m.attachedRecordId && (() => {
@@ -125,10 +125,10 @@ export function ChatThread({
                     return r ? <RecordCard record={r} href={recordHref(r.id)} inverse={mine} className="mb-1.5" /> : null;
                   })()}
                   {m.attachment?.type === "image" && (
-                    <img src={m.attachment.url} alt={m.attachment.name} className="rounded-lg mb-1 max-h-60 w-full object-cover" />
+                    <img src={m.attachment.url} alt={m.attachment.name} className="rounded-md mb-1 max-h-60 w-full object-cover" />
                   )}
                   {m.attachment?.type === "file" && (
-                    <div className={cn("flex items-center gap-2 rounded-lg px-2 py-1.5 mb-1", mine ? "bg-white/15" : "bg-surface")}>
+                    <div className={cn("flex items-center gap-2 rounded-md px-2 py-1.5 mb-1", mine ? "bg-white/15" : "bg-surface")}>
                       <FileText className="h-5 w-5 shrink-0" />
                       <div className="min-w-0">
                         <div className="text-sm font-medium truncate">{m.attachment.name}</div>
@@ -181,7 +181,7 @@ export function ChatThread({
             e.target.value = "";
           }}
         />
-        <button type="button" aria-label={t("attach")} title={t("attach")} onClick={() => fileRef.current?.click()} className="h-11 w-11 shrink-0 rounded-lg flex items-center justify-center text-muted hover:bg-surface hover:text-primary-text">
+        <button type="button" aria-label={t("attach")} title={t("attach")} onClick={() => fileRef.current?.click()} className="h-11 w-11 shrink-0 rounded-md flex items-center justify-center text-muted hover:bg-surface hover:text-primary-text">
           <Paperclip className="h-5 w-5" />
         </button>
         <textarea
@@ -195,9 +195,9 @@ export function ChatThread({
           }}
           rows={1}
           placeholder={record && messages.length === 0 ? t("attachedRecord.placeholder") : t("typeMessage")}
-          className="flex-1 resize-none rounded-lg border border-line bg-surface px-3 py-2.5 text-base md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+          className="flex-1 resize-none rounded-md border border-line bg-surface px-3 py-2.5 text-base md:text-sm min-h-[44px] max-h-32 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
         />
-        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending && !record} className="h-11 w-11 shrink-0 rounded-lg bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
+        <button type="submit" aria-label={t("send")} title={t("send")} disabled={!draft.trim() && !pending && !record} className="h-11 w-11 shrink-0 rounded-md bg-primary text-white flex items-center justify-center disabled:opacity-40 hover:bg-primary-hover">
           <Send className="h-5 w-5" />
         </button>
         </div>

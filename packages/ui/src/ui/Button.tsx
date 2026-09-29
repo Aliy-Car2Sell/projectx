@@ -6,22 +6,22 @@ type Variant = "primary" | "secondary" | "ghost" | "danger" | "accent" | "invers
 type Size = "sm" | "md" | "lg";
 
 const base =
-  "inline-flex items-center justify-center gap-2 rounded-lg font-semibold transition-colors select-none disabled:opacity-50 disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 whitespace-nowrap";
+  "press inline-flex items-center justify-center gap-2 rounded-pill font-semibold select-none whitespace-nowrap disabled:opacity-50 disabled:pointer-events-none aria-disabled:opacity-50 aria-disabled:pointer-events-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface";
 
 const variants: Record<Variant, string> = {
-  primary: "bg-primary text-white hover:bg-primary-hover shadow-sm",
-  secondary: "bg-card text-primary-text border border-primary hover:bg-primary-soft",
-  ghost: "bg-transparent text-heading hover:bg-black/5",
-  danger: "bg-danger text-white hover:bg-red-600",
-  accent: "gradient-accent text-white hover:opacity-95 shadow-sm",
-  inverse: "bg-white text-primary-text hover:bg-white/90 shadow-sm",
-  inverseAccent: "bg-white text-accent hover:bg-white/90 shadow-sm",
+  primary: "bg-primary-500 text-white shadow-sm hover:bg-primary-600 hover:shadow-md",
+  secondary: "bg-card text-primary-700 border border-primary-200 hover:border-primary-300 hover:bg-primary-50",
+  ghost: "bg-transparent text-neutral-800 hover:bg-neutral-900/5",
+  danger: "bg-danger-700 text-white shadow-sm hover:bg-danger-700/90",
+  accent: "bg-accent-700 text-white shadow-sm hover:bg-accent-600",
+  inverse: "bg-white text-primary-700 shadow-sm hover:bg-primary-50",
+  inverseAccent: "bg-white text-accent-700 shadow-sm hover:bg-accent-50",
 };
 
 const sizes: Record<Size, string> = {
-  sm: "min-h-[36px] px-3 text-sm",
-  md: "min-h-[44px] px-4 text-base md:text-[15px]",
-  lg: "min-h-[52px] px-6 text-base",
+  sm: "min-h-[36px] px-4 text-sm [&>svg]:h-4 [&>svg]:w-4",
+  md: "min-h-[44px] px-5 text-[15px] [&>svg]:h-[18px] [&>svg]:w-[18px]",
+  lg: "min-h-[52px] px-7 text-base [&>svg]:h-5 [&>svg]:w-5",
 };
 
 type CommonProps = {
@@ -32,6 +32,8 @@ type CommonProps = {
   className?: string;
   children?: React.ReactNode;
   icon?: React.ReactNode;
+  /** Icon after the label (an arrow, a chevron). */
+  iconRight?: React.ReactNode;
   disabled?: boolean;
 };
 
@@ -61,13 +63,15 @@ export function Button(props: ButtonProps) {
     className,
     children,
     icon,
+    iconRight,
     ...rest
   } = props;
   const classes = cn(base, variants[variant], sizes[size], fullWidth && "w-full", className);
   const content = (
     <>
-      {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : icon}
+      {loading ? <Loader2 className="animate-spin" /> : icon}
       {children}
+      {iconRight}
     </>
   );
 
@@ -83,13 +87,13 @@ export function Button(props: ButtonProps) {
   const { href: _h, ...button } = rest as ButtonAsButton & { href?: string };
   void _h;
   return (
-    <button type="button" className={classes} disabled={loading || button.disabled} {...button}>
+    <button type="button" className={classes} aria-busy={loading || undefined} disabled={loading || button.disabled} {...button}>
       {content}
     </button>
   );
 }
 
-/** Square icon-only button (44px touch target). */
+/** Round icon-only button (44px touch target). */
 export function IconButton({
   className,
   label,
@@ -102,7 +106,7 @@ export function IconButton({
       aria-label={label}
       title={label}
       className={cn(
-        "inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40",
+        "press inline-flex h-11 w-11 items-center justify-center rounded-pill text-neutral-700 hover:bg-neutral-900/5 hover:text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500",
         className,
       )}
       {...rest}

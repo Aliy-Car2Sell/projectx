@@ -1031,7 +1031,8 @@ function quickPlan(apps) {
   };
   for (let i = 0; i < 3; i++) for (const app of apps) if (APPS[app].main[i]) add(app, APPS[app].main[i], "main");
   const longest = Math.max(0, ...apps.map((a) => found.apps[a].urls.length));
-  for (let i = 0; i < longest; i++) for (const app of apps) if (found.apps[app].urls[i]) add(app, found.apps[app].urls[i].url, "changed");
+  const devOnly = (app, url) => (APPS[app].devOnly ?? []).includes(url.split("?")[0]);
+  for (let i = 0; i < longest; i++) for (const app of apps) if (found.apps[app].urls[i] && !devOnly(app, found.apps[app].urls[i].url)) add(app, found.apps[app].urls[i].url, "changed");
   const pages = list.slice(0, MAX_PAGES);
 
   const touched = (re) => found.files.some((f) => re.test(f));

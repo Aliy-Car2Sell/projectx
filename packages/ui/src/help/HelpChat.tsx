@@ -75,13 +75,13 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
       {open && (
         <div role="dialog" aria-label={t("title")} className="fixed z-50 inset-x-0 bottom-0 md:inset-x-auto md:right-6 md:bottom-6 md:w-[380px]">
           <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="md:hidden fixed inset-0 -z-10 bg-black/40" />
-          <div className="flex max-h-[80dvh] md:h-[540px] md:max-h-[calc(100dvh-48px)] flex-col overflow-hidden rounded-t-2xl md:rounded-2xl border border-line bg-card shadow-2xl">
+          <div className="flex max-h-[80dvh] md:h-[540px] md:max-h-[calc(100dvh-48px)] flex-col overflow-hidden rounded-t-xl md:rounded-xl border border-line bg-card shadow-2xl">
             <div className="flex items-center justify-between gap-2 bg-primary px-4 py-3 text-white">
               <div className="min-w-0">
                 <h2 className="font-bold leading-tight text-white">{t("title")}</h2>
                 <p className="text-sm text-white/90">{t("subtitle")}</p>
               </div>
-              <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg hover:bg-white/15">
+              <button type="button" aria-label={t("close")} onClick={() => setOpen(false)} className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md hover:bg-white/15">
                 <X className="h-5 w-5" />
               </button>
             </div>
@@ -140,9 +140,9 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
                 onChange={(e) => setText(e.target.value)}
                 placeholder={t("placeholder")}
                 aria-label={t("placeholder")}
-                className="min-h-[44px] min-w-0 flex-1 rounded-lg border border-line bg-surface px-3 text-base md:text-sm text-heading placeholder:text-muted focus:border-primary focus:outline-none"
+                className="min-h-[44px] min-w-0 flex-1 rounded-md border border-line bg-surface px-3 text-base md:text-sm text-heading placeholder:text-muted focus:border-primary focus:outline-none"
               />
-              <button type="submit" aria-label={t("send")} disabled={!text.trim() || pending} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-white hover:bg-primary-hover disabled:opacity-40">
+              <button type="submit" aria-label={t("send")} disabled={!text.trim() || pending} className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary text-white hover:bg-primary-hover disabled:opacity-40">
                 <Send className="h-5 w-5" />
               </button>
             </form>
@@ -155,6 +155,6 @@ export function HelpChat({ role, source, bottomNav = true }: { role: UserRole; s
 
 function Bubble({ from, children }: { from: "bot" | "user"; children: React.ReactNode }) {
   return (
-    <div className={cn("max-w-[88%] rounded-2xl px-3 py-2 leading-snug", from === "bot" ? "self-start rounded-bl-md bg-surface text-heading" : "self-end rounded-br-md bg-primary text-white")}>{children}</div>
+    <div className={cn("max-w-[88%] rounded-xl px-3 py-2 leading-snug", from === "bot" ? "self-start rounded-bl-sm bg-surface text-heading" : "self-end rounded-br-sm bg-primary text-white")}>{children}</div>
   );
 }

@@ -190,7 +190,7 @@ function RangePanel({ query, onRange, onClose }: { query: RecordQuery; onRange: 
   const invalid = Boolean(from && to && from > to);
 
   return (
-    <div ref={ref} role="dialog" aria-label={t("label")} className="absolute inset-x-4 top-full z-30 rounded-xl border border-line bg-card p-3 shadow-lg md:absolute md:inset-x-auto md:right-0 md:top-full md:mt-2 md:w-80">
+    <div ref={ref} role="dialog" aria-label={t("label")} className="absolute inset-x-4 top-full z-30 rounded-lg border border-line bg-card p-3 shadow-lg md:absolute md:inset-x-auto md:right-0 md:top-full md:mt-2 md:w-80">
       <div className="grid grid-cols-2 gap-2">
         {printPeriods.map((p) => (
           <Chip key={p} active={!custom && preset === p} onClick={() => pick(p)} className="min-h-[40px]">
@@ -214,11 +214,11 @@ function RangePanel({ query, onRange, onClose }: { query: RecordQuery; onRange: 
           <div className="grid grid-cols-2 gap-2">
             <label className="flex flex-col gap-1 text-xs font-medium text-muted">
               {t("from")}
-              <input type="date" value={from} max={to || now} onChange={(e) => setFrom(e.target.value)} className="min-h-[40px] w-full rounded-lg border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
+              <input type="date" value={from} max={to || now} onChange={(e) => setFrom(e.target.value)} className="min-h-[40px] w-full rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
             </label>
             <label className="flex flex-col gap-1 text-xs font-medium text-muted">
               {t("to")}
-              <input type="date" value={to} min={from || undefined} max={now} onChange={(e) => setTo(e.target.value)} className="min-h-[40px] w-full rounded-lg border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
+              <input type="date" value={to} min={from || undefined} max={now} onChange={(e) => setTo(e.target.value)} className="min-h-[40px] w-full rounded-md border border-line bg-card px-2 text-sm text-heading focus:border-primary focus:outline-none" />
             </label>
           </div>
           {invalid && <p className="text-xs text-danger">{t("invalid")}</p>}

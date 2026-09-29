@@ -7,7 +7,8 @@ import { cn } from "@projectx/utils";
 import { IconButton } from "./Button";
 
 /**
- * Responsive dialog: bottom sheet on mobile, centered modal on md+.
+ * Responsive dialog: a sheet that rises from the bottom on phones (with a grab handle),
+ * a centered modal on md+.
  */
 export function Modal({
   open,
@@ -43,33 +44,32 @@ export function Modal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-end md:items-center md:justify-center" role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center md:justify-center md:p-6" role="dialog" aria-modal="true">
       <button
         type="button"
         aria-label={label}
-        className="absolute inset-0 bg-black/40 backdrop-blur-[1px]"
+        className="absolute inset-0 bg-neutral-900/45 backdrop-blur-[2px]"
         onClick={onClose}
       />
       <div
         className={cn(
-          "relative w-full bg-card shadow-xl flex flex-col max-h-[92vh] md:max-h-[85vh]",
-          "rounded-t-2xl md:rounded-2xl animate-[sheet-in_.2s_ease-out]",
+          "relative w-full bg-card shadow-lg flex flex-col max-h-[92vh] md:max-h-[85vh]",
+          "rounded-t-xl md:rounded-xl animate-sheet",
           size === "lg" ? "md:max-w-2xl" : "md:max-w-md",
         )}
       >
-        <div className="md:hidden mx-auto mt-2 h-1 w-10 rounded-full bg-line" />
-        <div className="flex items-center justify-between gap-3 px-4 pt-3 pb-2 md:px-6 md:pt-5">
-          <h2 className="text-lg font-bold text-heading">{title}</h2>
-          <IconButton label={label} onClick={onClose} className="-mr-2">
+        <div className="md:hidden mx-auto mt-2.5 h-1.5 w-11 shrink-0 rounded-pill bg-neutral-300" />
+        <div className="flex items-center justify-between gap-3 pl-5 pr-3 pt-3 pb-2 md:pl-6 md:pr-4 md:pt-5">
+          <h2 className="text-h3 text-heading">{title}</h2>
+          <IconButton label={label} onClick={onClose}>
             <X className="h-5 w-5" />
           </IconButton>
         </div>
-        <div className="overflow-y-auto px-4 pb-4 md:px-6 grow">{children}</div>
+        <div className="overflow-y-auto px-5 pb-5 md:px-6 md:pb-6 grow">{children}</div>
         {footer && (
-          <div className="border-t border-line px-4 py-3 md:px-6 safe-bottom flex gap-2 justify-end">{footer}</div>
+          <div className="border-t border-line px-5 py-4 md:px-6 safe-bottom flex gap-2 justify-end">{footer}</div>
         )}
       </div>
-      <style>{`@keyframes sheet-in{from{transform:translateY(16px);opacity:.6}to{transform:none;opacity:1}}`}</style>
     </div>
   );
 }

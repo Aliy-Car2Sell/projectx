@@ -55,7 +55,7 @@ export function WeekGrid({
   }, [focus, days]);
 
   return (
-    <div ref={scroller} className="overflow-x-auto overscroll-x-contain rounded-xl border border-line/60 bg-card shadow-card [container-type:inline-size] max-md:snap-x max-md:scroll-pl-11">
+    <div ref={scroller} className="overflow-x-auto overscroll-x-contain rounded-lg border border-line/60 bg-card shadow-card [container-type:inline-size] max-md:snap-x max-md:scroll-pl-11">
       <div className="flex w-max min-w-full md:w-full">
         {/* Time column: stays put while the days scroll sideways */}
         <div data-gutter className="sticky left-0 z-20 w-11 shrink-0 border-r border-line bg-card md:w-14">
@@ -112,7 +112,7 @@ export function WeekGrid({
                       type="button"
                       onClick={() => onOpen(a)}
                       aria-label={`${a.time}, ${p ? `${p.firstName} ${p.lastName}` : a.patientId}, ${tstatus(a.status)}`}
-                      className={cn("absolute z-10 overflow-hidden rounded-md border px-1.5 py-0.5 text-left text-xs leading-tight shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-primary", statusBlock[a.status])}
+                      className={cn("absolute z-10 overflow-hidden rounded-sm border px-1.5 py-0.5 text-left text-xs leading-tight shadow-sm transition-shadow hover:shadow-md focus-visible:outline-2 focus-visible:outline-primary", statusBlock[a.status])}
                       style={{ top: y(s) + 1, height: Math.max(y(e) - y(s) - 2, 22), left: `calc(${(lane / lanes) * 100}% + 2px)`, width: `calc(${100 / lanes}% - 4px)` }}
                     >
                       <span className="block font-bold tabular-nums">{a.time}</span>

@@ -147,7 +147,7 @@ export function AppointmentDetailView({ id, patientId, appointments }: { id: str
             {apt.summary ? (
               <Card className="border-accent/40">
                 <div className="flex items-center gap-2 text-xs text-muted mb-3">
-                  <span className="flex h-8 w-8 items-center justify-center rounded-lg gradient-accent text-white">
+                  <span className="flex h-8 w-8 items-center justify-center rounded-md gradient-accent text-white">
                     <Stethoscope className="h-4 w-4" />
                   </span>
                   {name} · {fmtDate(locale, tc, apt.summary.createdAt)}

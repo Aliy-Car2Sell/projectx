@@ -65,7 +65,7 @@ export default async function DoctorProfilePage({
                 <div className="flex flex-wrap items-center gap-2">
                   {doctor.category !== "none" && (
                     <span className="flex min-w-0 max-w-full items-center gap-0.5">
-                      <Badge tone="accent" className="whitespace-normal! text-left rounded-xl!">
+                      <Badge tone="accent" className="whitespace-normal! text-left rounded-lg!">
                         <Award className="h-3 w-3" /> {tq(doctor.category)}
                       </Badge>
                       <Tooltip label={th("label")} text={th("category")} className="shrink-0" />
@@ -79,19 +79,19 @@ export default async function DoctorProfilePage({
               </div>
             </div>
             <div className="mt-4 grid grid-cols-3 gap-2 text-center">
-              <div className="rounded-lg bg-surface p-2">
+              <div className="rounded-md bg-surface p-2">
                 <div className="text-xs text-muted inline-flex items-center gap-1">
                   <Briefcase className="h-3 w-3" /> {t("experience")}
                 </div>
                 <div className="font-bold text-heading">{tc("years", { count: doctor.experienceYears })}</div>
               </div>
-              <div className="rounded-lg bg-surface p-2">
+              <div className="rounded-md bg-surface p-2">
                 <div className="text-xs text-muted inline-flex items-center gap-1">
                   <Users className="h-3 w-3" /> {t("patients")}
                 </div>
                 <div className="font-bold text-heading">{doctor.reviewCount * 7}+</div>
               </div>
-              <div className="rounded-lg bg-surface p-2">
+              <div className="rounded-md bg-surface p-2">
                 <div className="text-xs text-muted inline-flex items-center gap-1">
                   <Clock className="h-3 w-3" /> {t("slotDuration")}
                 </div>

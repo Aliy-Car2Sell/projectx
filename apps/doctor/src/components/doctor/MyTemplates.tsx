@@ -14,7 +14,7 @@ import { Select } from "@projectx/ui/Select";
 import { Toast, useToast } from "@projectx/ui/Toast";
 import { copyTemplate, groupTemplates, useSummaryTemplates } from "@projectx/ui/summary/templates";
 
-const iconButton = "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-muted hover:bg-surface hover:text-heading disabled:opacity-30 disabled:pointer-events-none";
+const iconButton = "flex h-9 w-9 shrink-0 items-center justify-center rounded-md text-muted hover:bg-surface hover:text-heading disabled:opacity-30 disabled:pointer-events-none";
 
 /**
  * Doctor profile: "my templates". A template is always started as a copy of an existing one,
@@ -134,7 +134,7 @@ export function MyTemplates({ specialty }: { specialty: SpecialtyKey }) {
               <ol className="mt-1.5 flex flex-col gap-2">
                 {draft.sections.map((s, i) => (
                   // Parts have no id of their own and their title is being typed: the position is the key.
-                  <li key={i} className="rounded-lg border border-line p-2">
+                  <li key={i} className="rounded-md border border-line p-2">
                     <div className="flex items-center gap-1">
                       <span className="w-6 shrink-0 text-center text-sm font-semibold tabular-nums text-muted">{i + 1}</span>
                       <Input aria-label={t("sectionTitle")} placeholder={t("sectionTitle")} value={s.title} onChange={(e) => setSection(i, { title: e.target.value })} wrapperClassName="min-w-0 flex-1" />

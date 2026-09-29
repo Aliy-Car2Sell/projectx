@@ -45,8 +45,8 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
       />
 
       {pending && (
-        <div className="mb-4 rounded-xl border border-warning/40 bg-warning-soft p-4 flex flex-col sm:flex-row sm:items-center gap-3">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-warning text-white">
+        <div className="mb-4 rounded-lg border border-warning/40 bg-warning-soft p-4 flex flex-col sm:flex-row sm:items-center gap-3">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-warning text-white">
             <ShieldAlert className="h-6 w-6" />
           </span>
           <div className="min-w-0 flex-1">
@@ -113,7 +113,7 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
           <SectionTitle>{t("quickLinks")}</SectionTitle>
           <div className="flex flex-col gap-2">
             <Card href="/doctor/chat" padding="sm" className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary-soft text-primary-text">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-primary-soft text-primary-text">
                 <MessageCircle className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
@@ -123,7 +123,7 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
               {unread > 0 && <span className="h-6 min-w-[24px] rounded-full bg-danger text-white text-xs font-bold flex items-center justify-center px-1.5">{unread}</span>}
             </Card>
             <Card href="/doctor/reviews" padding="sm" className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg gradient-accent text-white">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md gradient-accent text-white">
                 <Star className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">
@@ -133,7 +133,7 @@ export default async function DoctorDashboard({ searchParams }: { searchParams: 
               <ChevronRight className="h-5 w-5 text-muted" />
             </Card>
             <Card href="/doctor/patients" padding="sm" className="flex items-center gap-3">
-              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-success-soft text-success">
+              <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-md bg-success-soft text-success">
                 <Users className="h-5 w-5" />
               </span>
               <div className="min-w-0 flex-1">

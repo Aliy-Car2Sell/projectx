@@ -47,7 +47,7 @@ export function PatientsList({ patients, state = "normal" }: { patients: DoctorP
             const name = `${user.firstName} ${user.lastName}`;
             const age = ageFromBirthDate(user.birthDate);
             return (
-              <Link key={user.id} href={`/doctor/patients/${user.id}`} className="bg-card rounded-xl shadow-card border border-line/60 p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
+              <Link key={user.id} href={`/doctor/patients/${user.id}`} className="bg-card rounded-lg shadow-card border border-line/60 p-4 flex items-center gap-3 hover:shadow-md transition-shadow">
                 <Avatar src={user.avatarUrl} name={name} size="md" />
                 <div className="min-w-0 flex-1">
                   <div className="flex items-center gap-2 flex-wrap">

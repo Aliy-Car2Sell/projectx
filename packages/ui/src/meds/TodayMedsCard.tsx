@@ -51,7 +51,7 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
             <li key={`${d.medication.id}-${d.time}`}>
               <label
                 className={cn(
-                  "-mx-2 flex min-h-[52px] cursor-pointer items-center gap-3 rounded-lg px-2 py-1.5 transition-colors",
+                  "-mx-2 flex min-h-[52px] cursor-pointer items-center gap-3 rounded-md px-2 py-1.5 transition-colors",
                   taken ? "bg-success-soft/60" : missed ? "bg-warning-soft/60" : "hover:bg-surface",
                 )}
               >
@@ -65,7 +65,7 @@ export function TodayMedsCard({ patientId, records, logs: mockLogs, serverToday 
                 <span
                   aria-hidden="true"
                   className={cn(
-                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-md border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40",
+                    "flex h-6 w-6 shrink-0 items-center justify-center rounded-sm border-2 peer-focus-visible:ring-2 peer-focus-visible:ring-primary/40",
                     taken ? "border-success bg-success text-white" : missed ? "border-warning bg-card" : "border-line bg-card",
                   )}
                 >

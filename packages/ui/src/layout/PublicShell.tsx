@@ -16,7 +16,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="min-h-dvh flex flex-col bg-surface">
+    <div className="min-h-dvh flex flex-col">
       <header className="sticky top-0 z-30 bg-card/95 backdrop-blur border-b border-line">
         <div className="mx-auto max-w-[1280px] flex items-center justify-between px-4 md:px-6 lg:px-8 h-14 md:h-16">
           <Logo />

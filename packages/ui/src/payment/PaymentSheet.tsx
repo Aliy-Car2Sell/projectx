@@ -23,7 +23,7 @@ export function ProviderButtons({ onPick, disabled }: { onPick: (p: PaymentMetho
           disabled={disabled}
           onClick={() => onPick(p)}
           aria-label={t("payWith", { provider: providerName[p] })}
-          className="flex min-h-[52px] items-center justify-center gap-2 rounded-lg border border-line bg-card px-3 font-semibold text-heading transition-colors hover:border-primary hover:bg-primary-soft/50 disabled:opacity-50"
+          className="flex min-h-[52px] items-center justify-center gap-2 rounded-md border border-line bg-card px-3 font-semibold text-heading transition-colors hover:border-primary hover:bg-primary-soft/50 disabled:opacity-50"
         >
           <ProviderMark provider={p} className="h-7 w-7 shrink-0" />
           {providerName[p]}

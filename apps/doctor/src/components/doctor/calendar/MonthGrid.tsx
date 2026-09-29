@@ -36,7 +36,7 @@ export function MonthGrid({
   for (const a of [...appointments].sort((x, y) => x.time.localeCompare(y.time))) byDay.set(a.date, [...(byDay.get(a.date) ?? []), a]);
 
   return (
-    <div className="overflow-hidden rounded-xl border border-line/60 bg-card shadow-card">
+    <div className="overflow-hidden rounded-lg border border-line/60 bg-card shadow-card">
       <div className="grid grid-cols-7 border-b border-line">
         {weekdays.map((d) => (
           <div key={d} className="py-2 text-center text-xs font-semibold uppercase text-muted">

@@ -29,7 +29,7 @@ export function ChatLayout({
       </div>
       <div className={cn(!activeId && "hidden lg:block")}>
         {children ?? (
-          <div className="hidden lg:flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-xl border border-dashed border-line bg-card/60 text-center px-6">
+          <div className="hidden lg:flex h-[calc(100vh-8rem)] flex-col items-center justify-center rounded-lg border border-dashed border-line bg-card/60 text-center px-6">
             <span className="mb-3 flex h-14 w-14 items-center justify-center rounded-full bg-primary-soft text-primary-text">
               <MessageSquareText className="h-7 w-7" />
             </span>

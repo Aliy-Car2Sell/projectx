@@ -2,8 +2,8 @@ import type { MetadataRoute } from "next";
 
 /**
  * Web app manifest for the patient PWA ("Add to Home Screen").
- * Colors mirror packages/ui/styles/theme.css (--color-primary / --color-surface).
- * Icons are placeholders (public/icons) until the real brand assets exist.
+ * Colors mirror packages/ui/styles/theme.css (--color-primary-500 / --color-neutral-50).
+ * Icons are drawn from the logo by `node scripts/make-icons.mjs`.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -15,7 +15,7 @@ export default function manifest(): MetadataRoute.Manifest {
     scope: "/",
     display: "standalone",
     orientation: "portrait",
-    background_color: "#f4f6f8",
+    background_color: "#f6f9fc",
     theme_color: "#1a9be6",
     lang: "uz",
     icons: [

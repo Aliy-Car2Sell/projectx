@@ -8,7 +8,19 @@ import { locales, type Locale } from "@projectx/i18n/config";
 import { setUserLocale } from "@projectx/i18n/locale";
 import { cn } from "@projectx/utils";
 
-export function LanguageSwitcher({ className, light }: { className?: string; light?: boolean }) {
+export function LanguageSwitcher({
+  className,
+  light,
+  align = "right",
+  side = "bottom",
+}: {
+  className?: string;
+  light?: boolean;
+  /** Which edge of the button the menu lines up with. */
+  align?: "left" | "right";
+  /** Where the menu opens: below the button, or above it (in a footer). */
+  side?: "bottom" | "top";
+}) {
   const t = useTranslations("lang");
   const locale = useLocale();
   const router = useRouter();
@@ -43,8 +55,8 @@ export function LanguageSwitcher({ className, light }: { className?: string; lig
         aria-expanded={open}
         onClick={() => setOpen((v) => !v)}
         className={cn(
-          "inline-flex h-11 items-center gap-1.5 rounded-lg px-2.5 text-sm font-semibold uppercase transition-colors",
-          light ? "text-white hover:bg-white/15" : "text-heading hover:bg-black/5",
+          "press inline-flex h-11 items-center gap-1.5 rounded-pill px-3 text-sm font-semibold uppercase focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500",
+          light ? "text-white hover:bg-white/15" : "text-neutral-800 hover:bg-neutral-900/5",
         )}
       >
         {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : <Globe className="h-4 w-4" />}
@@ -53,7 +65,11 @@ export function LanguageSwitcher({ className, light }: { className?: string; lig
       {open && (
         <ul
           role="listbox"
-          className="absolute right-0 z-40 mt-1 w-40 overflow-hidden rounded-lg border border-line bg-card py-1 shadow-lg"
+          className={cn(
+            "absolute z-40 w-44 overflow-hidden rounded-md border border-neutral-200/70 bg-card p-1 shadow-lg",
+            align === "right" ? "right-0" : "left-0",
+            side === "bottom" ? "mt-1" : "bottom-full mb-1",
+          )}
         >
           {locales.map((l) => (
             <li key={l}>
@@ -63,8 +79,8 @@ export function LanguageSwitcher({ className, light }: { className?: string; lig
                 aria-selected={l === locale}
                 onClick={() => change(l)}
                 className={cn(
-                  "flex w-full items-center justify-between px-3 py-2.5 text-sm hover:bg-surface",
-                  l === locale ? "text-primary-text font-semibold" : "text-heading",
+                  "flex w-full items-center justify-between rounded-sm px-3 py-2.5 text-sm hover:bg-neutral-100",
+                  l === locale ? "text-primary-700 font-semibold" : "text-heading",
                 )}
               >
                 {t(l)}

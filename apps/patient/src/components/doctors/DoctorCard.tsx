@@ -29,7 +29,7 @@ export function DoctorCard({
   return (
     <article
       className={cn(
-        "bg-card rounded-xl shadow-card border p-4 flex gap-3 md:gap-4 transition-shadow hover:shadow-md",
+        "bg-card rounded-lg shadow-card border p-4 flex gap-3 md:gap-4 transition-shadow hover:shadow-md",
         highlighted ? "border-accent ring-2 ring-accent/20" : "border-line/60",
       )}
     >

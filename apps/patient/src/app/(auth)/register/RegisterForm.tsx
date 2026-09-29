@@ -37,9 +37,9 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
                 key={r.key}
                 type="button"
                 onClick={() => setRole(r.key)}
-                className="group flex flex-col items-start gap-3 rounded-xl border-2 border-line p-4 text-left transition-colors hover:border-primary hover:bg-primary-soft/40 min-h-[120px]"
+                className="group flex flex-col items-start gap-3 rounded-lg border-2 border-line p-4 text-left transition-colors hover:border-primary hover:bg-primary-soft/40 min-h-[120px]"
               >
-                <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-soft text-primary-text group-hover:bg-primary group-hover:text-white transition-colors">
+                <span className="flex h-11 w-11 items-center justify-center rounded-md bg-primary-soft text-primary-text group-hover:bg-primary group-hover:text-white transition-colors">
                   <r.icon className="h-6 w-6" />
                 </span>
                 <span className="font-bold text-heading text-base">{r.title}</span>
@@ -58,7 +58,7 @@ export function RegisterForm({ initialRole = null, returnTo = PATIENT_HOME }: { 
             else void signIn(returnTo);
           }}
         >
-          <div className="flex items-center justify-between rounded-lg bg-primary-soft/60 px-3 py-2">
+          <div className="flex items-center justify-between rounded-md bg-primary-soft/60 px-3 py-2">
             <span className="inline-flex items-center gap-2 text-sm font-semibold text-primary-text">
               <Check className="h-4 w-4" />
               {role === "doctor" ? t("doctor") : t("patient")}

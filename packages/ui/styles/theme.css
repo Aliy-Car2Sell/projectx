@@ -2,41 +2,201 @@
  * ProjectX design tokens + base styles, shared by every app.
  * Apps do: @import "tailwindcss"; @import "@projectx/ui/styles/theme.css";
  * Tailwind v4 has no JS preset: this file is the preset. Change a color here, it changes everywhere.
+ *
+ * Contrast of every text/background pair used below is checked by `node scripts/contrast.mjs`
+ * (WCAG AA: 4.5:1 for text, 3:1 for icons and large headings).
  */
 @source "../src";
 @import "./print.css";
 
-/* Design tokens (Tailwind v4 uses CSS-based config instead of tailwind.config.js) */
-@theme {
-  --color-primary: #1a9be6;
-  --color-primary-hover: #1584c7;
-  --color-primary-soft: #e8f4fd;
-  /*
-   * Brand blue as TEXT. #1a9be6 is only 3.05:1 on white, so links, page titles and active nav labels use this
-   * darker shade instead: 5.15:1 on card, 4.76:1 on surface, 4.61:1 on primary-soft (WCAG AA needs 4.5:1).
-   * Fills, borders, buttons, badges and the logo keep --color-primary.
-   */
-  --color-primary-text: #0d72b3;
-  --color-surface: #f4f6f8;
+/* `static`: every token becomes a CSS variable, used by a class or not (illustrations and inline styles read them). */
+@theme static {
+  /* ---------- Color: brand blue ---------- */
+  --color-primary-50: #eef7fe; /* tinted section / icon container background */
+  --color-primary-100: #e2f1fd; /* chip background */
+  --color-primary-200: #bde1fa;
+  --color-primary-300: #88ccf5;
+  --color-primary-400: #4cb1ee;
+  --color-primary-500: #1a9be6; /* brand: fills, icons, focus ring. 3.05:1 on white, so never body text */
+  --color-primary-600: #1584c7; /* hover of a brand fill */
+  --color-primary-700: #0d72b3; /* brand as text: 5.15:1 on white */
+  --color-primary-800: #0b5a8c; /* text on primary-100 */
+  --color-primary-900: #0a3d5f; /* dark heading */
+
+  /* ---------- Color: neutral, blue-tinted (no pure black or grey) ---------- */
+  --color-neutral-50: #f6f9fc; /* page background */
+  --color-neutral-100: #edf2f7;
+  --color-neutral-200: #e0e7ef; /* lines */
+  --color-neutral-300: #c8d3df;
+  --color-neutral-400: #97a6b7; /* decoration only, never text */
+  --color-neutral-500: #5f7085; /* placeholder, caption */
+  --color-neutral-600: #4a5b6e; /* secondary text */
+  --color-neutral-700: #334558;
+  --color-neutral-800: #1d2f42;
+  --color-neutral-900: #0f1f2e; /* text */
+
+  /* ---------- Color: status (50 background + 700 text, 500 for dots and fills) ---------- */
+  --color-success-50: #ecfdf3;
+  --color-success-500: #22c55e;
+  --color-success-700: #15803d;
+  --color-warning-50: #fffaeb;
+  --color-warning-500: #f59e0b;
+  --color-warning-700: #b45309;
+  --color-danger-50: #fef3f2;
+  --color-danger-500: #ef4444;
+  --color-danger-700: #b91c1c;
+
+  /* ---------- Color: role accents. The base is the same in every app, only the accent differs. ---------- */
+  --color-teal-50: #effbf9;
+  --color-teal-100: #d3f4ef;
+  --color-teal-300: #7fd8cc;
+  --color-teal-500: #0e9f8e;
+  --color-teal-600: #0b8677;
+  --color-teal-700: #0a6f63;
+  --color-indigo-50: #eef2ff;
+  --color-indigo-100: #e0e7ff;
+  --color-indigo-300: #a5b4fc;
+  --color-indigo-500: #6366f1;
+  --color-indigo-600: #4f46e5;
+  --color-indigo-700: #4338ca;
+
+  /* The app's accent: the patient app keeps brand blue; <html data-accent="teal|indigo"> swaps it (below). */
+  --color-accent-50: var(--color-primary-50);
+  --color-accent-100: var(--color-primary-100);
+  --color-accent-300: var(--color-primary-300);
+  --color-accent-500: var(--color-primary-500);
+  --color-accent-600: var(--color-primary-600);
+  --color-accent-700: var(--color-primary-700);
+
+  --color-star: #f5a524; /* rating stars */
+
+  /* ---------- Semantic aliases (what components and pages use) ---------- */
+  --color-primary: var(--color-primary-500);
+  --color-primary-hover: var(--color-primary-600);
+  --color-primary-soft: var(--color-primary-50);
+  --color-primary-text: var(--color-primary-700);
+  --color-surface: var(--color-neutral-50);
   --color-card: #ffffff;
-  --color-heading: #1f2937;
-  /* Secondary text: 5.98:1 on card, 5.52:1 on surface, 5.35:1 on primary-soft (WCAG AA needs 4.5:1). */
-  --color-muted: #5b6472;
-  --color-line: #e5e7eb;
-  --color-success: #22c55e;
-  --color-success-soft: #dcfce7;
-  --color-warning: #f59e0b;
-  --color-warning-soft: #fef3c7;
-  --color-danger: #ef4444;
-  --color-danger-soft: #fee2e2;
-  --color-accent: #7c3aed;
-  --color-accent-light: #a78bfa;
-  --color-accent-soft: #ede9fe;
+  --color-heading: var(--color-neutral-900);
+  --color-muted: var(--color-neutral-600);
+  --color-line: var(--color-neutral-200);
+  --color-success: var(--color-success-500);
+  --color-success-soft: var(--color-success-50);
+  --color-warning: var(--color-warning-500);
+  --color-warning-soft: var(--color-warning-50);
+  --color-danger: var(--color-danger-500);
+  --color-danger-soft: var(--color-danger-50);
+  --color-accent: var(--color-accent-700);
+  --color-accent-light: var(--color-accent-500);
+  --color-accent-soft: var(--color-accent-50);
 
-  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  /* ---------- Type: Manrope for headings, Inter for text (loaded with next/font in each app's layout) ---------- */
+  --font-sans: var(--font-inter), "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-display: var(--font-manrope), "Manrope", var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --radius-xl: 0.75rem;
-  --shadow-card: 0 1px 2px 0 rgb(0 0 0 / 0.05), 0 1px 3px 0 rgb(16 24 40 / 0.06);
+  --text-display: 3rem; /* 48, desktop hero */
+  --text-display--line-height: 1.1;
+  --text-display--letter-spacing: -0.025em;
+  --text-display--font-weight: 800;
+  --text-display-sm: 2.5rem; /* 40, phone hero */
+  --text-display-sm--line-height: 1.12;
+  --text-display-sm--letter-spacing: -0.025em;
+  --text-display-sm--font-weight: 800;
+  --text-h1: 2rem; /* 32 */
+  --text-h1--line-height: 1.15;
+  --text-h1--letter-spacing: -0.02em;
+  --text-h1--font-weight: 800;
+  --text-h2: 1.5rem; /* 24 */
+  --text-h2--line-height: 1.15;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 700;
+  --text-h3: 1.25rem; /* 20 */
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h3--font-weight: 700;
+  --text-body: 1rem; /* 16 */
+  --text-body--line-height: 1.5;
+  --text-small: 0.875rem; /* 14 */
+  --text-small--line-height: 1.5;
+  --text-caption: 0.75rem; /* 12 */
+  --text-caption--line-height: 1.4;
+
+  /* ---------- Radius: cards lg, buttons pill, inputs md, sheets and modals xl ---------- */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 28px;
+  --radius-3xl: 28px;
+  --radius-pill: 999px;
+
+  /* ---------- Shadow: three levels, soft and blue-tinted. Tailwind's other names map onto them. ---------- */
+  --shadow-sm: 0 1px 2px rgb(15 31 46 / 0.04), 0 2px 10px rgb(15 31 46 / 0.04); /* 1: resting card */
+  --shadow-md: 0 4px 24px rgb(15 31 46 / 0.08); /* 2: hovered card, floating element */
+  --shadow-lg: 0 16px 48px rgb(15 31 46 / 0.14); /* 3: menu, sheet, modal */
+  --shadow-2xs: var(--shadow-sm);
+  --shadow-xs: var(--shadow-sm);
+  --shadow-card: var(--shadow-sm);
+  --shadow-xl: var(--shadow-lg);
+  --shadow-2xl: var(--shadow-lg);
+
+  /* ---------- Space: 4px base (Tailwind's --spacing). Page gutter 20 / 32, sections 32–48 apart, card inside 20–24. ---------- */
+  --spacing-gutter: 1.25rem;
+  --spacing-gutter-lg: 2rem;
+
+  /* ---------- Motion ---------- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --animate-enter: enter 200ms var(--ease-out-soft) both;
+  --animate-sheet: sheet-in 220ms var(--ease-out-soft) both;
+  --animate-shimmer: shimmer 1.6s linear infinite;
+
+  @keyframes enter {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes sheet-in {
+    from {
+      opacity: 0.6;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @keyframes shimmer {
+    from {
+      background-position: 200% 0;
+    }
+    to {
+      background-position: -200% 0;
+    }
+  }
+}
+
+/* Role accents: apps/doctor sets data-accent="teal", apps/admin "indigo" on <html>. */
+[data-accent="teal"] {
+  --color-accent-50: var(--color-teal-50);
+  --color-accent-100: var(--color-teal-100);
+  --color-accent-300: var(--color-teal-300);
+  --color-accent-500: var(--color-teal-500);
+  --color-accent-600: var(--color-teal-600);
+  --color-accent-700: var(--color-teal-700);
+}
+[data-accent="indigo"] {
+  --color-accent-50: var(--color-indigo-50);
+  --color-accent-100: var(--color-indigo-100);
+  --color-accent-300: var(--color-indigo-300);
+  --color-accent-500: var(--color-indigo-500);
+  --color-accent-600: var(--color-indigo-600);
+  --color-accent-700: var(--color-indigo-700);
 }
 
 @layer base {
@@ -44,30 +204,86 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    background: var(--color-surface);
+    /* Never plain white: a very light blue page with a soft glow of primary-50 at the top. Cards are white. */
+    background-color: var(--color-surface);
+    background-image: radial-gradient(ellipse 80% 520px at 50% -120px, var(--color-primary-100), var(--color-primary-50) 45%, transparent 100%);
+    background-repeat: no-repeat;
     color: var(--color-heading);
     font-family: var(--font-sans);
-    font-size: 16px; /* body text is never below 16px on phones */
+    font-size: 16px; /* body text is never below 16px */
     line-height: 1.5;
     overflow-x: hidden;
   }
-  @media (min-width: 768px) {
-    body {
-      font-size: 14px;
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-heading);
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+  }
+  /* Icons are drawn a little lighter than lucide's default 2 (filled stars keep their stroke of 0). */
+  .lucide:not([stroke-width="0"]) {
+    stroke-width: 1.75;
+  }
+  ::selection {
+    background: var(--color-primary-200);
+  }
+}
+
+/* Page gutter: 20px on phones, 32px on desktop. */
+@utility px-page {
+  padding-inline: var(--spacing-gutter);
+  @media (min-width: 1024px) {
+    padding-inline: var(--spacing-gutter-lg);
+  }
+}
+
+/* A card that can be pressed: lifts 2px and gets the next shadow on hover. */
+@utility lift {
+  transition:
+    transform 150ms var(--ease-out-soft),
+    box-shadow 150ms var(--ease-out-soft),
+    border-color 150ms var(--ease-out-soft);
+  @media (hover: hover) {
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
     }
   }
-  h1, h2, h3, h4 {
-    color: var(--color-heading);
-    font-weight: 700;
+  &:active {
+    transform: translateY(0) scale(0.995);
+  }
+}
+
+/* Buttons and chips give a little when pressed. */
+@utility press {
+  transition:
+    transform 120ms var(--ease-out-soft),
+    background-color 150ms var(--ease-out-soft),
+    border-color 150ms var(--ease-out-soft),
+    color 150ms var(--ease-out-soft),
+    box-shadow 150ms var(--ease-out-soft);
+  &:active {
+    transform: scale(0.98);
   }
 }
 
 @utility gradient-accent {
-  background-image: linear-gradient(135deg, var(--color-accent) 0%, var(--color-accent-light) 100%);
+  background-image: linear-gradient(135deg, var(--color-accent-700) 0%, var(--color-accent-500) 100%);
 }
 
 @utility gradient-primary {
-  background-image: linear-gradient(135deg, var(--color-primary) 0%, #4fb8f0 100%);
+  background-image: linear-gradient(135deg, var(--color-primary-700) 0%, var(--color-primary-500) 100%);
+}
+
+@utility skeleton {
+  background-color: var(--color-neutral-100);
+  background-image: linear-gradient(90deg, transparent 0%, rgb(255 255 255 / 0.7) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: var(--animate-shimmer);
 }
 
 @utility safe-bottom {
@@ -81,8 +297,25 @@
   }
 }
 
+/* Whoever asked for less motion gets none of the above. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .lift:hover,
+  .lift:active,
+  .press:active {
+    transform: none;
+  }
+}
+
 /* Leaflet container must have explicit height; set by wrapper */
 .leaflet-container {
   font-family: inherit;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-lg);
 }

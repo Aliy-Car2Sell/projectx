@@ -185,13 +185,13 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
             </span>
           )}
         </Button>
-        <div className="lg:hidden inline-flex rounded-lg border border-line bg-card p-0.5">
+        <div className="lg:hidden inline-flex rounded-md border border-line bg-card p-0.5">
           <button
             type="button"
             aria-label={t("common.list")}
             aria-pressed={view === "list"}
             onClick={() => setView("list")}
-            className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "list" ? "bg-primary text-white" : "text-muted")}
+            className={cn("h-10 w-10 rounded-sm flex items-center justify-center", view === "list" ? "bg-primary text-white" : "text-muted")}
           >
             <List className="h-5 w-5" />
           </button>
@@ -200,7 +200,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
             aria-label={t("common.map")}
             aria-pressed={view === "map"}
             onClick={() => setView("map")}
-            className={cn("h-10 w-10 rounded-md flex items-center justify-center", view === "map" ? "bg-primary text-white" : "text-muted")}
+            className={cn("h-10 w-10 rounded-sm flex items-center justify-center", view === "map" ? "bg-primary text-white" : "text-muted")}
           >
             <MapIcon className="h-5 w-5" />
           </button>
@@ -212,7 +212,7 @@ export function DoctorSearch({ doctors, state = "normal" }: { doctors: DoctorPro
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[260px_minmax(0,1fr)_minmax(0,1fr)] xl:grid-cols-[280px_minmax(0,1.2fr)_minmax(0,1fr)]">
         {/* Desktop filters */}
         <aside className="hidden lg:block">
-          <div className="bg-card rounded-xl shadow-card border border-line/60 p-4 sticky top-20">
+          <div className="bg-card rounded-lg shadow-card border border-line/60 p-4 sticky top-20">
             <h2 className="font-bold text-heading mb-3 flex items-center gap-2">
               <SlidersHorizontal className="h-4 w-4 text-primary-text" /> {td("filters")}
             </h2>

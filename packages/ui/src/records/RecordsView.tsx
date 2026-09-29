@@ -237,7 +237,7 @@ export function RecordsView({
                 aria-pressed={filter === "flagged"}
                 onClick={() => setFilter(filter === "flagged" ? "all" : "flagged")}
                 className={cn(
-                  "record-noprint mt-3 flex w-full min-h-[44px] items-center gap-2 rounded-lg border px-3 py-2 text-left text-sm font-semibold transition-colors",
+                  "record-noprint mt-3 flex w-full min-h-[44px] items-center gap-2 rounded-md border px-3 py-2 text-left text-sm font-semibold transition-colors",
                   flagged.urgent > 0 ? "border-danger/40 bg-danger-soft/60 text-red-700 hover:bg-danger-soft" : "border-warning/50 bg-warning-soft/70 text-amber-700 hover:bg-warning-soft",
                   filter === "flagged" && "ring-2 ring-primary/30",
                 )}
@@ -324,7 +324,7 @@ export function RecordsView({
                               href={printHref + printQuery({ recordId: r.id, mode: role === "doctor" ? "doctor" : "full", auto: true })}
                               target="_blank"
                               rel="noopener"
-                              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-lg px-2 text-sm font-medium text-primary-text hover:bg-primary-soft"
+                              className="inline-flex min-h-[36px] items-center gap-1.5 rounded-md px-2 text-sm font-medium text-primary-text hover:bg-primary-soft"
                             >
                               <Printer className="h-4 w-4" /> {t("print.entry")}
                             </a>

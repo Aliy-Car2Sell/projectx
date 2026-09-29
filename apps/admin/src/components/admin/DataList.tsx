@@ -29,7 +29,7 @@ export function DataList<T>({
   return (
     <div className={className}>
       {/* Desktop table */}
-      <div className="hidden md:block bg-card rounded-xl shadow-card border border-line/60 overflow-x-auto">
+      <div className="hidden md:block bg-card rounded-lg shadow-card border border-line/60 overflow-x-auto">
         <table className="w-full min-w-[720px] text-sm">
           <thead className="bg-surface text-left text-xs uppercase tracking-wide text-muted">
             <tr>
@@ -59,7 +59,7 @@ export function DataList<T>({
       {/* Mobile cards */}
       <div className="md:hidden flex flex-col gap-3">
         {rows.map((r) => (
-          <div key={keyOf(r)} className="bg-card rounded-xl shadow-card border border-line/60 p-4 flex flex-col gap-3">
+          <div key={keyOf(r)} className="bg-card rounded-lg shadow-card border border-line/60 p-4 flex flex-col gap-3">
             {mobileCard(r)}
             {actions && <div className="flex flex-wrap gap-2 border-t border-line pt-3">{actions(r)}</div>}
           </div>

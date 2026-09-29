@@ -6,6 +6,8 @@
  * main            the three pages of the app the quick audit always checks
  * langPages       where the header's language switcher is exercised
  * guest*          patient app only: what is public, what must ask for a login
+ * devOnly         routes that exist in `next dev` only (a build answers 404), so the audit, which runs
+ *                 against the production build, leaves them out
  */
 export const APPS = {
   patient: {
@@ -73,6 +75,8 @@ export const APPS = {
     guestPages: ["/", "/patient/doctors", "/patient/doctors/doc-1"],
     guestProtected: ["/patient", "/patient/appointments", "/patient/chat/chat-1", "/patient/doctors/doc-1/book"],
     guestDoctor: "/patient/doctors/doc-1",
+    // the design system's showcase (apps/patient/src/app/design)
+    devOnly: ["/design"],
   },
   doctor: {
     home: "/doctor",

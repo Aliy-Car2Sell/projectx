@@ -56,7 +56,7 @@ export function AdminReviews({ reviews: initial, doctorNames }: { reviews: Revie
             <ReviewCard key={r.id} review={r}>
               <div className="mt-2 text-xs text-muted">{t("forDoctor", { name: doctorNames[r.doctorId] ?? r.doctorId })}</div>
               {r.reportReason && (
-                <div className="mt-2 flex items-start gap-2 rounded-lg bg-warning-soft px-3 py-2 text-xs text-amber-800">
+                <div className="mt-2 flex items-start gap-2 rounded-md bg-warning-soft px-3 py-2 text-xs text-amber-800">
                   <Flag className="h-4 w-4 shrink-0" />
                   <span>
                     <span className="font-semibold">{t("reportReason")}:</span> {r.reportReason}

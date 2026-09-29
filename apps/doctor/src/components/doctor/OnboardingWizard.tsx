@@ -65,7 +65,7 @@ export function OnboardingWizard() {
                   aria-current={i === idx ? "step" : undefined}
                   onClick={() => i < idx && setIdx(i)}
                   className={cn(
-                    "flex items-center gap-2 rounded-lg px-3 min-h-[40px] text-sm font-medium w-full text-left",
+                    "flex items-center gap-2 rounded-md px-3 min-h-[40px] text-sm font-medium w-full text-left",
                     state === "active" && "bg-primary text-white",
                     state === "done" && "bg-success-soft text-green-700",
                     state === "todo" && "bg-card border border-line text-muted",
@@ -176,7 +176,7 @@ export function OnboardingWizard() {
               <p className="text-sm text-muted">{t("documentsDesc")}</p>
             </div>
             {(["diploma", "certificate", "license"] as const).map((k) => (
-              <div key={k} className="flex items-center justify-between gap-3 rounded-xl border border-line p-3">
+              <div key={k} className="flex items-center justify-between gap-3 rounded-lg border border-line p-3">
                 <div className="min-w-0">
                   <div className="font-semibold text-heading text-sm">{t(k)}</div>
                   <div className="text-xs text-muted truncate">{files[k] ?? t("fileFormats")}</div>

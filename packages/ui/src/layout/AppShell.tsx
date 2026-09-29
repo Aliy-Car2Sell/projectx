@@ -45,10 +45,10 @@ export function AppShell({
   const fullName = `${user.firstName} ${user.lastName}`;
   const badgeOf = (key: string) => (key === "chat" ? unreadMessages : (badges?.[key] ?? 0));
   const logoutClass =
-    "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
+    "flex items-center gap-3 rounded-md px-3 min-h-[44px] text-base md:text-[15px] font-medium text-muted hover:bg-surface hover:text-danger justify-center lg:justify-start";
 
   return (
-    <div className="min-h-dvh flex bg-surface">
+    <div className="min-h-dvh flex">
       {/* Sidebar (tablet: icons, desktop: full) */}
       <aside className="hidden md:flex md:flex-col md:w-[72px] lg:w-64 shrink-0 bg-card border-r border-line sticky top-0 h-dvh">
         <div className="flex items-center justify-center lg:justify-start px-3 lg:px-5 h-16 border-b border-line">
@@ -59,7 +59,7 @@ export function AppShell({
         <div className="hidden lg:block px-4 pt-4">
           <Link
             href={profileHrefByRole[role]}
-            className="flex items-center gap-3 rounded-xl bg-primary-soft/70 p-3 hover:bg-primary-soft transition-colors"
+            className="flex items-center gap-3 rounded-lg bg-primary-soft/70 p-3 hover:bg-primary-soft transition-colors"
           >
             <Avatar src={user.avatarUrl} name={fullName} size="md" ring />
             <div className="min-w-0">
@@ -80,7 +80,7 @@ export function AppShell({
                 href={item.href}
                 title={label}
                 className={cn(
-                  "flex items-center gap-3 rounded-lg px-3 min-h-[44px] text-base md:text-[15px] font-medium transition-colors justify-center lg:justify-start",
+                  "flex items-center gap-3 rounded-md px-3 min-h-[44px] text-base md:text-[15px] font-medium transition-colors justify-center lg:justify-start",
                   active ? "bg-primary-soft text-primary-text font-semibold" : "text-heading hover:bg-surface",
                 )}
               >
@@ -123,7 +123,7 @@ export function AppShell({
               <Link
                 href={chatHref}
                 aria-label={t("common.messages")}
-                className="relative max-sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-lg text-heading hover:bg-black/5"
+                className="relative max-sm:hidden inline-flex h-11 w-11 items-center justify-center rounded-md text-heading hover:bg-black/5"
               >
                 <MessageCircle className="h-5 w-5" />
                 {unreadMessages > 0 && (
@@ -134,7 +134,7 @@ export function AppShell({
               </Link>
             )}
             <NotificationsMenu role={role} />
-            <Link href={profileHrefByRole[role]} className="ml-1 flex items-center gap-2 rounded-lg p-1 hover:bg-black/5">
+            <Link href={profileHrefByRole[role]} className="ml-1 flex items-center gap-2 rounded-md p-1 hover:bg-black/5">
               <Avatar src={user.avatarUrl} name={fullName} size="sm" />
               <span className="hidden lg:block text-sm font-semibold text-heading pr-1">{user.firstName}</span>
             </Link>

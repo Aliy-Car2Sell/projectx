@@ -52,11 +52,11 @@ export function RecordDecision({ record: mock, admin, audit }: { record: Medical
       <Card>
         <CardHeader title={t("decision")} subtitle={t("decisionHint")} action={<RecordStatusBadge status={status} />} />
         {status === "approved" ? (
-          <div className="flex items-center gap-2 rounded-lg bg-success-soft px-3 py-2 text-sm text-green-700">
+          <div className="flex items-center gap-2 rounded-md bg-success-soft px-3 py-2 text-sm text-green-700">
             <CheckCircle2 className="h-5 w-5" /> {t("approvedNote")}
           </div>
         ) : status === "rejected" ? (
-          <div className="flex items-start gap-2 rounded-lg bg-danger-soft px-3 py-2 text-sm text-red-700">
+          <div className="flex items-start gap-2 rounded-md bg-danger-soft px-3 py-2 text-sm text-red-700">
             <XCircle className="h-5 w-5 shrink-0" />
             <div>
               {t("rejectedNote")}
@@ -64,7 +64,7 @@ export function RecordDecision({ record: mock, admin, audit }: { record: Medical
             </div>
           </div>
         ) : deleted ? (
-          <div className="flex items-center gap-2 rounded-lg bg-surface px-3 py-2 text-sm text-muted">
+          <div className="flex items-center gap-2 rounded-md bg-surface px-3 py-2 text-sm text-muted">
             <Trash2 className="h-5 w-5 shrink-0" /> {t("deletedNote")}
           </div>
         ) : null}

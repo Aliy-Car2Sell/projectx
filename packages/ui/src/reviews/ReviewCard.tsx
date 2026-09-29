@@ -9,7 +9,7 @@ export function ReviewCard({ review, className, children }: { review: Review; cl
   const locale = useLocale();
   const tc = useTranslations("common");
   return (
-    <div className={cn("bg-card rounded-xl shadow-card border border-line/60 p-4", review.isHidden && "opacity-60", className)}>
+    <div className={cn("bg-card rounded-lg shadow-card border border-line/60 p-4", review.isHidden && "opacity-60", className)}>
       <div className="flex items-center gap-3">
         <Avatar name={review.patientName} size="sm" />
         <div className="min-w-0 flex-1">

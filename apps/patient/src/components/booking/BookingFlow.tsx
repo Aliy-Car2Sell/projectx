@@ -91,7 +91,7 @@ export function BookingFlow({
           setTime(null);
         }}
         className={cn(
-          "flex flex-col items-center justify-center rounded-xl border transition-colors",
+          "flex flex-col items-center justify-center rounded-lg border transition-colors",
           mobile ? "shrink-0 w-[64px] h-[76px]" : "h-[84px]",
           active ? "bg-primary border-primary text-white shadow-sm" : "bg-card border-line text-heading hover:border-primary",
           free === 0 && "opacity-40",
@@ -162,10 +162,10 @@ export function BookingFlow({
               <div className="flex items-center justify-between mb-3">
                 <h2 className="font-bold text-heading">{t("chooseDay")}</h2>
                 <div className="hidden md:flex items-center gap-1">
-                  <button type="button" disabled={weekOffset === 0} onClick={() => setWeekOffset(0)} className="h-9 w-9 rounded-lg hover:bg-surface disabled:opacity-30 flex items-center justify-center">
+                  <button type="button" disabled={weekOffset === 0} onClick={() => setWeekOffset(0)} className="h-9 w-9 rounded-md hover:bg-surface disabled:opacity-30 flex items-center justify-center">
                     <ChevronLeft className="h-5 w-5" />
                   </button>
-                  <button type="button" disabled={weekOffset === 1} onClick={() => setWeekOffset(1)} className="h-9 w-9 rounded-lg hover:bg-surface disabled:opacity-30 flex items-center justify-center">
+                  <button type="button" disabled={weekOffset === 1} onClick={() => setWeekOffset(1)} className="h-9 w-9 rounded-md hover:bg-surface disabled:opacity-30 flex items-center justify-center">
                     <ChevronRight className="h-5 w-5" />
                   </button>
                 </div>
@@ -240,7 +240,7 @@ export function BookingFlow({
               <Textarea label={`${t("reasonLabel")} (${tc("optional")})`} placeholder={t("reasonPlaceholder")} value={reason} onChange={(e) => setReason(e.target.value)} />
             </div>
             {price !== undefined && (
-              <section className="mt-4 rounded-xl border border-line p-3" aria-labelledby="booking-payment">
+              <section className="mt-4 rounded-lg border border-line p-3" aria-labelledby="booking-payment">
                 <div className="flex items-center justify-between gap-3">
                   <h3 id="booking-payment" className="inline-flex items-center gap-2 font-bold text-heading">
                     <Wallet className="h-4 w-4 text-primary-text" /> {t("payment.title")}
@@ -256,7 +256,7 @@ export function BookingFlow({
                 </div>
               </section>
             )}
-            <div className="mt-3 flex items-start gap-2 rounded-lg bg-primary-soft px-3 py-2 text-xs text-primary-text">
+            <div className="mt-3 flex items-start gap-2 rounded-md bg-primary-soft px-3 py-2 text-xs text-primary-text">
               <Info className="h-4 w-4 shrink-0 mt-0.5" />
               <span>{t("autoConfirm")}</span>
             </div>

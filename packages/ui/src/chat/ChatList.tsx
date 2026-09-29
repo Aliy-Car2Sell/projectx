@@ -60,7 +60,7 @@ export function ChatList({
           }
         />
       ) : (
-        <ul className="bg-card rounded-xl shadow-card border border-line/60 divide-y divide-line overflow-hidden">
+        <ul className="bg-card rounded-lg shadow-card border border-line/60 divide-y divide-line overflow-hidden">
           {list.map((c) => {
             const active = c.id === activeId;
             return (

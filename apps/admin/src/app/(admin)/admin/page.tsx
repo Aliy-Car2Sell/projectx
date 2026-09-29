@@ -50,7 +50,7 @@ export default async function AdminDashboard() {
               const { icon: Icon, cls } = activityIcon[a.type];
               return (
                 <div key={a.id} className="flex items-center gap-3 px-4 py-3">
-                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${cls}`}>
+                  <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-md ${cls}`}>
                     <Icon className="h-5 w-5" />
                   </span>
                   <div className="min-w-0 flex-1">

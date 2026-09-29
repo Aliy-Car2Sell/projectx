@@ -1,5 +1,8 @@
 import Link from "next/link";
 import { cn } from "@projectx/utils";
+import { IconBox, type IconTone } from "./IconBox";
+
+type Accent = "primary" | "accent" | "success" | "warning" | "danger";
 
 type CardProps = {
   className?: string;
@@ -7,15 +10,32 @@ type CardProps = {
   padding?: "none" | "sm" | "md";
   href?: string;
   onClick?: () => void;
+  /** Lifts on hover. A card with `href` or `onClick` is interactive without asking. */
+  interactive?: boolean;
+  /** Set apart from its neighbours by a coloured line on the left. */
+  accent?: Accent;
 };
 
-const paddings = { none: "", sm: "p-4", md: "p-4 md:p-5" };
+const paddings = { none: "", sm: "p-4", md: "p-5 md:p-6" };
 
-export function Card({ className, children, padding = "md", href, onClick }: CardProps) {
+const accentLine: Record<Accent, string> = {
+  primary: "before:bg-primary-500",
+  accent: "before:bg-accent-500",
+  success: "before:bg-success-500",
+  warning: "before:bg-warning-500",
+  danger: "before:bg-danger-500",
+};
+
+export function Card({ className, children, padding = "md", href, onClick, interactive, accent }: CardProps) {
   const classes = cn(
-    "block bg-card rounded-xl shadow-card border border-line/60",
+    "block bg-card rounded-lg shadow-sm border border-neutral-200/70",
     paddings[padding],
-    (href || onClick) && "transition-shadow hover:shadow-md active:scale-[0.995]",
+    (href || onClick || interactive) && "lift hover:border-primary-200",
+    accent &&
+      cn(
+        "relative before:absolute before:left-0 before:top-5 before:bottom-5 before:w-1 before:rounded-r-pill",
+        accentLine[accent],
+      ),
     className,
   );
   if (href) {
@@ -47,45 +67,62 @@ export function CardHeader({
   className?: string;
 }) {
   return (
-    <div className={cn("flex items-start justify-between gap-3 mb-3", className)}>
+    <div className={cn("flex items-start justify-between gap-3 mb-4", className)}>
       <div className="min-w-0">
         <h3 className="text-base font-bold text-heading leading-tight">{title}</h3>
-        {subtitle && <p className="text-sm text-muted mt-0.5">{subtitle}</p>}
+        {subtitle && <p className="text-sm text-muted mt-1">{subtitle}</p>}
       </div>
       {action && <div className="shrink-0">{action}</div>}
     </div>
   );
 }
 
-/** Purple gradient card for metrics/results. */
+type StatTone = IconTone | "white";
+
+/** A number that matters: the figure large, its label small, the icon in its container. */
 export function StatCard({
   label,
   value,
   hint,
   icon,
-  tone = "accent",
+  tone = "primary",
+  href,
   className,
 }: {
   label: string;
   value: React.ReactNode;
   hint?: string;
   icon?: React.ReactNode;
-  tone?: "accent" | "primary" | "white";
+  /** Colour of the icon container ("white" is the old name of "primary"). */
+  tone?: StatTone;
+  href?: string;
   className?: string;
 }) {
-  const tones = {
-    accent: "gradient-accent text-white",
-    primary: "gradient-primary text-white",
-    white: "bg-card text-heading border border-line/60 shadow-card",
-  };
-  return (
-    <div className={cn("rounded-xl p-4 md:p-5 flex flex-col gap-1", tones[tone], className)}>
-      <div className="flex items-center justify-between gap-2">
-        <span className={cn("text-sm", tone === "white" ? "text-muted" : "text-white/85")}>{label}</span>
-        {icon && <span className={cn(tone === "white" ? "text-primary-text" : "text-white/90")}>{icon}</span>}
-      </div>
-      <div className="text-2xl md:text-3xl font-bold leading-tight">{value}</div>
-      {hint && <div className={cn("text-xs", tone === "white" ? "text-muted" : "text-white/80")}>{hint}</div>}
-    </div>
+  const classes = cn(
+    "flex items-start justify-between gap-3 rounded-lg border border-neutral-200/70 bg-card p-5 shadow-sm",
+    href && "lift hover:border-primary-200",
+    className,
   );
+  const body = (
+    <>
+      <div className="min-w-0">
+        <div className="font-display text-h1 leading-none text-heading">{value}</div>
+        <div className="mt-2 text-sm font-medium text-muted">{label}</div>
+        {hint && <div className="mt-0.5 text-xs text-neutral-500">{hint}</div>}
+      </div>
+      {icon && (
+        <IconBox tone={tone === "white" ? "primary" : tone} size="lg">
+          {icon}
+        </IconBox>
+      )}
+    </>
+  );
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {body}
+      </Link>
+    );
+  }
+  return <div className={classes}>{body}</div>;
 }

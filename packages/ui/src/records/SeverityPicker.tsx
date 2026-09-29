@@ -24,7 +24,7 @@ export function SeverityPicker({ value, onChange, className }: { value: RecordSe
               aria-checked={active}
               onClick={() => onChange(s)}
               className={cn(
-                "flex min-h-[44px] items-start gap-3 rounded-lg border px-3 py-2 text-left transition-colors",
+                "flex min-h-[44px] items-start gap-3 rounded-md border px-3 py-2 text-left transition-colors",
                 active ? "border-primary bg-primary-soft" : "border-line hover:border-primary",
               )}
             >

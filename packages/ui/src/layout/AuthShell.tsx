@@ -11,7 +11,7 @@ export async function AuthShell({ children }: { children: React.ReactNode }) {
   const demo = process.env.NEXT_PUBLIC_DEMO === "true";
   const t = await getTranslations("shell");
   return (
-    <div className="min-h-dvh flex flex-col bg-surface">
+    <div className="min-h-dvh flex flex-col">
       <header className="flex items-center justify-between px-4 md:px-8 h-16">
         <span className="inline-flex items-center gap-2">
           <Logo />
