@@ -132,9 +132,11 @@ export default async function PatientDashboard() {
               <Card href={`/patient/appointments/${next.id}`} accent="primary" className="flex items-center gap-4 md:gap-5">
                 <Avatar src={nextDoctor.avatarUrl} name={`${nextDoctor.firstName} ${nextDoctor.lastName}`} size="xl" shape="square" className="max-md:h-[72px] max-md:w-[72px]" />
                 <div className="min-w-0 flex-1">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <Badge tone="primary" className="capitalize">
-                      <Clock className="h-3.5 w-3.5" /> {nextDay} · {next.time}
+                  {/* The day is plain text so a long one can wrap; only the hour is a badge. */}
+                  <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
+                    <span className="text-sm font-semibold capitalize text-primary-700">{nextDay}</span>
+                    <Badge tone="primary">
+                      <Clock className="h-3.5 w-3.5" /> {next.time}
                     </Badge>
                     {isToday(next.date) && <Badge tone="warning">{t("inHours", { count: Math.max(0, Math.round(hoursUntil(next.date, next.time))) })}</Badge>}
                   </div>
