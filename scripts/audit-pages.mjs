@@ -23,6 +23,9 @@ export const APPS = {
       "/no-such-page",
       "/patient",
       "/patient/doctors",
+      // what the landing page sends: its search field (?q=) and its specialty chips (?specialty=)
+      "/patient/doctors?q=rahimov",
+      "/patient/doctors?specialty=cardiologist",
       "/patient/doctors/doc-1",
       "/patient/doctors/doc-1/book",
       "/patient/doctors/doc-1/book?reschedule=apt-1",
