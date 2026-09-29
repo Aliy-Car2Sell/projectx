@@ -143,8 +143,9 @@ export function BookingFlow({
           <div className="min-w-0">
             <div className="font-bold text-heading truncate">{name}</div>
             <div className="text-sm text-primary-text">{ts(doctor.specialty)}</div>
-            <div className="text-xs text-muted inline-flex items-center gap-1 truncate">
-              <MapPin className="h-3 w-3" /> {doctor.clinicName}
+            {/* A long clinic name must shorten, not widen the page: `truncate` needs a block-level box. */}
+            <div className="flex min-w-0 items-center gap-1 text-xs text-muted">
+              <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{doctor.clinicName}</span>
             </div>
           </div>
           {rescheduleId && (

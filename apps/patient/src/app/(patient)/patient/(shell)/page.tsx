@@ -94,8 +94,8 @@ export default async function PatientDashboard() {
                       {nextDoctor.firstName} {nextDoctor.lastName}
                     </div>
                     <div className="text-white/90 text-sm">{ts(nextDoctor.specialty)}</div>
-                    <div className="text-white/85 text-xs inline-flex items-center gap-1 mt-1 truncate">
-                      <MapPin className="h-3 w-3" /> {nextDoctor.clinicName}
+                    <div className="text-white/85 text-xs flex min-w-0 items-center gap-1 mt-1">
+                      <MapPin className="h-3 w-3 shrink-0" /> <span className="truncate">{nextDoctor.clinicName}</span>
                     </div>
                   </div>
                   <ChevronRight className="h-6 w-6 text-white/80 shrink-0" />
