@@ -132,6 +132,15 @@ const APPS = {
       "/patient/records/print?record=rec-15",
       "/patient/doctors/doc-1?from=doctor",
       "/patient/doctors/doc-1?from=admin",
+      // notebook search and period (the filters live in the URL), and a print of a hand-picked range
+      "/patient/records?q=gemoglobin",
+      "/patient/records?q=zzzz",
+      "/patient/records?from=2026-01-01&to=2026-06-30",
+      "/patient/records/print?from=2026-01-01&to=2026-06-30",
+      // a doctor without a price: the booking has no payment block
+      "/patient/doctors/doc-4/book",
+      // an appointment id the server has never seen (booked in another browser)
+      "/patient/appointments/apt-local-1",
     ],
     langPages: ["/login", "/patient/appointments/apt-1", "/patient/doctors?state=empty"],
     profileLang: "/patient/profile",
@@ -174,6 +183,12 @@ const APPS = {
       "/doctor/chat/new?with=u-patient-5",
       "/doctor/chat/dchat-2",
       "/doctor/chat/new?with=u-patient-2&record=rec-21",
+      // calendar views (list is the default)
+      "/doctor/appointments?view=week",
+      "/doctor/appointments?view=month",
+      "/doctor/appointments?view=week&date=2026-10-15",
+      "/doctor/appointments?view=month&state=empty",
+      "/doctor/patients/u-patient-1?q=ekg",
     ],
     langPages: ["/login", "/doctor/patients/u-patient-1"],
     profileLang: "/doctor/profile",
@@ -198,6 +213,8 @@ const APPS = {
       "/admin/records/rec-16",
       "/admin/records/rec-17",
       "/admin/records/rec-private-1",
+      // deleted by its author: still reviewable, with its history
+      "/admin/records/rec-30",
       "/admin/records?state=empty",
       "/admin/records?state=loading",
       "/admin/records?state=error",

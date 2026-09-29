@@ -236,7 +236,8 @@
         "noSections": "At least one part is needed",
         "sectionTitle": "Give every part a title",
         "duplicate": "Part titles must not repeat"
-      }
+      },
+      "deleteTitle": "Delete the template"
     }
   }
 }

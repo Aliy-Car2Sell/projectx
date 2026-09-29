@@ -236,7 +236,8 @@
         "noSections": "Kamida bitta bo'lim bo'lishi kerak",
         "sectionTitle": "Har bo'limga sarlavha yozing",
         "duplicate": "Bo'lim sarlavhalari takrorlanmasin"
-      }
+      },
+      "deleteTitle": "Shablonni o'chirish"
     }
   }
 }

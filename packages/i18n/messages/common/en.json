@@ -359,7 +359,8 @@
       "desc": "Entries, dose ticks and settings made in this browser are removed and the initial state returns",
       "button": "Clear demo data",
       "confirm": "Everything entered in this browser will be removed. Continue?",
-      "cleared": "Demo data cleared"
+      "cleared": "Demo data cleared",
+      "confirmButton": "Clear"
     }
   },
   "records": {
@@ -562,7 +563,8 @@
       "title": "Edit the entry",
       "saved": "Changes saved and added to the history",
       "unchanged": "Nothing changed",
-      "deleteConfirm": "Delete \"{title}\"? It leaves the record but stays in the history."
+      "deleteConfirm": "Delete \"{title}\"? It leaves the record but stays in the history.",
+      "deleteTitle": "Delete the entry"
     }
   },
   "help": {

@@ -359,7 +359,8 @@
       "desc": "Shu brauzerda kiritilgan yozuvlar, dori belgilari va sozlamalar o'chadi, boshlang'ich holat qaytadi",
       "button": "Demo ma'lumotlarni tozalash",
       "confirm": "Shu brauzerda kiritilgan hamma narsa o'chadi. Davom etasizmi?",
-      "cleared": "Demo ma'lumotlar tozalandi"
+      "cleared": "Demo ma'lumotlar tozalandi",
+      "confirmButton": "Tozalash"
     }
   },
   "records": {
@@ -562,7 +563,8 @@
       "title": "Yozuvni tahrirlash",
       "saved": "O'zgarishlar saqlandi va tarixga yozildi",
       "unchanged": "Hech narsa o'zgarmadi",
-      "deleteConfirm": "\"{title}\" yozuvi o'chirilsinmi? U kartochkadan yo'qoladi, tarixda qoladi."
+      "deleteConfirm": "\"{title}\" yozuvi o'chirilsinmi? U kartochkadan yo'qoladi, tarixda qoladi.",
+      "deleteTitle": "Yozuvni o'chirish"
     }
   },
   "help": {

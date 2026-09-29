@@ -9,6 +9,7 @@ import { cn } from "@projectx/utils";
 import { chatHrefFor } from "@projectx/mock/chats";
 import { fmtMonthYear } from "@projectx/utils/dates";
 import { Button } from "../ui/Button";
+import { ConfirmDialog } from "../ui/ConfirmDialog";
 import { ErrorState } from "../ui/EmptyState";
 import { RetryButton } from "../ui/RetryButton";
 import { Skeleton } from "../ui/Skeleton";
@@ -85,6 +86,7 @@ export function RecordsView({
   const [preset, setPreset] = useState<AddPreset | null>(null);
   const [resubmitting, setResubmitting] = useState<MedicalRecord | null>(null);
   const [editing, setEditing] = useState<MedicalRecord | null>(null);
+  const [deleting, setDeleting] = useState<MedicalRecord | null>(null);
   const [printOpen, setPrintOpen] = useState(false);
   const [asking, setAsking] = useState<MedicalRecord | null>(null);
   const router = useRouter();
@@ -307,7 +309,7 @@ export function RecordsView({
                           canDelete(r)
                             ? (rec) => {
                                 // A rejected entry goes without asking; anything else is still in use.
-                                if (rec.status !== "rejected" && !window.confirm(t("edit.deleteConfirm", { title: rec.title }))) return;
+                                if (rec.status !== "rejected") return setDeleting(rec);
                                 remove(rec);
                                 show(t("status.deletedToast"));
                               }
@@ -391,6 +393,19 @@ export function RecordsView({
           onClose={() => setAsking(null)}
         />
       )}
+      <ConfirmDialog
+        open={deleting !== null}
+        title={t("edit.deleteTitle")}
+        message={t("edit.deleteConfirm", { title: deleting?.title ?? "" })}
+        confirmLabel={tc("delete")}
+        danger
+        onClose={() => setDeleting(null)}
+        onConfirm={() => {
+          if (!deleting) return;
+          remove(deleting);
+          show(t("status.deletedToast"));
+        }}
+      />
       <Toast message={toast} />
     </div>
   );

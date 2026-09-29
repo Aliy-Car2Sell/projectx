@@ -7,6 +7,7 @@ import type { SpecialtyKey, SummaryTemplate } from "@projectx/types";
 import { getSummaryTemplates } from "@projectx/mock/templates";
 import { Button } from "@projectx/ui/Button";
 import { Card, CardHeader } from "@projectx/ui/Card";
+import { ConfirmDialog } from "@projectx/ui/ConfirmDialog";
 import { Input } from "@projectx/ui/Input";
 import { Modal } from "@projectx/ui/Modal";
 import { Select } from "@projectx/ui/Select";
@@ -29,6 +30,7 @@ export function MyTemplates({ specialty }: { specialty: SpecialtyKey }) {
   const groups = groupTemplates(all, specialty);
   const [sourceId, setSourceId] = useState("");
   const [draft, setDraft] = useState<SummaryTemplate | null>(null);
+  const [deleting, setDeleting] = useState<SummaryTemplate | null>(null);
   const { toast, show } = useToast();
   const source = all.find((x) => x.id === sourceId) ?? groups.own[0];
 
@@ -72,16 +74,7 @@ export function MyTemplates({ specialty }: { specialty: SpecialtyKey }) {
               <button type="button" className={iconButton} aria-label={`${tc("edit")}: ${tpl.name}`} onClick={() => setDraft(tpl)}>
                 <Pencil className="h-4 w-4" />
               </button>
-              <button
-                type="button"
-                className={iconButton}
-                aria-label={`${tc("delete")}: ${tpl.name}`}
-                onClick={() => {
-                  if (!window.confirm(t("deleteConfirm", { name: tpl.name }))) return;
-                  remove(tpl.id);
-                  show(t("deleted"));
-                }}
-              >
+              <button type="button" className={iconButton} aria-label={`${tc("delete")}: ${tpl.name}`} onClick={() => setDeleting(tpl)}>
                 <Trash2 className="h-4 w-4" />
               </button>
             </li>
@@ -174,6 +167,19 @@ export function MyTemplates({ specialty }: { specialty: SpecialtyKey }) {
           </div>
         )}
       </Modal>
+      <ConfirmDialog
+        open={deleting !== null}
+        title={t("deleteTitle")}
+        message={t("deleteConfirm", { name: deleting?.name ?? "" })}
+        confirmLabel={tc("delete")}
+        danger
+        onClose={() => setDeleting(null)}
+        onConfirm={() => {
+          if (!deleting) return;
+          remove(deleting.id);
+          show(t("deleted"));
+        }}
+      />
       <Toast message={toast} />
     </Card>
   );
